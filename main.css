@@ -1,0 +1,32 @@
+﻿/* =============================================================
+   SMARTCAT PROMO SITE — Master Stylesheet
+   Import order matters: tokens → base → components
+   Pages link to this file only:
+     <link rel="stylesheet" href="../main.css">
+   ============================================================= */
+
+/* ── Tokens ──────────────────────────────────────────────────── */
+@import url('tokens/globals.css');
+@import url('tokens/colors.css');
+@import url('tokens/sizes.css');
+@import url('tokens/typography.css');
+@import url('tokens/effects.css');
+
+/* ── Base ────────────────────────────────────────────────────── */
+/* @import url('base/reset.css');         — add when created */
+@import url('base/type-styles.css');
+/* @import url('base/layout.css');        — add when created */
+
+/* ── Components / Atomic ─────────────────────────────────────── */
+@import url('components/atomic/avatar/avatar.css');
+@import url('components/atomic/button/button.css');
+@import url('components/atomic/btn-icon/btn-icon.css');
+@import url('components/atomic/btn-play/btn-play.css');
+@import url('components/atomic/icon/icon.css');
+@import url('components/atomic/link/link.css');
+@import url('components/atomic/control/control.css');
+@import url('components/atomic/dropdown-list/dropdown-list-item.css');
+@import url('components/atomic/dropdown-list/dropdown-search.css');
+@import url('components/atomic/dropdown-list/dropdown-list.css');
+
+/* ── Components / Sections ───────────────────────────────────── */

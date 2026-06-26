@@ -1,0 +1,100 @@
+<!--
+  Button Icon — reference template
+  Figma: Components / Atomic / Button Icon
+
+  Configure appearance with data-type, data-size, and data-shape.
+  Interaction states (hover / active / focused / disabled) are handled
+  automatically by CSS — use the native `disabled` attribute for the
+  disabled state.
+
+  Always use a 20×20 inline SVG with stroke="currentColor" inside
+  .btn-icon__icon so the icon inherits the button's text color in
+  every type and state.
+
+  Provide aria-label on the button (no visible label text).
+-->
+
+<!-- Primary · L · Square -->
+<button class="btn-icon" data-type="primary" data-size="l" data-shape="square" aria-label="Add">
+  <span class="btn-icon__icon" aria-hidden="true">
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M10 4.16667V15.8333M4.16667 10H15.8333" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+    </svg>
+  </span>
+</button>
+
+<!-- Primary · L · Circle -->
+<button class="btn-icon" data-type="primary" data-size="l" data-shape="circle" aria-label="Add">
+  <span class="btn-icon__icon" aria-hidden="true">
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M10 4.16667V15.8333M4.16667 10H15.8333" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+    </svg>
+  </span>
+</button>
+
+<!-- Primary · M · Square -->
+<button class="btn-icon" data-type="primary" data-size="m" data-shape="square" aria-label="Add">
+  <span class="btn-icon__icon" aria-hidden="true">
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M10 4.16667V15.8333M4.16667 10H15.8333" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+    </svg>
+  </span>
+</button>
+
+<!-- Secondary · L · Square -->
+<button class="btn-icon" data-type="secondary" data-size="l" data-shape="square" aria-label="Add">
+  <span class="btn-icon__icon" aria-hidden="true">
+    <!-- paste icon SVG from components/atomic/icon/svg/20x20/<name>.svg -->
+  </span>
+</button>
+
+<!-- Outlined · L · Square -->
+<button class="btn-icon" data-type="outlined" data-size="l" data-shape="square" aria-label="Add">
+  <span class="btn-icon__icon" aria-hidden="true">
+    <!-- paste icon SVG -->
+  </span>
+</button>
+
+<!-- Ghost · L · Square -->
+<button class="btn-icon" data-type="ghost" data-size="l" data-shape="square" aria-label="Add">
+  <span class="btn-icon__icon" aria-hidden="true">
+    <!-- paste icon SVG -->
+  </span>
+</button>
+
+<!-- Gradient · L · Circle -->
+<button class="btn-icon" data-type="gradient" data-size="l" data-shape="circle" aria-label="Add">
+  <span class="btn-icon__icon" aria-hidden="true">
+    <!-- paste icon SVG -->
+  </span>
+</button>
+
+<!-- Disabled -->
+<button class="btn-icon" data-type="primary" data-size="l" data-shape="square" aria-label="Add" disabled>
+  <span class="btn-icon__icon" aria-hidden="true">
+    <!-- paste icon SVG -->
+  </span>
+</button>
+
+<!--
+  All types (data-type):
+    primary    — solid dark fill, inverted icon
+    secondary  — subtle gray fill
+    outlined   — transparent fill, 1px border
+    ghost      — transparent fill, no border
+    gradient   — purple→violet gradient, inverted icon
+
+  All sizes (data-size):
+    l  — padding = var(--spacing-button-l-vertical) on all sides
+    m  — padding = var(--spacing-button-m-vertical) on all sides
+
+  All shapes (data-shape):
+    square  — var(--radius-button) corners
+    circle  — var(--radius-full) (pill)
+
+  Icon:
+    Pick any icon from components/atomic/icon/svg/20x20/<name>.svg.
+    Copy the file content and paste it inline inside .btn-icon__icon.
+    All icons already use stroke="currentColor" / fill="currentColor"
+    so they tint automatically with the button's color.
+-->

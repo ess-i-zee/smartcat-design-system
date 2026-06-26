@@ -1,0 +1,15 @@
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Icons">
+<g id="Content">
+<path d="M-952 -564C-952 -568.418 -948.418 -572 -944 -572H2224C2228.42 -572 2232 -568.418 2232 -564V348C2232 352.418 2228.42 356 2224 356H-944C-948.418 356 -952 352.418 -952 348V-564Z" fill="white"/>
+<g id="Icon Component Sets">
+<g id="Icon / exclamation-mark">
+<g id="Size=24x24">
+<path id="icon" d="M12 7V14M22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<circle id="icon_2" cx="12" cy="17" r="1.28394" fill="currentColor" fill-opacity="0.94"/>
+</g>
+</g>
+</g>
+</g>
+</g>
+</svg>

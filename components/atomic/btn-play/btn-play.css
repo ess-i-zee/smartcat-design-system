@@ -1,0 +1,98 @@
+/* ── Button Play ──────────────────────────────────────
+   Figma: Components / Atomic / Button Play
+   Visual variant properties (data attributes):
+     data-style : black | gradient
+   Content toggle (element presence, not attribute):
+     .btn-play__icon  — for video usage; contains a 32×32 inline SVG
+     .btn-play__label — for demo usage; contains "LAUNCH\nDEMO" text
+   State (handled by CSS, no attribute needed):
+     :hover            — Hover
+     :active           — Active
+     :focus-visible    — Focused (purple focus ring)
+   Notes:
+     - Always circle (radius-full); padding equal on all sides.
+     - The play icon uses the design system play.svg path rendered
+       as fill="currentColor" (solid triangle, not stroked).
+     - .btn-play__label font-size (8px) is bespoke to this component:
+       no system token maps to it, but it is the only size that fits
+       "LAUNCH DEMO" inside the 40×40 content area.
+   ──────────────────────────────────────────────────── */
+
+.btn-play {
+  /* reset */
+  appearance: none;
+  -webkit-appearance: none;
+  margin: 0;
+  background: none;
+  border: 0;
+  text-decoration: none;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  flex-shrink: 0;
+  cursor: pointer;
+  user-select: none;
+
+  border-radius: var(--radius-full);
+  padding: var(--spacing-button-l-vertical);
+
+  transition-property: background, box-shadow;
+  transition-duration: 120ms;
+  transition-timing-function: ease;
+}
+
+/* ── Style: Black ───────────────────────────────────── */
+
+.btn-play[data-style="black"] {
+  background: var(--background-button-primary-default);
+  color: var(--content-static-inverted);
+}
+.btn-play[data-style="black"]:hover  { background: var(--background-button-primary-hover); }
+.btn-play[data-style="black"]:active { background: var(--background-button-primary-active); }
+
+/* ── Style: Gradient ────────────────────────────────── */
+
+.btn-play[data-style="gradient"] {
+  background: var(--background-button-gradient-default);
+  color: var(--content-static-inverted);
+}
+.btn-play[data-style="gradient"]:hover  { background: var(--background-button-gradient-hover); }
+.btn-play[data-style="gradient"]:active { background: var(--background-button-gradient-active); }
+
+/* ── State: Focused ─────────────────────────────────── */
+
+.btn-play:focus-visible {
+  outline: 2px solid var(--border-focus-default);
+  outline-offset: 2px;
+}
+
+/* ── Icon slot (video usage) ────────────────────────── */
+
+.btn-play__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+}
+
+/* ── Label (demo usage) ─────────────────────────────── */
+
+.btn-play__label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  font-family: var(--family-body);
+  font-size: 8px; /* bespoke: fits "LAUNCH DEMO" in the 40×40 content area */
+  font-weight: var(--weight-bold);
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  text-align: center;
+  line-height: 1.5;
+  color: var(--content-static-inverted);
+}

@@ -1,0 +1,14 @@
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Icons">
+<g id="Content">
+<path d="M-1452 -732C-1452 -736.418 -1448.42 -740 -1444 -740H1724C1728.42 -740 1732 -736.418 1732 -732V180C1732 184.418 1728.42 188 1724 188H-1444C-1448.42 188 -1452 184.418 -1452 180V-732Z" fill="white"/>
+<g id="Icon Component Sets">
+<g id="Icon / credit-card">
+<g id="Size=24x24">
+<path id="icon" d="M22 9V6C22 4.89543 21.1046 4 20 4H4C2.89543 4 2 4.89543 2 6V9M22 9V18C22 19.1046 21.1046 20 20 20H4C2.89543 20 2 19.1046 2 18V9M22 9H2M18.5 16H14M11 16H9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+</g>
+</g>
+</g>
+</g>
+</svg>

@@ -1,0 +1,259 @@
+/* =============================================================
+   COLORS — 02 Colors collection (semantic, mode-aware)
+   Source of truth — edit token values directly in this file.
+   (Mirrors the Figma "🌐 Smartcat website design system" variables.)
+   ============================================================= */
+
+/* ── Light mode (default) ────────────────────────────────────── */
+:root {
+
+  /* ── Background / Button ────────────────────────────────── */
+  --background-button-primary-default:   var(--color-non-semantic-gray-alpha-90);
+  --background-button-primary-hover:     var(--color-non-semantic-gray-alpha-70);
+  --background-button-primary-active:    var(--color-non-semantic-gray-alpha-60);
+  --background-button-secondary-default: var(--color-non-semantic-gray-alpha-10);
+  --background-button-secondary-hover:   var(--color-non-semantic-gray-alpha-20);
+  --background-button-secondary-active:  var(--color-non-semantic-gray-alpha-30);
+  --background-button-ghost-default:     var(--color-non-semantic-white-alpha-0);
+  --background-button-ghost-hover:       var(--color-non-semantic-gray-alpha-5);
+  --background-button-ghost-active:      var(--color-non-semantic-gray-alpha-10);
+  --background-button-gradient-default:  linear-gradient(180deg, #db00ff 0%, #7716ff 100%);
+  --background-button-gradient-hover:    linear-gradient(180deg, #ff36fc 0%, #9d1efd 100%);
+  --background-button-gradient-active:   linear-gradient(180deg, #c300f4 0%, #6200eb 100%);
+
+  /* ── Background / Static / Gray ────────────────────────── */
+  --background-static-gray-layer-0:  var(--color-non-semantic-white-alpha-100);
+  --background-static-gray-layer-1:  var(--color-non-semantic-gray-5);
+  --background-static-gray-layer-2:  var(--color-non-semantic-gray-10);
+  --background-static-gray-layer-3:  var(--color-non-semantic-gray-20);
+  --background-static-gray-inverted: var(--color-non-semantic-gray-100);
+  --background-static-gray-overlay:  var(--color-non-semantic-gray-alpha-50);
+
+  /* ── Background / Static / Alpha ───────────────────────── */
+  --background-static-alpha-layer-1: var(--color-non-semantic-gray-alpha-5);
+  --background-static-alpha-layer-2: var(--color-non-semantic-gray-alpha-10);
+  --background-static-alpha-layer-3: var(--color-non-semantic-gray-alpha-20);
+
+  /* ── Background / Static / Red ─────────────────────────── */
+  --background-static-red-layer-1:  var(--color-non-semantic-red-10);
+  --background-static-red-layer-2:  var(--color-non-semantic-red-20);
+  --background-static-red-layer-3:  var(--color-non-semantic-red-30);
+  --background-static-red-inverted: var(--color-non-semantic-red-90);
+
+  /* ── Background / Static / Orange ──────────────────────── */
+  --background-static-orange-layer-1:  var(--color-non-semantic-orange-10);
+  --background-static-orange-layer-2:  var(--color-non-semantic-orange-20);
+  --background-static-orange-layer-3:  var(--color-non-semantic-orange-30);
+  --background-static-orange-inverted: var(--color-non-semantic-orange-90);
+
+  /* ── Background / Static / Mint ────────────────────────── */
+  --background-static-mint-layer-1:  var(--color-non-semantic-mint-10);
+  --background-static-mint-layer-2:  var(--color-non-semantic-mint-20);
+  --background-static-mint-layer-3:  var(--color-non-semantic-mint-30);
+  --background-static-mint-inverted: var(--color-non-semantic-mint-90);
+
+  /* ── Background / Static / Blue ────────────────────────── */
+  --background-static-blue-layer-1:  var(--color-non-semantic-blue-10);
+  --background-static-blue-layer-2:  var(--color-non-semantic-blue-20);
+  --background-static-blue-layer-3:  var(--color-non-semantic-blue-30);
+  --background-static-blue-inverted: var(--color-non-semantic-blue-80);
+
+  /* ── Background / Static / Brand ───────────────────────── */
+  --background-static-brand-layer-1:  var(--color-non-semantic-purple-10);
+  --background-static-brand-layer-2:  var(--color-non-semantic-purple-20);
+  --background-static-brand-layer-3:  var(--color-non-semantic-purple-30);
+  --background-static-brand-inverted: var(--color-non-semantic-purple-70);
+
+  /* ── Background / Static / Pink ────────────────────────── */
+  --background-static-pink-layer-1:  var(--color-non-semantic-pink-10);
+  --background-static-pink-layer-2:  var(--color-non-semantic-pink-20);
+  --background-static-pink-layer-3:  var(--color-non-semantic-pink-30);
+  --background-static-pink-inverted: var(--color-non-semantic-pink-90);
+
+  /* ── Background / Interaction ───────────────────────────── */
+  --background-interaction-default:        var(--color-non-semantic-white-alpha-0);
+  --background-interaction-hover:          var(--color-non-semantic-gray-alpha-5);
+  --background-interaction-active:         var(--color-non-semantic-gray-alpha-20);
+  --background-interaction-focus:          var(--color-non-semantic-gray-alpha-5);
+  --background-interaction-selectedsubtle: var(--color-non-semantic-gray-alpha-10);
+  --background-interaction-selectedstrong: var(--background-button-primary-default);
+  --background-interaction-selectedbrand:  var(--color-semantic-brand-70);
+  --background-interaction-errorblank:     var(--color-non-semantic-white-alpha-0);
+  --background-interaction-errorsolid:     var(--color-semantic-negative-80);
+
+  /* ── Background / Illustration ──────────────────────────── */
+  --background-illustration-semitrasparent: var(--color-non-semantic-white-alpha-50);
+
+  /* ── Content / Static ───────────────────────────────────── */
+  --content-static-primary:  var(--color-non-semantic-gray-alpha-100);
+  --content-static-secondary: var(--color-non-semantic-gray-alpha-60);
+  --content-static-tertiary:  var(--color-non-semantic-gray-alpha-40);
+  --content-static-inverted:  var(--color-non-semantic-white-alpha-100);
+  --content-static-brand:     var(--color-semantic-brand-70);
+  --content-static-blue:      var(--color-non-semantic-blue-70);
+  --content-static-green:     var(--color-non-semantic-mint-60);
+  --content-static-pink:      var(--color-non-semantic-pink-70);
+  --content-static-orange:    var(--color-non-semantic-orange-80);
+
+  /* ── Content / Interaction ──────────────────────────────── */
+  --content-interaction-default: var(--color-non-semantic-gray-alpha-100);
+  --content-interaction-hover:   var(--color-non-semantic-gray-alpha-60);
+  --content-interaction-active:  var(--color-non-semantic-gray-alpha-40);
+  --content-interaction-error:   var(--color-semantic-negative-80);
+
+  /* ── Content / Link ─────────────────────────────────────── */
+  --content-link-default: var(--color-semantic-brand-70);
+  --content-link-hover:   var(--color-semantic-brand-60);
+  --content-link-active:  var(--color-semantic-brand-50);
+
+  /* ── Content / Misc ─────────────────────────────────────── */
+  --content-misc-rating: var(--color-non-semantic-orange-70);
+
+  /* ── Border / Button ────────────────────────────────────── */
+  --border-button-default: var(--color-non-semantic-gray-alpha-20);
+  --border-button-hover:   var(--color-non-semantic-gray-alpha-20);
+  --border-button-active:  var(--color-non-semantic-gray-alpha-20);
+
+  /* ── Border / Interaction ───────────────────────────────── */
+  --border-interaction-default: var(--color-non-semantic-gray-alpha-20);
+  --border-interaction-hover:   var(--color-non-semantic-gray-alpha-20);
+  --border-interaction-active:  var(--color-non-semantic-gray-alpha-20);
+  --border-interaction-error:   var(--color-semantic-negative-80);
+
+  /* ── Border / Focus ─────────────────────────────────────── */
+  --border-focus-default: var(--color-non-semantic-purple-40);
+
+  /* ── Border / Divider ───────────────────────────────────── */
+  --border-divider-default: var(--color-non-semantic-gray-alpha-20);
+
+  /* ── Border / Link ──────────────────────────────────────── */
+  --border-link-default: var(--color-non-semantic-gray-alpha-50);
+  --border-link-purple:  var(--color-semantic-brand-70);
+}
+
+/* ── Dark mode ───────────────────────────────────────────────── */
+[data-theme="dark"] {
+
+  /* ── Background / Button ────────────────────────────────── */
+  --background-button-primary-default:   var(--color-non-semantic-white-alpha-100);
+  --background-button-primary-hover:     var(--color-non-semantic-white-alpha-70);
+  --background-button-primary-active:    var(--color-non-semantic-white-alpha-50);
+  --background-button-secondary-default: var(--color-non-semantic-white-alpha-20);
+  --background-button-secondary-hover:   var(--color-non-semantic-white-alpha-30);
+  --background-button-secondary-active:  var(--color-non-semantic-white-alpha-40);
+  --background-button-ghost-default:     var(--color-non-semantic-white-alpha-0);
+  --background-button-ghost-hover:       var(--color-non-semantic-white-alpha-20);
+  --background-button-ghost-active:      var(--color-non-semantic-white-alpha-30);
+  --background-button-gradient-default:  linear-gradient(180deg, #db00ff 0%, #7716ff 100%);
+  --background-button-gradient-hover:    linear-gradient(180deg, #ff36fc 0%, #9d1efd 100%);
+  --background-button-gradient-active:   linear-gradient(180deg, #c300f4 0%, #6200eb 100%);
+
+  /* ── Background / Static / Gray ────────────────────────── */
+  --background-static-gray-layer-0:  var(--color-non-semantic-gray-90);
+  --background-static-gray-layer-1:  var(--color-non-semantic-gray-80);
+  --background-static-gray-layer-2:  var(--color-non-semantic-gray-70);
+  --background-static-gray-layer-3:  var(--color-non-semantic-gray-60);
+  --background-static-gray-inverted: var(--color-non-semantic-white-alpha-100);
+  --background-static-gray-overlay:  var(--color-non-semantic-white-alpha-30);
+
+  /* ── Background / Static / Alpha ───────────────────────── */
+  --background-static-alpha-layer-1: var(--color-non-semantic-white-alpha-5);
+  --background-static-alpha-layer-2: var(--color-non-semantic-white-alpha-10);
+  --background-static-alpha-layer-3: var(--color-non-semantic-white-alpha-20);
+
+  /* ── Background / Static / Red ─────────────────────────── */
+  --background-static-red-layer-1:  var(--color-non-semantic-red-100);
+  --background-static-red-layer-2:  var(--color-non-semantic-red-90);
+  --background-static-red-layer-3:  var(--color-non-semantic-red-80);
+  --background-static-red-inverted: var(--color-non-semantic-red-30);
+
+  /* ── Background / Static / Orange ──────────────────────── */
+  --background-static-orange-layer-1:  var(--color-non-semantic-orange-100);
+  --background-static-orange-layer-2:  var(--color-non-semantic-orange-90);
+  --background-static-orange-layer-3:  var(--color-non-semantic-orange-80);
+  --background-static-orange-inverted: var(--color-non-semantic-orange-30);
+
+  /* ── Background / Static / Mint ────────────────────────── */
+  --background-static-mint-layer-1:  var(--color-non-semantic-mint-100);
+  --background-static-mint-layer-2:  var(--color-non-semantic-mint-90);
+  --background-static-mint-layer-3:  var(--color-non-semantic-mint-80);
+  --background-static-mint-inverted: var(--color-non-semantic-mint-30);
+
+  /* ── Background / Static / Blue ────────────────────────── */
+  --background-static-blue-layer-1:  var(--color-non-semantic-blue-90);
+  --background-static-blue-layer-2:  var(--color-non-semantic-blue-80);
+  --background-static-blue-layer-3:  var(--color-non-semantic-blue-70);
+  --background-static-blue-inverted: var(--color-non-semantic-blue-30);
+
+  /* ── Background / Static / Brand ───────────────────────── */
+  --background-static-brand-layer-1:  var(--color-non-semantic-purple-70);
+  --background-static-brand-layer-2:  var(--color-non-semantic-purple-60);
+  --background-static-brand-layer-3:  var(--color-non-semantic-purple-50);
+  --background-static-brand-inverted: var(--color-non-semantic-purple-30);
+
+  /* ── Background / Static / Pink ────────────────────────── */
+  --background-static-pink-layer-1:  var(--color-non-semantic-pink-100);
+  --background-static-pink-layer-2:  var(--color-non-semantic-pink-90);
+  --background-static-pink-layer-3:  var(--color-non-semantic-pink-80);
+  --background-static-pink-inverted: var(--color-non-semantic-pink-30);
+
+  /* ── Background / Interaction ───────────────────────────── */
+  --background-interaction-default:        var(--color-non-semantic-white-alpha-0);
+  --background-interaction-hover:          var(--color-non-semantic-white-alpha-5);
+  --background-interaction-active:         var(--color-non-semantic-white-alpha-20);
+  --background-interaction-focus:          var(--color-non-semantic-white-alpha-5);
+  --background-interaction-selectedsubtle: var(--color-non-semantic-white-alpha-10);
+  --background-interaction-selectedstrong: var(--background-button-primary-default);
+  --background-interaction-selectedbrand:  var(--color-semantic-brand-70);
+  --background-interaction-errorblank:     var(--color-non-semantic-white-alpha-0);
+  --background-interaction-errorsolid:     var(--color-semantic-negative-70);
+
+  /* ── Background / Illustration ──────────────────────────── */
+  --background-illustration-semitrasparent: var(--color-non-semantic-white-alpha-20);
+
+  /* ── Content / Static ───────────────────────────────────── */
+  --content-static-primary:   var(--color-non-semantic-white-alpha-100);
+  --content-static-secondary: var(--color-non-semantic-white-alpha-50);
+  --content-static-tertiary:  var(--color-non-semantic-white-alpha-30);
+  --content-static-inverted:  var(--color-non-semantic-gray-100);
+  --content-static-brand:     var(--color-semantic-brand-50);
+  --content-static-blue:      var(--color-non-semantic-blue-70);
+  --content-static-green:     var(--color-non-semantic-mint-50);
+  --content-static-pink:      var(--color-non-semantic-pink-60);
+  --content-static-orange:    var(--color-non-semantic-orange-60);
+
+  /* ── Content / Interaction ──────────────────────────────── */
+  --content-interaction-default: var(--color-non-semantic-white-alpha-100);
+  --content-interaction-hover:   var(--color-non-semantic-white-alpha-50);
+  --content-interaction-active:  var(--color-non-semantic-white-alpha-30);
+  --content-interaction-error:   var(--color-semantic-negative-70);
+
+  /* ── Content / Link ─────────────────────────────────────── */
+  --content-link-default: var(--color-semantic-brand-50);
+  --content-link-hover:   var(--color-semantic-brand-40);
+  --content-link-active:  var(--color-semantic-brand-30);
+
+  /* ── Content / Misc ─────────────────────────────────────── */
+  --content-misc-rating: var(--color-non-semantic-orange-70);
+
+  /* ── Border / Button ────────────────────────────────────── */
+  --border-button-default: var(--color-non-semantic-white-alpha-20);
+  --border-button-hover:   var(--color-non-semantic-white-alpha-20);
+  --border-button-active:  var(--color-non-semantic-white-alpha-20);
+
+  /* ── Border / Interaction ───────────────────────────────── */
+  --border-interaction-default: var(--color-non-semantic-white-alpha-20);
+  --border-interaction-hover:   var(--color-non-semantic-white-alpha-20);
+  --border-interaction-active:  var(--color-non-semantic-white-alpha-20);
+  --border-interaction-error:   var(--color-semantic-negative-70);
+
+  /* ── Border / Focus ─────────────────────────────────────── */
+  --border-focus-default: var(--color-non-semantic-purple-90);
+
+  /* ── Border / Divider ───────────────────────────────────── */
+  --border-divider-default: var(--color-non-semantic-white-alpha-20);
+
+  /* ── Border / Link ──────────────────────────────────────── */
+  --border-link-default: var(--color-non-semantic-white-alpha-50);
+  --border-link-purple:  var(--color-semantic-brand-50);
+}

@@ -1,0 +1,106 @@
+/* =============================================================
+   TYPOGRAPHY — 04 Typography collection (breakpoint-aware)
+   Source of truth — edit token values directly in this file.
+   (Mirrors the Figma "🌐 Smartcat website design system" variables.)
+
+   Strategy: mobile-first
+     :root              → mobile values (base)
+     @media ≥ 769px     → desktop overrides
+
+   Notes:
+     - Weight strings from Figma ("Bold" etc.) are mapped to
+       numeric CSS values (700 / 600 / 400).
+     - Figma's floating-point letter-spacing values are rounded
+       to 2 decimal places (-0.6399...px → -0.64px).
+   ============================================================= */
+
+/* ── Mobile (base) ───────────────────────────────────────────── */
+:root {
+
+  /* ── Font size ───────────────────────────────────────────── */
+  --size-display:    56px;
+  --size-h1:         32px;
+  --size-h2:         24px;
+  --size-h3:         18px;
+  --size-h4:         16px;
+  --size-h5:         14px;
+  --size-paragraph:  16px;
+  --size-small-text: 14px;
+  --size-caption:    12px;
+  --size-label-l:    16px;
+  --size-label-m:    14px;
+  --size-label-s:    10px;
+
+  /* ── Line height ─────────────────────────────────────────── */
+  --line-height-display:    64px;
+  --line-height-h1:         40px;
+  --line-height-h2:         32px;
+  --line-height-h3:         28px;
+  --line-height-h4:         24px;
+  --line-height-h5:         20px;
+  --line-height-paragraph:  26px;
+  --line-height-small-text: 22px;
+  --line-height-caption:    16px;
+  --line-height-label-l:    20px;
+  --line-height-label-m:    20px;
+  --line-height-label-s:    16px;
+
+  /* ── Font family ─────────────────────────────────────────── */
+  --family-heading: "Plus Jakarta Sans";
+  --family-body:    "Inter";
+
+  /* ── Font weight ─────────────────────────────────────────── */
+  --weight-bold:      700;
+  --weight-semi-bold: 600;
+  --weight-regular:   400;
+
+  /* ── Letter spacing ──────────────────────────────────────── */
+  --letter-spacing-display:    -2px;
+  --letter-spacing-h1:         -0.64px;
+  --letter-spacing-h2:         -0.24px;
+  --letter-spacing-h3:          0px;
+  --letter-spacing-h4:          0.16px;
+  --letter-spacing-h5:          0.16px;
+  --letter-spacing-paragraph:   0px;
+  --letter-spacing-small-text:  0px;
+  --letter-spacing-caption:     0px;
+  --letter-spacing-label-l:     0px;
+  --letter-spacing-label-m:     0px;
+  --letter-spacing-label-s:     0px;
+  --letter-spacing-eyebrow:     1.5px;
+}
+
+/* ── Desktop overrides (≥ 769px) ─────────────────────────────── */
+/* Only tokens that differ from mobile are listed here.           */
+@media (min-width: 769px) {
+  :root {
+
+    /* ── Font size ───────────────────────────────────────────── */
+    --size-display:    72px;
+    --size-h1:         48px;
+    --size-h2:         32px;
+    --size-h3:         24px;
+    --size-h4:         18px;
+    --size-h5:         16px;
+    --size-paragraph:  18px;
+    --size-small-text: 16px;
+    --size-caption:    14px;
+
+    /* ── Line height ─────────────────────────────────────────── */
+    --line-height-display:    80px;
+    --line-height-h1:         58px;
+    --line-height-h2:         40px;
+    --line-height-h3:         32px;
+    --line-height-h5:         22px;
+    --line-height-paragraph:  30px;
+    --line-height-small-text: 26px;
+    --line-height-caption:    20px;
+
+    /* ── Letter spacing ──────────────────────────────────────── */
+    --letter-spacing-display: -2.8px;
+    --letter-spacing-h1:      -0.96px;
+    --letter-spacing-h2:      -0.64px;
+    --letter-spacing-h3:      -0.24px;
+    --letter-spacing-h4:       0px;
+  }
+}

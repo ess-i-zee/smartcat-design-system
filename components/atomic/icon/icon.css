@@ -1,0 +1,21 @@
+/* ── Icon ────────────────────────────────────────────────
+   Figma: Components / Atomic / Icon
+   Visual variant properties (data attributes):
+     data-size : 16 | 20 | 24
+   Content:
+     src — path to the SVG: svg/<size>x<size>/<name>.svg
+     alt — always set to "" (decorative) or a descriptive string
+   Notes:
+     181 icons available across three sizes.
+     SVG stroke color is baked in from Figma; icons are not
+     tintable via CSS unless the SVGs are inlined.
+   ──────────────────────────────────────────────────── */
+
+.icon {
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+.icon[data-size="16"] { width: 16px; height: 16px; }
+.icon[data-size="20"] { width: 20px; height: 20px; }
+.icon[data-size="24"] { width: 24px; height: 24px; }

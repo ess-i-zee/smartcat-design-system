@@ -1,0 +1,21 @@
+/* =============================================================
+   EFFECTS — 05 Effects collection (shadows)
+   Source of truth — edit shadow values directly in this file.
+   (Mirrors the Figma "🌐 Smartcat website design system" › FOUNDATIONS.)
+
+   Usage:  box-shadow: var(--shadow-elevation-l);
+           box-shadow: var(--shadow-illustration-panel-top);
+   ============================================================= */
+
+:root {
+
+  /* ── Elevation shadows ───────────────────────────────────── */
+  /* Shadow color is ~rgba(9, 7, 13) — near-black with purple tint */
+  --shadow-elevation-l: 0px 16px 64px 0px rgba(9, 7, 13, 0.07);
+  --shadow-elevation-m: 0px  8px 16px 0px rgba(9, 7, 13, 0.05);
+  --shadow-elevation-s: 0px  4px  8px 0px rgba(9, 7, 13, 0.05);
+
+  /* ── Illustration ────────────────────────────────────────── */
+  /* White inset top border — used on illustration panel tops  */
+  --shadow-illustration-panel-top: inset 0px 1px 1px 0px rgba(255, 255, 255, 1);
+}

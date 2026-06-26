@@ -1,0 +1,131 @@
+/* ── Button Icon ───────────────────────────────────────
+   Figma: Components / Atomic / Button Icon
+   Visual variant properties (data attributes):
+     data-type  : primary | secondary | outlined | ghost | gradient
+     data-size  : l | m
+     data-shape : square | circle
+   State (handled by CSS, no attribute needed):
+     :hover            — Hover
+     :active           — Active
+     :focus-visible    — Focused (purple focus ring)
+     :disabled         — Disabled (30% opacity)
+   Content:
+     .btn-icon__icon — one 20×20 inline SVG with stroke="currentColor"
+   Notes:
+     - Padding is equal on all sides (vertical spacing token) to keep
+       the tap area square; shape only toggles border-radius.
+     - Icon inherits color from the root element via currentColor.
+   ──────────────────────────────────────────────────── */
+
+.btn-icon {
+  /* reset */
+  appearance: none;
+  -webkit-appearance: none;
+  margin: 0;
+  background: none;
+  border: 0;
+  text-decoration: none;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  flex-shrink: 0;
+  cursor: pointer;
+  user-select: none;
+
+  border-radius: var(--radius-button);
+
+  transition-property: background, color, box-shadow, opacity;
+  transition-duration: 120ms;
+  transition-timing-function: ease;
+}
+
+/* ── Sizes ──────────────────────────────────────────── */
+
+.btn-icon[data-size="l"] { padding: var(--spacing-button-l-vertical); }
+.btn-icon[data-size="m"] { padding: var(--spacing-button-m-vertical); }
+
+/* ── Shape ──────────────────────────────────────────── */
+
+.btn-icon[data-shape="circle"] { border-radius: var(--radius-full); }
+
+/* ── Icon slot ──────────────────────────────────────── */
+
+.btn-icon__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+}
+
+/* ── Type: Primary ──────────────────────────────────── */
+
+.btn-icon[data-type="primary"] {
+  background: var(--background-button-primary-default);
+  color: var(--content-static-inverted);
+}
+.btn-icon[data-type="primary"]:hover  { background: var(--background-button-primary-hover); }
+.btn-icon[data-type="primary"]:active { background: var(--background-button-primary-active); }
+
+/* ── Type: Secondary ────────────────────────────────── */
+
+.btn-icon[data-type="secondary"] {
+  background: var(--background-button-secondary-default);
+  color: var(--content-static-primary);
+}
+.btn-icon[data-type="secondary"]:hover  { background: var(--background-button-secondary-hover); }
+.btn-icon[data-type="secondary"]:active { background: var(--background-button-secondary-active); }
+
+/* ── Type: Outlined ─────────────────────────────────── */
+/* Transparent fill + inset 1px border (box-shadow → no size shift). */
+
+.btn-icon[data-type="outlined"] {
+  background: var(--background-button-ghost-default);
+  color: var(--content-static-primary);
+  box-shadow: inset 0 0 0 1px var(--border-button-default);
+}
+.btn-icon[data-type="outlined"]:hover {
+  background: var(--background-button-ghost-hover);
+  box-shadow: inset 0 0 0 1px var(--border-button-hover);
+}
+.btn-icon[data-type="outlined"]:active {
+  background: var(--background-button-ghost-active);
+  box-shadow: inset 0 0 0 1px var(--border-button-active);
+}
+
+/* ── Type: Ghost ────────────────────────────────────── */
+
+.btn-icon[data-type="ghost"] {
+  background: var(--background-button-ghost-default);
+  color: var(--content-static-primary);
+}
+.btn-icon[data-type="ghost"]:hover  { background: var(--background-button-ghost-hover); }
+.btn-icon[data-type="ghost"]:active { background: var(--background-button-ghost-active); }
+
+/* ── Type: Gradient ─────────────────────────────────── */
+
+.btn-icon[data-type="gradient"] {
+  background: var(--background-button-gradient-default);
+  color: var(--content-static-inverted);
+}
+.btn-icon[data-type="gradient"]:hover  { background: var(--background-button-gradient-hover); }
+.btn-icon[data-type="gradient"]:active { background: var(--background-button-gradient-active); }
+
+/* ── State: Focused ─────────────────────────────────── */
+
+.btn-icon:focus-visible {
+  outline: 2px solid var(--border-focus-default);
+  outline-offset: 2px;
+}
+
+/* ── State: Disabled ────────────────────────────────── */
+
+.btn-icon:disabled,
+.btn-icon[disabled] {
+  opacity: 0.3;
+  cursor: not-allowed;
+  pointer-events: none;
+}

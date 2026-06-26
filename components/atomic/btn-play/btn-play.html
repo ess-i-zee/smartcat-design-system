@@ -1,0 +1,55 @@
+<!--
+  Button Play — reference template
+  Figma: Components / Atomic / Button Play
+
+  Configure style with data-style. Usage is determined by element
+  presence — include either .btn-play__icon (video) or
+  .btn-play__label (demo), never both.
+
+  Play icon: use the play.svg path from components/atomic/icon/svg/24x24/play.svg
+  inlined with fill="currentColor" (no stroke) so it renders as a solid
+  triangle that inherits the button's text color.
+
+  Provide aria-label on video buttons (no visible label text).
+-->
+
+<!-- Video · Black -->
+<button class="btn-play" data-style="black" aria-label="Play video">
+  <span class="btn-play__icon" aria-hidden="true">
+    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M21.4012 10.1686C22.8109 10.9825 22.8109 13.0173 21.4012 13.8313L8.71344 21.1565C7.30369 21.9705 5.5415 20.9531 5.5415 19.3252L5.5415 4.67466C5.5415 3.04683 7.30369 2.02943 8.71344 2.84335L21.4012 10.1686Z" fill="currentColor"/>
+    </svg>
+  </span>
+</button>
+
+<!-- Video · Gradient -->
+<button class="btn-play" data-style="gradient" aria-label="Play video">
+  <span class="btn-play__icon" aria-hidden="true">
+    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M21.4012 10.1686C22.8109 10.9825 22.8109 13.0173 21.4012 13.8313L8.71344 21.1565C7.30369 21.9705 5.5415 20.9531 5.5415 19.3252L5.5415 4.67466C5.5415 3.04683 7.30369 2.02943 8.71344 2.84335L21.4012 10.1686Z" fill="currentColor"/>
+    </svg>
+  </span>
+</button>
+
+<!-- Demo · Black -->
+<button class="btn-play" data-style="black">
+  <span class="btn-play__label">Launch<br>Demo</span>
+</button>
+
+<!-- Demo · Gradient -->
+<button class="btn-play" data-style="gradient">
+  <span class="btn-play__label">Launch<br>Demo</span>
+</button>
+
+<!--
+  All styles (data-style):
+    black     — solid dark fill (primary button colors)
+    gradient  — purple→violet gradient
+
+  All usages (element presence):
+    .btn-play__icon  — video: 32×32 filled play triangle, provide aria-label
+    .btn-play__label — demo: "Launch<br>Demo" uppercase text, always visible
+
+  The button is always circular (radius-full) with equal padding on
+  all sides (spacing-button-l-vertical).
+-->

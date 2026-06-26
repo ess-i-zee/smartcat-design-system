@@ -1,0 +1,32 @@
+<!--
+  Link — reference template
+  Figma: Components / Atomic / Link
+
+  An inline component. Place inside any text-bearing element —
+  the link inherits font-size, font-weight, and line-height from
+  the parent. Set data-variant to control color and underline style.
+
+  Variants (data-variant):
+    default        — muted dark text, gray underline (body/UI text)
+    high-contrast  — brand purple text and underline (body/UI text)
+    heading        — muted dark text, gray underline (h1–h4 only)
+-->
+
+<!-- Default — inside body text -->
+<p class="text-body-reg">
+  Read the
+  <a class="link" data-variant="default" href="#">documentation</a>
+  for details.
+</p>
+
+<!-- High contrast — inside body text -->
+<p class="text-body-reg">
+  Read the
+  <a class="link" data-variant="high-contrast" href="#">documentation</a>
+  for details.
+</p>
+
+<!-- Heading — inside a heading element -->
+<h2 class="text-h2">
+  <a class="link" data-variant="heading" href="#">Link text</a>
+</h2>

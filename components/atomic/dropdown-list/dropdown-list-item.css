@@ -1,0 +1,127 @@
+/* ── Dropdown List Item ─────────────────────────────────
+   Figma: Components / Atomic / Dropdown list / Dropdown list item
+   Visual variant properties (data attributes):
+     data-size  : l | m
+     data-state : hover | active | focused | selected
+   Content (element presence):
+     .dropdown-item__checkbox      — include for has-checkbox;
+                                     shows tick when data-state="selected"
+     .dropdown-item__leading-icon  — include for has-leading-icon (16×16)
+     .dropdown-item__label         — always present
+     .dropdown-item__trailing-icon — include for has-trailing-icon (16×16)
+   Notes:
+     - :hover / :active / :focus-visible drive real interaction;
+       data-state="hover|active|focused" exist for static preview only.
+     - data-state="selected" is persistent; hover does not override it.
+   ──────────────────────────────────────────────────── */
+
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  box-sizing: border-box;
+  border-radius: var(--radius-1);
+  background: var(--background-interaction-default);
+  cursor: pointer;
+  user-select: none;
+  outline: none;
+  transition: background 100ms ease;
+}
+
+/* ── Sizes ──────────────────────────────────────────── */
+
+.dropdown-item[data-size="l"] {
+  padding: var(--spacing-dropdown-item-l-vertical) var(--spacing-dropdown-item-l-horizontal);
+}
+
+.dropdown-item[data-size="m"] {
+  padding: var(--spacing-dropdown-item-m-vertical) var(--spacing-dropdown-item-m-horizontal);
+}
+
+/* ── Label ──────────────────────────────────────────── */
+
+.dropdown-item__label {
+  flex: 1 0 0;
+  min-width: 0;
+  word-break: break-word;
+  font-family: var(--family-body);
+  font-weight: var(--weight-regular);
+  color: var(--content-static-primary);
+}
+
+.dropdown-item[data-size="l"] .dropdown-item__label {
+  font-size: var(--size-label-l);
+  line-height: var(--line-height-label-l);
+  letter-spacing: var(--letter-spacing-label-l);
+}
+
+.dropdown-item[data-size="m"] .dropdown-item__label {
+  font-size: var(--size-label-m);
+  line-height: var(--line-height-label-m);
+  letter-spacing: var(--letter-spacing-label-m);
+}
+
+/* ── Icons (leading & trailing) ─────────────────────── */
+
+.dropdown-item__leading-icon,
+.dropdown-item__trailing-icon {
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--content-static-secondary);
+}
+
+/* ── Checkbox indicator ─────────────────────────────── */
+
+.dropdown-item__checkbox {
+  position: relative;
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  box-sizing: border-box;
+  border-radius: var(--radius-1);
+  background: var(--background-interaction-default);
+  border: 1.5px solid var(--border-interaction-default);
+  transition: background 100ms ease, border-color 100ms ease;
+}
+
+.dropdown-item[data-state="selected"] .dropdown-item__checkbox {
+  background: var(--background-button-primary-default);
+  border-color: transparent;
+}
+
+.dropdown-item[data-state="selected"] .dropdown-item__checkbox::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--content-static-inverted);
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20' fill='none'%3E%3Cpath d='M2.5 10.4167L7.00502 14.9218C7.27839 15.1951 7.72161 15.1951 7.99497 14.9218L17.5 5.41675' stroke='black' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") center / contain no-repeat;
+          mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20' fill='none'%3E%3Cpath d='M2.5 10.4167L7.00502 14.9218C7.27839 15.1951 7.72161 15.1951 7.99497 14.9218L17.5 5.41675' stroke='black' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+
+/* ── Interactive & static states ────────────────────── */
+
+.dropdown-item:hover:not([data-state="selected"]),
+.dropdown-item[data-state="hover"] {
+  background: var(--background-interaction-hover);
+}
+
+.dropdown-item:active:not([data-state="selected"]),
+.dropdown-item[data-state="active"] {
+  background: var(--background-interaction-active);
+}
+
+.dropdown-item:focus-visible,
+.dropdown-item[data-state="focused"] {
+  background: var(--background-interaction-default);
+  outline: 2px solid var(--border-focus-default);
+  outline-offset: -2px;
+}
+
+.dropdown-item[data-state="selected"] {
+  background: var(--background-interaction-selectedsubtle);
+}

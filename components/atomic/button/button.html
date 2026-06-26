@@ -1,0 +1,64 @@
+<!--
+  Button — reference template
+  Figma: Components / Atomic / Button
+
+  Configure appearance with data-type and data-size.
+  Interaction states (hover / active / focused / disabled) are handled
+  automatically by CSS — use the native `disabled` attribute for the
+  disabled state. Copy the variant you need into your page and omit any
+  optional element you don't want.
+-->
+
+<!-- Default: text only -->
+<button class="btn" data-type="primary" data-size="l">
+  <span class="btn__label">Button text</span>
+</button>
+
+<!-- With a leading icon (has-leading-icon) -->
+<button class="btn" data-type="primary" data-size="l">
+  <span class="btn__icon" style="--btn-icon: url('../components/atomic/icon/svg/20x20/arrow-left.svg')" aria-hidden="true"></span>
+  <span class="btn__label">Button text</span>
+</button>
+
+<!-- With a trailing icon (has-trailing-icon) -->
+<button class="btn" data-type="primary" data-size="l">
+  <span class="btn__label">Button text</span>
+  <span class="btn__icon" style="--btn-icon: url('../components/atomic/icon/svg/20x20/arrow-right.svg')" aria-hidden="true"></span>
+</button>
+
+<!-- Split button: trailing chevron-down (split-button) -->
+<button class="btn" data-type="primary" data-size="l">
+  <span class="btn__label">Button text</span>
+  <span class="btn__chevron" style="--btn-icon: url('../components/atomic/icon/svg/20x20/chevron-down.svg')" aria-hidden="true"></span>
+</button>
+
+<!-- Disabled -->
+<button class="btn" data-type="primary" data-size="l" disabled>
+  <span class="btn__label">Button text</span>
+</button>
+
+<!-- Rendered as a link (same classes work on an <a>) -->
+<a class="btn" data-type="outlined" data-size="m" href="#">
+  <span class="btn__label">Button text</span>
+</a>
+
+<!--
+  All types (data-type):
+    primary       — solid dark fill, inverted text
+    secondary     — subtle gray fill
+    outlined      — transparent fill, 1px border
+    ghost         — transparent fill, no border
+    gradient      — purple→violet gradient, inverted text
+    text-purple   — text only, purple link color, no padding/fill
+    text-black    — text only, primary text color, no padding/fill
+
+  All sizes (data-size):
+    l   — Label L (16px), padding 16×24, gap 12
+    m   — Label M (14px), padding 8×16, gap 8
+
+  Icons:
+    Use any design-system icon from components/atomic/icon/svg/20x20/<name>.svg
+    (write the path relative to the page, as above). Pass it via the
+    --btn-icon custom property on .btn__icon / .btn__chevron. The icon is
+    tinted to the button's text color.
+-->

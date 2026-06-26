@@ -1,0 +1,196 @@
+/* =============================================================
+   TYPE STYLES — utility classes mapped to typography tokens
+   Source: Figma "🌐 Smartcat website design system" › FOUNDATIONS
+   All sizes/line-heights/letter-spacings are responsive via
+   tokens/typography.css (mobile base + ≥769px desktop overrides).
+
+   Naming mirrors Figma style names:
+     Display, H1–H3           → single class (Bold only)
+     H4, H5                   → -bold / -reg variants
+     Paragraph, Small, Caption → -bold / -reg variants
+     Label L / M / S          → -semibold / -reg variants
+     Eyebrow                  → single class (Bold + wide tracking)
+   Link variants are handled with .text-link modifier (underline).
+   ============================================================= */
+
+/* ── Display ─────────────────────────────────────────────────── */
+.text-display {
+  font-family:    var(--family-heading);
+  font-size:      var(--size-display);
+  line-height:    var(--line-height-display);
+  font-weight:    var(--weight-bold);
+  letter-spacing: var(--letter-spacing-display);
+}
+
+/* ── Headings ─────────────────────────────────────────────────── */
+.text-h1 {
+  font-family:    var(--family-heading);
+  font-size:      var(--size-h1);
+  line-height:    var(--line-height-h1);
+  font-weight:    var(--weight-bold);
+  letter-spacing: var(--letter-spacing-h1);
+}
+
+.text-h2 {
+  font-family:    var(--family-heading);
+  font-size:      var(--size-h2);
+  line-height:    var(--line-height-h2);
+  font-weight:    var(--weight-bold);
+  letter-spacing: var(--letter-spacing-h2);
+}
+
+.text-h3 {
+  font-family:    var(--family-heading);
+  font-size:      var(--size-h3);
+  line-height:    var(--line-height-h3);
+  font-weight:    var(--weight-bold);
+  letter-spacing: var(--letter-spacing-h3);
+}
+
+.text-h4-bold {
+  font-family:    var(--family-heading);
+  font-size:      var(--size-h4);
+  line-height:    var(--line-height-h4);
+  font-weight:    var(--weight-bold);
+  letter-spacing: var(--letter-spacing-h4);
+}
+
+.text-h4-reg {
+  font-family:    var(--family-heading);
+  font-size:      var(--size-h4);
+  line-height:    var(--line-height-h4);
+  font-weight:    var(--weight-regular);
+  letter-spacing: var(--letter-spacing-h4);
+}
+
+.text-h5-bold {
+  font-family:    var(--family-heading);
+  font-size:      var(--size-h5);
+  line-height:    var(--line-height-h5);
+  font-weight:    var(--weight-bold);
+  letter-spacing: var(--letter-spacing-h5);
+}
+
+.text-h5-reg {
+  font-family:    var(--family-heading);
+  font-size:      var(--size-h5);
+  line-height:    var(--line-height-h5);
+  font-weight:    var(--weight-regular);
+  letter-spacing: var(--letter-spacing-h5);
+}
+
+/* ── Paragraph ────────────────────────────────────────────────── */
+.text-paragraph-bold {
+  font-family:    var(--family-body);
+  font-size:      var(--size-paragraph);
+  line-height:    var(--line-height-paragraph);
+  font-weight:    var(--weight-bold);
+  letter-spacing: var(--letter-spacing-paragraph);
+}
+
+.text-paragraph-reg {
+  font-family:    var(--family-body);
+  font-size:      var(--size-paragraph);
+  line-height:    var(--line-height-paragraph);
+  font-weight:    var(--weight-regular);
+  letter-spacing: var(--letter-spacing-paragraph);
+}
+
+/* ── Small text ───────────────────────────────────────────────── */
+.text-small-bold {
+  font-family:    var(--family-body);
+  font-size:      var(--size-small-text);
+  line-height:    var(--line-height-small-text);
+  font-weight:    var(--weight-bold);
+  letter-spacing: var(--letter-spacing-small-text);
+}
+
+.text-small-reg {
+  font-family:    var(--family-body);
+  font-size:      var(--size-small-text);
+  line-height:    var(--line-height-small-text);
+  font-weight:    var(--weight-regular);
+  letter-spacing: var(--letter-spacing-small-text);
+}
+
+/* ── Caption ──────────────────────────────────────────────────── */
+.text-caption-bold {
+  font-family:    var(--family-body);
+  font-size:      var(--size-caption);
+  line-height:    var(--line-height-caption);
+  font-weight:    var(--weight-bold);
+  letter-spacing: var(--letter-spacing-caption);
+}
+
+.text-caption-reg {
+  font-family:    var(--family-body);
+  font-size:      var(--size-caption);
+  line-height:    var(--line-height-caption);
+  font-weight:    var(--weight-regular);
+  letter-spacing: var(--letter-spacing-caption);
+}
+
+/* ── Label ────────────────────────────────────────────────────── */
+.text-label-l-semibold {
+  font-family:    var(--family-body);
+  font-size:      var(--size-label-l);
+  line-height:    var(--line-height-label-l);
+  font-weight:    var(--weight-semi-bold);
+  letter-spacing: var(--letter-spacing-label-l);
+}
+
+.text-label-l-reg {
+  font-family:    var(--family-body);
+  font-size:      var(--size-label-l);
+  line-height:    var(--line-height-label-l);
+  font-weight:    var(--weight-regular);
+  letter-spacing: var(--letter-spacing-label-l);
+}
+
+.text-label-m-semibold {
+  font-family:    var(--family-body);
+  font-size:      var(--size-label-m);
+  line-height:    var(--line-height-label-m);
+  font-weight:    var(--weight-semi-bold);
+  letter-spacing: var(--letter-spacing-label-m);
+}
+
+.text-label-m-reg {
+  font-family:    var(--family-body);
+  font-size:      var(--size-label-m);
+  line-height:    var(--line-height-label-m);
+  font-weight:    var(--weight-regular);
+  letter-spacing: var(--letter-spacing-label-m);
+}
+
+.text-label-s-semibold {
+  font-family:    var(--family-body);
+  font-size:      var(--size-label-s);
+  line-height:    var(--line-height-label-s);
+  font-weight:    var(--weight-semi-bold);
+  letter-spacing: var(--letter-spacing-label-s);
+}
+
+.text-label-s-reg {
+  font-family:    var(--family-body);
+  font-size:      var(--size-label-s);
+  line-height:    var(--line-height-label-s);
+  font-weight:    var(--weight-regular);
+  letter-spacing: var(--letter-spacing-label-s);
+}
+
+/* ── Eyebrow ──────────────────────────────────────────────────── */
+.text-eyebrow {
+  font-family:    var(--family-body);
+  font-size:      var(--size-caption);
+  line-height:    var(--line-height-caption);
+  font-weight:    var(--weight-bold);
+  letter-spacing: var(--letter-spacing-eyebrow);
+}
+
+/* ── Link modifier ────────────────────────────────────────────── */
+/* Combine with any text-* class: <a class="text-h4-bold text-link"> */
+.text-link {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}

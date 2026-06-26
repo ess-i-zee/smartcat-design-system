@@ -1,0 +1,186 @@
+/* =============================================================
+   GLOBALS — 01 Globals collection
+   Source of truth — edit token values directly in this file.
+   (Mirrors the Figma "🌐 Smartcat website design system" variables.)
+   ============================================================= */
+
+:root {
+
+  /* ── Color / Non-semantic / White Alpha ─────────────────── */
+  --color-non-semantic-white-alpha-100: #ffffff;
+  --color-non-semantic-white-alpha-90:  #fbfcfff7;
+  --color-non-semantic-white-alpha-80:  #f9fafdf5;
+  --color-non-semantic-white-alpha-70:  #fafafee8;
+  --color-non-semantic-white-alpha-60:  #f3f3fde0;
+  --color-non-semantic-white-alpha-50:  #f0f0ffba;
+  --color-non-semantic-white-alpha-40:  #e2dffe8a;
+  --color-non-semantic-white-alpha-30:  #d8d5fd52;
+  --color-non-semantic-white-alpha-20:  #dbe0fd1f;
+  --color-non-semantic-white-alpha-10:  #becae412;
+  --color-non-semantic-white-alpha-5:   #c2d8e40a;
+  --color-non-semantic-white-alpha-0:   #ffffff00;
+
+  /* ── Color / Non-semantic / Gray ────────────────────────── */
+  --color-non-semantic-gray-100: #13101c;
+  --color-non-semantic-gray-90:  #1a1824;
+  --color-non-semantic-gray-80:  #1f1d2a;
+  --color-non-semantic-gray-70:  #2b2937;
+  --color-non-semantic-gray-60:  #524f64;
+  --color-non-semantic-gray-50:  #838096;
+  --color-non-semantic-gray-40:  #b1b0c0;
+  --color-non-semantic-gray-30:  #d8d8e2;
+  --color-non-semantic-gray-20:  #e5e5ea;
+  --color-non-semantic-gray-10:  #f0f1f4;
+  --color-non-semantic-gray-5:   #f4f5f8;
+
+  /* ── Color / Non-semantic / Gray Alpha ──────────────────── */
+  --color-non-semantic-gray-alpha-100: #04010ef0;
+  --color-non-semantic-gray-alpha-90:  #03010ee8;
+  --color-non-semantic-gray-alpha-80:  #030110e3;
+  --color-non-semantic-gray-alpha-70:  #030011d6;
+  --color-non-semantic-gray-alpha-60:  #080422b2;
+  --color-non-semantic-gray-alpha-50:  #07012d80;
+  --color-non-semantic-gray-alpha-40:  #0300344f;
+  --color-non-semantic-gray-alpha-30:  #0b0b4a29;
+  --color-non-semantic-gray-alpha-20:  #15153e1c;
+  --color-non-semantic-gray-alpha-10:  #30325012;
+  --color-non-semantic-gray-alpha-5:   #3c445a0a;
+
+  /* ── Color / Non-semantic / Mint ────────────────────────── */
+  --color-non-semantic-mint-100: #005951;
+  --color-non-semantic-mint-90:  #007266;
+  --color-non-semantic-mint-80:  #008778;
+  --color-non-semantic-mint-70:  #009d8b;
+  --color-non-semantic-mint-60:  #12b39f;
+  --color-non-semantic-mint-50:  #35c7b4;
+  --color-non-semantic-mint-40:  #6bdccc;
+  --color-non-semantic-mint-30:  #97ede0;
+  --color-non-semantic-mint-20:  #c2faf1;
+  --color-non-semantic-mint-10:  #dcfcf7;
+  --color-non-semantic-mint-5:   #edfffc;
+
+  /* ── Color / Non-semantic / Red ─────────────────────────── */
+  --color-non-semantic-red-100: #a10716;
+  --color-non-semantic-red-90:  #c90d20;
+  --color-non-semantic-red-80:  #e51a2f;
+  --color-non-semantic-red-70:  #ff2e43;
+  --color-non-semantic-red-60:  #ff495b;
+  --color-non-semantic-red-50:  #ff808c;
+  --color-non-semantic-red-40:  #ffb4bb;
+  --color-non-semantic-red-30:  #ffd6da;
+  --color-non-semantic-red-20:  #ffe3e6;
+  --color-non-semantic-red-10:  #ffedef;
+  --color-non-semantic-red-5:   #fff5f6;
+
+  /* ── Color / Non-semantic / Purple ──────────────────────── */
+  --color-non-semantic-purple-100: #460996;
+  --color-non-semantic-purple-90:  #590bbe;
+  --color-non-semantic-purple-80:  #670fda;
+  --color-non-semantic-purple-70:  #731ef2;
+  --color-non-semantic-purple-60:  #7d39fc;
+  --color-non-semantic-purple-50:  #8a59fc;
+  --color-non-semantic-purple-40:  #c5b3fc;
+  --color-non-semantic-purple-30:  #e2dbfc;
+  --color-non-semantic-purple-20:  #eeebfc;
+  --color-non-semantic-purple-10:  #f3f1fb;
+  --color-non-semantic-purple-5:   #f8f7fc;
+
+  /* ── Color / Non-semantic / Pink ────────────────────────── */
+  --color-non-semantic-pink-100: #7b089c;
+  --color-non-semantic-pink-90:  #970cbe;
+  --color-non-semantic-pink-80:  #ad13d8;
+  --color-non-semantic-pink-70:  #c326ed;
+  --color-non-semantic-pink-60:  #cf48f4;
+  --color-non-semantic-pink-50:  #e084f9;
+  --color-non-semantic-pink-40:  #edb7fb;
+  --color-non-semantic-pink-30:  #f5d6ff;
+  --color-non-semantic-pink-20:  #f7e0fe;
+  --color-non-semantic-pink-10:  #faecfe;
+  --color-non-semantic-pink-5:   #fcf6fe;
+
+  /* ── Color / Non-semantic / Blue ────────────────────────── */
+  --color-non-semantic-blue-100: #0049a3;
+  --color-non-semantic-blue-90:  #0160d4;
+  --color-non-semantic-blue-80:  #066fed;
+  --color-non-semantic-blue-70:  #1c7ef5;
+  --color-non-semantic-blue-60:  #3d92f8;
+  --color-non-semantic-blue-50:  #7fb8fa;
+  --color-non-semantic-blue-40:  #b2d4fc;
+  --color-non-semantic-blue-30:  #d5e7fe;
+  --color-non-semantic-blue-20:  #e0edfe;
+  --color-non-semantic-blue-10:  #ecf4fe;
+  --color-non-semantic-blue-5:   #f6fafe;
+
+  /* ── Color / Non-semantic / Orange ──────────────────────── */
+  --color-non-semantic-orange-100: #a83700;
+  --color-non-semantic-orange-90:  #d14700;
+  --color-non-semantic-orange-80:  #ea5400;
+  --color-non-semantic-orange-70:  #fa6002;
+  --color-non-semantic-orange-60:  #ff771e;
+  --color-non-semantic-orange-50:  #ff9e59;
+  --color-non-semantic-orange-40:  #ffc59a;
+  --color-non-semantic-orange-30:  #ffddc2;
+  --color-non-semantic-orange-20:  #ffe6d1;
+  --color-non-semantic-orange-10:  #ffefe0;
+  --color-non-semantic-orange-5:   #fff6ed;
+
+  /* ── Color / Semantic / Brand (alias → Purple) ──────────── */
+  --color-semantic-brand-5:   var(--color-non-semantic-purple-5);
+  --color-semantic-brand-10:  var(--color-non-semantic-purple-10);
+  --color-semantic-brand-20:  var(--color-non-semantic-purple-20);
+  --color-semantic-brand-30:  var(--color-non-semantic-purple-30);
+  --color-semantic-brand-40:  var(--color-non-semantic-purple-40);
+  --color-semantic-brand-50:  var(--color-non-semantic-purple-50);
+  --color-semantic-brand-60:  var(--color-non-semantic-purple-60);
+  --color-semantic-brand-70:  var(--color-non-semantic-purple-70);
+  --color-semantic-brand-80:  var(--color-non-semantic-purple-80);
+  --color-semantic-brand-90:  var(--color-non-semantic-purple-90);
+  --color-semantic-brand-100: var(--color-non-semantic-purple-100);
+
+  /* ── Color / Semantic / Negative (alias → Red) ──────────── */
+  --color-semantic-negative-5:   var(--color-non-semantic-red-5);
+  --color-semantic-negative-10:  var(--color-non-semantic-red-10);
+  --color-semantic-negative-20:  var(--color-non-semantic-red-20);
+  --color-semantic-negative-30:  var(--color-non-semantic-red-30);
+  --color-semantic-negative-40:  var(--color-non-semantic-red-40);
+  --color-semantic-negative-50:  var(--color-non-semantic-red-50);
+  --color-semantic-negative-60:  var(--color-non-semantic-red-60);
+  --color-semantic-negative-70:  var(--color-non-semantic-red-70);
+  --color-semantic-negative-80:  var(--color-non-semantic-red-80);
+  --color-semantic-negative-90:  var(--color-non-semantic-red-90);
+  --color-semantic-negative-100: var(--color-non-semantic-red-100);
+
+  /* ── Spacing ─────────────────────────────────────────────── */
+  --spacing-0:  0px;
+  --spacing-1:  2px;
+  --spacing-2:  4px;
+  --spacing-3:  8px;
+  --spacing-4:  12px;
+  --spacing-5:  16px;
+  --spacing-6:  24px;
+  --spacing-7:  32px;
+  --spacing-8:  40px;
+  --spacing-9:  48px;
+  --spacing-10: 56px;
+  --spacing-11: 64px;
+  --spacing-12: 80px;
+  --spacing-13: 96px;
+  --spacing-14: 120px;
+  --spacing-15: 160px;
+
+  /* ── Border Radius ───────────────────────────────────────── */
+  --radius-1:    4px;
+  --radius-2:    6px;
+  --radius-3:    8px;
+  --radius-4:    12px;
+  --radius-5:    16px;
+  --radius-6:    24px;
+  --radius-full: 1000px;
+
+  /* ── Dimensions ──────────────────────────────────────────── */
+  --dimension-mobile-page-width:      390px;
+  --dimension-desktop-page-width:     1280px;
+  --dimension-desktop-content-width:  1120px;
+  --dimension-mobile-content-width:   360px;
+  --dimension-desktop-max-text-width: 740px;
+}

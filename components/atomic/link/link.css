@@ -1,0 +1,64 @@
+/* ── Link ────────────────────────────────────────────────
+   Figma: Components / Atomic / Link
+   Visual variant properties (data attributes):
+     data-variant : default | high-contrast | heading
+   State (handled by CSS, no attribute needed):
+     :hover         — Hover
+     :active        — Active
+     :focus-visible — Focused (purple focus ring)
+     :visited       — Visited (opacity: 0.6; heading: 0.7)
+   Notes:
+     - Inline only — inherits font-size, font-weight, and
+       line-height from the parent element.
+     - default and high-contrast are for body/UI text sizes.
+     - heading is for h1–h4 styles only.
+   ──────────────────────────────────────────────────────── */
+
+.link {
+  display: inline;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  border-radius: 2px;
+  cursor: pointer;
+  transition-property: color, opacity;
+  transition-duration: 120ms;
+  transition-timing-function: ease;
+}
+
+/* ── Variant: Default ─────────────────────────────────── */
+
+.link[data-variant="default"] {
+  color: var(--content-interaction-hover);
+  text-decoration-color: var(--border-link-default);
+}
+.link[data-variant="default"]:hover  { color: var(--content-interaction-hover); }
+.link[data-variant="default"]:active { color: var(--content-interaction-active); }
+.link[data-variant="default"]:visited { opacity: 0.6; }
+
+/* ── Variant: High contrast ───────────────────────────── */
+
+.link[data-variant="high-contrast"] {
+  color: var(--content-link-default);
+  text-decoration-color: var(--border-link-purple);
+}
+.link[data-variant="high-contrast"]:hover  { color: var(--content-link-hover); }
+.link[data-variant="high-contrast"]:active { color: var(--content-link-active); }
+.link[data-variant="high-contrast"]:visited { opacity: 0.6; }
+
+/* ── Variant: Heading ─────────────────────────────────── */
+
+.link[data-variant="heading"] {
+  color: var(--content-interaction-hover);
+  text-decoration-color: var(--border-link-default);
+}
+.link[data-variant="heading"]:hover  { color: var(--content-interaction-hover); }
+.link[data-variant="heading"]:active { color: var(--content-interaction-active); }
+.link[data-variant="heading"]:visited { opacity: 0.7; }
+
+/* ── State: Focused ───────────────────────────────────── */
+
+.link:focus-visible {
+  outline: 2px solid var(--border-focus-default);
+  outline-offset: 2px;
+}

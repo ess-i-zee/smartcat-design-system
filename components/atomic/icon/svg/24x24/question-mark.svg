@@ -1,0 +1,15 @@
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Icons">
+<g id="Content">
+<path d="M-852 -564C-852 -568.418 -848.418 -572 -844 -572H2324C2328.42 -572 2332 -568.418 2332 -564V348C2332 352.418 2328.42 356 2324 356H-844C-848.418 356 -852 352.418 -852 348V-564Z" fill="white"/>
+<g id="Icon Component Sets">
+<g id="Icon / question-mark">
+<g id="Size=24x24">
+<circle id="icon" cx="12" cy="17" r="1.28394" fill="currentColor" fill-opacity="0.94"/>
+<path id="icon_2" d="M9.38062 9.1875C9.38062 8.09146 10.25 7 12 7C13.75 7 14.6812 7.875 14.6812 9.1875C14.6812 11.3537 12 11 12 14M22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+</g>
+</g>
+</g>
+</g>
+</svg>

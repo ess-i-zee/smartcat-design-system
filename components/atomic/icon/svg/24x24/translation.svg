@@ -1,0 +1,14 @@
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Icons">
+<g id="Content">
+<path d="M-552 -620C-552 -624.418 -548.418 -628 -544 -628H2624C2628.42 -628 2632 -624.418 2632 -620V292C2632 296.418 2628.42 300 2624 300H-544C-548.418 300 -552 296.418 -552 292V-620Z" fill="white"/>
+<g id="Icon Component Sets">
+<g id="Icon / translation">
+<g id="Size=24x24">
+<path id="icon" d="M10.5 20.5L11.8832 17.2304M21.5 20.5L20.1167 17.2304L16.5108 8.70742C16.3198 8.25603 15.6801 8.25603 15.4891 8.70743L11.8832 17.2304M11.8832 17.2304H20.1167M2 15C8.6 12.5 11 9 11 5M12.5 15C7.58625 13.1387 5.50052 10.7635 4.50002 8C4.38581 7.68455 4.29226 7.36457 4.21826 7.04037M2 4.5H7.5M7.5 4.5H13M7.5 4.5V2.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+</g>
+</g>
+</g>
+</g>
+</svg>

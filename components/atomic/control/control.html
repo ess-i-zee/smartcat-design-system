@@ -1,0 +1,123 @@
+<!--
+  Control — reference template
+  Figma: Components / Atomic / Control
+
+  A Control pairs a native checkbox input with a label.
+  Shape and behavior are set via data-control on the wrapper.
+  The <label> wrapper makes the entire row (indicator + label text) clickable.
+
+  Configure with:
+    data-control="checkbox"   — square box (border-radius 4px)
+    data-control="radio"      — circle (border-radius 50%)
+    data-label-size="l|m"    — label font size (default: l)
+    data-state="error"        — error appearance
+    disabled on <input>       — disabled appearance + non-interactive
+
+  Values:
+    Checkbox: unchecked (default) | checked | indeterminate (JS: input.indeterminate = true)
+    Radio:    unchecked (default) | checked
+
+  Interactive states (CSS / native, no attribute needed):
+    :hover   — hover anywhere in the label area
+    :active  — press
+    :focus-visible — keyboard focus ring on the indicator
+-->
+
+<!-- ── Checkbox — label size L ──────────────────────── -->
+<label class="control" data-control="checkbox" data-label-size="l">
+  <input type="checkbox" class="control__native">
+  <span class="control__indicator" aria-hidden="true"></span>
+  <span class="control__label">Label</span>
+</label>
+
+<!-- ── Checkbox — label size M ──────────────────────── -->
+<label class="control" data-control="checkbox" data-label-size="m">
+  <input type="checkbox" class="control__native">
+  <span class="control__indicator" aria-hidden="true"></span>
+  <span class="control__label">Label</span>
+</label>
+
+<!-- ── Checkbox — checked ───────────────────────────── -->
+<label class="control" data-control="checkbox" data-label-size="l">
+  <input type="checkbox" class="control__native" checked>
+  <span class="control__indicator" aria-hidden="true"></span>
+  <span class="control__label">Label</span>
+</label>
+
+<!-- ── Checkbox — indeterminate (set via JS) ─────────── -->
+<label class="control" data-control="checkbox" data-label-size="l">
+  <input type="checkbox" class="control__native" id="cb-indeterminate">
+  <span class="control__indicator" aria-hidden="true"></span>
+  <span class="control__label">Label</span>
+</label>
+<script>document.getElementById('cb-indeterminate').indeterminate = true;</script>
+
+<!-- ── Checkbox — error, unchecked ──────────────────── -->
+<label class="control" data-control="checkbox" data-label-size="l" data-state="error">
+  <input type="checkbox" class="control__native">
+  <span class="control__indicator" aria-hidden="true"></span>
+  <span class="control__label">Label</span>
+</label>
+
+<!-- ── Checkbox — error, checked ────────────────────── -->
+<label class="control" data-control="checkbox" data-label-size="l" data-state="error">
+  <input type="checkbox" class="control__native" checked>
+  <span class="control__indicator" aria-hidden="true"></span>
+  <span class="control__label">Label</span>
+</label>
+
+<!-- ── Checkbox — disabled ──────────────────────────── -->
+<label class="control" data-control="checkbox" data-label-size="l">
+  <input type="checkbox" class="control__native" disabled>
+  <span class="control__indicator" aria-hidden="true"></span>
+  <span class="control__label">Label</span>
+</label>
+
+<!-- ── Checkbox — disabled, checked ─────────────────── -->
+<label class="control" data-control="checkbox" data-label-size="l">
+  <input type="checkbox" class="control__native" checked disabled>
+  <span class="control__indicator" aria-hidden="true"></span>
+  <span class="control__label">Label</span>
+</label>
+
+<!-- ── Radio — label size L ─────────────────────────── -->
+<label class="control" data-control="radio" data-label-size="l">
+  <input type="checkbox" class="control__native">
+  <span class="control__indicator" aria-hidden="true"></span>
+  <span class="control__label">Option A</span>
+</label>
+
+<!-- ── Radio — label size M ─────────────────────────── -->
+<label class="control" data-control="radio" data-label-size="m">
+  <input type="checkbox" class="control__native">
+  <span class="control__indicator" aria-hidden="true"></span>
+  <span class="control__label">Option B</span>
+</label>
+
+<!-- ── Radio — checked ──────────────────────────────── -->
+<label class="control" data-control="radio" data-label-size="l">
+  <input type="checkbox" class="control__native" checked>
+  <span class="control__indicator" aria-hidden="true"></span>
+  <span class="control__label">Selected</span>
+</label>
+
+<!-- ── Radio — error, unchecked ─────────────────────── -->
+<label class="control" data-control="radio" data-label-size="l" data-state="error">
+  <input type="checkbox" class="control__native">
+  <span class="control__indicator" aria-hidden="true"></span>
+  <span class="control__label">Label</span>
+</label>
+
+<!-- ── Radio — error, checked ───────────────────────── -->
+<label class="control" data-control="radio" data-label-size="l" data-state="error">
+  <input type="checkbox" class="control__native" checked>
+  <span class="control__indicator" aria-hidden="true"></span>
+  <span class="control__label">Label</span>
+</label>
+
+<!-- ── Radio — disabled ─────────────────────────────── -->
+<label class="control" data-control="radio" data-label-size="l">
+  <input type="checkbox" class="control__native" disabled>
+  <span class="control__indicator" aria-hidden="true"></span>
+  <span class="control__label">Label</span>
+</label>

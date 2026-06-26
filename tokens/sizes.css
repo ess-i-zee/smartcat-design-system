@@ -1,0 +1,148 @@
+/* =============================================================
+   SIZES — 03 Sizes collection (breakpoint-aware)
+   Source of truth — edit token values directly in this file.
+   (Mirrors the Figma "🌐 Smartcat website design system" variables.)
+
+   Strategy: mobile-first
+     :root              → mobile values (base)
+     @media ≥ 769px     → desktop overrides
+   ============================================================= */
+
+/* ── Mobile (base) ───────────────────────────────────────────── */
+:root {
+
+  /* ── Spacing / Card ─────────────────────────────────────── */
+  --spacing-card-l-top:        var(--spacing-5);
+  --spacing-card-l-horizontal: var(--spacing-5);
+  --spacing-card-l-bottom:     var(--spacing-6);
+  --spacing-card-l-gap:        var(--spacing-5);
+  --spacing-card-m-top:        var(--spacing-5);
+  --spacing-card-m-horizontal: var(--spacing-5);
+  --spacing-card-m-bottom:     var(--spacing-6);
+  --spacing-card-m-gap:        var(--spacing-5);
+  --spacing-card-s-top:        var(--spacing-5);
+  --spacing-card-s-horizontal: var(--spacing-5);
+  --spacing-card-s-bottom:     var(--spacing-6);
+  --spacing-card-s-gap:        var(--spacing-5);
+
+  /* ── Spacing / Button ───────────────────────────────────── */
+  --spacing-button-xl-horizontal:      var(--spacing-9);
+  --spacing-button-xl-vertical:        var(--spacing-6);
+  --spacing-button-xl-gap:             var(--spacing-4);
+  --spacing-button-l-horizontal:       var(--spacing-6);
+  --spacing-button-l-vertical:         var(--spacing-5);
+  --spacing-button-l-gap:              var(--spacing-4);
+  --spacing-button-m-horizontal:       var(--spacing-5);
+  --spacing-button-m-vertical:         var(--spacing-3);
+  --spacing-button-m-gap:              var(--spacing-3);
+  --spacing-between-buttons-horzontal: var(--spacing-3);
+
+  /* ── Spacing / Input ────────────────────────────────────── */
+  --spacing-input-l-horizontal: var(--spacing-5);
+  --spacing-input-l-vertical:   var(--spacing-5);
+  --spacing-input-l-gap:        var(--spacing-4);
+  --spacing-input-l-filled:     var(--spacing-3);
+  --spacing-input-m-horizontal: var(--spacing-4);
+  --spacing-input-m-vertical:   var(--spacing-3);
+  --spacing-input-m-gap:        var(--spacing-3);
+  --spacing-input-m-filled:     var(--spacing-2);
+
+  /* ── Spacing / Panel ────────────────────────────────────── */
+  --spacing-panel-horizontal: var(--spacing-5);
+  --spacing-panel-top:        var(--spacing-6);
+  --spacing-panel-bottom:     var(--spacing-7);
+
+  /* ── Spacing / Page ─────────────────────────────────────── */
+  --spacing-page-sides:      15px;
+  --spacing-page-vertical-1: var(--spacing-3);
+  --spacing-page-vertical-2: var(--spacing-3);
+  --spacing-page-vertical-3: var(--spacing-6);
+  --spacing-page-vertical-4: var(--spacing-8);
+  --spacing-page-vertical-5: var(--spacing-9);
+  --spacing-page-vertical-6: var(--spacing-11);
+  --spacing-page-vertical-7: var(--spacing-12);
+  --spacing-page-vertical-8: var(--spacing-14);
+
+  /* ── Spacing / Between elements ─────────────────────────── */
+  --spacing-between-elements-1:  var(--spacing-1);
+  --spacing-between-elements-2:  var(--spacing-2);
+  --spacing-between-elements-3:  var(--spacing-3);
+  --spacing-between-elements-4:  var(--spacing-3);
+  --spacing-between-elements-5:  var(--spacing-4);
+  --spacing-between-elements-6:  var(--spacing-5);
+  --spacing-between-elements-7:  var(--spacing-6);
+  --spacing-between-elements-8:  var(--spacing-7);
+  --spacing-between-elements-9:  var(--spacing-8);
+  --spacing-between-elements-10: var(--spacing-9);
+  --spacing-between-elements-11: var(--spacing-11);
+
+  /* ── Spacing / Gutter ───────────────────────────────────── */
+  --spacing-between-gutter-default: var(--spacing-3);
+
+  /* ── Spacing / Dropdown ─────────────────────────────── */
+  --spacing-dropdown-item-l-vertical:     10px;
+  --spacing-dropdown-item-l-horizontal:   var(--spacing-5);  /* 16px */
+  --spacing-dropdown-item-m-vertical:     var(--spacing-3);  /* 8px */
+  --spacing-dropdown-item-m-horizontal:   var(--spacing-4);  /* 12px */
+  --spacing-dropdown-search-l-vertical:   14px;
+  --spacing-dropdown-search-l-horizontal: var(--spacing-5);  /* 16px */
+  --spacing-dropdown-search-m-vertical:   var(--spacing-3);  /* 8px */
+  --spacing-dropdown-search-m-horizontal: var(--spacing-4);  /* 12px */
+  --spacing-dropdown-list-padding:        var(--spacing-2);  /* 4px */
+
+  /* ── Radius ──────────────────────────────────────────────── */
+  --radius-button:           var(--radius-2);
+  --radius-button-container: var(--radius-3);
+  --radius-card-regular:     var(--radius-5);
+  --radius-card-contained:   var(--radius-3);
+  --radius-panel:            var(--radius-5);
+
+  /* ── Dimensions ──────────────────────────────────────────── */
+  --dimension-page-width:    var(--dimension-mobile-page-width);
+  --dimension-content-width: var(--dimension-mobile-content-width);
+}
+
+/* ── Desktop overrides (≥ 769px) ─────────────────────────────── */
+/* Only tokens that differ from mobile are listed here.           */
+@media (min-width: 769px) {
+  :root {
+
+    /* ── Spacing / Card ───────────────────────────────────── */
+    --spacing-card-l-top:        var(--spacing-7);
+    --spacing-card-l-horizontal: var(--spacing-7);
+    --spacing-card-l-bottom:     var(--spacing-9);
+    --spacing-card-l-gap:        var(--spacing-6);
+    --spacing-card-m-top:        var(--spacing-6);
+    --spacing-card-m-horizontal: var(--spacing-6);
+    --spacing-card-m-bottom:     var(--spacing-8);
+    --spacing-card-m-gap:        var(--spacing-6);
+
+    /* ── Spacing / Panel ─────────────────────────────────── */
+    --spacing-panel-horizontal: var(--spacing-9);
+    --spacing-panel-top:        var(--spacing-9);
+    --spacing-panel-bottom:     var(--spacing-10);
+
+    /* ── Spacing / Page ──────────────────────────────────── */
+    --spacing-page-sides:      var(--spacing-12);
+    --spacing-page-vertical-2: var(--spacing-5);
+    --spacing-page-vertical-5: var(--spacing-10);
+    --spacing-page-vertical-6: var(--spacing-12);
+    --spacing-page-vertical-7: var(--spacing-14);
+    --spacing-page-vertical-8: var(--spacing-15);
+
+    /* ── Spacing / Between elements ──────────────────────── */
+    --spacing-between-elements-4:  var(--spacing-4);
+    --spacing-between-elements-5:  var(--spacing-5);
+    --spacing-between-elements-6:  var(--spacing-6);
+    --spacing-between-elements-7:  var(--spacing-7);
+    --spacing-between-elements-8:  var(--spacing-8);
+    --spacing-between-elements-9:  var(--spacing-10);
+    --spacing-between-elements-10: var(--spacing-11);
+    --spacing-between-elements-11: var(--spacing-12);
+
+    /* ── Dimensions ──────────────────────────────────────── */
+    --dimension-page-width:    var(--dimension-desktop-page-width);
+    --dimension-content-width: var(--dimension-desktop-content-width);
+    --dimension-max-text-width: var(--dimension-desktop-max-text-width);
+  }
+}

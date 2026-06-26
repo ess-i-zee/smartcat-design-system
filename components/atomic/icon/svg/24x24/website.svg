@@ -1,0 +1,13 @@
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Icon Component Sets">
+<g id="website">
+<g id="Size=24x24">
+<g id="icon">
+<path d="M7.50476 7.7525C7.50476 8.44154 6.94618 9.00012 6.25714 9.00012C5.5681 9.00012 5.00952 8.44154 5.00952 7.7525C5.00952 7.06346 5.5681 6.50488 6.25714 6.50488C6.94618 6.50488 7.50476 7.06346 7.50476 7.7525Z" fill="currentColor" fill-opacity="0.94"/>
+<path d="M11.2476 7.7525C11.2476 8.44154 10.689 9.00012 10 9.00012C9.31096 9.00012 8.75238 8.44154 8.75238 7.7525C8.75238 7.06346 9.31096 6.50488 10 6.50488C10.689 6.50488 11.2476 7.06346 11.2476 7.7525Z" fill="currentColor" fill-opacity="0.94"/>
+</g>
+<path id="icon_2" d="M6 16L18 16M6 12L18 12M20 20L4 20C2.89543 20 2 19.1046 2 18L2 6C2 4.89543 2.89543 4 4 4L20 4C21.1046 4 22 4.89543 22 6L22 18C22 19.1046 21.1046 20 20 20Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+</g>
+</g>
+</svg>

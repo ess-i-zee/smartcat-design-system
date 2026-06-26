@@ -1,0 +1,201 @@
+/* ── Control ────────────────────────────────────────────
+   Figma: Components / Atomic / Control
+   Properties (data attributes on .control):
+     data-control    : checkbox | radio
+     data-label-size : l | m
+     data-state      : error
+   Native input drives all other states:
+     type="checkbox" always — shape driven by data-control
+     :checked            — Checked
+     :indeterminate      — Indeterminate (checkbox only, set via JS)
+     :disabled           — Disabled (opacity + pointer-events off)
+   CSS-driven interactive states:
+     .control:hover      — Hover
+     .control:active     — Active
+     input:focus-visible — Focus ring on indicator
+   ──────────────────────────────────────────────────── */
+
+/* ── Wrapper ─────────────────────────────────────────── */
+
+.control {
+  display: inline-flex;
+  align-items: flex-start;
+  gap: 12px;
+  cursor: pointer;
+  user-select: none;
+  position: relative;
+}
+
+/* ── Native input (semantically present, visually hidden) */
+
+.control__native {
+  appearance: none;
+  -webkit-appearance: none;
+  position: absolute;
+  width: 0;
+  height: 0;
+  opacity: 0;
+  margin: 0;
+  pointer-events: none;
+}
+
+/* ── Indicator — the visible box / circle ────────────── */
+
+.control__indicator {
+  position: relative;
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  box-sizing: border-box;
+  overflow: hidden;
+  background: var(--background-interaction-default);
+  border: 1.5px solid var(--border-interaction-default);
+  transition: background 120ms ease, border-color 120ms ease, opacity 120ms ease;
+}
+
+/* Shape — driven by data-control on the wrapper */
+.control[data-control="checkbox"] .control__indicator { border-radius: var(--radius-1); }
+.control[data-control="radio"]    .control__indicator { border-radius: 50%; }
+
+/* ── Checked / Indeterminate — filled dark background ── */
+
+.control__native:checked + .control__indicator,
+.control__native:indeterminate + .control__indicator {
+  background: var(--background-button-primary-default);
+  border-color: transparent;
+}
+
+/* ── Check icon (checkbox checked) ──────────────────── */
+
+.control[data-control="checkbox"] .control__native:checked + .control__indicator::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--content-static-inverted);
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20' fill='none'%3E%3Cpath d='M2.5 10.4167L7.00502 14.9218C7.27839 15.1951 7.72161 15.1951 7.99497 14.9218L17.5 5.41675' stroke='black' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") center / contain no-repeat;
+          mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20' fill='none'%3E%3Cpath d='M2.5 10.4167L7.00502 14.9218C7.27839 15.1951 7.72161 15.1951 7.99497 14.9218L17.5 5.41675' stroke='black' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+
+/* ── Dash icon (checkbox indeterminate) ──────────────── */
+
+.control[data-control="checkbox"] .control__native:indeterminate + .control__indicator::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--content-static-inverted);
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20' fill='none'%3E%3Cpath d='M4.16675 10L15.8334 10' stroke='black' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") center / contain no-repeat;
+          mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20' fill='none'%3E%3Cpath d='M4.16675 10L15.8334 10' stroke='black' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+
+/* ── Inner dot (radio checked) ───────────────────────── */
+
+.control[data-control="radio"] .control__native:checked + .control__indicator::after {
+  content: '';
+  position: absolute;
+  inset: 30%;
+  border-radius: 50%;
+  background: var(--content-static-inverted);
+}
+
+/* ── Hover ───────────────────────────────────────────── */
+
+.control:not([data-state="error"]):hover
+  .control__native:not(:checked):not(:indeterminate) + .control__indicator {
+  background: var(--background-interaction-hover);
+  border-color: var(--border-interaction-hover);
+}
+
+.control:not([data-state="error"]):hover
+  .control__native:checked + .control__indicator,
+.control:not([data-state="error"]):hover
+  .control__native:indeterminate + .control__indicator {
+  background: var(--background-button-primary-hover);
+  opacity: 0.8;
+}
+
+/* ── Active ──────────────────────────────────────────── */
+
+.control:not([data-state="error"]):active
+  .control__native:not(:checked):not(:indeterminate) + .control__indicator {
+  background: var(--background-interaction-active);
+  border-color: var(--border-interaction-active);
+}
+
+.control:not([data-state="error"]):active
+  .control__native:checked + .control__indicator,
+.control:not([data-state="error"]):active
+  .control__native:indeterminate + .control__indicator {
+  background: var(--background-button-primary-active);
+  opacity: 0.6;
+}
+
+/* ── Focus ───────────────────────────────────────────── */
+
+/* outline renders outside the element — not clipped by overflow:hidden */
+.control__native:focus-visible + .control__indicator {
+  outline: 4px solid var(--border-focus-default);
+  outline-offset: 0;
+}
+
+/* ── Disabled ────────────────────────────────────────── */
+
+.control:has(.control__native:disabled) {
+  opacity: 0.4;
+  pointer-events: none;
+  cursor: not-allowed;
+}
+
+/* ── Error ───────────────────────────────────────────── */
+
+/* Error + unchecked checkbox */
+.control[data-state="error"][data-control="checkbox"]
+  .control__native:not(:checked):not(:indeterminate) + .control__indicator {
+  background: var(--background-interaction-default);
+  border-color: var(--border-interaction-error);
+}
+
+/* Error + unchecked radio (additional 60% opacity per Figma) */
+.control[data-state="error"][data-control="radio"]
+  .control__native:not(:checked) + .control__indicator {
+  background: var(--background-interaction-default);
+  border-color: var(--border-interaction-error);
+  opacity: 0.6;
+}
+
+/* Error + checked / indeterminate — solid error fill */
+.control[data-state="error"] .control__native:checked + .control__indicator,
+.control[data-state="error"] .control__native:indeterminate + .control__indicator {
+  background: var(--background-interaction-errorsolid);
+  border-color: transparent;
+  opacity: 1;
+}
+
+/* ── Label ───────────────────────────────────────────── */
+
+.control__label {
+  font-family: var(--family-body);
+  font-weight: var(--weight-regular);
+  color: var(--content-interaction-default);
+}
+
+/* Size L (default when no attribute) */
+.control[data-label-size="l"] .control__label,
+.control:not([data-label-size]) .control__label {
+  font-size: var(--size-label-l);
+  line-height: var(--line-height-label-l);
+  letter-spacing: var(--letter-spacing-label-l);
+}
+
+/* Size M */
+.control[data-label-size="m"] .control__label {
+  font-size: var(--size-label-m);
+  line-height: var(--line-height-label-m);
+  letter-spacing: var(--letter-spacing-label-m);
+}
+
+/* Label state colors — listed after hover/active so error stays red */
+.control:hover .control__label  { color: var(--content-interaction-hover);  }
+.control:active .control__label { color: var(--content-interaction-active); }
+.control[data-state="error"] .control__label,
+.control[data-state="error"]:hover .control__label,
+.control[data-state="error"]:active .control__label { color: var(--content-interaction-error); }

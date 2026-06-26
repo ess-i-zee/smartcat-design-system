@@ -1,0 +1,74 @@
+/* ── Dropdown Search ─────────────────────────────────────
+   Figma: Components / Atomic / Dropdown list / Dropdown search
+   Visual variant properties (data attributes):
+     data-size  : l | m
+   Content: always a text input + trailing search icon
+   States driven by CSS pseudo-classes on .dropdown-search.
+   ──────────────────────────────────────────────────── */
+
+.dropdown-search {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  box-sizing: border-box;
+  background: var(--background-interaction-default);
+  border-bottom: 1px solid var(--border-interaction-default);
+  transition: background 100ms ease;
+}
+
+.dropdown-search[data-size="l"] {
+  padding: var(--spacing-dropdown-search-l-vertical) var(--spacing-dropdown-search-l-horizontal);
+}
+
+.dropdown-search[data-size="m"] {
+  padding: var(--spacing-dropdown-search-m-vertical) var(--spacing-dropdown-search-m-horizontal);
+}
+
+/* ── Input ──────────────────────────────────────────── */
+
+.dropdown-search__input {
+  flex: 1 0 0;
+  min-width: 0;
+  appearance: none;
+  -webkit-appearance: none;
+  border: 0;
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  outline: none;
+  font-family: var(--family-body);
+  font-weight: var(--weight-regular);
+  font-size: var(--size-label-m);
+  line-height: var(--line-height-label-m);
+  letter-spacing: var(--letter-spacing-label-m);
+  color: var(--content-static-primary);
+}
+
+.dropdown-search__input::placeholder {
+  color: var(--content-static-tertiary);
+}
+
+/* ── Search icon ────────────────────────────────────── */
+
+.dropdown-search__icon {
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--content-static-secondary);
+  pointer-events: none;
+}
+
+/* ── States ─────────────────────────────────────────── */
+
+.dropdown-search:hover,
+.dropdown-search:focus-within {
+  background: var(--background-interaction-hover);
+}
+
+.dropdown-search:active {
+  background: var(--background-interaction-active);
+}

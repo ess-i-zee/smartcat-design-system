@@ -1,0 +1,14 @@
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Icons">
+<g id="Content">
+<path d="M-952 -732C-952 -736.418 -948.418 -740 -944 -740H2224C2228.42 -740 2232 -736.418 2232 -732V180C2232 184.418 2228.42 188 2224 188H-944C-948.418 188 -952 184.418 -952 180V-732Z" fill="white"/>
+<g id="Icon Component Sets">
+<g id="Icon / calendar-upcoming">
+<g id="Size=24x24">
+<path id="icon" d="M7 4H5C3.89543 4 3 4.89543 3 6L3 8L3 19C3 20.1046 3.89543 21 5 21H11.5M3 8L21 8M7 4L17 4L19 4C20.1046 4 21 4.89543 21 6V8M21 8V13.5M7 4L7 1M17 4V1M19 16L21.5 18.5L19 21M15 16L17.5 18.5L15 21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+</g>
+</g>
+</g>
+</g>
+</svg>

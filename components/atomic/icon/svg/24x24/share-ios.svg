@@ -1,0 +1,14 @@
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Icons">
+<g id="Content">
+<path d="M-852 -620C-852 -624.418 -848.418 -628 -844 -628H2324C2328.42 -628 2332 -624.418 2332 -620V292C2332 296.418 2328.42 300 2324 300H-844C-848.418 300 -852 296.418 -852 292V-620Z" fill="white"/>
+<g id="Icon Component Sets">
+<g id="Icon / share-ios">
+<g id="Size=24x24">
+<path id="icon" d="M16 10H19C20.1046 10 21 10.8954 21 12V19C21 20.1046 20.1046 21 19 21H5C3.89543 21 3 20.1046 3 19V12C3 10.8954 3.89543 10 5 10H8M16 5.5L12 1.5L8.00001 5.5M12 1.5L12 13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+</g>
+</g>
+</g>
+</g>
+</svg>

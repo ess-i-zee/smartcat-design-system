@@ -1,0 +1,162 @@
+<!--
+  Dropdown list — reference template
+  Figma: Components / Atomic / Dropdown list
+
+  Three components compose the system:
+    .dropdown-list    — container with border, shadow, and padding
+    .dropdown-search  — optional search bar; place as the first child if used
+    .dropdown-item    — each selectable option
+
+  ── .dropdown-list ───────────────────────────────────────
+  Configure with:
+    data-size="l|m"   — size; set the same value on each child
+
+  Content (element presence):
+    .dropdown-search (first child) — include for has-search
+    .dropdown-item   (one or more) — include each option
+
+  ── .dropdown-search ─────────────────────────────────────
+  Configure with:
+    data-size="l|m"
+
+  Elements (always present):
+    .dropdown-search__input — <input type="text"> for typing
+    .dropdown-search__icon  — trailing search icon (16×16 SVG)
+
+  ── .dropdown-item ───────────────────────────────────────
+  Configure with:
+    data-size="l|m"
+    data-state="selected"   — selected item (persistent state)
+
+  Content (element presence):
+    .dropdown-item__checkbox      — include for has-checkbox;
+                                    shows filled tick when data-state="selected"
+    .dropdown-item__leading-icon  — include for has-leading-icon (16×16 SVG)
+    .dropdown-item__label         — always present
+    .dropdown-item__trailing-icon — include for has-trailing-icon (16×16 SVG)
+
+  Interactive states (CSS / no data attribute needed):
+    :hover         — Hover
+    :active        — Active
+    :focus-visible — Focused (purple focus ring)
+-->
+
+<!-- ── Size M — no search ────────────────────────────── -->
+<div class="dropdown-list" data-size="m">
+  <div class="dropdown-item" data-size="m">
+    <span class="dropdown-item__label">List item</span>
+  </div>
+  <div class="dropdown-item" data-size="m" data-state="selected">
+    <span class="dropdown-item__label">Selected item</span>
+  </div>
+  <div class="dropdown-item" data-size="m">
+    <span class="dropdown-item__label">List item</span>
+  </div>
+  <div class="dropdown-item" data-size="m">
+    <span class="dropdown-item__label">List item</span>
+  </div>
+  <div class="dropdown-item" data-size="m">
+    <span class="dropdown-item__label">List item</span>
+  </div>
+</div>
+
+<!-- ── Size M — with search ──────────────────────────── -->
+<div class="dropdown-list" data-size="m">
+  <div class="dropdown-search" data-size="m">
+    <input class="dropdown-search__input" type="text" placeholder="Search">
+    <span class="dropdown-search__icon" aria-hidden="true">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14.3334 14.3333L12 11.9999M13.3334 7.33325C13.3334 4.01954 10.6471 1.33325 7.33337 1.33325C4.01967 1.33325 1.33337 4.01954 1.33337 7.33325C1.33337 10.647 4.01967 13.3333 7.33337 13.3333C10.6471 13.3333 13.3334 10.647 13.3334 7.33325Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </span>
+  </div>
+  <div class="dropdown-item" data-size="m">
+    <span class="dropdown-item__label">List item</span>
+  </div>
+  <div class="dropdown-item" data-size="m" data-state="selected">
+    <span class="dropdown-item__label">Selected item</span>
+  </div>
+  <div class="dropdown-item" data-size="m">
+    <span class="dropdown-item__label">List item</span>
+  </div>
+  <div class="dropdown-item" data-size="m">
+    <span class="dropdown-item__label">List item</span>
+  </div>
+</div>
+
+<!-- ── Size L — no search ────────────────────────────── -->
+<div class="dropdown-list" data-size="l">
+  <div class="dropdown-item" data-size="l">
+    <span class="dropdown-item__label">List item</span>
+  </div>
+  <div class="dropdown-item" data-size="l" data-state="selected">
+    <span class="dropdown-item__label">Selected item</span>
+  </div>
+  <div class="dropdown-item" data-size="l">
+    <span class="dropdown-item__label">List item</span>
+  </div>
+  <div class="dropdown-item" data-size="l">
+    <span class="dropdown-item__label">List item</span>
+  </div>
+  <div class="dropdown-item" data-size="l">
+    <span class="dropdown-item__label">List item</span>
+  </div>
+</div>
+
+<!-- ── Size L — with search ──────────────────────────── -->
+<div class="dropdown-list" data-size="l">
+  <div class="dropdown-search" data-size="l">
+    <input class="dropdown-search__input" type="text" placeholder="Search">
+    <span class="dropdown-search__icon" aria-hidden="true">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14.3334 14.3333L12 11.9999M13.3334 7.33325C13.3334 4.01954 10.6471 1.33325 7.33337 1.33325C4.01967 1.33325 1.33337 4.01954 1.33337 7.33325C1.33337 10.647 4.01967 13.3333 7.33337 13.3333C10.6471 13.3333 13.3334 10.647 13.3334 7.33325Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </span>
+  </div>
+  <div class="dropdown-item" data-size="l">
+    <span class="dropdown-item__label">List item</span>
+  </div>
+  <div class="dropdown-item" data-size="l" data-state="selected">
+    <span class="dropdown-item__label">Selected item</span>
+  </div>
+  <div class="dropdown-item" data-size="l">
+    <span class="dropdown-item__label">List item</span>
+  </div>
+  <div class="dropdown-item" data-size="l">
+    <span class="dropdown-item__label">List item</span>
+  </div>
+</div>
+
+<!-- ── Item — with leading icon ──────────────────────── -->
+<div class="dropdown-item" data-size="m">
+  <span class="dropdown-item__leading-icon" aria-hidden="true">
+    <!-- Replace with the actual icon SVG from components/atomic/icon/svg/16x16/ -->
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5.33333 3.33333L10.6667 3.33333M5.33333 12.6667H10.6667M3.33333 10.6667V5.33333M12.6667 10.6667V5.33333M3.33333 4.66667C2.59695 4.66667 2 4.06971 2 3.33333C2 2.59695 2.59695 2 3.33333 2C4.06971 2 4.66667 2.59695 4.66667 3.33333C4.66667 4.06971 4.06971 4.66667 3.33333 4.66667ZM12.6667 4.66667C11.9303 4.66667 11.3333 4.06971 11.3333 3.33333C11.3333 2.59695 11.9303 2 12.6667 2C13.403 2 14 2.59695 14 3.33333C14 4.06971 13.403 4.66667 12.6667 4.66667ZM3.33333 14C2.59695 14 2 13.403 2 12.6667C2 11.9303 2.59695 11.3333 3.33333 11.3333C4.06971 11.3333 4.66667 11.9303 4.66667 12.6667C4.66667 13.403 4.06971 14 3.33333 14ZM12.6667 14C11.9303 14 11.3333 13.403 11.3333 12.6667C11.3333 11.9303 11.9303 11.3333 12.6667 11.3333C13.403 11.3333 14 11.9303 14 12.6667C14 13.403 13.403 14 12.6667 14Z" stroke="currentColor" stroke-linecap="round"/></svg>
+  </span>
+  <span class="dropdown-item__label">List item</span>
+</div>
+
+<!-- ── Item — with trailing icon ─────────────────────── -->
+<div class="dropdown-item" data-size="m">
+  <span class="dropdown-item__label">List item</span>
+  <span class="dropdown-item__trailing-icon" aria-hidden="true">
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5.33333 3.33333L10.6667 3.33333M5.33333 12.6667H10.6667M3.33333 10.6667V5.33333M12.6667 10.6667V5.33333M3.33333 4.66667C2.59695 4.66667 2 4.06971 2 3.33333C2 2.59695 2.59695 2 3.33333 2C4.06971 2 4.66667 2.59695 4.66667 3.33333C4.66667 4.06971 4.06971 4.66667 3.33333 4.66667ZM12.6667 4.66667C11.9303 4.66667 11.3333 4.06971 11.3333 3.33333C11.3333 2.59695 11.9303 2 12.6667 2C13.403 2 14 2.59695 14 3.33333C14 4.06971 13.403 4.66667 12.6667 4.66667ZM3.33333 14C2.59695 14 2 13.403 2 12.6667C2 11.9303 2.59695 11.3333 3.33333 11.3333C4.06971 11.3333 4.66667 11.9303 4.66667 12.6667C4.66667 13.403 4.06971 14 3.33333 14ZM12.6667 14C11.9303 14 11.3333 13.403 11.3333 12.6667C11.3333 11.9303 11.9303 11.3333 12.6667 11.3333C13.403 11.3333 14 11.9303 14 12.6667C14 13.403 13.403 14 12.6667 14Z" stroke="currentColor" stroke-linecap="round"/></svg>
+  </span>
+</div>
+
+<!-- ── Item — checkbox, unselected ───────────────────── -->
+<div class="dropdown-item" data-size="m">
+  <span class="dropdown-item__checkbox" aria-hidden="true"></span>
+  <span class="dropdown-item__label">List item</span>
+</div>
+
+<!-- ── Item — checkbox, selected ─────────────────────── -->
+<div class="dropdown-item" data-size="m" data-state="selected">
+  <span class="dropdown-item__checkbox" aria-hidden="true"></span>
+  <span class="dropdown-item__label">Selected item</span>
+</div>
+
+<!-- ── Item — checkbox + trailing icon, selected ─────── -->
+<div class="dropdown-item" data-size="m" data-state="selected">
+  <span class="dropdown-item__checkbox" aria-hidden="true"></span>
+  <span class="dropdown-item__label">Selected item</span>
+  <span class="dropdown-item__trailing-icon" aria-hidden="true">
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5.33333 3.33333L10.6667 3.33333M5.33333 12.6667H10.6667M3.33333 10.6667V5.33333M12.6667 10.6667V5.33333M3.33333 4.66667C2.59695 4.66667 2 4.06971 2 3.33333C2 2.59695 2.59695 2 3.33333 2C4.06971 2 4.66667 2.59695 4.66667 3.33333C4.66667 4.06971 4.06971 4.66667 3.33333 4.66667ZM12.6667 4.66667C11.9303 4.66667 11.3333 4.06971 11.3333 3.33333C11.3333 2.59695 11.9303 2 12.6667 2C13.403 2 14 2.59695 14 3.33333C14 4.06971 13.403 4.66667 12.6667 4.66667ZM3.33333 14C2.59695 14 2 13.403 2 12.6667C2 11.9303 2.59695 11.3333 3.33333 11.3333C4.06971 11.3333 4.66667 11.9303 4.66667 12.6667C4.66667 13.403 4.06971 14 3.33333 14ZM12.6667 14C11.9303 14 11.3333 13.403 11.3333 12.6667C11.3333 11.9303 11.9303 11.3333 12.6667 11.3333C13.403 11.3333 14 11.9303 14 12.6667C14 13.403 13.403 14 12.6667 14Z" stroke="currentColor" stroke-linecap="round"/></svg>
+  </span>
+</div>

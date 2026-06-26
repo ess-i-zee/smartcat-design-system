@@ -1,0 +1,9 @@
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Icon Component Sets">
+<g id="calendar">
+<g id="Size=24x24">
+<path id="icon" d="M7 4H5C3.89543 4 3 4.89543 3 6L3 8L3 19C3 20.1046 3.89543 21 5 21H19C20.1046 21 21 20.1046 21 19V8M3 8L21 8M7 4L17 4L19 4C20.1046 4 21 4.89543 21 6V8M7 4L7 1M17 4V1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+</g>
+</g>
+</g>
+</svg>

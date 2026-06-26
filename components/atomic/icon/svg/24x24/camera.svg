@@ -1,0 +1,12 @@
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Icon Component Sets">
+<g id="camera">
+<g id="Size=24x24">
+<g id="icon">
+<path d="M2 7.99302C2 6.89118 2.89117 5.99688 3.99301 5.99303L4.55943 5.99105C5.2735 5.98856 5.93207 5.60553 6.28734 4.98611L7.42361 3.00496C7.78012 2.38336 8.44194 2 9.15852 2H14.8428C15.5587 2 16.2199 2.38262 16.5767 3.00326L17.7227 4.99674C18.0794 5.61738 18.7407 6 19.4566 6H20C21.1046 6 22 6.89543 22 8V18C22 19.1046 21.1046 20 20 20H4C2.89543 20 2 19.1046 2 18V7.99302Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M16 12C16 14.2091 14.2091 16 12 16C9.79086 16 8 14.2091 8 12C8 9.79086 9.79086 8 12 8C14.2091 8 16 9.79086 16 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+</g>
+</g>
+</g>
+</svg>

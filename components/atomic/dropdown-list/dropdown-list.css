@@ -1,0 +1,22 @@
+/* ── Dropdown List ──────────────────────────────────────
+   Figma: Components / Atomic / Dropdown list / Dropdown list
+   Visual variant properties (data attributes):
+     data-size : l | m
+       Set matching data-size on each child .dropdown-search and .dropdown-item.
+   Content (element presence):
+     .dropdown-search (first child) — include for has-search
+     .dropdown-item (one or more)   — list items
+   ──────────────────────────────────────────────────── */
+
+.dropdown-list {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  padding: var(--spacing-dropdown-list-padding);
+  border-radius: var(--radius-3);
+  border: 1px solid var(--border-interaction-default);
+  background: var(--background-static-gray-layer-0);
+  box-shadow: var(--shadow-elevation-m);
+  overflow: hidden;
+  box-sizing: border-box;
+}

@@ -1,0 +1,1488 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smartcat Design System — Preview</title>
+
+  <!-- Design system stylesheet (tokens → base → components) -->
+  <link rel="stylesheet" href="main.css">
+
+  <!-- Fonts used by the system (degrade gracefully if offline) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Plus+Jakarta+Sans:wght@400;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* =========================================================
+       PREVIEW CHROME  (prefixed .dsp- to never collide with the
+       design-system component classes). Chrome is built FROM the
+       design tokens so it adapts to light / dark automatically.
+       ========================================================= */
+
+    * { box-sizing: border-box; }
+
+    html, body { margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--family-body);
+      color: var(--content-static-primary);
+      background: var(--background-static-gray-layer-1);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Layout ─────────────────────────────────────────── */
+    .dsp-shell { display: flex; min-height: 100vh; }
+
+    .dsp-nav {
+      position: sticky;
+      top: 0;
+      align-self: flex-start;
+      height: 100vh;
+      width: 248px;
+      flex-shrink: 0;
+      overflow-y: auto;
+      padding: var(--spacing-6) var(--spacing-5);
+      background: var(--background-static-gray-layer-0);
+      border-right: 1px solid var(--border-divider-default);
+    }
+
+    .dsp-brand {
+      display: flex; align-items: center; gap: var(--spacing-3);
+      margin-bottom: var(--spacing-7);
+    }
+    .dsp-brand__dot {
+      width: 28px; height: 28px; border-radius: var(--radius-2);
+      background: var(--background-button-gradient-default);
+      flex-shrink: 0;
+    }
+    .dsp-brand__name { font-weight: 700; font-size: 15px; line-height: 1.2; }
+    .dsp-brand__sub  { font-size: 12px; color: var(--content-static-secondary); }
+
+    .dsp-nav__group { margin-bottom: var(--spacing-6); }
+    .dsp-nav__title {
+      font-size: 11px; font-weight: 700; letter-spacing: 1px;
+      text-transform: uppercase; color: var(--content-static-tertiary);
+      margin: 0 0 var(--spacing-3) var(--spacing-3);
+    }
+    .dsp-nav a {
+      display: block;
+      padding: var(--spacing-2) var(--spacing-3);
+      border-radius: var(--radius-2);
+      color: var(--content-static-secondary);
+      text-decoration: none;
+      font-size: 14px;
+      line-height: 1.9;
+    }
+    .dsp-nav a:hover { background: var(--background-interaction-hover); color: var(--content-static-primary); }
+    .dsp-nav a.is-active { background: var(--background-interaction-selectedsubtle); color: var(--content-static-primary); font-weight: 600; }
+
+    .dsp-main { flex: 1; min-width: 0; }
+
+    /* ── Top bar ────────────────────────────────────────── */
+    .dsp-topbar {
+      position: sticky; top: 0; z-index: 20;
+      display: flex; align-items: center; justify-content: space-between;
+      gap: var(--spacing-5);
+      padding: var(--spacing-4) var(--spacing-8);
+      background: color-mix(in srgb, var(--background-static-gray-layer-0) 88%, transparent);
+      backdrop-filter: saturate(180%) blur(12px);
+      -webkit-backdrop-filter: saturate(180%) blur(12px);
+      border-bottom: 1px solid var(--border-divider-default);
+    }
+    .dsp-topbar__title { font-weight: 700; font-size: 15px; }
+    .dsp-topbar__tools { display: flex; align-items: center; gap: var(--spacing-3); }
+
+    .dsp-seg {
+      display: inline-flex; padding: 3px; gap: 2px;
+      background: var(--background-static-alpha-layer-1);
+      border-radius: var(--radius-3);
+    }
+    .dsp-seg button {
+      appearance: none; border: 0; cursor: pointer;
+      padding: 6px 14px; border-radius: var(--radius-2);
+      font-family: var(--family-body); font-size: 13px; font-weight: 600;
+      background: transparent; color: var(--content-static-secondary);
+    }
+    .dsp-seg button.is-active {
+      background: var(--background-static-gray-layer-0);
+      color: var(--content-static-primary);
+      box-shadow: var(--shadow-elevation-s);
+    }
+
+    /* ── Content sections ───────────────────────────────── */
+    .dsp-content { padding: var(--spacing-8) var(--spacing-8) 160px; max-width: 1180px; }
+
+    .dsp-section { margin-bottom: var(--spacing-12); scroll-margin-top: 80px; }
+    .dsp-section__head { margin-bottom: var(--spacing-6); }
+    .dsp-section__head h2 { font-family: var(--family-heading); font-size: 28px; font-weight: 700; margin: 0 0 6px; letter-spacing: -0.5px; }
+    .dsp-section__head p  { margin: 0; color: var(--content-static-secondary); font-size: 15px; max-width: 680px; }
+
+    .dsp-subhead {
+      font-size: 12px; font-weight: 700; letter-spacing: 0.8px; text-transform: uppercase;
+      color: var(--content-static-tertiary);
+      margin: var(--spacing-8) 0 var(--spacing-4);
+      padding-bottom: var(--spacing-3);
+      border-bottom: 1px solid var(--border-divider-default);
+    }
+    .dsp-subhead:first-of-type { margin-top: var(--spacing-5); }
+
+    /* ── Cards / panels ─────────────────────────────────── */
+    .dsp-panel {
+      background: var(--background-static-gray-layer-0);
+      border: 1px solid var(--border-divider-default);
+      border-radius: var(--radius-5);
+      padding: var(--spacing-6);
+    }
+
+    /* ── Color swatches ─────────────────────────────────── */
+    .dsp-swatches {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: var(--spacing-4);
+    }
+    .dsp-swatch {
+      border: 1px solid var(--border-divider-default);
+      border-radius: var(--radius-3);
+      overflow: hidden;
+      background: var(--background-static-gray-layer-0);
+    }
+    .dsp-swatch__chip {
+      height: 64px;
+      background-image:
+        linear-gradient(45deg, var(--background-static-alpha-layer-2) 25%, transparent 25%),
+        linear-gradient(-45deg, var(--background-static-alpha-layer-2) 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, var(--background-static-alpha-layer-2) 75%),
+        linear-gradient(-45deg, transparent 75%, var(--background-static-alpha-layer-2) 75%);
+      background-size: 14px 14px;
+      background-position: 0 0, 0 7px, 7px -7px, -7px 0;
+      position: relative;
+    }
+    .dsp-swatch__chip::after {
+      content: ''; position: absolute; inset: 0;
+      background: var(--_c);
+    }
+    .dsp-swatch__meta { padding: var(--spacing-3) var(--spacing-4); }
+    .dsp-swatch__name { font-size: 12px; font-weight: 600; word-break: break-word; line-height: 1.35; }
+    .dsp-swatch__val  { font-size: 11px; color: var(--content-static-secondary); font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; margin-top: 2px; }
+
+    /* ── Scale rows (spacing / radius) ──────────────────── */
+    .dsp-scale { display: flex; flex-direction: column; gap: var(--spacing-3); }
+    .dsp-scale__row {
+      display: grid; grid-template-columns: 200px 80px 1fr; align-items: center;
+      gap: var(--spacing-4); padding: var(--spacing-2) 0;
+    }
+    .dsp-scale__name { font-size: 13px; font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; word-break: break-all; }
+    .dsp-scale__val  { font-size: 13px; color: var(--content-static-secondary); }
+    .dsp-scale__bar  { height: 16px; border-radius: var(--radius-1); background: var(--background-interaction-selectedbrand); }
+    .dsp-radius-box  {
+      height: 56px; width: 100%; max-width: 220px;
+      background: var(--background-static-brand-layer-2);
+      border: 1px solid var(--content-static-brand);
+    }
+
+    /* ── Typography rows ────────────────────────────────── */
+    .dsp-type-row {
+      display: grid; grid-template-columns: 1fr 240px; gap: var(--spacing-6);
+      align-items: baseline;
+      padding: var(--spacing-5) 0;
+      border-bottom: 1px solid var(--border-divider-default);
+    }
+    .dsp-type-row:last-child { border-bottom: 0; }
+    .dsp-type-sample { min-width: 0; overflow: hidden; }
+    .dsp-type-meta { text-align: right; }
+    .dsp-type-class {
+      font-size: 12px; font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+      color: var(--content-static-brand); font-weight: 600;
+    }
+    .dsp-type-specs { font-size: 12px; color: var(--content-static-secondary); margin-top: 4px; line-height: 1.5; }
+
+    /* ── Effects ────────────────────────────────────────── */
+    .dsp-effects { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: var(--spacing-6); }
+    .dsp-effect-tile { text-align: center; }
+    .dsp-effect-box {
+      height: 120px; border-radius: var(--radius-4);
+      background: var(--background-static-gray-layer-0);
+      border: 1px solid var(--border-divider-default);
+      margin-bottom: var(--spacing-4);
+    }
+    .dsp-effect-name { font-size: 13px; font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-weight: 600; }
+    .dsp-effect-val  { font-size: 11px; color: var(--content-static-secondary); margin-top: 3px; }
+
+    /* ── Component playground ───────────────────────────── */
+    .dsp-play {
+      display: grid; grid-template-columns: 1fr 300px; gap: 0;
+      border: 1px solid var(--border-divider-default);
+      border-radius: var(--radius-5);
+      overflow: hidden;
+      background: var(--background-static-gray-layer-0);
+    }
+    .dsp-stage {
+      display: flex; align-items: center; justify-content: center;
+      min-height: 280px; padding: var(--spacing-9);
+      background:
+        radial-gradient(var(--background-static-alpha-layer-2) 1px, transparent 1px);
+      background-size: 18px 18px;
+    }
+    .dsp-controls {
+      border-left: 1px solid var(--border-divider-default);
+      padding: var(--spacing-5);
+      background: var(--background-static-gray-layer-0);
+      display: flex; flex-direction: column; gap: var(--spacing-5);
+    }
+    .dsp-field { display: flex; flex-direction: column; gap: var(--spacing-2); }
+    .dsp-field__label {
+      font-size: 11px; font-weight: 700; letter-spacing: 0.6px; text-transform: uppercase;
+      color: var(--content-static-tertiary);
+    }
+    .dsp-field__hint { font-size: 11px; color: var(--content-static-tertiary); font-weight: 400; text-transform: none; letter-spacing: 0; }
+
+    .dsp-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+    .dsp-chip {
+      appearance: none; cursor: pointer;
+      font-family: var(--family-body); font-size: 12px; font-weight: 600;
+      padding: 6px 10px; border-radius: var(--radius-2);
+      border: 1px solid var(--border-button-default);
+      background: var(--background-static-gray-layer-0);
+      color: var(--content-static-secondary);
+    }
+    .dsp-chip:hover { background: var(--background-interaction-hover); }
+    .dsp-chip.is-active {
+      background: var(--background-interaction-selectedstrong);
+      color: var(--content-static-inverted);
+      border-color: transparent;
+    }
+
+    .dsp-toggle { display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-4); }
+    .dsp-toggle__label { font-size: 13px; font-weight: 500; }
+    .dsp-switch { position: relative; width: 38px; height: 22px; flex-shrink: 0; }
+    .dsp-switch input { position: absolute; opacity: 0; width: 100%; height: 100%; margin: 0; cursor: pointer; }
+    .dsp-switch__track {
+      position: absolute; inset: 0; border-radius: var(--radius-full);
+      background: var(--background-static-alpha-layer-3); transition: background 120ms ease;
+    }
+    .dsp-switch__track::after {
+      content: ''; position: absolute; top: 2px; left: 2px;
+      width: 18px; height: 18px; border-radius: 50%;
+      background: var(--background-static-gray-layer-0); box-shadow: var(--shadow-elevation-s);
+      transition: transform 120ms ease;
+    }
+    .dsp-switch input:checked + .dsp-switch__track { background: var(--background-interaction-selectedbrand); }
+    .dsp-switch input:checked + .dsp-switch__track::after { transform: translateX(16px); }
+
+    .dsp-text-input, .dsp-select {
+      font-family: var(--family-body); font-size: 13px;
+      padding: 8px 10px; border-radius: var(--radius-2);
+      border: 1px solid var(--border-interaction-default);
+      background: var(--background-static-gray-layer-0);
+      color: var(--content-static-primary);
+      width: 100%;
+    }
+
+    /* ── Code snippet ───────────────────────────────────── */
+    .dsp-code {
+      position: relative;
+      margin-top: var(--spacing-4);
+      background: var(--color-non-semantic-gray-100);
+      border-radius: var(--radius-3);
+      overflow: hidden;
+    }
+    .dsp-code pre {
+      margin: 0; padding: var(--spacing-5);
+      overflow-x: auto;
+      font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+      font-size: 12.5px; line-height: 1.6;
+      color: #e7e3f5;
+    }
+    .dsp-copy {
+      position: absolute; top: 10px; right: 10px;
+      appearance: none; cursor: pointer;
+      font-family: var(--family-body); font-size: 11px; font-weight: 600;
+      padding: 5px 10px; border-radius: var(--radius-2);
+      border: 1px solid rgba(255,255,255,0.18);
+      background: rgba(255,255,255,0.08); color: #fff;
+    }
+    .dsp-copy:hover { background: rgba(255,255,255,0.16); }
+
+    /* ── Variant matrix ─────────────────────────────────── */
+    .dsp-matrix { width: 100%; border-collapse: collapse; }
+    .dsp-matrix th, .dsp-matrix td {
+      padding: var(--spacing-4); text-align: left; vertical-align: middle;
+      border-bottom: 1px solid var(--border-divider-default);
+    }
+    .dsp-matrix th { font-size: 12px; color: var(--content-static-tertiary); font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px; }
+    .dsp-matrix td:first-child { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-size: 13px; color: var(--content-static-secondary); }
+    .dsp-matrix__cell { display: flex; gap: var(--spacing-4); align-items: center; flex-wrap: wrap; }
+    .dsp-matrix tr:last-child td { border-bottom: 0; }
+
+    /* ── Icon gallery ───────────────────────────────────── */
+    .dsp-icon-toolbar { display: flex; gap: var(--spacing-4); align-items: center; margin-bottom: var(--spacing-5); flex-wrap: wrap; }
+    .dsp-icon-search { flex: 1; min-width: 200px; max-width: 360px; }
+    .dsp-icon-count { font-size: 13px; color: var(--content-static-secondary); }
+    .dsp-icon-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(104px, 1fr));
+      gap: var(--spacing-3);
+    }
+    .dsp-icon-tile {
+      display: flex; flex-direction: column; align-items: center; gap: var(--spacing-3);
+      padding: var(--spacing-5) var(--spacing-3);
+      border: 1px solid var(--border-divider-default);
+      border-radius: var(--radius-3);
+      cursor: pointer; text-align: center;
+      background: var(--background-static-gray-layer-0);
+      transition: background 100ms ease, border-color 100ms ease;
+    }
+    .dsp-icon-tile:hover { background: var(--background-interaction-hover); border-color: var(--content-static-brand); }
+    .dsp-icon-tile img { width: 24px; height: 24px; }
+    .dsp-icon-tile span { font-size: 10.5px; color: var(--content-static-secondary); word-break: break-word; line-height: 1.3; }
+
+    /* dark mode: invert the (black-stroke) icon SVGs so they stay visible */
+    [data-theme="dark"] .dsp-icon-tile img,
+    [data-theme="dark"] .icon { filter: invert(1) hue-rotate(180deg); }
+
+    .dsp-note {
+      font-size: 13px; color: var(--content-static-secondary);
+      background: var(--background-static-brand-layer-1);
+      border: 1px solid var(--background-static-brand-layer-3);
+      border-radius: var(--radius-3);
+      padding: var(--spacing-4) var(--spacing-5);
+      margin-bottom: var(--spacing-5);
+    }
+    .dsp-note code { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 12px; }
+
+    /* ── Control stage hint ─────────────────────────────── */
+    .dsp-stage__hint {
+      font-size: 12px; color: var(--content-static-tertiary);
+    }
+
+    @media (max-width: 880px) {
+      .dsp-nav { display: none; }
+      .dsp-play { grid-template-columns: 1fr; }
+      .dsp-controls { border-left: 0; border-top: 1px solid var(--border-divider-default); }
+      .dsp-type-row { grid-template-columns: 1fr; }
+      .dsp-type-meta { text-align: left; }
+    }
+
+    /* ── Simulated link states (preview matrix only) ────────── */
+    .link.dsp-link-hover[data-variant="default"],
+    .link.dsp-link-hover[data-variant="heading"]        { color: var(--content-interaction-hover); }
+    .link.dsp-link-hover[data-variant="high-contrast"]  { color: var(--content-link-hover); }
+    .link.dsp-link-active[data-variant="default"],
+    .link.dsp-link-active[data-variant="heading"]       { color: var(--content-interaction-active); }
+    .link.dsp-link-active[data-variant="high-contrast"] { color: var(--content-link-active); }
+    .link.dsp-link-visited                              { opacity: 0.6; }
+    .link.dsp-link-visited[data-variant="heading"]      { opacity: 0.7; }
+    .link.dsp-link-focus {
+      outline: 2px solid var(--border-focus-default);
+      outline-offset: 2px;
+    }
+  </style>
+</head>
+<body>
+  <div class="dsp-shell">
+
+    <!-- ░░ SIDEBAR ░░ -->
+    <aside class="dsp-nav">
+      <div class="dsp-brand">
+        <div class="dsp-brand__dot"></div>
+        <div>
+          <div class="dsp-brand__name">Smartcat</div>
+          <div class="dsp-brand__sub">Design System</div>
+        </div>
+      </div>
+
+      <div class="dsp-nav__group">
+        <div class="dsp-nav__title">Foundations</div>
+        <a href="#colors">Colors</a>
+        <a href="#spacing">Spacing</a>
+        <a href="#radius">Radius</a>
+        <a href="#dimensions">Dimensions</a>
+        <a href="#typography">Typography</a>
+        <a href="#effects">Effects</a>
+      </div>
+
+      <div class="dsp-nav__group">
+        <div class="dsp-nav__title">Components</div>
+        <a href="#button">Button</a>
+        <a href="#avatar">Avatar</a>
+        <a href="#icon">Icon</a>
+        <a href="#control">Control</a>
+        <a href="#dropdown-list">Dropdown list</a>
+        <a href="#link">Link</a>
+      </div>
+    </aside>
+
+    <!-- ░░ MAIN ░░ -->
+    <div class="dsp-main">
+      <div class="dsp-topbar">
+        <div class="dsp-topbar__title">Design System Preview</div>
+        <div class="dsp-topbar__tools">
+          <div class="dsp-seg" id="theme-seg">
+            <button data-theme-val="light" class="is-active">Light</button>
+            <button data-theme-val="dark">Dark</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="dsp-content">
+
+        <!-- ═══════════ COLORS ═══════════ -->
+        <section class="dsp-section" id="colors">
+          <div class="dsp-section__head">
+            <h2>Colors</h2>
+            <p>Semantic, mode-aware tokens (top) resolve to the raw primitive palette (bottom). Values shown are live-resolved for the current theme — toggle Light / Dark to compare. A checkerboard behind a swatch means the color is semi-transparent.</p>
+          </div>
+          <div id="colors-mount"></div>
+        </section>
+
+        <!-- ═══════════ SPACING ═══════════ -->
+        <section class="dsp-section" id="spacing">
+          <div class="dsp-section__head">
+            <h2>Spacing</h2>
+            <p>The primitive spacing scale. Semantic spacing tokens (button, card, page, between-elements…) reference these and shift at the 769px breakpoint.</p>
+          </div>
+          <div class="dsp-panel"><div class="dsp-scale" id="spacing-mount"></div></div>
+        </section>
+
+        <!-- ═══════════ RADIUS ═══════════ -->
+        <section class="dsp-section" id="radius">
+          <div class="dsp-section__head"><h2>Border Radius</h2></div>
+          <div class="dsp-panel"><div class="dsp-scale" id="radius-mount"></div></div>
+        </section>
+
+        <!-- ═══════════ DIMENSIONS ═══════════ -->
+        <section class="dsp-section" id="dimensions">
+          <div class="dsp-section__head"><h2>Dimensions</h2></div>
+          <div class="dsp-panel"><div class="dsp-scale" id="dimensions-mount"></div></div>
+        </section>
+
+        <!-- ═══════════ TYPOGRAPHY ═══════════ -->
+        <section class="dsp-section" id="typography">
+          <div class="dsp-section__head">
+            <h2>Typography</h2>
+            <p>Text styles mirror the Figma style names. Specs shown are live-computed for the current viewport — resize the window across 769px to watch them respond.</p>
+          </div>
+          <div class="dsp-panel" id="type-mount"></div>
+        </section>
+
+        <!-- ═══════════ EFFECTS ═══════════ -->
+        <section class="dsp-section" id="effects">
+          <div class="dsp-section__head">
+            <h2>Effects</h2>
+            <p>Elevation shadows and the illustration inset highlight.</p>
+          </div>
+          <div class="dsp-panel"><div class="dsp-effects" id="effects-mount"></div></div>
+        </section>
+
+        <!-- ═══════════ BUTTON ═══════════ -->
+        <section class="dsp-section" id="button">
+          <div class="dsp-section__head">
+            <h2>Button</h2>
+            <p>Figma: Components / Atomic / Button. Adjust the properties on the right — the preview and the copy-ready markup update live. Hover / active / focus / disabled states are handled by CSS.</p>
+          </div>
+
+          <div class="dsp-play">
+            <div class="dsp-stage"><div id="btn-preview"></div></div>
+            <div class="dsp-controls">
+              <div class="dsp-field">
+                <span class="dsp-field__label">Type</span>
+                <div class="dsp-chips" data-prop="type" id="btn-type"></div>
+              </div>
+              <div class="dsp-field">
+                <span class="dsp-field__label">Size</span>
+                <div class="dsp-chips" data-prop="size" id="btn-size"></div>
+              </div>
+              <div class="dsp-field">
+                <span class="dsp-field__label">Label</span>
+                <input class="dsp-text-input" id="btn-label" value="Button text">
+              </div>
+              <div class="dsp-field">
+                <span class="dsp-field__label">Content</span>
+                <div class="dsp-toggle"><span class="dsp-toggle__label">Leading icon</span>
+                  <label class="dsp-switch"><input type="checkbox" id="btn-leading"><span class="dsp-switch__track"></span></label></div>
+                <div class="dsp-toggle"><span class="dsp-toggle__label">Trailing icon</span>
+                  <label class="dsp-switch"><input type="checkbox" id="btn-trailing"><span class="dsp-switch__track"></span></label></div>
+                <div class="dsp-toggle"><span class="dsp-toggle__label">Split (chevron)</span>
+                  <label class="dsp-switch"><input type="checkbox" id="btn-chevron"><span class="dsp-switch__track"></span></label></div>
+                <div class="dsp-toggle"><span class="dsp-toggle__label">Disabled</span>
+                  <label class="dsp-switch"><input type="checkbox" id="btn-disabled"><span class="dsp-switch__track"></span></label></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="dsp-code">
+            <button class="dsp-copy" data-copy="#btn-code">Copy</button>
+            <pre><code id="btn-code"></code></pre>
+          </div>
+
+          <div class="dsp-subhead">All types × sizes</div>
+          <div class="dsp-panel">
+            <table class="dsp-matrix">
+              <thead><tr><th>data-type</th><th>Size L</th><th>Size M</th></tr></thead>
+              <tbody id="btn-matrix"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ═══════════ AVATAR ═══════════ -->
+        <section class="dsp-section" id="avatar">
+          <div class="dsp-section__head">
+            <h2>Avatar</h2>
+            <p>Figma: Components / Atomic / Avatar. <code>icon</code> is the placeholder used before a real photo exists; <code>photo</code> renders a person image cover-cropped into the circle.</p>
+          </div>
+
+          <div class="dsp-play">
+            <div class="dsp-stage"><div id="avatar-preview"></div></div>
+            <div class="dsp-controls">
+              <div class="dsp-field">
+                <span class="dsp-field__label">Type</span>
+                <div class="dsp-chips" data-prop="type" id="avatar-type"></div>
+              </div>
+              <div class="dsp-field">
+                <span class="dsp-field__label">Size</span>
+                <div class="dsp-chips" data-prop="size" id="avatar-size"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="dsp-code">
+            <button class="dsp-copy" data-copy="#avatar-code">Copy</button>
+            <pre><code id="avatar-code"></code></pre>
+          </div>
+
+          <div class="dsp-subhead">All sizes</div>
+          <div class="dsp-panel"><div class="dsp-matrix__cell" id="avatar-sizes" style="align-items:flex-end"></div></div>
+        </section>
+
+        <!-- ═══════════ ICON ═══════════ -->
+        <section class="dsp-section" id="icon">
+          <div class="dsp-section__head">
+            <h2>Icon</h2>
+            <p>Figma: Components / Atomic / Icon. 181 icons across three sizes. Pick a size, search by name, and click any icon to copy its markup.</p>
+          </div>
+
+          <div class="dsp-icon-toolbar">
+            <input class="dsp-text-input dsp-icon-search" id="icon-search" placeholder="Search 181 icons…">
+            <div class="dsp-field" style="gap:6px">
+              <div class="dsp-chips" data-prop="size" id="icon-size"></div>
+            </div>
+            <div class="dsp-icon-count" id="icon-count"></div>
+          </div>
+
+          <div class="dsp-code" id="icon-code-wrap" style="display:none">
+            <button class="dsp-copy" data-copy="#icon-code">Copy</button>
+            <pre><code id="icon-code"></code></pre>
+          </div>
+
+          <div class="dsp-icon-grid" id="icon-grid"></div>
+        </section>
+
+        <!-- ═══════════ CONTROL ═══════════ -->
+        <section class="dsp-section" id="control">
+          <div class="dsp-section__head">
+            <h2>Control</h2>
+            <p>Figma: Components / Atomic / Control. Pairs a checkbox or radio input with a clickable label. Click the component in the stage to cycle through values. Hover, focus, and active states respond to real interaction.</p>
+          </div>
+
+          <div class="dsp-play">
+            <div class="dsp-stage" style="flex-direction:column;gap:var(--spacing-4)">
+              <label class="control" id="ctrl-wrapper" data-label-size="m" data-control="checkbox">
+                <input type="checkbox" class="control__native" id="ctrl-input">
+                <span class="control__indicator" aria-hidden="true"></span>
+                <span class="control__label" id="ctrl-label-text">Label</span>
+              </label>
+              <div class="dsp-stage__hint" id="ctrl-value-hint">Unchecked — click to cycle</div>
+            </div>
+            <div class="dsp-controls">
+              <div class="dsp-field">
+                <span class="dsp-field__label">Control type</span>
+                <div class="dsp-chips" id="ctrl-type-chips">
+                  <button class="dsp-chip is-active" data-value="checkbox">Checkbox</button>
+                  <button class="dsp-chip" data-value="radio">Radio</button>
+                </div>
+              </div>
+              <div class="dsp-field">
+                <span class="dsp-field__label">Label size</span>
+                <div class="dsp-chips" id="ctrl-size-chips">
+                  <button class="dsp-chip" data-value="l">L</button>
+                  <button class="dsp-chip is-active" data-value="m">M</button>
+                </div>
+              </div>
+              <div class="dsp-field">
+                <span class="dsp-field__label">State</span>
+                <div class="dsp-chips" id="ctrl-state-chips">
+                  <button class="dsp-chip is-active" data-value="default">Default</button>
+                  <button class="dsp-chip" data-value="error">Error</button>
+                  <button class="dsp-chip" data-value="disabled">Disabled</button>
+                </div>
+              </div>
+              <div class="dsp-field">
+                <span class="dsp-field__label">Label text</span>
+                <input class="dsp-text-input" id="ctrl-label-input" value="Label">
+              </div>
+            </div>
+          </div>
+
+          <div class="dsp-code">
+            <button class="dsp-copy" data-copy="#ctrl-code">Copy</button>
+            <pre><code id="ctrl-code"></code></pre>
+          </div>
+
+          <div class="dsp-subhead">Checkbox states</div>
+          <div class="dsp-panel">
+            <table class="dsp-matrix">
+              <thead>
+                <tr>
+                  <th>State</th>
+                  <th>Unchecked</th>
+                  <th>Checked</th>
+                  <th>Indeterminate</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>default</td>
+                  <td><div class="dsp-matrix__cell">
+                    <label class="control" data-label-size="l" data-control="checkbox"><input type="checkbox" class="control__native"><span class="control__indicator" aria-hidden="true"></span><span class="control__label">L</span></label>
+                    <label class="control" data-label-size="m" data-control="checkbox"><input type="checkbox" class="control__native"><span class="control__indicator" aria-hidden="true"></span><span class="control__label">M</span></label>
+                  </div></td>
+                  <td><div class="dsp-matrix__cell">
+                    <label class="control" data-label-size="l" data-control="checkbox"><input type="checkbox" class="control__native" checked><span class="control__indicator" aria-hidden="true"></span><span class="control__label">L</span></label>
+                    <label class="control" data-label-size="m" data-control="checkbox"><input type="checkbox" class="control__native" checked><span class="control__indicator" aria-hidden="true"></span><span class="control__label">M</span></label>
+                  </div></td>
+                  <td><div class="dsp-matrix__cell">
+                    <label class="control" data-label-size="l" data-control="checkbox"><input type="checkbox" class="control__native js-indeterminate"><span class="control__indicator" aria-hidden="true"></span><span class="control__label">L</span></label>
+                    <label class="control" data-label-size="m" data-control="checkbox"><input type="checkbox" class="control__native js-indeterminate"><span class="control__indicator" aria-hidden="true"></span><span class="control__label">M</span></label>
+                  </div></td>
+                </tr>
+                <tr>
+                  <td>error</td>
+                  <td><div class="dsp-matrix__cell">
+                    <label class="control" data-label-size="l" data-control="checkbox" data-state="error"><input type="checkbox" class="control__native"><span class="control__indicator" aria-hidden="true"></span><span class="control__label">L</span></label>
+                    <label class="control" data-label-size="m" data-control="checkbox" data-state="error"><input type="checkbox" class="control__native"><span class="control__indicator" aria-hidden="true"></span><span class="control__label">M</span></label>
+                  </div></td>
+                  <td><div class="dsp-matrix__cell">
+                    <label class="control" data-label-size="l" data-control="checkbox" data-state="error"><input type="checkbox" class="control__native" checked><span class="control__indicator" aria-hidden="true"></span><span class="control__label">L</span></label>
+                    <label class="control" data-label-size="m" data-control="checkbox" data-state="error"><input type="checkbox" class="control__native" checked><span class="control__indicator" aria-hidden="true"></span><span class="control__label">M</span></label>
+                  </div></td>
+                  <td><div class="dsp-matrix__cell">
+                    <label class="control" data-label-size="l" data-control="checkbox" data-state="error"><input type="checkbox" class="control__native js-indeterminate"><span class="control__indicator" aria-hidden="true"></span><span class="control__label">L</span></label>
+                    <label class="control" data-label-size="m" data-control="checkbox" data-state="error"><input type="checkbox" class="control__native js-indeterminate"><span class="control__indicator" aria-hidden="true"></span><span class="control__label">M</span></label>
+                  </div></td>
+                </tr>
+                <tr>
+                  <td>disabled</td>
+                  <td><div class="dsp-matrix__cell">
+                    <label class="control" data-label-size="l" data-control="checkbox"><input type="checkbox" class="control__native" disabled><span class="control__indicator" aria-hidden="true"></span><span class="control__label">L</span></label>
+                    <label class="control" data-label-size="m" data-control="checkbox"><input type="checkbox" class="control__native" disabled><span class="control__indicator" aria-hidden="true"></span><span class="control__label">M</span></label>
+                  </div></td>
+                  <td><div class="dsp-matrix__cell">
+                    <label class="control" data-label-size="l" data-control="checkbox"><input type="checkbox" class="control__native" checked disabled><span class="control__indicator" aria-hidden="true"></span><span class="control__label">L</span></label>
+                    <label class="control" data-label-size="m" data-control="checkbox"><input type="checkbox" class="control__native" checked disabled><span class="control__indicator" aria-hidden="true"></span><span class="control__label">M</span></label>
+                  </div></td>
+                  <td><div class="dsp-matrix__cell">
+                    <label class="control" data-label-size="l" data-control="checkbox"><input type="checkbox" class="control__native js-indeterminate" disabled><span class="control__indicator" aria-hidden="true"></span><span class="control__label">L</span></label>
+                    <label class="control" data-label-size="m" data-control="checkbox"><input type="checkbox" class="control__native js-indeterminate" disabled><span class="control__indicator" aria-hidden="true"></span><span class="control__label">M</span></label>
+                  </div></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="dsp-subhead">Radio states</div>
+          <div class="dsp-panel">
+            <table class="dsp-matrix">
+              <thead>
+                <tr>
+                  <th>State</th>
+                  <th>Unchecked</th>
+                  <th>Checked</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>default</td>
+                  <td><div class="dsp-matrix__cell">
+                    <label class="control" data-label-size="l" data-control="radio"><input type="checkbox" class="control__native"><span class="control__indicator" aria-hidden="true"></span><span class="control__label">L</span></label>
+                    <label class="control" data-label-size="m" data-control="radio"><input type="checkbox" class="control__native"><span class="control__indicator" aria-hidden="true"></span><span class="control__label">M</span></label>
+                  </div></td>
+                  <td><div class="dsp-matrix__cell">
+                    <label class="control" data-label-size="l" data-control="radio"><input type="checkbox" class="control__native" checked><span class="control__indicator" aria-hidden="true"></span><span class="control__label">L</span></label>
+                    <label class="control" data-label-size="m" data-control="radio"><input type="checkbox" class="control__native" checked><span class="control__indicator" aria-hidden="true"></span><span class="control__label">M</span></label>
+                  </div></td>
+                </tr>
+                <tr>
+                  <td>error</td>
+                  <td><div class="dsp-matrix__cell">
+                    <label class="control" data-label-size="l" data-control="radio" data-state="error"><input type="checkbox" class="control__native"><span class="control__indicator" aria-hidden="true"></span><span class="control__label">L</span></label>
+                    <label class="control" data-label-size="m" data-control="radio" data-state="error"><input type="checkbox" class="control__native"><span class="control__indicator" aria-hidden="true"></span><span class="control__label">M</span></label>
+                  </div></td>
+                  <td><div class="dsp-matrix__cell">
+                    <label class="control" data-label-size="l" data-control="radio" data-state="error"><input type="checkbox" class="control__native" checked><span class="control__indicator" aria-hidden="true"></span><span class="control__label">L</span></label>
+                    <label class="control" data-label-size="m" data-control="radio" data-state="error"><input type="checkbox" class="control__native" checked><span class="control__indicator" aria-hidden="true"></span><span class="control__label">M</span></label>
+                  </div></td>
+                </tr>
+                <tr>
+                  <td>disabled</td>
+                  <td><div class="dsp-matrix__cell">
+                    <label class="control" data-label-size="l" data-control="radio"><input type="checkbox" class="control__native" disabled><span class="control__indicator" aria-hidden="true"></span><span class="control__label">L</span></label>
+                    <label class="control" data-label-size="m" data-control="radio"><input type="checkbox" class="control__native" disabled><span class="control__indicator" aria-hidden="true"></span><span class="control__label">M</span></label>
+                  </div></td>
+                  <td><div class="dsp-matrix__cell">
+                    <label class="control" data-label-size="l" data-control="radio"><input type="checkbox" class="control__native" checked disabled><span class="control__indicator" aria-hidden="true"></span><span class="control__label">L</span></label>
+                    <label class="control" data-label-size="m" data-control="radio"><input type="checkbox" class="control__native" checked disabled><span class="control__indicator" aria-hidden="true"></span><span class="control__label">M</span></label>
+                  </div></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ═══════════ DROPDOWN LIST ═══════════ -->
+        <section class="dsp-section" id="dropdown-list">
+          <div class="dsp-section__head">
+            <h2>Dropdown list</h2>
+            <p>Figma: Components / Atomic / Dropdown list. A floating panel composed of three sub-components: <code>dropdown-list</code> (container), <code>dropdown-item</code> (each row), and <code>dropdown-search</code> (optional search bar). Used in select / combobox inputs and overflow menus.</p>
+          </div>
+
+          <div class="dsp-play">
+            <div class="dsp-stage" style="align-items:flex-start;padding-top:var(--spacing-8)">
+              <div id="ddl-preview"></div>
+            </div>
+            <div class="dsp-controls">
+              <div class="dsp-field">
+                <span class="dsp-field__label">Size</span>
+                <div class="dsp-chips" id="ddl-size">
+                  <button class="dsp-chip is-active" data-value="m">M</button>
+                  <button class="dsp-chip" data-value="l">L</button>
+                </div>
+              </div>
+              <div class="dsp-field">
+                <span class="dsp-field__label">Content</span>
+                <div class="dsp-toggle"><span class="dsp-toggle__label">Search bar</span>
+                  <label class="dsp-switch"><input type="checkbox" id="ddl-searchable"><span class="dsp-switch__track"></span></label></div>
+                <div class="dsp-toggle"><span class="dsp-toggle__label">Checkbox / tick</span>
+                  <label class="dsp-switch"><input type="checkbox" id="ddl-checkbox"><span class="dsp-switch__track"></span></label></div>
+                <div class="dsp-toggle"><span class="dsp-toggle__label">Leading icon</span>
+                  <label class="dsp-switch"><input type="checkbox" id="ddl-leading"><span class="dsp-switch__track"></span></label></div>
+                <div class="dsp-toggle"><span class="dsp-toggle__label">Trailing icon</span>
+                  <label class="dsp-switch"><input type="checkbox" id="ddl-trailing"><span class="dsp-switch__track"></span></label></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="dsp-code">
+            <button class="dsp-copy" data-copy="#ddl-code">Copy</button>
+            <pre><code id="ddl-code"></code></pre>
+          </div>
+
+          <div class="dsp-subhead">Size & search variants</div>
+          <div class="dsp-panel">
+            <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:var(--spacing-7);align-items:start">
+
+              <div>
+                <div style="font-size:12px;font-weight:600;color:var(--content-static-tertiary);text-transform:uppercase;letter-spacing:0.6px;margin-bottom:var(--spacing-4)">M · No search</div>
+                <div class="dropdown-list" data-size="m" style="width:200px">
+                  <div class="dropdown-item" data-size="m"><span class="dropdown-item__label">List item</span></div>
+                  <div class="dropdown-item" data-size="m" data-state="selected"><span class="dropdown-item__label">Selected item</span></div>
+                  <div class="dropdown-item" data-size="m"><span class="dropdown-item__label">List item</span></div>
+                  <div class="dropdown-item" data-size="m"><span class="dropdown-item__label">List item</span></div>
+                </div>
+              </div>
+
+              <div>
+                <div style="font-size:12px;font-weight:600;color:var(--content-static-tertiary);text-transform:uppercase;letter-spacing:0.6px;margin-bottom:var(--spacing-4)">M · With search</div>
+                <div class="dropdown-list" data-size="m" style="width:200px">
+                  <div class="dropdown-search" data-size="m">
+                    <input class="dropdown-search__input" type="text" placeholder="Search">
+                    <span class="dropdown-search__icon" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14.3334 14.3333L12 11.9999M13.3334 7.33325C13.3334 4.01954 10.6471 1.33325 7.33337 1.33325C4.01967 1.33325 1.33337 4.01954 1.33337 7.33325C1.33337 10.647 4.01967 13.3333 7.33337 13.3333C10.6471 13.3333 13.3334 10.647 13.3334 7.33325Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                  </div>
+                  <div class="dropdown-item" data-size="m"><span class="dropdown-item__label">List item</span></div>
+                  <div class="dropdown-item" data-size="m" data-state="selected"><span class="dropdown-item__label">Selected item</span></div>
+                  <div class="dropdown-item" data-size="m"><span class="dropdown-item__label">List item</span></div>
+                  <div class="dropdown-item" data-size="m"><span class="dropdown-item__label">List item</span></div>
+                </div>
+              </div>
+
+              <div>
+                <div style="font-size:12px;font-weight:600;color:var(--content-static-tertiary);text-transform:uppercase;letter-spacing:0.6px;margin-bottom:var(--spacing-4)">L · No search</div>
+                <div class="dropdown-list" data-size="l" style="width:200px">
+                  <div class="dropdown-item" data-size="l"><span class="dropdown-item__label">List item</span></div>
+                  <div class="dropdown-item" data-size="l" data-state="selected"><span class="dropdown-item__label">Selected item</span></div>
+                  <div class="dropdown-item" data-size="l"><span class="dropdown-item__label">List item</span></div>
+                  <div class="dropdown-item" data-size="l"><span class="dropdown-item__label">List item</span></div>
+                </div>
+              </div>
+
+              <div>
+                <div style="font-size:12px;font-weight:600;color:var(--content-static-tertiary);text-transform:uppercase;letter-spacing:0.6px;margin-bottom:var(--spacing-4)">L · With search</div>
+                <div class="dropdown-list" data-size="l" style="width:200px">
+                  <div class="dropdown-search" data-size="l">
+                    <input class="dropdown-search__input" type="text" placeholder="Search">
+                    <span class="dropdown-search__icon" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14.3334 14.3333L12 11.9999M13.3334 7.33325C13.3334 4.01954 10.6471 1.33325 7.33337 1.33325C4.01967 1.33325 1.33337 4.01954 1.33337 7.33325C1.33337 10.647 4.01967 13.3333 7.33337 13.3333C10.6471 13.3333 13.3334 10.647 13.3334 7.33325Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                  </div>
+                  <div class="dropdown-item" data-size="l"><span class="dropdown-item__label">List item</span></div>
+                  <div class="dropdown-item" data-size="l" data-state="selected"><span class="dropdown-item__label">Selected item</span></div>
+                  <div class="dropdown-item" data-size="l"><span class="dropdown-item__label">List item</span></div>
+                  <div class="dropdown-item" data-size="l"><span class="dropdown-item__label">List item</span></div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <div class="dsp-subhead">Item states (Size M)</div>
+          <div class="dsp-panel">
+            <table class="dsp-matrix">
+              <thead><tr><th>data-state</th><th>Plain</th><th>With checkbox</th><th>Leading + trailing icon</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td>default</td>
+                  <td><div class="dsp-matrix__cell"><div class="dropdown-item" data-size="m"><span class="dropdown-item__label">List item</span></div></div></td>
+                  <td><div class="dsp-matrix__cell"><div class="dropdown-item" data-size="m"><span class="dropdown-item__checkbox" aria-hidden="true"></span><span class="dropdown-item__label">List item</span></div></div></td>
+                  <td><div class="dsp-matrix__cell"><div class="dropdown-item" data-size="m"><span class="dropdown-item__leading-icon" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M5.33333 3.33333L10.6667 3.33333M5.33333 12.6667H10.6667M3.33333 10.6667V5.33333M12.6667 10.6667V5.33333M3.33333 4.66667C2.59695 4.66667 2 4.06971 2 3.33333C2 2.59695 2.59695 2 3.33333 2C4.06971 2 4.66667 2.59695 4.66667 3.33333C4.66667 4.06971 4.06971 4.66667 3.33333 4.66667ZM12.6667 4.66667C11.9303 4.66667 11.3333 4.06971 11.3333 3.33333C11.3333 2.59695 11.9303 2 12.6667 2C13.403 2 14 2.59695 14 3.33333C14 4.06971 13.403 4.66667 12.6667 4.66667ZM3.33333 14C2.59695 14 2 13.403 2 12.6667C2 11.9303 2.59695 11.3333 3.33333 11.3333C4.06971 11.3333 4.66667 11.9303 4.66667 12.6667C4.66667 13.403 4.06971 14 3.33333 14ZM12.6667 14C11.9303 14 11.3333 13.403 11.3333 12.6667C11.3333 11.9303 11.9303 11.3333 12.6667 11.3333C13.403 11.3333 14 11.9303 14 12.6667C14 13.403 13.403 14 12.6667 14Z" stroke="currentColor" stroke-linecap="round"/></svg></span><span class="dropdown-item__label">List item</span><span class="dropdown-item__trailing-icon" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M5.33333 3.33333L10.6667 3.33333M5.33333 12.6667H10.6667M3.33333 10.6667V5.33333M12.6667 10.6667V5.33333M3.33333 4.66667C2.59695 4.66667 2 4.06971 2 3.33333C2 2.59695 2.59695 2 3.33333 2C4.06971 2 4.66667 2.59695 4.66667 3.33333C4.66667 4.06971 4.06971 4.66667 3.33333 4.66667ZM12.6667 4.66667C11.9303 4.66667 11.3333 4.06971 11.3333 3.33333C11.3333 2.59695 11.9303 2 12.6667 2C13.403 2 14 2.59695 14 3.33333C14 4.06971 13.403 4.66667 12.6667 4.66667ZM3.33333 14C2.59695 14 2 13.403 2 12.6667C2 11.9303 2.59695 11.3333 3.33333 11.3333C4.06971 11.3333 4.66667 11.9303 4.66667 12.6667C4.66667 13.403 4.06971 14 3.33333 14ZM12.6667 14C11.9303 14 11.3333 13.403 11.3333 12.6667C11.3333 11.9303 11.9303 11.3333 12.6667 11.3333C13.403 11.3333 14 11.9303 14 12.6667C14 13.403 13.403 14 12.6667 14Z" stroke="currentColor" stroke-linecap="round"/></svg></span></div></div></td>
+                </tr>
+                <tr>
+                  <td>hover</td>
+                  <td><div class="dsp-matrix__cell"><div class="dropdown-item" data-size="m" data-state="hover"><span class="dropdown-item__label">List item</span></div></div></td>
+                  <td><div class="dsp-matrix__cell"><div class="dropdown-item" data-size="m" data-state="hover"><span class="dropdown-item__checkbox" aria-hidden="true"></span><span class="dropdown-item__label">List item</span></div></div></td>
+                  <td><div class="dsp-matrix__cell"><div class="dropdown-item" data-size="m" data-state="hover"><span class="dropdown-item__leading-icon" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M5.33333 3.33333L10.6667 3.33333M5.33333 12.6667H10.6667M3.33333 10.6667V5.33333M12.6667 10.6667V5.33333M3.33333 4.66667C2.59695 4.66667 2 4.06971 2 3.33333C2 2.59695 2.59695 2 3.33333 2C4.06971 2 4.66667 2.59695 4.66667 3.33333C4.66667 4.06971 4.06971 4.66667 3.33333 4.66667ZM12.6667 4.66667C11.9303 4.66667 11.3333 4.06971 11.3333 3.33333C11.3333 2.59695 11.9303 2 12.6667 2C13.403 2 14 2.59695 14 3.33333C14 4.06971 13.403 4.66667 12.6667 4.66667ZM3.33333 14C2.59695 14 2 13.403 2 12.6667C2 11.9303 2.59695 11.3333 3.33333 11.3333C4.06971 11.3333 4.66667 11.9303 4.66667 12.6667C4.66667 13.403 4.06971 14 3.33333 14ZM12.6667 14C11.9303 14 11.3333 13.403 11.3333 12.6667C11.3333 11.9303 11.9303 11.3333 12.6667 11.3333C13.403 11.3333 14 11.9303 14 12.6667C14 13.403 13.403 14 12.6667 14Z" stroke="currentColor" stroke-linecap="round"/></svg></span><span class="dropdown-item__label">List item</span><span class="dropdown-item__trailing-icon" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M5.33333 3.33333L10.6667 3.33333M5.33333 12.6667H10.6667M3.33333 10.6667V5.33333M12.6667 10.6667V5.33333M3.33333 4.66667C2.59695 4.66667 2 4.06971 2 3.33333C2 2.59695 2.59695 2 3.33333 2C4.06971 2 4.66667 2.59695 4.66667 3.33333C4.66667 4.06971 4.06971 4.66667 3.33333 4.66667ZM12.6667 4.66667C11.9303 4.66667 11.3333 4.06971 11.3333 3.33333C11.3333 2.59695 11.9303 2 12.6667 2C13.403 2 14 2.59695 14 3.33333C14 4.06971 13.403 4.66667 12.6667 4.66667ZM3.33333 14C2.59695 14 2 13.403 2 12.6667C2 11.9303 2.59695 11.3333 3.33333 11.3333C4.06971 11.3333 4.66667 11.9303 4.66667 12.6667C4.66667 13.403 4.06971 14 3.33333 14ZM12.6667 14C11.9303 14 11.3333 13.403 11.3333 12.6667C11.3333 11.9303 11.9303 11.3333 12.6667 11.3333C13.403 11.3333 14 11.9303 14 12.6667C14 13.403 13.403 14 12.6667 14Z" stroke="currentColor" stroke-linecap="round"/></svg></span></div></div></td>
+                </tr>
+                <tr>
+                  <td>active</td>
+                  <td><div class="dsp-matrix__cell"><div class="dropdown-item" data-size="m" data-state="active"><span class="dropdown-item__label">List item</span></div></div></td>
+                  <td><div class="dsp-matrix__cell"><div class="dropdown-item" data-size="m" data-state="active"><span class="dropdown-item__checkbox" aria-hidden="true"></span><span class="dropdown-item__label">List item</span></div></div></td>
+                  <td><div class="dsp-matrix__cell"><div class="dropdown-item" data-size="m" data-state="active"><span class="dropdown-item__leading-icon" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M5.33333 3.33333L10.6667 3.33333M5.33333 12.6667H10.6667M3.33333 10.6667V5.33333M12.6667 10.6667V5.33333M3.33333 4.66667C2.59695 4.66667 2 4.06971 2 3.33333C2 2.59695 2.59695 2 3.33333 2C4.06971 2 4.66667 2.59695 4.66667 3.33333C4.66667 4.06971 4.06971 4.66667 3.33333 4.66667ZM12.6667 4.66667C11.9303 4.66667 11.3333 4.06971 11.3333 3.33333C11.3333 2.59695 11.9303 2 12.6667 2C13.403 2 14 2.59695 14 3.33333C14 4.06971 13.403 4.66667 12.6667 4.66667ZM3.33333 14C2.59695 14 2 13.403 2 12.6667C2 11.9303 2.59695 11.3333 3.33333 11.3333C4.06971 11.3333 4.66667 11.9303 4.66667 12.6667C4.66667 13.403 4.06971 14 3.33333 14ZM12.6667 14C11.9303 14 11.3333 13.403 11.3333 12.6667C11.3333 11.9303 11.9303 11.3333 12.6667 11.3333C13.403 11.3333 14 11.9303 14 12.6667C14 13.403 13.403 14 12.6667 14Z" stroke="currentColor" stroke-linecap="round"/></svg></span><span class="dropdown-item__label">List item</span><span class="dropdown-item__trailing-icon" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M5.33333 3.33333L10.6667 3.33333M5.33333 12.6667H10.6667M3.33333 10.6667V5.33333M12.6667 10.6667V5.33333M3.33333 4.66667C2.59695 4.66667 2 4.06971 2 3.33333C2 2.59695 2.59695 2 3.33333 2C4.06971 2 4.66667 2.59695 4.66667 3.33333C4.66667 4.06971 4.06971 4.66667 3.33333 4.66667ZM12.6667 4.66667C11.9303 4.66667 11.3333 4.06971 11.3333 3.33333C11.3333 2.59695 11.9303 2 12.6667 2C13.403 2 14 2.59695 14 3.33333C14 4.06971 13.403 4.66667 12.6667 4.66667ZM3.33333 14C2.59695 14 2 13.403 2 12.6667C2 11.9303 2.59695 11.3333 3.33333 11.3333C4.06971 11.3333 4.66667 11.9303 4.66667 12.6667C4.66667 13.403 4.06971 14 3.33333 14ZM12.6667 14C11.9303 14 11.3333 13.403 11.3333 12.6667C11.3333 11.9303 11.9303 11.3333 12.6667 11.3333C13.403 11.3333 14 11.9303 14 12.6667C14 13.403 13.403 14 12.6667 14Z" stroke="currentColor" stroke-linecap="round"/></svg></span></div></div></td>
+                </tr>
+                <tr>
+                  <td>focused</td>
+                  <td><div class="dsp-matrix__cell"><div class="dropdown-item" data-size="m" data-state="focused"><span class="dropdown-item__label">List item</span></div></div></td>
+                  <td><div class="dsp-matrix__cell"><div class="dropdown-item" data-size="m" data-state="focused"><span class="dropdown-item__checkbox" aria-hidden="true"></span><span class="dropdown-item__label">List item</span></div></div></td>
+                  <td><div class="dsp-matrix__cell"><div class="dropdown-item" data-size="m" data-state="focused"><span class="dropdown-item__leading-icon" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M5.33333 3.33333L10.6667 3.33333M5.33333 12.6667H10.6667M3.33333 10.6667V5.33333M12.6667 10.6667V5.33333M3.33333 4.66667C2.59695 4.66667 2 4.06971 2 3.33333C2 2.59695 2.59695 2 3.33333 2C4.06971 2 4.66667 2.59695 4.66667 3.33333C4.66667 4.06971 4.06971 4.66667 3.33333 4.66667ZM12.6667 4.66667C11.9303 4.66667 11.3333 4.06971 11.3333 3.33333C11.3333 2.59695 11.9303 2 12.6667 2C13.403 2 14 2.59695 14 3.33333C14 4.06971 13.403 4.66667 12.6667 4.66667ZM3.33333 14C2.59695 14 2 13.403 2 12.6667C2 11.9303 2.59695 11.3333 3.33333 11.3333C4.06971 11.3333 4.66667 11.9303 4.66667 12.6667C4.66667 13.403 4.06971 14 3.33333 14ZM12.6667 14C11.9303 14 11.3333 13.403 11.3333 12.6667C11.3333 11.9303 11.9303 11.3333 12.6667 11.3333C13.403 11.3333 14 11.9303 14 12.6667C14 13.403 13.403 14 12.6667 14Z" stroke="currentColor" stroke-linecap="round"/></svg></span><span class="dropdown-item__label">List item</span><span class="dropdown-item__trailing-icon" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M5.33333 3.33333L10.6667 3.33333M5.33333 12.6667H10.6667M3.33333 10.6667V5.33333M12.6667 10.6667V5.33333M3.33333 4.66667C2.59695 4.66667 2 4.06971 2 3.33333C2 2.59695 2.59695 2 3.33333 2C4.06971 2 4.66667 2.59695 4.66667 3.33333C4.66667 4.06971 4.06971 4.66667 3.33333 4.66667ZM12.6667 4.66667C11.9303 4.66667 11.3333 4.06971 11.3333 3.33333C11.3333 2.59695 11.9303 2 12.6667 2C13.403 2 14 2.59695 14 3.33333C14 4.06971 13.403 4.66667 12.6667 4.66667ZM3.33333 14C2.59695 14 2 13.403 2 12.6667C2 11.9303 2.59695 11.3333 3.33333 11.3333C4.06971 11.3333 4.66667 11.9303 4.66667 12.6667C4.66667 13.403 4.06971 14 3.33333 14ZM12.6667 14C11.9303 14 11.3333 13.403 11.3333 12.6667C11.3333 11.9303 11.9303 11.3333 12.6667 11.3333C13.403 11.3333 14 11.9303 14 12.6667C14 13.403 13.403 14 12.6667 14Z" stroke="currentColor" stroke-linecap="round"/></svg></span></div></div></td>
+                </tr>
+                <tr>
+                  <td>selected</td>
+                  <td><div class="dsp-matrix__cell"><div class="dropdown-item" data-size="m" data-state="selected"><span class="dropdown-item__label">Selected item</span></div></div></td>
+                  <td><div class="dsp-matrix__cell"><div class="dropdown-item" data-size="m" data-state="selected"><span class="dropdown-item__checkbox" aria-hidden="true"></span><span class="dropdown-item__label">Selected item</span></div></div></td>
+                  <td><div class="dsp-matrix__cell"><div class="dropdown-item" data-size="m" data-state="selected"><span class="dropdown-item__leading-icon" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M5.33333 3.33333L10.6667 3.33333M5.33333 12.6667H10.6667M3.33333 10.6667V5.33333M12.6667 10.6667V5.33333M3.33333 4.66667C2.59695 4.66667 2 4.06971 2 3.33333C2 2.59695 2.59695 2 3.33333 2C4.06971 2 4.66667 2.59695 4.66667 3.33333C4.66667 4.06971 4.06971 4.66667 3.33333 4.66667ZM12.6667 4.66667C11.9303 4.66667 11.3333 4.06971 11.3333 3.33333C11.3333 2.59695 11.9303 2 12.6667 2C13.403 2 14 2.59695 14 3.33333C14 4.06971 13.403 4.66667 12.6667 4.66667ZM3.33333 14C2.59695 14 2 13.403 2 12.6667C2 11.9303 2.59695 11.3333 3.33333 11.3333C4.06971 11.3333 4.66667 11.9303 4.66667 12.6667C4.66667 13.403 4.06971 14 3.33333 14ZM12.6667 14C11.9303 14 11.3333 13.403 11.3333 12.6667C11.3333 11.9303 11.9303 11.3333 12.6667 11.3333C13.403 11.3333 14 11.9303 14 12.6667C14 13.403 13.403 14 12.6667 14Z" stroke="currentColor" stroke-linecap="round"/></svg></span><span class="dropdown-item__label">Selected item</span><span class="dropdown-item__trailing-icon" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M5.33333 3.33333L10.6667 3.33333M5.33333 12.6667H10.6667M3.33333 10.6667V5.33333M12.6667 10.6667V5.33333M3.33333 4.66667C2.59695 4.66667 2 4.06971 2 3.33333C2 2.59695 2.59695 2 3.33333 2C4.06971 2 4.66667 2.59695 4.66667 3.33333C4.66667 4.06971 4.06971 4.66667 3.33333 4.66667ZM12.6667 4.66667C11.9303 4.66667 11.3333 4.06971 11.3333 3.33333C11.3333 2.59695 11.9303 2 12.6667 2C13.403 2 14 2.59695 14 3.33333C14 4.06971 13.403 4.66667 12.6667 4.66667ZM3.33333 14C2.59695 14 2 13.403 2 12.6667C2 11.9303 2.59695 11.3333 3.33333 11.3333C4.06971 11.3333 4.66667 11.9303 4.66667 12.6667C4.66667 13.403 4.06971 14 3.33333 14ZM12.6667 14C11.9303 14 11.3333 13.403 11.3333 12.6667C11.3333 11.9303 11.9303 11.3333 12.6667 11.3333C13.403 11.3333 14 11.9303 14 12.6667C14 13.403 13.403 14 12.6667 14Z" stroke="currentColor" stroke-linecap="round"/></svg></span></div></div></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ═══════════ LINK ═══════════ -->
+        <section class="dsp-section" id="link">
+          <div class="dsp-section__head">
+            <h2>Link</h2>
+            <p>Figma: Components / Atomic / Link. Inline only — inherits all font properties from the parent. Use <code>default</code> or <code>high-contrast</code> for body and UI text; use <code>heading</code> for h1–h4 styles only.</p>
+          </div>
+
+          <div class="dsp-subhead" style="margin-top:0">States × variants</div>
+          <div class="dsp-panel" style="padding:0;overflow:hidden">
+            <table class="dsp-matrix">
+              <thead>
+                <tr>
+                  <th style="width:110px">State</th>
+                  <th>Link / Default</th>
+                  <th>Link / High contrast</th>
+                  <th>Link / Heading</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>a:link</td>
+                  <td><a class="link" data-variant="default" href="#link" onclick="return false">Link text</a></td>
+                  <td><a class="link" data-variant="high-contrast" href="#link" onclick="return false">Link text</a></td>
+                  <td><span class="text-h2"><a class="link" data-variant="heading" href="#link" onclick="return false">Link text</a></span></td>
+                </tr>
+                <tr>
+                  <td>a:hover</td>
+                  <td><a class="link dsp-link-hover" data-variant="default" href="#link" onclick="return false">Link text</a></td>
+                  <td><a class="link dsp-link-hover" data-variant="high-contrast" href="#link" onclick="return false">Link text</a></td>
+                  <td><span class="text-h2"><a class="link dsp-link-hover" data-variant="heading" href="#link" onclick="return false">Link text</a></span></td>
+                </tr>
+                <tr>
+                  <td>a:focus</td>
+                  <td><a class="link dsp-link-focus" data-variant="default" href="#link" onclick="return false">Link text</a></td>
+                  <td><a class="link dsp-link-focus" data-variant="high-contrast" href="#link" onclick="return false">Link text</a></td>
+                  <td><span class="text-h2"><a class="link dsp-link-focus" data-variant="heading" href="#link" onclick="return false">Link text</a></span></td>
+                </tr>
+                <tr>
+                  <td>a:active</td>
+                  <td><a class="link dsp-link-active" data-variant="default" href="#link" onclick="return false">Link text</a></td>
+                  <td><a class="link dsp-link-active" data-variant="high-contrast" href="#link" onclick="return false">Link text</a></td>
+                  <td><span class="text-h2"><a class="link dsp-link-active" data-variant="heading" href="#link" onclick="return false">Link text</a></span></td>
+                </tr>
+                <tr>
+                  <td>a:visited</td>
+                  <td><a class="link dsp-link-visited" data-variant="default" href="#link" onclick="return false">Link text</a></td>
+                  <td><a class="link dsp-link-visited" data-variant="high-contrast" href="#link" onclick="return false">Link text</a></td>
+                  <td><span class="text-h2"><a class="link dsp-link-visited" data-variant="heading" href="#link" onclick="return false">Link text</a></span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="dsp-subhead">In context</div>
+          <div class="dsp-panel">
+            <p class="text-paragraph-reg" style="margin:0 0 var(--spacing-5)">Use <a class="link" data-variant="default" href="#link" onclick="return false">default links</a> for subtle anchors that blend with body copy. Use <a class="link" data-variant="high-contrast" href="#link" onclick="return false">high-contrast links</a> when the link must stand out clearly from surrounding text.</p>
+            <span class="text-h2"><a class="link" data-variant="heading" href="#link" onclick="return false">Heading link</a></span>
+          </div>
+        </section>
+
+      </div>
+    </div>
+  </div>
+
+  <script>
+  /* =============================================================
+     PREVIEW LOGIC — vanilla JS, reads live token values so the
+     gallery always matches the actual CSS (and current theme).
+     ============================================================= */
+  (function () {
+    const $  = (s, r = document) => r.querySelector(s);
+    const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+    const esc = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    const cssVal = (name) => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+
+    /* paths as they appear from a page in pages/ (matches the
+       reference templates that use ../components/…) */
+    const ICON_PATH = (size, name) => `../components/atomic/icon/svg/${size}x${size}/${name}.svg`;
+    /* paths that actually resolve from THIS file at the project root */
+    const ICON_PATH_LOCAL = (size, name) => `components/atomic/icon/svg/${size}x${size}/${name}.svg`;
+
+    /* inline SVGs for the button playground — copied from the icon library,
+       currentColor already set there so they tint with the button text */
+    const SVG_PLACEHOLDER = `<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6.66667 4.16667L13.3333 4.16667M6.66667 15.8333H13.3333M4.16667 13.3333V6.66667M15.8333 13.3333V6.66667M4.16667 5.83333C3.24619 5.83333 2.5 5.08714 2.5 4.16667C2.5 3.24619 3.24619 2.5 4.16667 2.5C5.08714 2.5 5.83333 3.24619 5.83333 4.16667C5.83333 5.08714 5.08714 5.83333 4.16667 5.83333ZM15.8333 5.83333C14.9129 5.83333 14.1667 5.08714 14.1667 4.16667C14.1667 3.24619 14.9129 2.5 15.8333 2.5C16.7538 2.5 17.5 3.24619 17.5 4.16667C17.5 5.08714 16.7538 5.83333 15.8333 5.83333ZM4.16667 17.5C3.24619 17.5 2.5 16.7538 2.5 15.8333C2.5 14.9129 3.24619 14.1667 4.16667 14.1667C5.08714 14.1667 5.83333 14.9129 5.83333 15.8333C5.83333 16.7538 5.08714 17.5 4.16667 17.5ZM15.8333 17.5C14.9129 17.5 14.1667 16.7538 14.1667 15.8333C14.1667 14.9129 14.9129 14.1667 15.8333 14.1667C16.7538 14.1667 17.5 14.9129 17.5 15.8333C17.5 16.7538 16.7538 17.5 15.8333 17.5Z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>`;
+    const SVG_CHEVRON    = `<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4.16663 7.5L9.99996 13.3333L15.8333 7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+
+    /* ---------- COLOR TOKENS ---------- */
+    const COLOR_GROUPS = [
+      { title: 'Background · Button', tokens: [
+        'background-button-primary-default','background-button-primary-hover','background-button-primary-active',
+        'background-button-secondary-default','background-button-secondary-hover','background-button-secondary-active',
+        'background-button-ghost-default','background-button-ghost-hover','background-button-ghost-active',
+        'background-button-gradient-default','background-button-gradient-hover','background-button-gradient-active' ] },
+      { title: 'Background · Static / Gray', tokens: [
+        'background-static-gray-layer-0','background-static-gray-layer-1','background-static-gray-layer-2',
+        'background-static-gray-layer-3','background-static-gray-inverted','background-static-gray-overlay',
+        'background-static-alpha-layer-1','background-static-alpha-layer-2','background-static-alpha-layer-3' ] },
+      { title: 'Background · Static / Color', tokens: [
+        'background-static-red-layer-1','background-static-red-layer-2','background-static-red-layer-3','background-static-red-inverted',
+        'background-static-orange-layer-1','background-static-orange-layer-2','background-static-orange-layer-3','background-static-orange-inverted',
+        'background-static-mint-layer-1','background-static-mint-layer-2','background-static-mint-layer-3','background-static-mint-inverted',
+        'background-static-blue-layer-1','background-static-blue-layer-2','background-static-blue-layer-3','background-static-blue-inverted',
+        'background-static-brand-layer-1','background-static-brand-layer-2','background-static-brand-layer-3','background-static-brand-inverted',
+        'background-static-pink-layer-1','background-static-pink-layer-2','background-static-pink-layer-3','background-static-pink-inverted' ] },
+      { title: 'Background · Interaction & Illustration', tokens: [
+        'background-interaction-default','background-interaction-hover','background-interaction-active','background-interaction-focus',
+        'background-interaction-selectedsubtle','background-interaction-selectedstrong','background-interaction-selectedbrand',
+        'background-interaction-errorblank','background-interaction-errorsolid',
+        'background-illustration-semitrasparent' ] },
+      { title: 'Content', tokens: [
+        'content-static-primary','content-static-secondary','content-static-tertiary','content-static-inverted',
+        'content-static-brand','content-static-blue','content-static-green','content-static-pink','content-static-orange',
+        'content-interaction-default','content-interaction-hover','content-interaction-active','content-interaction-error',
+        'content-link-default','content-link-hover','content-link-active','content-misc-rating' ] },
+      { title: 'Border', tokens: [
+        'border-button-default','border-button-hover','border-button-active',
+        'border-interaction-default','border-interaction-hover','border-interaction-active','border-interaction-error',
+        'border-focus-default','border-divider-default','border-link-default','border-link-purple' ] },
+    ];
+
+    const PRIMITIVE_GROUPS = [
+      { title: 'Primitive · White Alpha', tokens: rng('color-non-semantic-white-alpha', [100,90,80,70,60,50,40,30,20,10,5,0]) },
+      { title: 'Primitive · Gray',        tokens: rng('color-non-semantic-gray', [100,90,80,70,60,50,40,30,20,10,5]) },
+      { title: 'Primitive · Gray Alpha',  tokens: rng('color-non-semantic-gray-alpha', [100,90,80,70,60,50,40,30,20,10,5]) },
+      { title: 'Primitive · Purple (Brand)', tokens: rng('color-non-semantic-purple', [100,90,80,70,60,50,40,30,20,10,5]) },
+      { title: 'Primitive · Red (Negative)', tokens: rng('color-non-semantic-red', [100,90,80,70,60,50,40,30,20,10,5]) },
+      { title: 'Primitive · Mint',   tokens: rng('color-non-semantic-mint', [100,90,80,70,60,50,40,30,20,10,5]) },
+      { title: 'Primitive · Blue',   tokens: rng('color-non-semantic-blue', [100,90,80,70,60,50,40,30,20,10,5]) },
+      { title: 'Primitive · Pink',   tokens: rng('color-non-semantic-pink', [100,90,80,70,60,50,40,30,20,10,5]) },
+      { title: 'Primitive · Orange', tokens: rng('color-non-semantic-orange', [100,90,80,70,60,50,40,30,20,10,5]) },
+    ];
+
+    function rng(base, steps) { return steps.map(s => `${base}-${s}`); }
+
+    function renderColors() {
+      const mount = $('#colors-mount');
+      mount.innerHTML = '';
+      [...COLOR_GROUPS, ...PRIMITIVE_GROUPS].forEach(group => {
+        const h = document.createElement('div');
+        h.className = 'dsp-subhead';
+        h.textContent = group.title;
+        mount.appendChild(h);
+
+        const grid = document.createElement('div');
+        grid.className = 'dsp-swatches';
+        group.tokens.forEach(t => {
+          const varName = '--' + t;
+          const tile = document.createElement('div');
+          tile.className = 'dsp-swatch';
+          tile.innerHTML =
+            `<div class="dsp-swatch__chip" style="--_c: var(${varName})"></div>
+             <div class="dsp-swatch__meta">
+               <div class="dsp-swatch__name">${t}</div>
+               <div class="dsp-swatch__val" data-token="${varName}"></div>
+             </div>`;
+          grid.appendChild(tile);
+        });
+        mount.appendChild(grid);
+      });
+      refreshColorValues();
+    }
+    function refreshColorValues() {
+      $$('[data-token]').forEach(el => { el.textContent = cssVal(el.dataset.token) || '—'; });
+    }
+
+    /* ---------- SPACING / RADIUS / DIMENSIONS ---------- */
+    const SPACING = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15].map(n => `--spacing-${n}`);
+    const RADII   = ['--radius-1','--radius-2','--radius-3','--radius-4','--radius-5','--radius-6','--radius-full'];
+    const DIMS    = ['--dimension-mobile-page-width','--dimension-desktop-page-width','--dimension-desktop-content-width',
+                     '--dimension-mobile-content-width','--dimension-desktop-max-text-width',
+                     '--dimension-page-width','--dimension-content-width'];
+
+    function renderScale(mountSel, tokens, kind) {
+      const mount = $(mountSel);
+      mount.innerHTML = '';
+      tokens.forEach(t => {
+        const val = cssVal(t);
+        const px = parseFloat(val) || 0;
+        const row = document.createElement('div');
+        row.className = 'dsp-scale__row';
+        let visual = '';
+        if (kind === 'spacing') {
+          visual = `<div class="dsp-scale__bar" style="width:${Math.min(px, 760)}px"></div>`;
+        } else if (kind === 'radius') {
+          const r = t === '--radius-full' ? '28px' : val;
+          visual = `<div class="dsp-radius-box" style="border-radius:${r}"></div>`;
+        } else {
+          visual = `<div class="dsp-scale__bar" style="width:${Math.min(px/2, 760)}px;background:var(--background-static-blue-layer-3)"></div>`;
+        }
+        row.innerHTML =
+          `<div class="dsp-scale__name">${t.replace('--','')}</div>
+           <div class="dsp-scale__val">${val || '—'}</div>
+           ${visual}`;
+        mount.appendChild(row);
+      });
+    }
+
+    /* ---------- TYPOGRAPHY ---------- */
+    const TYPE_STYLES = [
+      ['text-display', 'Display'],
+      ['text-h1', 'Heading 1'],
+      ['text-h2', 'Heading 2'],
+      ['text-h3', 'Heading 3'],
+      ['text-h4-bold', 'Heading 4 · Bold'],
+      ['text-h4-reg', 'Heading 4 · Regular'],
+      ['text-h5-bold', 'Heading 5 · Bold'],
+      ['text-h5-reg', 'Heading 5 · Regular'],
+      ['text-paragraph-bold', 'Paragraph · Bold'],
+      ['text-paragraph-reg', 'Paragraph · Regular'],
+      ['text-small-bold', 'Small · Bold'],
+      ['text-small-reg', 'Small · Regular'],
+      ['text-caption-bold', 'Caption · Bold'],
+      ['text-caption-reg', 'Caption · Regular'],
+      ['text-label-l-semibold', 'Label L · Semibold'],
+      ['text-label-l-reg', 'Label L · Regular'],
+      ['text-label-m-semibold', 'Label M · Semibold'],
+      ['text-label-m-reg', 'Label M · Regular'],
+      ['text-label-s-semibold', 'Label S · Semibold'],
+      ['text-label-s-reg', 'Label S · Regular'],
+      ['text-eyebrow', 'Eyebrow'],
+    ];
+    function renderType() {
+      const mount = $('#type-mount');
+      mount.innerHTML = '';
+      TYPE_STYLES.forEach(([cls, label]) => {
+        const row = document.createElement('div');
+        row.className = 'dsp-type-row';
+        const sampleText = label === 'Eyebrow' ? 'EYEBROW LABEL' : label;
+        row.innerHTML =
+          `<div class="dsp-type-sample"><span class="${cls}">${sampleText}</span></div>
+           <div class="dsp-type-meta">
+             <div class="dsp-type-class">.${cls}</div>
+             <div class="dsp-type-specs" data-type-spec="${cls}"></div>
+           </div>`;
+        mount.appendChild(row);
+      });
+      refreshTypeSpecs();
+    }
+    function refreshTypeSpecs() {
+      $$('[data-type-spec]').forEach(el => {
+        const sample = el.closest('.dsp-type-row').querySelector('.dsp-type-sample span');
+        const cs = getComputedStyle(sample);
+        const fam = cs.fontFamily.split(',')[0].replace(/["']/g, '');
+        el.textContent = `${parseFloat(cs.fontSize)}px / ${parseFloat(cs.lineHeight)}px · ${cs.fontWeight} · ${fam}`;
+      });
+    }
+
+    /* ---------- EFFECTS ---------- */
+    const EFFECTS = [
+      ['--shadow-elevation-l', 'shadow-elevation-l'],
+      ['--shadow-elevation-m', 'shadow-elevation-m'],
+      ['--shadow-elevation-s', 'shadow-elevation-s'],
+      ['--shadow-illustration-panel-top', 'shadow-illustration-panel-top'],
+    ];
+    function renderEffects() {
+      const mount = $('#effects-mount');
+      mount.innerHTML = '';
+      EFFECTS.forEach(([v, name]) => {
+        const tile = document.createElement('div');
+        tile.className = 'dsp-effect-tile';
+        tile.innerHTML =
+          `<div class="dsp-effect-box" style="box-shadow: var(${v})"></div>
+           <div class="dsp-effect-name">${name}</div>
+           <div class="dsp-effect-val">${cssVal(v)}</div>`;
+        mount.appendChild(tile);
+      });
+    }
+
+    /* ---------- CHIP GROUPS (shared) ---------- */
+    function buildChips(mountSel, values, initial, onPick) {
+      const mount = $(mountSel);
+      mount.innerHTML = '';
+      values.forEach(v => {
+        const b = document.createElement('button');
+        b.className = 'dsp-chip' + (v === initial ? ' is-active' : '');
+        b.textContent = v;
+        b.dataset.value = v;
+        b.addEventListener('click', () => {
+          $$('.dsp-chip', mount).forEach(c => c.classList.remove('is-active'));
+          b.classList.add('is-active');
+          onPick(v);
+        });
+        mount.appendChild(b);
+      });
+    }
+
+    /* ---------- BUTTON PLAYGROUND ---------- */
+    const BTN_TYPES = ['primary','secondary','outlined','ghost','gradient','text-purple','text-black'];
+    const btnState = { type: 'primary', size: 'l', label: 'Button text',
+                       leading: false, trailing: false, chevron: false, disabled: false };
+
+    function renderButton() {
+      const attrs = [`class="btn"`, `data-type="${btnState.type}"`, `data-size="${btnState.size}"`];
+      if (btnState.disabled) attrs.push('disabled');
+      const attrStr = attrs.join(' ');
+      const parts = [];
+
+      if (btnState.leading)
+        parts.push(`  <span class="btn__icon" aria-hidden="true">${SVG_PLACEHOLDER}</span>`);
+      parts.push(`  <span class="btn__label">${esc(btnState.label) || 'Button text'}</span>`);
+      if (btnState.trailing)
+        parts.push(`  <span class="btn__icon" aria-hidden="true">${SVG_PLACEHOLDER}</span>`);
+      if (btnState.chevron)
+        parts.push(`  <span class="btn__chevron" aria-hidden="true">${SVG_CHEVRON}</span>`);
+
+      const html = `<button ${attrStr}>\n${parts.join('\n')}\n</button>`;
+      $('#btn-preview').innerHTML = html;
+      $('#btn-code').textContent  = html;
+    }
+
+    function renderButtonMatrix() {
+      const tbody = $('#btn-matrix');
+      tbody.innerHTML = '';
+      BTN_TYPES.forEach(type => {
+        const tr = document.createElement('tr');
+        const mk = (size) =>
+          `<div class="btn" data-type="${type}" data-size="${size}"><span class="btn__label">Button</span></div>`;
+        tr.innerHTML =
+          `<td>${type}</td>
+           <td><div class="dsp-matrix__cell">${mk('l')}</div></td>
+           <td><div class="dsp-matrix__cell">${mk('m')}</div></td>`;
+        tbody.appendChild(tr);
+      });
+    }
+
+    /* ---------- AVATAR PLAYGROUND ---------- */
+    const AV_SIZES = ['24','32','48','64','80','104'];
+    const PHOTO = "data:image/svg+xml;utf8," + encodeURIComponent(
+      `<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'>
+         <defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'>
+           <stop offset='0' stop-color='%237d39fc'/><stop offset='1' stop-color='%23c326ed'/>
+         </linearGradient></defs>
+         <rect width='160' height='160' fill='url(%23g)'/>
+         <circle cx='80' cy='62' r='30' fill='rgba(255,255,255,0.92)'/>
+         <path d='M30 150 a50 50 0 0 1 100 0 z' fill='rgba(255,255,255,0.92)'/>
+       </svg>`);
+    const avState = { type: 'icon', size: '104' };
+
+    function renderAvatar() {
+      let html;
+      if (avState.type === 'photo') {
+        html = `<div class="avatar" data-type="photo" data-size="${avState.size}">\n  <img class="avatar__photo" src="photo.jpg" alt="Jane Smith">\n</div>`;
+        $('#avatar-preview').innerHTML =
+          `<div class="avatar" data-type="photo" data-size="${avState.size}"><img class="avatar__photo" src="${PHOTO}" alt="Jane Smith"></div>`;
+      } else {
+        html = `<div class="avatar" data-type="icon" data-size="${avState.size}"></div>`;
+        $('#avatar-preview').innerHTML = html;
+      }
+      $('#avatar-code').textContent = html;
+    }
+    function renderAvatarSizes() {
+      const mount = $('#avatar-sizes');
+      mount.innerHTML = '';
+      AV_SIZES.forEach(s => {
+        const wrap = document.createElement('div');
+        wrap.style.textAlign = 'center';
+        wrap.innerHTML =
+          `<div class="avatar" data-type="icon" data-size="${s}"></div>
+           <div style="font-size:11px;color:var(--content-static-secondary);margin-top:6px">${s}</div>`;
+        mount.appendChild(wrap);
+      });
+    }
+
+    /* ---------- ICON GALLERY ---------- */
+    const ICONS = ["alarm","archive","arrow-blocked-bottom","arrow-blocked-left","arrow-blocked-right","arrow-blocked-top","arrow-bottom-left","arrow-bottom-right","arrow-bottom","arrow-circle-bottom-left","arrow-circle-bottom-right","arrow-circle-bottom","arrow-circle-left","arrow-circle-right","arrow-circle-top-left","arrow-circle-top-right","arrow-circle-top","arrow-dropdown-collapsed","arrow-dropdown","arrow-left","arrow-right","arrow-top-left","arrow-top-right","arrow-top","automotive","award","bag","bell","binary-code","board","book","bookmark","box","briefcase-dollar","briefcase","bubble-conversation","bubble-dots","bubble-exclamation-mark","bubble-question-mark","bubble-text","business","calendar-dates","calendar-upcoming","calendar","camera","cancel","cardholder","caret-bottom","caret-circle-bottom","caret-circle-left","caret-circle-right","caret-circle-top","caret-left","caret-right","caret-top","cart","chart-1","chart-2","check-in-box","check-in-circle","check","checklist","chevron-down","chevron-left","chevron-right","chevron-top","chip","clipboard","clock-clockwise","clock-counterclockwise","clock","cloud","code","controller","credit-card","cross-small","cross","cursor","design","desktop","document-1","document-2","dollar","download-from-cloud","download","ease","envelope-open","envelope","exclamation-mark","expand","facebook","factory","folder","forward","gear","globe","government","graduation-cap","grid","headphones","heart","hide","image","information","integration","invoice","key","laptop","layout","legal","library","life-ring","life-science","lighting-bolt","link","linkedin","list-with-pencil","location","lock-closed","lock-opened","magic-wand","magnifier-glass","megaphone","menu-hamburger","menu-kebab","menu-meatballs","microphone-off","microphone-on","minus-circle","minus","mobile","note","paper-clip","pause","placeholder","play","plus-circle","plus","question-mark","reverse","rewind","rocket","scale","school","security","send-a-message","share-android","share-ios","share","show","shuffle","skip-back","skip-forward","sliders","sparkle","star-filled","star","stopwatch","subtitles","tablet","tag","thumbs-down","thumbs-up","ticket","translation","typing","upload-to-cloud","upload","user-add","user-check","user-lock","user-remove","user","users","video","volume-off","volume-on","wallet","website","workspace","x"];
+    const iconState = { size: '24', query: '' };
+
+    function renderIcons() {
+      const grid = $('#icon-grid');
+      const q = iconState.query.toLowerCase();
+      const list = ICONS.filter(n => n.includes(q));
+      grid.innerHTML = '';
+      $('#icon-count').textContent = `${list.length} of ${ICONS.length}`;
+      list.forEach(name => {
+        const tile = document.createElement('div');
+        tile.className = 'dsp-icon-tile';
+        tile.innerHTML =
+          `<img src="${ICON_PATH_LOCAL(iconState.size, name)}" alt="" width="24" height="24" loading="lazy">
+           <span>${name}</span>`;
+        tile.addEventListener('click', () => {
+          const code = `<img class="icon" data-size="${iconState.size}" src="${ICON_PATH(iconState.size, name)}" alt="">`;
+          $('#icon-code').textContent = code;
+          $('#icon-code-wrap').style.display = 'block';
+          $('#icon-code-wrap').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        });
+        grid.appendChild(tile);
+      });
+    }
+
+    /* ---------- COPY BUTTONS ---------- */
+    $$('.dsp-copy').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const text = $(btn.dataset.copy).textContent;
+        navigator.clipboard?.writeText(text).then(() => {
+          const old = btn.textContent; btn.textContent = 'Copied ✓';
+          setTimeout(() => btn.textContent = old, 1200);
+        });
+      });
+    });
+
+    /* ---------- THEME TOGGLE ---------- */
+    function refreshDynamicValues() { refreshColorValues(); refreshTypeSpecs(); renderEffectsValues(); }
+    function renderEffectsValues() {
+      $$('#effects-mount .dsp-effect-tile').forEach((tile, i) => {
+        tile.querySelector('.dsp-effect-val').textContent = cssVal(EFFECTS[i][0]);
+      });
+    }
+    $('#theme-seg').addEventListener('click', (e) => {
+      const b = e.target.closest('button'); if (!b) return;
+      document.documentElement.setAttribute('data-theme', b.dataset.themeVal);
+      $$('#theme-seg button').forEach(x => x.classList.toggle('is-active', x === b));
+      refreshDynamicValues();
+    });
+
+    /* ---------- SCROLLSPY ---------- */
+    const navLinks = $$('.dsp-nav a');
+    const sections = navLinks.map(a => $(a.getAttribute('href')));
+    const spy = new IntersectionObserver((entries) => {
+      entries.forEach(en => {
+        if (en.isIntersecting) {
+          navLinks.forEach(l => l.classList.toggle('is-active', l.getAttribute('href') === '#' + en.target.id));
+        }
+      });
+    }, { rootMargin: '-40% 0px -55% 0px' });
+    sections.forEach(s => s && spy.observe(s));
+
+    /* ---------- CONTROL PLAYGROUND ---------- */
+    document.querySelectorAll('.js-indeterminate').forEach(el => { el.indeterminate = true; });
+
+    let ctrlType    = 'checkbox';
+    let ctrlSize    = 'm';
+    let ctrlState   = 'default';
+    let ctrlLabel   = 'Label';
+    let cbState     = 'unchecked'; // 'unchecked' | 'checked' | 'indeterminate'
+    let radioChecked = false;
+
+    const ctrlWrapper   = $('#ctrl-wrapper');
+    const ctrlInput     = $('#ctrl-input');
+    const ctrlLabelText = $('#ctrl-label-text');
+    const ctrlHint      = $('#ctrl-value-hint');
+    const ctrlCodeEl    = $('#ctrl-code');
+
+    function applyCtrlState() {
+      ctrlWrapper.setAttribute('data-control', ctrlType);
+      ctrlWrapper.setAttribute('data-label-size', ctrlSize);
+
+      if (ctrlState === 'error') {
+        ctrlWrapper.setAttribute('data-state', 'error');
+        ctrlInput.disabled = false;
+      } else if (ctrlState === 'disabled') {
+        ctrlWrapper.removeAttribute('data-state');
+        ctrlInput.disabled = true;
+      } else {
+        ctrlWrapper.removeAttribute('data-state');
+        ctrlInput.disabled = false;
+      }
+
+      if (ctrlType === 'checkbox') {
+        if (cbState === 'checked')            { ctrlInput.checked = true;  ctrlInput.indeterminate = false; }
+        else if (cbState === 'indeterminate') { ctrlInput.checked = false; ctrlInput.indeterminate = true;  }
+        else                                  { ctrlInput.checked = false; ctrlInput.indeterminate = false; }
+      } else {
+        ctrlInput.checked = radioChecked;
+        ctrlInput.indeterminate = false;
+      }
+
+      ctrlLabelText.textContent = ctrlLabel;
+
+      if (ctrlState === 'disabled') {
+        ctrlHint.textContent = 'Disabled';
+      } else if (ctrlType === 'checkbox') {
+        ctrlHint.textContent = cbState.charAt(0).toUpperCase() + cbState.slice(1) + ' — click to cycle';
+      } else {
+        ctrlHint.textContent = (radioChecked ? 'Checked' : 'Unchecked') + ' — click to toggle';
+      }
+
+      updateCtrlCode();
+    }
+
+    function updateCtrlCode() {
+      const stateAttr = ctrlState === 'error'    ? ' data-state="error"' : '';
+      const disAttr   = ctrlState === 'disabled' ? ' disabled' : '';
+      const chkAttr   = (ctrlType === 'checkbox' && cbState === 'checked') ||
+                        (ctrlType === 'radio' && radioChecked) ? ' checked' : '';
+      const indScript = (ctrlType === 'checkbox' && cbState === 'indeterminate')
+        ? '\n<script>document.querySelector(\'#your-input\').indeterminate = true;<\/script>' : '';
+      ctrlCodeEl.textContent =
+`<label class="control" data-control="${ctrlType}" data-label-size="${ctrlSize}"${stateAttr}>
+  <input type="checkbox" class="control__native"${chkAttr}${disAttr}>
+  <span class="control__indicator" aria-hidden="true"></span>
+  <span class="control__label">${esc(ctrlLabel)}</span>
+</label>${indScript}`;
+    }
+
+    ctrlWrapper.addEventListener('click', function (e) {
+      e.preventDefault();
+      if (ctrlState === 'disabled') return;
+      if (ctrlType === 'checkbox') {
+        if (cbState === 'unchecked')       cbState = 'checked';
+        else if (cbState === 'checked')    cbState = 'indeterminate';
+        else                               cbState = 'unchecked';
+      } else {
+        radioChecked = !radioChecked;
+      }
+      applyCtrlState();
+    });
+
+    function bindCtrlChips(containerId, callback) {
+      $('#' + containerId).addEventListener('click', function (e) {
+        const chip = e.target.closest('.dsp-chip');
+        if (!chip) return;
+        this.querySelectorAll('.dsp-chip').forEach(c => c.classList.toggle('is-active', c === chip));
+        callback(chip.dataset.value);
+      });
+    }
+
+    bindCtrlChips('ctrl-type-chips', val => { ctrlType = val; if (val === 'radio') cbState = 'unchecked'; applyCtrlState(); });
+    bindCtrlChips('ctrl-size-chips',  val => { ctrlSize  = val; applyCtrlState(); });
+    bindCtrlChips('ctrl-state-chips', val => { ctrlState = val; applyCtrlState(); });
+
+    $('#ctrl-label-input').addEventListener('input', function () { ctrlLabel = this.value; applyCtrlState(); });
+
+    applyCtrlState();
+
+    /* ---------- INIT ---------- */
+    renderColors();
+    renderScale('#spacing-mount', SPACING, 'spacing');
+    renderScale('#radius-mount', RADII, 'radius');
+    renderScale('#dimensions-mount', DIMS, 'dim');
+    renderType();
+    renderEffects();
+
+    buildChips('#btn-type', BTN_TYPES, btnState.type, v => { btnState.type = v; renderButton(); });
+    buildChips('#btn-size', ['l','m'], btnState.size, v => { btnState.size = v; renderButton(); });
+    $('#btn-label').addEventListener('input', e => { btnState.label = e.target.value; renderButton(); });
+    ['leading','trailing','chevron','disabled'].forEach(k => {
+      $('#btn-' + k).addEventListener('change', e => { btnState[k] = e.target.checked; renderButton(); });
+    });
+    renderButton();
+    renderButtonMatrix();
+
+    buildChips('#avatar-type', ['icon','photo'], avState.type, v => { avState.type = v; renderAvatar(); });
+    buildChips('#avatar-size', AV_SIZES, avState.size, v => { avState.size = v; renderAvatar(); });
+    renderAvatar();
+    renderAvatarSizes();
+
+    buildChips('#icon-size', ['16','20','24'], iconState.size, v => { iconState.size = v; renderIcons(); });
+    $('#icon-search').addEventListener('input', e => { iconState.query = e.target.value; renderIcons(); });
+    renderIcons();
+
+    /* keep computed specs fresh across the 769px breakpoint */
+    let rt; window.addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(refreshTypeSpecs, 150); });
+
+    /* ---------- DROPDOWN LIST PLAYGROUND ---------- */
+    const SVG_SEARCH = `<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14.3334 14.3333L12 11.9999M13.3334 7.33325C13.3334 4.01954 10.6471 1.33325 7.33337 1.33325C4.01967 1.33325 1.33337 4.01954 1.33337 7.33325C1.33337 10.647 4.01967 13.3333 7.33337 13.3333C10.6471 13.3333 13.3334 10.647 13.3334 7.33325Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+    const SVG_ICON16 = `<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5.33333 3.33333L10.6667 3.33333M5.33333 12.6667H10.6667M3.33333 10.6667V5.33333M12.6667 10.6667V5.33333M3.33333 4.66667C2.59695 4.66667 2 4.06971 2 3.33333C2 2.59695 2.59695 2 3.33333 2C4.06971 2 4.66667 2.59695 4.66667 3.33333C4.66667 4.06971 4.06971 4.66667 3.33333 4.66667ZM12.6667 4.66667C11.9303 4.66667 11.3333 4.06971 11.3333 3.33333C11.3333 2.59695 11.9303 2 12.6667 2C13.403 2 14 2.59695 14 3.33333C14 4.06971 13.403 4.66667 12.6667 4.66667ZM3.33333 14C2.59695 14 2 13.403 2 12.6667C2 11.9303 2.59695 11.3333 3.33333 11.3333C4.06971 11.3333 4.66667 11.9303 4.66667 12.6667C4.66667 13.403 4.06971 14 3.33333 14ZM12.6667 14C11.9303 14 11.3333 13.403 11.3333 12.6667C11.3333 11.9303 11.9303 11.3333 12.6667 11.3333C13.403 11.3333 14 11.9303 14 12.6667C14 13.403 13.403 14 12.6667 14Z" stroke="currentColor" stroke-linecap="round"/></svg>`;
+
+    const ddlState = { size: 'm', searchable: false, checkbox: false, leading: false, trailing: false };
+    const DDL_ITEMS = ['List item', 'List item', 'Selected item', 'List item', 'List item'];
+
+    function buildDDLHTML(state) {
+      const { size, searchable, checkbox, leading, trailing } = state;
+      const i = (indent) => '  '.repeat(indent);
+      let out = `<div class="dropdown-list" data-size="${size}">\n`;
+
+      if (searchable) {
+        out += `${i(1)}<div class="dropdown-search" data-size="${size}">\n`;
+        out += `${i(2)}<input class="dropdown-search__input" type="text" placeholder="Search">\n`;
+        out += `${i(2)}<span class="dropdown-search__icon" aria-hidden="true">${SVG_SEARCH}</span>\n`;
+        out += `${i(1)}</div>\n`;
+      }
+
+      DDL_ITEMS.forEach((label, idx) => {
+        const isSelected = idx === 2;
+        const stateAttr = isSelected ? ' data-state="selected"' : '';
+        out += `${i(1)}<div class="dropdown-item" data-size="${size}"${stateAttr}>\n`;
+        if (checkbox)  out += `${i(2)}<span class="dropdown-item__checkbox" aria-hidden="true"></span>\n`;
+        if (leading)   out += `${i(2)}<span class="dropdown-item__leading-icon" aria-hidden="true">${SVG_ICON16}</span>\n`;
+        out +=         `${i(2)}<span class="dropdown-item__label">${esc(label)}</span>\n`;
+        if (trailing)  out += `${i(2)}<span class="dropdown-item__trailing-icon" aria-hidden="true">${SVG_ICON16}</span>\n`;
+        out += `${i(1)}</div>\n`;
+      });
+
+      out += `</div>`;
+      return out;
+    }
+
+    function renderDDL() {
+      const html = buildDDLHTML(ddlState);
+      $('#ddl-preview').innerHTML = html;
+      /* set a comfortable fixed width for the preview */
+      const list = $('#ddl-preview .dropdown-list');
+      if (list) list.style.width = '220px';
+      $('#ddl-code').textContent = html;
+    }
+
+    /* size chips */
+    $('#ddl-size').addEventListener('click', function(e) {
+      const chip = e.target.closest('.dsp-chip');
+      if (!chip) return;
+      this.querySelectorAll('.dsp-chip').forEach(c => c.classList.toggle('is-active', c === chip));
+      ddlState.size = chip.dataset.value;
+      renderDDL();
+    });
+
+    /* toggle switches */
+    [['ddl-searchable','searchable'],['ddl-checkbox','checkbox'],['ddl-leading','leading'],['ddl-trailing','trailing']].forEach(([id, key]) => {
+      $('#' + id).addEventListener('change', function() { ddlState[key] = this.checked; renderDDL(); });
+    });
+
+    renderDDL();
+  })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,14 @@
+<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Icon Component Sets">
+<g id="workspace">
+<g id="Size=16x16">
+<g id="Rectangle 191">
+<path d="M2 3C2 2.44772 2.44772 2 3 2H5C5.55228 2 6 2.44772 6 3V5C6 5.55228 5.55228 6 5 6H3C2.44772 6 2 5.55228 2 5V3Z" stroke="currentColor"/>
+<path d="M8 3C8 2.44772 8.44772 2 9 2H13C13.5523 2 14 2.44772 14 3V5C14 5.55228 13.5523 6 13 6H9C8.44772 6 8 5.55228 8 5V3Z" stroke="currentColor"/>
+<path d="M11 9C11 8.44772 11.4477 8 12 8H13C13.5523 8 14 8.44772 14 9V13C14 13.5523 13.5523 14 13 14H12C11.4477 14 11 13.5523 11 13V9Z" stroke="currentColor"/>
+<path d="M2 9C2 8.44772 2.44772 8 3 8H8C8.55228 8 9 8.44772 9 9V13C9 13.5523 8.55228 14 8 14H3C2.44772 14 2 13.5523 2 13V9Z" stroke="currentColor"/>
+</g>
+</g>
+</g>
+</g>
+</svg>

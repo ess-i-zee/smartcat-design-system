@@ -1,0 +1,10 @@
+<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Icon Component Sets">
+<g id="mobile">
+<g id="Size=16x16">
+<path id="icon" d="M3.66675 2.66659C3.66675 1.93021 4.2637 1.33325 5.00008 1.33325H11.0001C11.7365 1.33325 12.3334 1.93021 12.3334 2.66659V13.3333C12.3334 14.0696 11.7365 14.6666 11.0001 14.6666H5.00008C4.2637 14.6666 3.66675 14.0696 3.66675 13.3333V2.66659Z" stroke="currentColor" stroke-linecap="round"/>
+<circle id="icon_2" cx="8" cy="11.6577" r="1" fill="currentColor" fill-opacity="0.94"/>
+</g>
+</g>
+</g>
+</svg>

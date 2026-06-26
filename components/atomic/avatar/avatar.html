@@ -1,0 +1,26 @@
+<!--
+  Avatar — reference template
+  Figma: Components / Atomic / Avatar
+
+  Use data-type and data-size to configure.
+  Copy the variant you need into your page.
+-->
+
+<!-- Icon: placeholder, used when no real photo is available yet.
+     The icon is rendered entirely via CSS — no child elements needed. -->
+<div class="avatar" data-type="icon" data-size="104"></div>
+
+<!-- Photo: real person, always include a meaningful alt text -->
+<div class="avatar" data-type="photo" data-size="104">
+  <img class="avatar__photo" src="photo.jpg" alt="Jane Smith">
+</div>
+
+<!--
+  All available sizes (apply to either type):
+  data-size="104"
+  data-size="80"
+  data-size="64"
+  data-size="48"
+  data-size="32"
+  data-size="24"
+-->
