@@ -1,0 +1,249 @@
+/* ── Select ─────────────────────────────────────────────────────
+   Figma: Components / Atomic / Select (node-id=3493-4239)
+   Properties (data attributes on .select):
+     data-size  : l (default) | m
+     data-mode  : single (default) | multi
+     data-state : error | disabled
+     data-open  : present when dropdown is open (JS-managed)
+   Element presence (include or omit, never display:none):
+     .select__leading-icon   — leadingIcon=true
+     .select__prefix         — prefix=true
+     .select__placeholder    — no selection; JS toggles `hidden`
+     .select__value          — single-select complete; JS inserts + toggles `hidden`
+     .select__chips          — multi-select mode; always present when data-mode="multi"
+     .select__overflow-count — overflow indicator; JS inserts "+N" text + toggles `hidden`
+     .select__clear          — clearable=true; always in DOM, JS toggles `hidden`
+     .select__dropdown       — reuses .dropdown-list; JS toggles `hidden`
+   CSS-driven states:
+     :hover on .select        — hover background
+     [data-open] on .select   — focus ring, border color, chevron flip
+     [data-state="error"]     — red border
+     [data-state="disabled"]  — 60% opacity, pointer-events off
+   ──────────────────────────────────────────────────────────── */
+
+/* ── Container ───────────────────────────────────────────────── */
+
+.select {
+  position: relative;
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--border-interaction-default);
+  border-radius: 6px;
+  background: var(--background-interaction-default);
+  cursor: pointer;
+  user-select: none;
+  transition: background 120ms ease, border-color 120ms ease, box-shadow 120ms ease;
+}
+
+/* ── Size variants ───────────────────────────────────────────── */
+
+.select[data-size="l"],
+.select:not([data-size]) {
+  padding: var(--spacing-input-l-vertical) var(--spacing-input-l-horizontal);
+  gap: var(--spacing-input-l-gap);
+}
+
+.select[data-size="m"] {
+  padding: var(--spacing-input-m-vertical) var(--spacing-input-m-horizontal);
+  gap: var(--spacing-input-m-gap);
+}
+
+/* Multi-select tightens vertical padding to accommodate chips */
+.select[data-mode="multi"] {
+  padding-top: var(--spacing-input-m-vertical);
+  padding-bottom: var(--spacing-input-m-vertical);
+  align-items: center;
+}
+
+/* ── Icon slot ───────────────────────────────────────────────── */
+
+.select__leading-icon {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  color: var(--content-interaction-default);
+}
+
+/* ── Prefix ──────────────────────────────────────────────────── */
+
+.select__prefix {
+  flex-shrink: 0;
+  color: var(--content-interaction-default);
+  font-family: var(--family-body);
+  font-weight: var(--weight-regular);
+}
+
+.select[data-size="l"] .select__prefix,
+.select:not([data-size]) .select__prefix {
+  font-size: var(--size-label-l);
+  line-height: var(--line-height-label-l);
+}
+
+.select[data-size="m"] .select__prefix {
+  font-size: var(--size-label-m);
+  line-height: var(--line-height-label-m);
+}
+
+/* ── Placeholder ─────────────────────────────────────────────── */
+
+.select__placeholder {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--content-static-tertiary);
+  font-family: var(--family-body);
+  font-weight: var(--weight-regular);
+}
+
+.select[data-size="l"] .select__placeholder,
+.select:not([data-size]) .select__placeholder {
+  font-size: var(--size-label-l);
+  line-height: var(--line-height-label-l);
+  letter-spacing: var(--letter-spacing-label-l);
+}
+
+.select[data-size="m"] .select__placeholder {
+  font-size: var(--size-label-m);
+  line-height: var(--line-height-label-m);
+  letter-spacing: var(--letter-spacing-label-m);
+}
+
+/* ── Selected value (single-select) ─────────────────────────── */
+
+.select__value {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--content-static-primary);
+  font-family: var(--family-body);
+  font-weight: var(--weight-regular);
+}
+
+.select[data-size="l"] .select__value,
+.select:not([data-size]) .select__value {
+  font-size: var(--size-label-l);
+  line-height: var(--line-height-label-l);
+  letter-spacing: var(--letter-spacing-label-l);
+}
+
+.select[data-size="m"] .select__value {
+  font-size: var(--size-label-m);
+  line-height: var(--line-height-label-m);
+  letter-spacing: var(--letter-spacing-label-m);
+}
+
+/* ── Chips row (multi-select) ────────────────────────────────── */
+
+.select__chips {
+  flex: 1;
+  display: flex;
+  flex-wrap: nowrap;
+  overflow: hidden;
+  gap: 4px;
+  align-items: center;
+  min-width: 0;
+}
+
+/* ── Overflow count ──────────────────────────────────────────── */
+
+.select__overflow-count {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 36px;
+  padding: 0 8px;
+  border-radius: 4px;
+  background: var(--background-static-alpha-layer-2);
+  color: var(--content-static-secondary);
+  font-family: var(--family-body);
+  font-weight: var(--weight-regular);
+  font-size: var(--size-label-l);
+  white-space: nowrap;
+}
+
+.select[data-size="m"] .select__overflow-count {
+  height: 28px;
+  font-size: var(--size-label-m);
+}
+
+/* ── Clear button ────────────────────────────────────────────── */
+
+.select__clear {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  padding: 2px;
+  box-sizing: border-box;
+  border: none;
+  border-radius: 2px;
+  background: var(--background-interaction-default);
+  cursor: pointer;
+  color: var(--content-interaction-default);
+  transition: background 120ms ease;
+}
+
+.select__clear:hover  { background: var(--background-interaction-hover);  }
+.select__clear:active { background: var(--background-interaction-active); }
+
+/* ── Chevron ─────────────────────────────────────────────────── */
+
+.select__chevron {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  color: var(--content-interaction-default);
+  transition: transform 120ms ease;
+}
+
+.select[data-open] .select__chevron {
+  transform: rotate(180deg);
+}
+
+/* ── Interactive states ──────────────────────────────────────── */
+
+.select:not([data-state="error"]):not([data-state="disabled"]):not([data-open]):hover {
+  background: var(--background-interaction-hover);
+}
+
+.select[data-open] {
+  border-color: var(--border-focus-default);
+  box-shadow: 0 0 0 3px var(--border-focus-default);
+  background: var(--background-interaction-focus);
+}
+
+/* ── Error ───────────────────────────────────────────────────── */
+
+.select[data-state="error"] {
+  border-color: var(--border-interaction-error);
+}
+
+.select[data-state="error"][data-open] {
+  border-color: var(--border-interaction-error);
+  box-shadow: 0 0 0 3px var(--border-interaction-error);
+}
+
+/* ── Disabled ────────────────────────────────────────────────── */
+
+.select[data-state="disabled"] {
+  opacity: 0.6;
+  pointer-events: none;
+  cursor: not-allowed;
+}
+
+/* ── Dropdown ────────────────────────────────────────────────── */
+
+.select__dropdown {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  min-width: 100%;
+  z-index: 100;
+}

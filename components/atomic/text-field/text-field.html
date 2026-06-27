@@ -1,0 +1,55 @@
+<!--
+  Text field — reference template
+  Figma: Components / Atomic / Text field
+
+  Configure with (data attributes on .text-field):
+    data-size="l|m"         — size; default is l
+    data-state="error"      — error state (red border)
+    data-state="disabled"   — disabled state (also add `disabled` to the native input)
+
+  Element presence (include or omit, never display:none):
+    .text-field__leading-icon  — leadingIcon=true
+    .text-field__prefix        — prefix=true
+    .text-field__suffix        — suffix=true
+    .text-field__trailing-icon — trailingIcon=true (omit when using clear button)
+    .text-field__clear         — clearable=true; start with `hidden`, JS manages visibility
+
+  Trailing icon and clear button are mutually exclusive — include one or the other, never both.
+-->
+
+<!-- ── Size L — all optional elements shown ──────────────────── -->
+<div class="text-field" data-size="l">
+  <span class="text-field__leading-icon" aria-hidden="true">
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7.33333 12.6667C10.2789 12.6667 12.6667 10.2789 12.6667 7.33333C12.6667 4.38781 10.2789 2 7.33333 2C4.38781 2 2 4.38781 2 7.33333C2 10.2789 4.38781 12.6667 7.33333 12.6667Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/><path d="M14 14L11.1333 11.1333" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </span>
+  <span class="text-field__prefix">Prefix</span>
+  <input type="text" class="text-field__native" placeholder="Placeholder">
+  <span class="text-field__suffix">Suffix</span>
+  <!-- trailing icon: include when trailingIcon=true and not clearable -->
+  <span class="text-field__trailing-icon" aria-hidden="true">
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7.33333 12.6667C10.2789 12.6667 12.6667 10.2789 12.6667 7.33333C12.6667 4.38781 10.2789 2 7.33333 2C4.38781 2 2 4.38781 2 7.33333C2 10.2789 4.38781 12.6667 7.33333 12.6667Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/><path d="M14 14L11.1333 11.1333" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </span>
+</div>
+
+<!-- ── Size L — clearable (replaces trailing icon) ───────────── -->
+<div class="text-field" data-size="l">
+  <input type="text" class="text-field__native" placeholder="Start typing to see clear button">
+  <button class="text-field__clear" type="button" aria-label="Clear" hidden>
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M11.3127 3.9797C11.5079 3.78449 11.8245 3.7846 12.0197 3.9797C12.215 4.17496 12.215 4.49147 12.0197 4.68673L8.70626 7.99923L12.0197 11.3127C12.215 11.508 12.215 11.8245 12.0197 12.0197C11.8245 12.215 11.508 12.215 11.3127 12.0197L7.99923 8.70626L4.68673 12.0197C4.49147 12.215 4.17496 12.215 3.9797 12.0197C3.7846 11.8245 3.78449 11.5079 3.9797 11.3127L7.2922 7.99923L3.9797 4.68673C3.78444 4.49147 3.78444 4.17496 3.9797 3.9797C4.17496 3.78444 4.49147 3.78444 4.68673 3.9797L7.99923 7.2922L11.3127 3.9797Z" fill="currentColor" fill-opacity="0.94"/></svg>
+  </button>
+</div>
+
+<!-- ── Size M — minimal ───────────────────────────────────────── -->
+<div class="text-field" data-size="m">
+  <input type="text" class="text-field__native" placeholder="Placeholder">
+</div>
+
+<!-- ── Error state ───────────────────────────────────────────── -->
+<div class="text-field" data-size="l" data-state="error">
+  <input type="text" class="text-field__native" placeholder="Placeholder">
+</div>
+
+<!-- ── Disabled state ────────────────────────────────────────── -->
+<div class="text-field" data-size="l" data-state="disabled">
+  <input type="text" class="text-field__native" placeholder="Placeholder" disabled>
+</div>

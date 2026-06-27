@@ -1,0 +1,163 @@
+/* ── Text field ─────────────────────────────────────────────────
+   Figma: Components / Atomic / Text field
+   Properties (data attributes on .text-field):
+     data-size  : l (default) | m
+     data-state : error | disabled
+   Element presence (include or omit, never display:none):
+     .text-field__leading-icon   — leadingIcon=true
+     .text-field__prefix         — prefix=true
+     .text-field__suffix         — suffix=true
+     .text-field__trailing-icon  — trailingIcon=true, no clear button
+     .text-field__clear          — clearable=true; `hidden` toggled by JS
+   CSS-driven states:
+     :hover on .text-field        — hover background
+     :focus-within on .text-field — focus ring + border color
+     :disabled on native input    — drives disabled via :has()
+   Clear button (subcomponent, Figma node-id=5138-6913):
+     always in DOM when clearable=true; visibility via `hidden` attr
+     20×20px total (16px icon + 2px padding all sides), border-radius: 2px
+   ──────────────────────────────────────────────────────────── */
+
+/* ── Container ───────────────────────────────────────────────── */
+
+.text-field {
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--border-interaction-default);
+  border-radius: 6px;
+  background: var(--background-interaction-default);
+  transition: background 120ms ease, border-color 120ms ease, box-shadow 120ms ease;
+}
+
+/* ── Size variants ───────────────────────────────────────────── */
+
+.text-field[data-size="l"],
+.text-field:not([data-size]) {
+  padding: var(--spacing-input-l-vertical) var(--spacing-input-l-horizontal);
+  gap: var(--spacing-input-l-gap);
+}
+
+.text-field[data-size="m"] {
+  padding: var(--spacing-input-m-vertical) var(--spacing-input-m-horizontal);
+  gap: var(--spacing-input-m-gap);
+}
+
+/* ── Native input ────────────────────────────────────────────── */
+
+.text-field__native {
+  flex: 1;
+  min-width: 0;
+  appearance: none;
+  -webkit-appearance: none;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: var(--content-static-primary);
+  font-family: var(--family-body);
+  font-weight: var(--weight-regular);
+}
+
+.text-field__native::placeholder {
+  color: var(--content-static-tertiary);
+}
+
+.text-field[data-size="l"] .text-field__native,
+.text-field:not([data-size]) .text-field__native {
+  font-size: var(--size-label-l);
+  line-height: var(--line-height-label-l);
+  letter-spacing: var(--letter-spacing-label-l);
+}
+
+.text-field[data-size="m"] .text-field__native {
+  font-size: var(--size-label-m);
+  line-height: var(--line-height-label-m);
+  letter-spacing: var(--letter-spacing-label-m);
+}
+
+/* ── Icon slots ──────────────────────────────────────────────── */
+
+.text-field__leading-icon,
+.text-field__trailing-icon {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  color: var(--content-interaction-default);
+}
+
+/* ── Prefix / suffix ─────────────────────────────────────────── */
+
+.text-field__prefix,
+.text-field__suffix {
+  flex-shrink: 0;
+  color: var(--content-interaction-default);
+  font-family: var(--family-body);
+  font-weight: var(--weight-regular);
+}
+
+.text-field[data-size="l"] .text-field__prefix,
+.text-field:not([data-size]) .text-field__prefix,
+.text-field[data-size="l"] .text-field__suffix,
+.text-field:not([data-size]) .text-field__suffix {
+  font-size: var(--size-label-l);
+  line-height: var(--line-height-label-l);
+}
+
+.text-field[data-size="m"] .text-field__prefix,
+.text-field[data-size="m"] .text-field__suffix {
+  font-size: var(--size-label-m);
+  line-height: var(--line-height-label-m);
+}
+
+/* ── Clear button ────────────────────────────────────────────── */
+
+.text-field__clear {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  padding: 2px;
+  box-sizing: border-box;
+  border: none;
+  border-radius: 2px;
+  background: var(--background-interaction-default);
+  cursor: pointer;
+  color: var(--content-interaction-default);
+  transition: background 120ms ease;
+}
+
+.text-field__clear:hover  { background: var(--background-interaction-hover);  }
+.text-field__clear:active { background: var(--background-interaction-active); }
+
+/* ── Interactive states ──────────────────────────────────────── */
+
+.text-field:not([data-state="error"]):not([data-state="disabled"]):hover {
+  background: var(--background-interaction-hover);
+}
+
+.text-field:focus-within {
+  border-color: var(--border-focus-default);
+  box-shadow: 0 0 0 3px var(--border-focus-default);
+  background: var(--background-interaction-focus);
+}
+
+/* ── Error ───────────────────────────────────────────────────── */
+
+.text-field[data-state="error"] {
+  border-color: var(--border-interaction-error);
+}
+
+.text-field[data-state="error"]:focus-within {
+  border-color: var(--border-interaction-error);
+  box-shadow: 0 0 0 3px var(--border-interaction-error);
+}
+
+/* ── Disabled ────────────────────────────────────────────────── */
+
+.text-field[data-state="disabled"],
+.text-field:has(.text-field__native:disabled) {
+  opacity: 0.6;
+  pointer-events: none;
+  cursor: not-allowed;
+}

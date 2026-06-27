@@ -1,0 +1,89 @@
+/* ── Input chip ──────────────────────────────────────────────────
+   Figma: Components / Atomic / Input chip (node-id=5138-6770)
+   Properties (data attributes on .input-chip):
+     data-size : l (default) | m
+   Element presence (include or omit, never display:none):
+     .input-chip__leading-icon — leadingIcon=true
+     .input-chip__clear        — deletable=true
+   ──────────────────────────────────────────────────────────── */
+
+/* ── Container ───────────────────────────────────────────────── */
+
+.input-chip {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  border-radius: 4px;
+  background: var(--background-static-alpha-layer-2);
+  white-space: nowrap;
+}
+
+/* ── Size variants ───────────────────────────────────────────── */
+
+.input-chip[data-size="l"],
+.input-chip:not([data-size]) {
+  height: 36px;
+  padding: 0 8px;
+  gap: 6px;
+}
+
+.input-chip[data-size="m"] {
+  height: 28px;
+  padding: 0 4px;
+  gap: 2px;
+}
+
+/* ── Leading icon ────────────────────────────────────────────── */
+
+.input-chip__leading-icon {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  color: var(--content-static-secondary);
+}
+
+/* ── Label ───────────────────────────────────────────────────── */
+
+.input-chip__label {
+  padding: 0 6px;
+  color: var(--content-static-secondary);
+  font-family: var(--family-body);
+  font-weight: var(--weight-regular);
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.input-chip[data-size="l"] .input-chip__label,
+.input-chip:not([data-size]) .input-chip__label {
+  font-size: var(--size-label-l);
+  line-height: var(--line-height-label-l);
+  letter-spacing: var(--letter-spacing-label-l);
+}
+
+.input-chip[data-size="m"] .input-chip__label {
+  font-size: var(--size-label-m);
+  line-height: var(--line-height-label-m);
+  letter-spacing: var(--letter-spacing-label-m);
+}
+
+/* ── Clear button (same spec as node-id=5138-6913) ──────────── */
+
+.input-chip__clear {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  padding: 2px;
+  box-sizing: border-box;
+  border: none;
+  border-radius: 2px;
+  background: var(--background-interaction-default);
+  cursor: pointer;
+  color: var(--content-static-secondary);
+  transition: background 120ms ease;
+}
+
+.input-chip__clear:hover  { background: var(--background-interaction-hover);  }
+.input-chip__clear:active { background: var(--background-interaction-active); }

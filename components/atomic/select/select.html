@@ -1,0 +1,138 @@
+<!--
+  Select — reference template
+  Figma: Components / Atomic / Select (node-id=3493-4239)
+
+  Configure with (data attributes on .select):
+    data-size="l|m"         — size; default is l
+    data-mode="multi"       — multi-select mode; omit for single-select
+    data-state="error"      — error state (red border)
+    data-state="disabled"   — disabled state
+
+  Element presence (include or omit, never display:none):
+    .select__leading-icon    — leadingIcon=true
+    .select__prefix          — prefix=true
+    .select__placeholder     — no selection; JS toggles `hidden`
+                               Single-select: direct child of .select
+                               Multi-select: inside .select__chips (first child)
+    .select__value           — single-select complete; JS inserts text + toggles `hidden`
+    .select__chips           — multi-select mode only; always present
+    .select__overflow-count  — inside .select__chips; JS sets text and toggles `hidden`
+    .select__clear           — clearable=true; always in DOM, JS toggles `hidden`
+    .select__dropdown        — always in DOM, JS toggles `hidden`
+
+  In dropdown:
+    Single-select: .dropdown-item without .dropdown-item__checkbox
+    Multi-select:  .dropdown-item with .dropdown-item__checkbox present
+    data-state="selected" on .dropdown-item — added/removed by JS
+-->
+
+<!-- ── Single-select, size L — all optional elements shown ───── -->
+<div class="select" data-size="l">
+
+  <span class="select__leading-icon" aria-hidden="true">
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8 8.66667C9.47276 8.66667 10.6667 7.47276 10.6667 6C10.6667 4.52724 9.47276 3.33333 8 3.33333C6.52724 3.33333 5.33333 4.52724 5.33333 6C5.33333 7.47276 6.52724 8.66667 8 8.66667Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/><path d="M2.66666 13.3333C2.66666 11.1242 5.05395 9.33334 7.99999 9.33334C10.946 9.33334 13.3333 11.1242 13.3333 13.3333" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </span>
+
+  <span class="select__prefix">Prefix</span>
+
+  <!-- placeholder: hidden by JS when value is selected -->
+  <span class="select__placeholder">Select option…</span>
+
+  <!-- value: start hidden; JS populates text + removes hidden on select -->
+  <span class="select__value" hidden></span>
+
+  <!-- clear button: clearable=true; JS removes hidden when value present -->
+  <button class="select__clear" type="button" aria-label="Clear selection" hidden>
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M11.3127 3.9797C11.5079 3.78449 11.8245 3.7846 12.0197 3.9797C12.215 4.17496 12.215 4.49147 12.0197 4.68673L8.70626 7.99923L12.0197 11.3127C12.215 11.508 12.215 11.8245 12.0197 12.0197C11.8245 12.215 11.508 12.215 11.3127 12.0197L7.99923 8.70626L4.68673 12.0197C4.49147 12.215 4.17496 12.215 3.9797 12.0197C3.7846 11.8245 3.78449 11.5079 3.9797 11.3127L7.2922 7.99923L3.9797 4.68673C3.78444 4.49147 3.78444 4.17496 3.9797 3.9797C4.17496 3.78444 4.49147 3.78444 4.68673 3.9797L7.99923 7.2922L11.3127 3.9797Z" fill="currentColor" fill-opacity="0.94"/></svg>
+  </button>
+
+  <span class="select__chevron" aria-hidden="true">
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3.33337 6L8.00004 10.6667L12.6667 6" stroke="currentColor" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </span>
+
+  <!-- dropdown: single-select — items without checkbox -->
+  <div class="dropdown-list select__dropdown" data-size="l" hidden>
+    <div class="dropdown-item" data-size="l"><span class="dropdown-item__label">English</span></div>
+    <div class="dropdown-item" data-size="l"><span class="dropdown-item__label">French</span></div>
+    <div class="dropdown-item" data-size="l"><span class="dropdown-item__label">German</span></div>
+    <div class="dropdown-item" data-size="l"><span class="dropdown-item__label">Spanish</span></div>
+    <div class="dropdown-item" data-size="l"><span class="dropdown-item__label">Portuguese</span></div>
+    <div class="dropdown-item" data-size="l"><span class="dropdown-item__label">Japanese</span></div>
+  </div>
+
+</div>
+
+<!-- ── Multi-select, size L ───────────────────────────────────── -->
+<!--
+  Layout note: in multi-select, .select__placeholder lives INSIDE .select__chips
+  so that the chips div (flex:1) always fills available width — whether showing
+  the placeholder text or actual chip elements. If placeholder were a sibling of
+  chips, both flex:1 items would split the space even when chips is empty.
+-->
+<div class="select" data-size="l" data-mode="multi">
+
+  <div class="select__chips">
+    <!-- placeholder: first child of chips; JS toggles `hidden` as chips are added/removed -->
+    <span class="select__placeholder">Select options…</span>
+    <!-- .input-chip elements inserted here by JS, before overflow count -->
+    <span class="select__overflow-count" hidden></span>
+  </div>
+
+  <button class="select__clear" type="button" aria-label="Clear all" hidden>
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M11.3127 3.9797C11.5079 3.78449 11.8245 3.7846 12.0197 3.9797C12.215 4.17496 12.215 4.49147 12.0197 4.68673L8.70626 7.99923L12.0197 11.3127C12.215 11.508 12.215 11.8245 12.0197 12.0197C11.8245 12.215 11.508 12.215 11.3127 12.0197L7.99923 8.70626L4.68673 12.0197C4.49147 12.215 4.17496 12.215 3.9797 12.0197C3.7846 11.8245 3.78449 11.5079 3.9797 11.3127L7.2922 7.99923L3.9797 4.68673C3.78444 4.49147 3.78444 4.17496 3.9797 3.9797C4.17496 3.78444 4.49147 3.78444 4.68673 3.9797L7.99923 7.2922L11.3127 3.9797Z" fill="currentColor" fill-opacity="0.94"/></svg>
+  </button>
+
+  <span class="select__chevron" aria-hidden="true">
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3.33337 6L8.00004 10.6667L12.6667 6" stroke="currentColor" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </span>
+
+  <!-- dropdown: multi-select — items with checkbox -->
+  <div class="dropdown-list select__dropdown" data-size="l" hidden>
+    <div class="dropdown-item" data-size="l"><span class="dropdown-item__checkbox"></span><span class="dropdown-item__label">English</span></div>
+    <div class="dropdown-item" data-size="l"><span class="dropdown-item__checkbox"></span><span class="dropdown-item__label">French</span></div>
+    <div class="dropdown-item" data-size="l"><span class="dropdown-item__checkbox"></span><span class="dropdown-item__label">German</span></div>
+    <div class="dropdown-item" data-size="l"><span class="dropdown-item__checkbox"></span><span class="dropdown-item__label">Spanish</span></div>
+    <div class="dropdown-item" data-size="l"><span class="dropdown-item__checkbox"></span><span class="dropdown-item__label">Portuguese</span></div>
+    <div class="dropdown-item" data-size="l"><span class="dropdown-item__checkbox"></span><span class="dropdown-item__label">Japanese</span></div>
+  </div>
+
+</div>
+
+<!-- ── Size M — single-select ────────────────────────────────── -->
+<div class="select" data-size="m">
+  <span class="select__placeholder">Select option…</span>
+  <span class="select__value" hidden></span>
+  <button class="select__clear" type="button" aria-label="Clear selection" hidden>
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M11.3127 3.9797C11.5079 3.78449 11.8245 3.7846 12.0197 3.9797C12.215 4.17496 12.215 4.49147 12.0197 4.68673L8.70626 7.99923L12.0197 11.3127C12.215 11.508 12.215 11.8245 12.0197 12.0197C11.8245 12.215 11.508 12.215 11.3127 12.0197L7.99923 8.70626L4.68673 12.0197C4.49147 12.215 4.17496 12.215 3.9797 12.0197C3.7846 11.8245 3.78449 11.5079 3.9797 11.3127L7.2922 7.99923L3.9797 4.68673C3.78444 4.49147 3.78444 4.17496 3.9797 3.9797C4.17496 3.78444 4.49147 3.78444 4.68673 3.9797L7.99923 7.2922L11.3127 3.9797Z" fill="currentColor" fill-opacity="0.94"/></svg>
+  </button>
+  <span class="select__chevron" aria-hidden="true">
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3.33337 6L8.00004 10.6667L12.6667 6" stroke="currentColor" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </span>
+  <div class="dropdown-list select__dropdown" data-size="m" hidden>
+    <div class="dropdown-item" data-size="m"><span class="dropdown-item__label">English</span></div>
+    <div class="dropdown-item" data-size="m"><span class="dropdown-item__label">French</span></div>
+    <div class="dropdown-item" data-size="m"><span class="dropdown-item__label">German</span></div>
+    <div class="dropdown-item" data-size="m"><span class="dropdown-item__label">Spanish</span></div>
+  </div>
+</div>
+
+<!-- ── Error state ───────────────────────────────────────────── -->
+<div class="select" data-size="l" data-state="error">
+  <span class="select__placeholder">Select option…</span>
+  <span class="select__value" hidden></span>
+  <span class="select__chevron" aria-hidden="true">
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3.33337 6L8.00004 10.6667L12.6667 6" stroke="currentColor" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </span>
+  <div class="dropdown-list select__dropdown" data-size="l" hidden>
+    <div class="dropdown-item" data-size="l"><span class="dropdown-item__label">English</span></div>
+    <div class="dropdown-item" data-size="l"><span class="dropdown-item__label">French</span></div>
+  </div>
+</div>
+
+<!-- ── Disabled state ────────────────────────────────────────── -->
+<div class="select" data-size="l" data-state="disabled">
+  <span class="select__placeholder">Select option…</span>
+  <span class="select__chevron" aria-hidden="true">
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3.33337 6L8.00004 10.6667L12.6667 6" stroke="currentColor" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </span>
+</div>

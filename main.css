@@ -28,5 +28,8 @@
 @import url('components/atomic/dropdown-list/dropdown-list-item.css');
 @import url('components/atomic/dropdown-list/dropdown-search.css');
 @import url('components/atomic/dropdown-list/dropdown-list.css');
+@import url('components/atomic/text-field/text-field.css');
+@import url('components/atomic/input-chip/input-chip.css');
+@import url('components/atomic/select/select.css');
 
 /* ── Components / Sections ───────────────────────────────────── */

@@ -409,6 +409,9 @@
         <a href="#control">Control</a>
         <a href="#dropdown-list">Dropdown list</a>
         <a href="#link">Link</a>
+        <a href="#text-field">Text field</a>
+        <a href="#input-chip">Input chip</a>
+        <a href="#select">Select</a>
       </div>
     </aside>
 
@@ -928,6 +931,235 @@
           <div class="dsp-panel">
             <p class="text-paragraph-reg" style="margin:0 0 var(--spacing-5)">Use <a class="link" data-variant="default" href="#link" onclick="return false">default links</a> for subtle anchors that blend with body copy. Use <a class="link" data-variant="high-contrast" href="#link" onclick="return false">high-contrast links</a> when the link must stand out clearly from surrounding text.</p>
             <span class="text-h2"><a class="link" data-variant="heading" href="#link" onclick="return false">Heading link</a></span>
+          </div>
+        </section>
+
+        <!-- ═══════════ TEXT FIELD ═══════════ -->
+        <section class="dsp-section" id="text-field">
+          <div class="dsp-section__head">
+            <h2>Text field</h2>
+            <p>Figma: Components / Atomic / Text field. A native input with optional leading icon, prefix, suffix, trailing icon, and a clear button. All interactive states are CSS-driven; clear button visibility is JS-driven.</p>
+          </div>
+
+          <div class="dsp-play">
+            <div class="dsp-stage"><div id="tf-preview"></div></div>
+            <div class="dsp-controls">
+              <div class="dsp-field">
+                <span class="dsp-field__label">Size</span>
+                <div class="dsp-chips" id="tf-size">
+                  <button class="dsp-chip is-active" data-value="l">L</button>
+                  <button class="dsp-chip" data-value="m">M</button>
+                </div>
+              </div>
+              <div class="dsp-field">
+                <span class="dsp-field__label">State</span>
+                <div class="dsp-chips" id="tf-state">
+                  <button class="dsp-chip is-active" data-value="">Default</button>
+                  <button class="dsp-chip" data-value="error">Error</button>
+                  <button class="dsp-chip" data-value="disabled">Disabled</button>
+                </div>
+              </div>
+              <div class="dsp-field">
+                <span class="dsp-field__label">Content</span>
+                <div class="dsp-toggle"><span class="dsp-toggle__label">Leading icon</span>
+                  <label class="dsp-switch"><input type="checkbox" id="tf-leading"><span class="dsp-switch__track"></span></label></div>
+                <div class="dsp-toggle"><span class="dsp-toggle__label">Prefix</span>
+                  <label class="dsp-switch"><input type="checkbox" id="tf-prefix"><span class="dsp-switch__track"></span></label></div>
+                <div class="dsp-toggle"><span class="dsp-toggle__label">Suffix</span>
+                  <label class="dsp-switch"><input type="checkbox" id="tf-suffix"><span class="dsp-switch__track"></span></label></div>
+                <div class="dsp-toggle"><span class="dsp-toggle__label">Trailing icon</span>
+                  <label class="dsp-switch"><input type="checkbox" id="tf-trailing"><span class="dsp-switch__track"></span></label></div>
+                <div class="dsp-toggle"><span class="dsp-toggle__label">Clearable</span>
+                  <label class="dsp-switch"><input type="checkbox" id="tf-clearable"><span class="dsp-switch__track"></span></label></div>
+              </div>
+              <div class="dsp-field">
+                <span class="dsp-field__label">Placeholder</span>
+                <input class="dsp-text-input" id="tf-placeholder" value="Placeholder">
+              </div>
+            </div>
+          </div>
+
+          <div class="dsp-code">
+            <button class="dsp-copy" data-copy="#tf-code">Copy</button>
+            <pre><code id="tf-code"></code></pre>
+          </div>
+
+          <div class="dsp-subhead" style="margin-top:0">States × sizes</div>
+          <div class="dsp-panel" style="padding:0;overflow:hidden">
+            <table class="dsp-matrix">
+              <thead><tr><th style="width:110px">State</th><th>Size L</th><th>Size M</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td>Default</td>
+                  <td><div class="text-field" data-size="l"><input type="text" class="text-field__native" placeholder="Placeholder"></div></td>
+                  <td><div class="text-field" data-size="m"><input type="text" class="text-field__native" placeholder="Placeholder"></div></td>
+                </tr>
+                <tr>
+                  <td>Filled + clear</td>
+                  <td><div class="text-field" data-size="l"><input type="text" class="text-field__native" value="Value text"><button class="text-field__clear" type="button" aria-label="Clear"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M11.3127 3.9797C11.5079 3.78449 11.8245 3.7846 12.0197 3.9797C12.215 4.17496 12.215 4.49147 12.0197 4.68673L8.70626 7.99923L12.0197 11.3127C12.215 11.508 12.215 11.8245 12.0197 12.0197C11.8245 12.215 11.508 12.215 11.3127 12.0197L7.99923 8.70626L4.68673 12.0197C4.49147 12.215 4.17496 12.215 3.9797 12.0197C3.7846 11.8245 3.78449 11.5079 3.9797 11.3127L7.2922 7.99923L3.9797 4.68673C3.78444 4.49147 3.78444 4.17496 3.9797 3.9797C4.17496 3.78444 4.49147 3.78444 4.68673 3.9797L7.99923 7.2922L11.3127 3.9797Z" fill="currentColor" fill-opacity="0.94"/></svg></button></div></td>
+                  <td><div class="text-field" data-size="m"><input type="text" class="text-field__native" value="Value text"><button class="text-field__clear" type="button" aria-label="Clear"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M11.3127 3.9797C11.5079 3.78449 11.8245 3.7846 12.0197 3.9797C12.215 4.17496 12.215 4.49147 12.0197 4.68673L8.70626 7.99923L12.0197 11.3127C12.215 11.508 12.215 11.8245 12.0197 12.0197C11.8245 12.215 11.508 12.215 11.3127 12.0197L7.99923 8.70626L4.68673 12.0197C4.49147 12.215 4.17496 12.215 3.9797 12.0197C3.7846 11.8245 3.78449 11.5079 3.9797 11.3127L7.2922 7.99923L3.9797 4.68673C3.78444 4.49147 3.78444 4.17496 3.9797 3.9797C4.17496 3.78444 4.49147 3.78444 4.68673 3.9797L7.99923 7.2922L11.3127 3.9797Z" fill="currentColor" fill-opacity="0.94"/></svg></button></div></td>
+                </tr>
+                <tr>
+                  <td>Error</td>
+                  <td><div class="text-field" data-size="l" data-state="error"><input type="text" class="text-field__native" placeholder="Placeholder"></div></td>
+                  <td><div class="text-field" data-size="m" data-state="error"><input type="text" class="text-field__native" placeholder="Placeholder"></div></td>
+                </tr>
+                <tr>
+                  <td>Disabled</td>
+                  <td><div class="text-field" data-size="l" data-state="disabled"><input type="text" class="text-field__native" placeholder="Placeholder" disabled></div></td>
+                  <td><div class="text-field" data-size="m" data-state="disabled"><input type="text" class="text-field__native" placeholder="Placeholder" disabled></div></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ═══════════ INPUT CHIP ═══════════ -->
+        <section class="dsp-section" id="input-chip">
+          <div class="dsp-section__head">
+            <h2>Input chip</h2>
+            <p>Figma: Components / Atomic / Input chip. A compact tag used inside the multiselect trigger to represent selected options. Optionally includes a leading icon and a remove button.</p>
+          </div>
+
+          <div class="dsp-play">
+            <div class="dsp-stage"><div id="chip-preview"></div></div>
+            <div class="dsp-controls">
+              <div class="dsp-field">
+                <span class="dsp-field__label">Size</span>
+                <div class="dsp-chips" id="chip-size">
+                  <button class="dsp-chip is-active" data-value="l">L</button>
+                  <button class="dsp-chip" data-value="m">M</button>
+                </div>
+              </div>
+              <div class="dsp-field">
+                <span class="dsp-field__label">Content</span>
+                <div class="dsp-toggle"><span class="dsp-toggle__label">Leading icon</span>
+                  <label class="dsp-switch"><input type="checkbox" id="chip-leading"><span class="dsp-switch__track"></span></label></div>
+                <div class="dsp-toggle"><span class="dsp-toggle__label">Deletable</span>
+                  <label class="dsp-switch"><input type="checkbox" id="chip-deletable" checked><span class="dsp-switch__track"></span></label></div>
+              </div>
+              <div class="dsp-field">
+                <span class="dsp-field__label">Label</span>
+                <input class="dsp-text-input" id="chip-label" value="Option label">
+              </div>
+            </div>
+          </div>
+
+          <div class="dsp-code">
+            <button class="dsp-copy" data-copy="#chip-code">Copy</button>
+            <pre><code id="chip-code"></code></pre>
+          </div>
+
+          <div class="dsp-subhead" style="margin-top:0">Sizes × deletable</div>
+          <div class="dsp-panel">
+            <div style="display:flex;flex-direction:column;gap:var(--spacing-5)">
+              <div style="display:flex;gap:var(--spacing-3);align-items:center">
+                <div class="input-chip" data-size="l"><span class="input-chip__label">Size L</span></div>
+                <div class="input-chip" data-size="l"><span class="input-chip__label">Size L, deletable</span><button class="input-chip__clear" type="button" aria-label="Remove"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M11.3127 3.9797C11.5079 3.78449 11.8245 3.7846 12.0197 3.9797C12.215 4.17496 12.215 4.49147 12.0197 4.68673L8.70626 7.99923L12.0197 11.3127C12.215 11.508 12.215 11.8245 12.0197 12.0197C11.8245 12.215 11.508 12.215 11.3127 12.0197L7.99923 8.70626L4.68673 12.0197C4.49147 12.215 4.17496 12.215 3.9797 12.0197C3.7846 11.8245 3.78449 11.5079 3.9797 11.3127L7.2922 7.99923L3.9797 4.68673C3.78444 4.49147 3.78444 4.17496 3.9797 3.9797C4.17496 3.78444 4.49147 3.78444 4.68673 3.9797L7.99923 7.2922L11.3127 3.9797Z" fill="currentColor" fill-opacity="0.94"/></svg></button></div>
+              </div>
+              <div style="display:flex;gap:var(--spacing-3);align-items:center">
+                <div class="input-chip" data-size="m"><span class="input-chip__label">Size M</span></div>
+                <div class="input-chip" data-size="m"><span class="input-chip__label">Size M, deletable</span><button class="input-chip__clear" type="button" aria-label="Remove"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M11.3127 3.9797C11.5079 3.78449 11.8245 3.7846 12.0197 3.9797C12.215 4.17496 12.215 4.49147 12.0197 4.68673L8.70626 7.99923L12.0197 11.3127C12.215 11.508 12.215 11.8245 12.0197 12.0197C11.8245 12.215 11.508 12.215 11.3127 12.0197L7.99923 8.70626L4.68673 12.0197C4.49147 12.215 4.17496 12.215 3.9797 12.0197C3.7846 11.8245 3.78449 11.5079 3.9797 11.3127L7.2922 7.99923L3.9797 4.68673C3.78444 4.49147 3.78444 4.17496 3.9797 3.9797C4.17496 3.78444 4.49147 3.78444 4.68673 3.9797L7.99923 7.2922L11.3127 3.9797Z" fill="currentColor" fill-opacity="0.94"/></svg></button></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ═══════════ SELECT ═══════════ -->
+        <section class="dsp-section" id="select">
+          <div class="dsp-section__head">
+            <h2>Select</h2>
+            <p>Figma: Components / Atomic / Select. A custom trigger that opens a dropdown list. Single-select closes on pick; multiselect stays open and shows chips for each chosen option, with overflow counted as +N. Selected items sort to the top on next open.</p>
+          </div>
+
+          <div class="dsp-play">
+            <div class="dsp-stage" style="align-items:flex-start;padding-bottom:220px"><div id="sel-preview" style="width:260px"></div></div>
+            <div class="dsp-controls">
+              <div class="dsp-field">
+                <span class="dsp-field__label">Size</span>
+                <div class="dsp-chips" id="sel-size">
+                  <button class="dsp-chip is-active" data-value="l">L</button>
+                  <button class="dsp-chip" data-value="m">M</button>
+                </div>
+              </div>
+              <div class="dsp-field">
+                <span class="dsp-field__label">Mode</span>
+                <div class="dsp-chips" id="sel-mode">
+                  <button class="dsp-chip is-active" data-value="single">Single</button>
+                  <button class="dsp-chip" data-value="multi">Multi</button>
+                </div>
+              </div>
+              <div class="dsp-field">
+                <span class="dsp-field__label">State</span>
+                <div class="dsp-chips" id="sel-state">
+                  <button class="dsp-chip is-active" data-value="">Default</button>
+                  <button class="dsp-chip" data-value="error">Error</button>
+                  <button class="dsp-chip" data-value="disabled">Disabled</button>
+                </div>
+              </div>
+              <div class="dsp-field">
+                <span class="dsp-field__label">Content</span>
+                <div class="dsp-toggle"><span class="dsp-toggle__label">Clearable</span>
+                  <label class="dsp-switch"><input type="checkbox" id="sel-clearable"><span class="dsp-switch__track"></span></label></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="dsp-code">
+            <button class="dsp-copy" data-copy="#sel-code">Copy</button>
+            <pre><code id="sel-code"></code></pre>
+          </div>
+
+          <div class="dsp-subhead" style="margin-top:0">States × sizes — single-select</div>
+          <div class="dsp-panel" style="padding:0;overflow:hidden">
+            <table class="dsp-matrix">
+              <thead><tr><th style="width:110px">State</th><th>Size L</th><th>Size M</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td>Default</td>
+                  <td><div class="select" data-size="l" style="width:200px"><span class="select__placeholder">Select option…</span><span class="select__value" hidden></span><span class="select__chevron" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3.33337 6L8.00004 10.6667L12.6667 6" stroke="currentColor" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div></td>
+                  <td><div class="select" data-size="m" style="width:200px"><span class="select__placeholder">Select option…</span><span class="select__value" hidden></span><span class="select__chevron" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3.33337 6L8.00004 10.6667L12.6667 6" stroke="currentColor" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div></td>
+                </tr>
+                <tr>
+                  <td>Complete</td>
+                  <td><div class="select" data-size="l" style="width:200px"><span class="select__placeholder" hidden>Select option…</span><span class="select__value">English</span><span class="select__chevron" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3.33337 6L8.00004 10.6667L12.6667 6" stroke="currentColor" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div></td>
+                  <td><div class="select" data-size="m" style="width:200px"><span class="select__placeholder" hidden>Select option…</span><span class="select__value">English</span><span class="select__chevron" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3.33337 6L8.00004 10.6667L12.6667 6" stroke="currentColor" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div></td>
+                </tr>
+                <tr>
+                  <td>Error</td>
+                  <td><div class="select" data-size="l" data-state="error" style="width:200px"><span class="select__placeholder">Select option…</span><span class="select__value" hidden></span><span class="select__chevron" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3.33337 6L8.00004 10.6667L12.6667 6" stroke="currentColor" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div></td>
+                  <td><div class="select" data-size="m" data-state="error" style="width:200px"><span class="select__placeholder">Select option…</span><span class="select__value" hidden></span><span class="select__chevron" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3.33337 6L8.00004 10.6667L12.6667 6" stroke="currentColor" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div></td>
+                </tr>
+                <tr>
+                  <td>Disabled</td>
+                  <td><div class="select" data-size="l" data-state="disabled" style="width:200px"><span class="select__placeholder">Select option…</span><span class="select__chevron" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3.33337 6L8.00004 10.6667L12.6667 6" stroke="currentColor" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div></td>
+                  <td><div class="select" data-size="m" data-state="disabled" style="width:200px"><span class="select__placeholder">Select option…</span><span class="select__chevron" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3.33337 6L8.00004 10.6667L12.6667 6" stroke="currentColor" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="dsp-subhead">Multiselect — chips + overflow</div>
+          <div class="dsp-panel">
+            <div style="display:flex;flex-direction:column;gap:var(--spacing-5)">
+              <div style="display:flex;gap:var(--spacing-3);align-items:center">
+                <div class="select" data-size="l" data-mode="multi" style="width:260px">
+                  <div class="select__chips"><span class="select__placeholder">No selection</span><span class="select__overflow-count" hidden></span></div>
+                  <span class="select__chevron" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3.33337 6L8.00004 10.6667L12.6667 6" stroke="currentColor" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                </div>
+                <div class="select" data-size="l" data-mode="multi" style="width:260px">
+                  <div class="select__chips"><span class="select__placeholder" hidden>No selection</span><div class="input-chip" data-size="l"><span class="input-chip__label">English</span><button class="input-chip__clear" type="button" aria-label="Remove"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M11.3127 3.9797C11.5079 3.78449 11.8245 3.7846 12.0197 3.9797C12.215 4.17496 12.215 4.49147 12.0197 4.68673L8.70626 7.99923L12.0197 11.3127C12.215 11.508 12.215 11.8245 12.0197 12.0197C11.8245 12.215 11.508 12.215 11.3127 12.0197L7.99923 8.70626L4.68673 12.0197C4.49147 12.215 4.17496 12.215 3.9797 12.0197C3.7846 11.8245 3.78449 11.5079 3.9797 11.3127L7.2922 7.99923L3.9797 4.68673C3.78444 4.49147 3.78444 4.17496 3.9797 3.9797C4.17496 3.78444 4.49147 3.78444 4.68673 3.9797L7.99923 7.2922L11.3127 3.9797Z" fill="currentColor" fill-opacity="0.94"/></svg></button></div><div class="input-chip" data-size="l"><span class="input-chip__label">French</span><button class="input-chip__clear" type="button" aria-label="Remove"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M11.3127 3.9797C11.5079 3.78449 11.8245 3.7846 12.0197 3.9797C12.215 4.17496 12.215 4.49147 12.0197 4.68673L8.70626 7.99923L12.0197 11.3127C12.215 11.508 12.215 11.8245 12.0197 12.0197C11.8245 12.215 11.508 12.215 11.3127 12.0197L7.99923 8.70626L4.68673 12.0197C4.49147 12.215 4.17496 12.215 3.9797 12.0197C3.7846 11.8245 3.78449 11.5079 3.9797 11.3127L7.2922 7.99923L3.9797 4.68673C3.78444 4.49147 3.78444 4.17496 3.9797 3.9797C4.17496 3.78444 4.49147 3.78444 4.68673 3.9797L7.99923 7.2922L11.3127 3.9797Z" fill="currentColor" fill-opacity="0.94"/></svg></button></div><span class="select__overflow-count" hidden></span></div>
+                  <span class="select__chevron" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3.33337 6L8.00004 10.6667L12.6667 6" stroke="currentColor" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                </div>
+              </div>
+              <div>
+                <div class="select" data-size="l" data-mode="multi" style="width:260px">
+                  <div class="select__chips"><span class="select__placeholder" hidden></span><div class="input-chip" data-size="l"><span class="input-chip__label">English</span></div><div class="input-chip" data-size="l"><span class="input-chip__label">French</span></div><span class="select__overflow-count">+3</span></div>
+                  <span class="select__chevron" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3.33337 6L8.00004 10.6667L12.6667 6" stroke="currentColor" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                </div>
+                <div class="dsp-stage__hint" style="margin-top:4px">Overflow: 5 selected, 2 visible, +3 hidden</div>
+              </div>
+            </div>
           </div>
         </section>
 
@@ -1482,6 +1714,276 @@
     });
 
     renderDDL();
+
+    /* ---------- TEXT FIELD PLAYGROUND ---------- */
+    const SVG_CROSS16    = `<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M11.3127 3.9797C11.5079 3.78449 11.8245 3.7846 12.0197 3.9797C12.215 4.17496 12.215 4.49147 12.0197 4.68673L8.70626 7.99923L12.0197 11.3127C12.215 11.508 12.215 11.8245 12.0197 12.0197C11.8245 12.215 11.508 12.215 11.3127 12.0197L7.99923 8.70626L4.68673 12.0197C4.49147 12.215 4.17496 12.215 3.9797 12.0197C3.7846 11.8245 3.78449 11.5079 3.9797 11.3127L7.2922 7.99923L3.9797 4.68673C3.78444 4.49147 3.78444 4.17496 3.9797 3.9797C4.17496 3.78444 4.49147 3.78444 4.68673 3.9797L7.99923 7.2922L11.3127 3.9797Z" fill="currentColor" fill-opacity="0.94"/></svg>`;
+    const SVG_CHEVRON16  = `<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3.33337 6L8.00004 10.6667L12.6667 6" stroke="currentColor" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+
+    const tfState = { size: 'l', state: '', leading: false, prefix: false, suffix: false, trailing: false, clearable: false, placeholder: 'Placeholder' };
+
+    function buildTFHTML(s) {
+      const stateAttr    = s.state ? ` data-state="${s.state}"` : '';
+      const disabledAttr = s.state === 'disabled' ? ' disabled' : '';
+      let h = `<div class="text-field" data-size="${s.size}"${stateAttr}>\n`;
+      if (s.leading)   h += `  <span class="text-field__leading-icon" aria-hidden="true">${SVG_ICON16}</span>\n`;
+      if (s.prefix)    h += `  <span class="text-field__prefix">Prefix</span>\n`;
+      h +=              `  <input type="text" class="text-field__native" placeholder="${esc(s.placeholder)}"${disabledAttr}>\n`;
+      if (s.suffix)    h += `  <span class="text-field__suffix">Suffix</span>\n`;
+      if (s.clearable) h += `  <button class="text-field__clear" type="button" aria-label="Clear" hidden>${SVG_CROSS16}</button>\n`;
+      else if (s.trailing) h += `  <span class="text-field__trailing-icon" aria-hidden="true">${SVG_ICON16}</span>\n`;
+      h += `</div>`;
+      return h;
+    }
+
+    function initTextField(field) {
+      const input = field.querySelector('.text-field__native');
+      const clear = field.querySelector('.text-field__clear');
+      if (!input || !clear) return;
+      const sync = () => { clear.hidden = !input.value; };
+      input.addEventListener('input', sync);
+      clear.addEventListener('click', () => { input.value = ''; input.focus(); sync(); });
+      sync();
+    }
+
+    function renderTF() {
+      const html = buildTFHTML(tfState);
+      const mount = $('#tf-preview');
+      mount.innerHTML = html;
+      $('#tf-code').textContent = html;
+      const field = mount.querySelector('.text-field');
+      if (field) initTextField(field);
+    }
+
+    /* chips */
+    $('#tf-size').addEventListener('click', function(e) {
+      const chip = e.target.closest('.dsp-chip');
+      if (!chip) return;
+      this.querySelectorAll('.dsp-chip').forEach(c => c.classList.toggle('is-active', c === chip));
+      tfState.size = chip.dataset.value;
+      renderTF();
+    });
+    $('#tf-state').addEventListener('click', function(e) {
+      const chip = e.target.closest('.dsp-chip');
+      if (!chip) return;
+      this.querySelectorAll('.dsp-chip').forEach(c => c.classList.toggle('is-active', c === chip));
+      tfState.state = chip.dataset.value;
+      renderTF();
+    });
+    /* toggles */
+    [['tf-leading','leading'],['tf-prefix','prefix'],['tf-suffix','suffix'],['tf-trailing','trailing'],['tf-clearable','clearable']].forEach(([id, key]) => {
+      $('#' + id).addEventListener('change', function() { tfState[key] = this.checked; renderTF(); });
+    });
+    $('#tf-placeholder').addEventListener('input', function() { tfState.placeholder = this.value; renderTF(); });
+
+    /* init matrix clear buttons (they have pre-set values so show without hidden) */
+    $$('.dsp-matrix .text-field').forEach(initTextField);
+
+    renderTF();
+
+    /* ---------- INPUT CHIP PLAYGROUND ---------- */
+    const chipState = { size: 'l', leading: false, deletable: true, label: 'Option label' };
+
+    function buildChipHTML(s) {
+      let h = `<div class="input-chip" data-size="${s.size}">\n`;
+      if (s.leading)   h += `  <span class="input-chip__leading-icon" aria-hidden="true">${SVG_ICON16}</span>\n`;
+      h +=              `  <span class="input-chip__label">${esc(s.label)}</span>\n`;
+      if (s.deletable) h += `  <button class="input-chip__clear" type="button" aria-label="Remove">${SVG_CROSS16}</button>\n`;
+      h += `</div>`;
+      return h;
+    }
+
+    function renderChip() {
+      const html = buildChipHTML(chipState);
+      $('#chip-preview').innerHTML = html;
+      $('#chip-code').textContent = html;
+    }
+
+    $('#chip-size').addEventListener('click', function(e) {
+      const chip = e.target.closest('.dsp-chip');
+      if (!chip) return;
+      this.querySelectorAll('.dsp-chip').forEach(c => c.classList.toggle('is-active', c === chip));
+      chipState.size = chip.dataset.value;
+      renderChip();
+    });
+    [['chip-leading','leading'],['chip-deletable','deletable']].forEach(([id, key]) => {
+      $('#' + id).addEventListener('change', function() { chipState[key] = this.checked; renderChip(); });
+    });
+    $('#chip-label').addEventListener('input', function() { chipState.label = this.value; renderChip(); });
+
+    renderChip();
+
+    /* ---------- SELECT PLAYGROUND ---------- */
+    const SEL_OPTS = ['English','French','German','Spanish','Portuguese','Japanese'];
+    const selState = { size: 'l', mode: 'single', state: '', clearable: false };
+
+    function buildSelectHTML(s) {
+      const stateAttr = s.state ? ` data-state="${s.state}"` : '';
+      const modeAttr  = s.mode === 'multi' ? ' data-mode="multi"' : '';
+      let h = `<div class="select" data-size="${s.size}"${modeAttr}${stateAttr}>\n`;
+      if (s.mode === 'multi') {
+        h += `  <div class="select__chips">\n`;
+        h += `    <span class="select__placeholder">Select options…</span>\n`;
+        h += `    <span class="select__overflow-count" hidden></span>\n`;
+        h += `  </div>\n`;
+      } else {
+        h += `  <span class="select__placeholder">Select option…</span>\n`;
+        h += `  <span class="select__value" hidden></span>\n`;
+      }
+      if (s.clearable) h += `  <button class="select__clear" type="button" aria-label="${s.mode === 'multi' ? 'Clear all' : 'Clear selection'}" hidden>${SVG_CROSS16}</button>\n`;
+      h += `  <span class="select__chevron" aria-hidden="true">${SVG_CHEVRON16}</span>\n`;
+      h += `  <div class="dropdown-list select__dropdown" data-size="${s.size}" hidden>\n`;
+      SEL_OPTS.forEach(opt => {
+        if (s.mode === 'multi')
+          h += `    <div class="dropdown-item" data-size="${s.size}"><span class="dropdown-item__checkbox"></span><span class="dropdown-item__label">${opt}</span></div>\n`;
+        else
+          h += `    <div class="dropdown-item" data-size="${s.size}"><span class="dropdown-item__label">${opt}</span></div>\n`;
+      });
+      h += `  </div>\n</div>`;
+      return h;
+    }
+
+    function initSelectEl(sel) {
+      const isMulti   = sel.dataset.mode === 'multi';
+      const dropdown  = sel.querySelector('.select__dropdown');
+      const clearBtn  = sel.querySelector('.select__clear');
+      const placeholder = sel.querySelector('.select__placeholder');
+      const valueEl   = isMulti ? null : sel.querySelector('.select__value');
+      const chipsEl   = isMulti ? sel.querySelector('.select__chips') : null;
+      const overflowEl = isMulti ? sel.querySelector('.select__overflow-count') : null;
+      if (!dropdown) return;
+
+      function sortItems() {
+        const items = [...dropdown.querySelectorAll('.dropdown-item')];
+        const sel2 = items.filter(i => i.dataset.state === 'selected');
+        const unsel = items.filter(i => i.dataset.state !== 'selected');
+        [...sel2, ...unsel].forEach(i => dropdown.appendChild(i));
+      }
+
+      function open()  { if (isMulti) sortItems(); sel.dataset.open = ''; dropdown.hidden = false; }
+      function close() { delete sel.dataset.open; dropdown.hidden = true; }
+
+      sel.addEventListener('click', e => {
+        if (e.target.closest('.select__clear') || e.target.closest('.input-chip__clear')) return;
+        sel.hasAttribute('data-open') ? close() : open();
+      });
+      document.addEventListener('click', e => { if (!sel.contains(e.target)) close(); }, { capture: false });
+
+      if (!isMulti) {
+        dropdown.querySelectorAll('.dropdown-item').forEach(item => {
+          item.addEventListener('click', () => {
+            const label = item.querySelector('.dropdown-item__label')?.textContent ?? '';
+            dropdown.querySelectorAll('.dropdown-item').forEach(i => delete i.dataset.state);
+            item.dataset.state = 'selected';
+            if (valueEl) { valueEl.textContent = label; valueEl.hidden = false; }
+            if (placeholder) placeholder.hidden = true;
+            if (clearBtn) clearBtn.hidden = false;
+            close();
+          });
+        });
+      }
+
+      if (isMulti) {
+        dropdown.querySelectorAll('.dropdown-item').forEach(item => {
+          item.addEventListener('click', () => {
+            const label = item.querySelector('.dropdown-item__label')?.textContent ?? '';
+            if (item.dataset.state === 'selected') {
+              delete item.dataset.state;
+              chipsEl.querySelectorAll('.input-chip').forEach(c => { if (c.dataset.label === label) c.remove(); });
+            } else {
+              item.dataset.state = 'selected';
+              const chip = document.createElement('div');
+              chip.className = 'input-chip';
+              chip.dataset.size = sel.dataset.size || 'l';
+              chip.dataset.label = label;
+              chip.innerHTML = `<span class="input-chip__label">${label}</span><button class="input-chip__clear" type="button" aria-label="Remove ${label}">${SVG_CROSS16}</button>`;
+              chip.querySelector('.input-chip__clear').addEventListener('click', () => {
+                chip.remove();
+                dropdown.querySelectorAll('.dropdown-item').forEach(i => { if (i.querySelector('.dropdown-item__label')?.textContent === label) delete i.dataset.state; });
+                syncSel();
+              });
+              chipsEl.insertBefore(chip, overflowEl);
+            }
+            syncSel();
+          });
+        });
+      }
+
+      function syncSel() {
+        const chips = chipsEl ? [...chipsEl.querySelectorAll('.input-chip')] : [];
+        if (placeholder) placeholder.hidden = isMulti ? chips.length > 0 : (valueEl && !valueEl.hidden);
+        if (clearBtn) clearBtn.hidden = isMulti ? chips.length === 0 : (!valueEl || valueEl.hidden);
+        if (overflowEl) syncOverflow(chips);
+      }
+
+      function syncOverflow(chips) {
+        chips.forEach(c => { c.hidden = false; });
+        overflowEl.hidden = true;
+        requestAnimationFrame(() => {
+          const cRight = chipsEl.getBoundingClientRect().right;
+          let n = 0;
+          for (let i = chips.length - 1; i >= 0; i--) {
+            if (chips[i].getBoundingClientRect().right > cRight) { chips[i].hidden = true; n++; }
+          }
+          if (n === 0) return;
+          overflowEl.textContent = `+${n}`; overflowEl.hidden = false;
+          requestAnimationFrame(() => {
+            const oLeft = overflowEl.getBoundingClientRect().left;
+            chips.filter(c => !c.hidden).reverse().forEach(c => {
+              if (c.getBoundingClientRect().right > oLeft) { c.hidden = true; n++; overflowEl.textContent = `+${n}`; }
+            });
+          });
+        });
+      }
+
+      if (clearBtn) {
+        clearBtn.addEventListener('click', () => {
+          if (isMulti) {
+            chipsEl.querySelectorAll('.input-chip').forEach(c => c.remove());
+            if (overflowEl) overflowEl.hidden = true;
+          } else {
+            if (valueEl) { valueEl.hidden = true; valueEl.textContent = ''; }
+            if (placeholder) placeholder.hidden = false;
+          }
+          dropdown.querySelectorAll('.dropdown-item').forEach(i => delete i.dataset.state);
+          clearBtn.hidden = true;
+        });
+      }
+    }
+
+    function renderSel() {
+      const html = buildSelectHTML(selState);
+      const mount = $('#sel-preview');
+      mount.innerHTML = html;
+      $('#sel-code').textContent = html;
+      const selectEl = mount.querySelector('.select');
+      if (selectEl) initSelectEl(selectEl);
+    }
+
+    $('#sel-size').addEventListener('click', function(e) {
+      const chip = e.target.closest('.dsp-chip');
+      if (!chip) return;
+      this.querySelectorAll('.dsp-chip').forEach(c => c.classList.toggle('is-active', c === chip));
+      selState.size = chip.dataset.value;
+      renderSel();
+    });
+    $('#sel-mode').addEventListener('click', function(e) {
+      const chip = e.target.closest('.dsp-chip');
+      if (!chip) return;
+      this.querySelectorAll('.dsp-chip').forEach(c => c.classList.toggle('is-active', c === chip));
+      selState.mode = chip.dataset.value;
+      renderSel();
+    });
+    $('#sel-state').addEventListener('click', function(e) {
+      const chip = e.target.closest('.dsp-chip');
+      if (!chip) return;
+      this.querySelectorAll('.dsp-chip').forEach(c => c.classList.toggle('is-active', c === chip));
+      selState.state = chip.dataset.value;
+      renderSel();
+    });
+    $('#sel-clearable').addEventListener('change', function() { selState.clearable = this.checked; renderSel(); });
+
+    renderSel();
+
   })();
   </script>
 </body>
