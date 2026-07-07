@@ -23,7 +23,7 @@ Grouping into Sections makes long pages easier to digest. Compose every page as 
 
 **Two ways to visually separate one Section from the next:**
 1. **Background-layer contrast (default).** Adjacent Sections use different `--background-static-gray-layer-*` steps, set with `data-layer="0".."3"` on the band (e.g. layer-0 next to layer-1). Identical in light and dark mode.
-2. **Light/dark theme contrast.** One Section in light mode, the next in dark, or vice versa. Use as an occasional accent, not the default for every boundary.
+2. **Light/dark theme contrast.** One Section in light mode, the next in dark, or vice versa. Alternating light and dark Sections is **highly preferable** for a well-structured page — it breaks a long page into clearly digestible chunks the eye can scan. Reach for this as a primary technique, not a rare accent.
 
 **How to give a Section its background (and optionally a dark theme).** Wrap the Section's components in a `.section-band` (see "Breakpoints & layout grid" below) — a full-bleed wrapper that carries the background and adds no page padding of its own (the page-level components inside already own their horizontal padding, so a `.section` wrapper here would double it). Set the background layer with `data-layer="0".."3"` (omit for the layer-0 default). Add `data-theme="dark"` to flip the band to dark; the layer background and all child content tokens switch automatically. Put the Section's top and bottom **size-8** Components spacing *inside* the band so the padding sits on the band's own background — a boundary between two bands therefore shows a size-8 on each side, one on each background. Never use a one-off class or inline style for this — `.section-band` plus `data-layer`/`data-theme` is the only mechanism.
 
@@ -44,7 +44,7 @@ Grouping into Sections makes long pages easier to digest. Compose every page as 
 
 **Override rule:** if the user has explicitly requested the page (or a specific section) be light or dark, honor that literally and do not add theme-contrast (technique 2) as a section-boundary device on top of it — use background-layer contrast (technique 1) only.
 
-**Practical guidance:** aim for at least one dark-mode Section per page, unless the user specified an all-light or all-dark page.
+**Practical guidance:** default to alternating light and dark Sections through the page — not just one dark accent — unless the user specified an all-light or all-dark page (see the override rule above).
 
 ### Components spacing
 
@@ -86,12 +86,36 @@ Pick the size by role:
 ## Page assembly rules
 
 1. **Reuse first.** When building or modifying a page, always compose it from existing page-level components. Do not create new HTML or CSS for a page row if a matching page-level component already exists.
-2. **New page-level component = explicit justification.** A new page-level component may only be created when:
+2. **Pick the specific component, not the generic one.** Match the content's shape to the most structured page-level component that fits it — not the first generic one that could technically hold the text. Use this table to find the shape:
+
+   | Content shape | Preferred component | Not this |
+   |---|---|---|
+   | Enumerable list of features/benefits/use-cases/steps (many, shallow items) | cards | text-block, image |
+   | 2–4 feature highlights, each with a real paragraph and its own visual | zigzag | cards, text-block |
+   | Quantified metrics/stats, no single customer story | numbers | case-study, text-block |
+   | One customer's metric + narrative + named attribution | case-study | numbers, testimonial |
+   | Customer quote is the proof point, metric absent or secondary | testimonial | case-study |
+   | Many customer logos, no single attributed story | customer-logos | testimonial, case-study |
+   | A handful of topics, each needing an explanation and a distinct visual, browsable in place | accordion-carousel | cards, text-block |
+   | Genuine question/answer content | faq | accordion-carousel, text-block |
+   | Section intro that leads into more content below it | heading (`data-paragraph`) | cta |
+   | Standalone conversion ask, typically closing the page | cta | heading |
+   | Single illustrative picture, no accompanying copy | image | zigzag, cards |
+   | Pure prose, no stats/list/quote/media pairing | text-block | — |
+
+   **Tie-breakers for overlapping components:**
+   - **numbers (`data-case-studies`) vs. case-study.** One customer, one metric, with a narrative paragraph and a named/attributed person → case-study. Multiple stats (2–4), aggregate or company-wide, only needing a logo + CTA footer with no narrative paragraph and no named attribution → numbers with `data-case-studies="true"`.
+   - **testimonial vs. case-study.** The quote is the point → testimonial. A metric is the point and the quote/paragraph supports it → case-study.
+   - **heading (`data-paragraph`) vs. cta (`data-type="blank"`).** More content follows in the same Section → heading. Nothing follows in the Section (page ends here, or this is the deliberate conversion moment) → cta.
+   - **cards vs. zigzag vs. image.** 5+ items with light per-item copy → cards. 2–4 items each needing its own paragraph + CTA + visual → zigzag, stacked with alternating `data-image-position`. A single picture with no copy of its own → image.
+3. **Generic tier = last resort.** text-block, image, and heading used title-only (no `data-paragraph`) are the least structured components in the set. Reach for them only when content genuinely does not fit any component in the table above — e.g. text-block for pure prose with no stats, list, quote, or media to structure it; image for a standalone illustrative picture with no accompanying narrative; heading title-only as a bare section label with no supporting content. Never default to these because they're the easiest to fill in — check the table first.
+4. **Favor minimal, rational layouts.** Use the fewest Sections and page-level components that communicate the content clearly — never add a component, Section, or visual variation purely for variety. When similar content repeats across a page (e.g. two feature call-outs, three CTAs), reuse the same spacing size, media layout, and CTA pattern instead of introducing one-off variations. When two structures would communicate equally well, pick the plainer, more consistent one — clarity and consistency win over decorative complexity.
+5. **New page-level component = explicit justification.** A new page-level component may only be created when:
    - the content genuinely does not fit any existing page-level component (different structure, not just different content), or
    - the user explicitly asks for a new one to be created.
-3. **New atomic = same rule.** Same justification required before creating a new atomic component.
-4. **Group into Sections.** Before styling a page, decide its Section boundaries first — group page-level components into Sections, then apply background-layer or theme contrast between adjacent Sections per the "Sections (page composition)" guidance above.
-5. **No one-off styles.** Do not write inline styles or page-specific CSS that duplicates or overrides component behavior. If a component needs a new state, add it to the component's CSS file as a documented property.
+6. **New atomic = same rule.** Same justification required before creating a new atomic component.
+7. **Group into Sections.** Before styling a page, decide its Section boundaries first — group page-level components into Sections, then apply background-layer or theme contrast between adjacent Sections per the "Sections (page composition)" guidance above.
+8. **No one-off styles.** Do not write inline styles or page-specific CSS that duplicates or overrides component behavior. If a component needs a new state, add it to the component's CSS file as a documented property.
 
 ---
 
