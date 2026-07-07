@@ -21,9 +21,15 @@ Grouping into Sections makes long pages easier to digest. Compose every page as 
 
 **Note — hero-block is self-sufficient.** The hero-block page-level component is a complete, self-contained Section on its own with its own background. Do not wrap it in a `.section-band`, do not group it with other page-level components — place it directly as the page's opening row.
 
-**Two ways to visually separate one Section from the next:**
+**Three ways to visually separate one Section from the next:**
 1. **Background-layer contrast (default).** Adjacent Sections use different `--background-static-gray-layer-*` steps, set with `data-layer="0".."3"` on the band (e.g. layer-0 next to layer-1). Identical in light and dark mode.
 2. **Light/dark theme contrast.** One Section in light mode, the next in dark, or vice versa. Alternating light and dark Sections is **highly preferable** for a well-structured page — it breaks a long page into clearly digestible chunks the eye can scan. Reach for this as a primary technique, not a rare accent.
+3. **Brand-color band (accent, ≤1–2 per page).** A Section on a saturated brand-purple background (`--background-static-brand-*` tokens) for the page's showcase moments — the closing conversion CTA, a stats/proof band, or a logo wall. Never for ordinary feature content.
+
+**Theme rhythm (patterns observed on smartcat.com — follow unless the user directs otherwise):**
+- Themes alternate in **bands of 1–4 related components**, not per component — decide the theme per Section, and give every page at least ~3 theme changes so it scans as distinct chapters.
+- **Fixed assignments:** FAQ Sections are always light. Social-proof Sections (review walls, rating sliders) are dark. Runs of feature zigzags lean dark. The **page-closing CTA is always saturated** — brand purple or a dark band — while mid-page CTAs stay neutral/light.
+- Heroes are dark or light with roughly equal frequency; a canonical page arc is: hero → benefits (often dark) → proof numbers (light or brand band) → features (alternating) → social proof (dark) → resources (light) → FAQ (light) → final CTA (saturated).
 
 **How to give a Section its background (and optionally a dark theme).** Wrap the Section's components in a `.section-band` (see "Breakpoints & layout grid" below) — a full-bleed wrapper that carries the background and adds no page padding of its own (the page-level components inside already own their horizontal padding, so a `.section` wrapper here would double it). Set the background layer with `data-layer="0".."3"` (omit for the layer-0 default). Add `data-theme="dark"` to flip the band to dark; the layer background and all child content tokens switch automatically. Put the Section's top and bottom **size-8** Components spacing *inside* the band so the padding sits on the band's own background — a boundary between two bands therefore shows a size-8 on each side, one on each background. Never use a one-off class or inline style for this — `.section-band` plus `data-layer`/`data-theme` is the only mechanism.
 
@@ -108,6 +114,8 @@ Pick the size by role:
    - **testimonial vs. case-study.** The quote is the point → testimonial. A metric is the point and the quote/paragraph supports it → case-study.
    - **heading (`data-paragraph`) vs. cta (`data-type="blank"`).** More content follows in the same Section → heading. Nothing follows in the Section (page ends here, or this is the deliberate conversion moment) → cta.
    - **cards vs. zigzag vs. image.** 5+ items with light per-item copy → cards. 2–4 items each needing its own paragraph + CTA + visual → zigzag, stacked with alternating `data-image-position`. A single picture with no copy of its own → image.
+   - **mid-page CTA vs. closing CTA.** Both are the cta component, but they are styled as two distinct roles: a mid-page conversion nudge sits on a neutral/light band (title + buttons, no description); the page-closing CTA sits on a saturated band (brand purple or dark) and may carry a short description. Do not give a mid-page CTA the saturated treatment — it dilutes the closing moment.
+   - **customer-logos vs. image.** Any strip or wall of partner/customer logos → customer-logos, even when it spans two stacked rows. Never assemble a logo wall from image components.
 3. **Generic tier = last resort.** text-block, image, and heading used title-only (no `data-paragraph`) are the least structured components in the set. Reach for them only when content genuinely does not fit any component in the table above — e.g. text-block for pure prose with no stats, list, quote, or media to structure it; image for a standalone illustrative picture with no accompanying narrative; heading title-only as a bare section label with no supporting content. Never default to these because they're the easiest to fill in — check the table first.
 4. **Favor minimal, rational layouts.** Use the fewest Sections and page-level components that communicate the content clearly — never add a component, Section, or visual variation purely for variety. When similar content repeats across a page (e.g. two feature call-outs, three CTAs), reuse the same spacing size, media layout, and CTA pattern instead of introducing one-off variations. When two structures would communicate equally well, pick the plainer, more consistent one — clarity and consistency win over decorative complexity.
 5. **New page-level component = explicit justification.** A new page-level component may only be created when:
@@ -119,17 +127,55 @@ Pick the size by role:
 
 ---
 
-## Typography & content conventions
+## Component content & visual patterns
+
+Established patterns reverse-engineered from live smartcat.com pages (evidence and per-page data: `docs/component-usage-patterns.md`). Follow these norms when filling components with content.
+
+### Content norms per component
+
+| Component | Observed norm |
+|---|---|
+| hero-block | Heading ≤ ~60 chars + one-sentence paragraph; 0, 1, or 2 CTAs depending on the page's conversion intent (when 2: primary demo ask, secondary free-trial). |
+| zigzag | Typically a run of **3** with alternating `data-image-position` (singles and pairs occur, trios dominate); each = heading + one 300–500-char paragraph + one visual; no bullet lists inside; per-item CTA rare. |
+| cards (big image) | 2–4 cards, paragraph 100–300 chars; the 2-card layout is for heavier story cards that may carry their own CTA. |
+| cards (icon) | 5–9 shallow items, paragraph ~120 chars; icons from the design-system set. |
+| numbers | 3 stat cards standard (4 max); stat + a 2–6-word label; `data-case-studies` adds quote + customer logo + "Learn more". |
+| faq | 5–11 genuine Q/As; titled "FAQs" or "Frequently Asked Questions"; lives in the page-closing region. |
+| testimonial / case-study | Always concretely attributed: name + role + company logo (case-study adds the metric as the headline). |
+| heading | Section headings use the **largest visual scale** (`data-level="h1"` visual on a semantic `<h2>`), with or without the paragraph (a boolean property of the Heading component) — add the paragraph when the section needs an intro; title-only dominates in practice (~6 in 7). |
+| text-block | Footnotes, references, disclaimers at the very bottom of a page — nothing else. |
+
+### Visual type per media slot
+
+Each media slot has an established visual type — pick by slot, and never mix types within one component instance (a cards row is all-icons or all-screenshots, never a blend):
+
+- **Product-UI screenshot** (rounded corners, floating on a soft lavender/purple gradient backdrop) — hero image, cards big-image, video preview.
+- **Conceptual illustration** (purple-gradient scene blending product elements: avatars, icon chips, maps, flow diagrams) — zigzag and accordion-carousel images; use a plain UI screenshot instead when the point is the product itself.
+- **Icon tile** (small mascot/spot illustration on a lavender rounded tile) — cards small-image.
+- **Design-system vector icon** — cards icon variant; only icons from `components/atomic/icon/svg/`.
+- **Monochrome customer logo** — customer-logos, numbers, testimonial/case-study attribution; washed-white on color/dark bands, dark monochrome on light bands. Never full-color logo walls.
+- **Flat vector diagram** on a light neutral background — the image component (e.g. an integrations wheel).
+- **Person photo, circle crop** — testimonial avatars only.
+
+### Section backgrounds beyond the gray layers
+
+The live palette maps exactly onto our tokens — gray layers 0–3 in light mode and dark-mode gray-90/80 cover almost everything. The sanctioned exceptions:
+
+- **Brand-purple band** (`--background-static-brand-*`) — the closing CTA, a showcase stat band, or a logo wall; at most 1–2 per page.
+- **Brand-tint band** (light brand-layer-1, ≈purple-10) — soft accent behind a video or a light hero.
+- **Alpha tint** (`--background-static-alpha-layer-1`) — card fills on case-study/numbers when a white card is too stark.
+- **Radial brand gradients** — hero backgrounds only. **Linear gradients on cards** — a single featured card only.
+- Any other accent hue (e.g. the blue CTA on the government page) is a deliberate vertical-specific override — never introduce one without an explicit request.
 
 ### Heading component levels
 
 The Heading component's title can be styled as **H1, H2, or H3** via `data-level` on `.heading` (default `h1`), chosen by the level of hierarchy the heading represents:
 
-- **H1** — the top-level page heading.
-- **H2** — a Section heading.
+- **H1** — the top-level page heading, **and Section headings** (live smartcat.com practice: section headings carry the largest visual scale, with or without the paragraph property).
+- **H2** — a secondary heading within a Section, or a section heading that must visually defer to a nearby H1.
 - **H3** — a sub-block heading within a Section.
 
-`data-level` sets the **visual type style only** — always give the title element the semantically matching tag (`<h1>`/`<h2>`/`<h3>`) for accessibility.
+`data-level` sets the **visual type style only** — always give the title element the semantically matching tag (`<h1>`/`<h2>`/`<h3>`) for accessibility. A Section heading is therefore typically a semantic `<h2>` styled with `data-level="h1"`.
 
 ### Text casing
 
