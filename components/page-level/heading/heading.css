@@ -1,0 +1,103 @@
+/* ── Heading (section) ───────────────────────────────────────────
+   Figma: Sections / Heading (node-id=4464-3642)
+   Properties:
+     data-level : h1 | h2 | h3   (default h1) — visual type style of the
+                                  title, chosen by hierarchy level. Sets
+                                  style only; pick the matching semantic
+                                  tag (<h1>/<h2>/<h3>) for accessibility.
+     data-paragraph (presence)  — split layout: title left, supporting
+                                  paragraph + CTAs right (desktop+tablet)
+   Elements (presence):
+     .heading__title    — always present (H1 type style by default)
+     .heading__body     — paragraph + actions (include for the split layout)
+     .heading__actions  — CTA buttons: reuse .btn (primary + optional secondary)
+
+   Full-width row, content centered at 1120px. Type size shifts
+   mobile→desktop via tokens (≥1280px); layout flips at ≥800px.
+   ──────────────────────────────────────────────────────────── */
+
+.heading {
+  box-sizing: border-box;
+  width: 100%;
+  padding-inline: var(--grid-page-padding);
+}
+
+.heading__inner {
+  max-width: var(--grid-max-width); /* 1540 */
+  margin-inline: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--spacing-between-elements-7);
+}
+
+.heading__title {
+  margin: 0;
+  font-family: var(--family-heading);
+  font-weight: var(--weight-bold);
+  color: var(--content-static-primary);
+  /* Default level: H1 */
+  font-size: var(--size-h1);
+  line-height: var(--line-height-h1);
+  letter-spacing: var(--letter-spacing-h1);
+}
+
+.heading[data-level="h2"] .heading__title {
+  font-size: var(--size-h2);
+  line-height: var(--line-height-h2);
+  letter-spacing: var(--letter-spacing-h2);
+}
+
+.heading[data-level="h3"] .heading__title {
+  font-size: var(--size-h3);
+  line-height: var(--line-height-h3);
+  letter-spacing: var(--letter-spacing-h3);
+}
+
+.heading__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-between-elements-6);
+}
+
+.heading__paragraph {
+  margin: 0;
+  color: var(--content-static-secondary);
+  font-family: var(--family-body);
+  font-weight: var(--weight-regular);
+  font-size: var(--size-small-text);
+  line-height: var(--line-height-small-text);
+  letter-spacing: var(--letter-spacing-small-text);
+}
+
+.heading__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: var(--spacing-3);
+}
+
+/* ── Desktop + tablet ─────────────────────────────────────────── */
+@media (min-width: 800px) {
+  /* Stacked: title reserves a right gutter so it doesn't span full width
+     (Figma: 240px of the 1120px content area). */
+  .heading:not([data-paragraph]) .heading__title {
+    padding-right: 240px;
+  }
+
+  /* Split: title left (fills), body right (~415px), wide gap */
+  .heading[data-paragraph] .heading__inner {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: var(--spacing-between-elements-11);
+  }
+  .heading[data-paragraph] .heading__title {
+    flex: 1 1 0;
+    min-width: 0;
+  }
+  .heading[data-paragraph] .heading__body {
+    width: 415px;
+    flex-shrink: 0;
+    padding-top: var(--spacing-between-elements-4);
+  }
+}

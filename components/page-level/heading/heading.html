@@ -1,0 +1,53 @@
+<!--
+  Heading — section reference template
+  Figma: Sections / Heading (node-id=4464-3642)
+
+  A heading with optional supporting paragraph and CTA buttons.
+  Layouts:
+    Stacked (default)        — title, then optional CTA buttons below.
+    Split (data-paragraph)   — desktop+tablet: title left, paragraph + CTAs
+                               right; mobile: stacked.
+
+  Hierarchy level — data-level on .heading (default h1):
+    h1 (default) | h2 | h3   — sets the title's visual type style by the
+    level of hierarchy it represents. Style only; keep the title element's
+    semantic tag matching its level (<h1>/<h2>/<h3>) for accessibility.
+
+  Elements (include or omit):
+    .heading__title    — always
+    .heading__actions  — CTA buttons (reuse .btn primary + optional secondary)
+    .heading__body     — wrap paragraph + actions for the split layout
+  CTAs reuse the Button atomic (.btn) at size m.
+-->
+
+<!-- Stacked — title + CTAs -->
+<div class="heading">
+  <div class="heading__inner">
+    <h1 class="heading__title">Eget imperdiet urna ut eget urna im eget perdiet</h1>
+    <div class="heading__actions">
+      <button class="btn" data-type="primary" data-size="m"><span class="btn__label">Button text</span></button>
+      <button class="btn" data-type="secondary" data-size="m"><span class="btn__label">Button text</span></button>
+    </div>
+  </div>
+</div>
+
+<!-- H2 level — Section heading (title uses H2 type style; tag matches level) -->
+<div class="heading" data-level="h2">
+  <div class="heading__inner">
+    <h2 class="heading__title">Eget imperdiet urna ut eget urna im eget perdiet</h2>
+  </div>
+</div>
+
+<!-- Split — title left, paragraph + CTAs right (desktop+tablet) -->
+<div class="heading" data-paragraph>
+  <div class="heading__inner">
+    <h1 class="heading__title">Eget imperdiet urna ut eget urna im eget perdiet</h1>
+    <div class="heading__body">
+      <p class="heading__paragraph">Leo integer tellus ligula sit venenatis ante tristique velit. Eget cum molestie nunc id ultrices lacus ut commodo turpis. Faucibus a in dui varius fringilla tortor aliquet.</p>
+      <div class="heading__actions">
+        <button class="btn" data-type="primary" data-size="m"><span class="btn__label">Button text</span></button>
+        <button class="btn" data-type="secondary" data-size="m"><span class="btn__label">Button text</span></button>
+      </div>
+    </div>
+  </div>
+</div>

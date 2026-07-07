@@ -1,0 +1,301 @@
+/* ── Hero block (section) ─────────────────────────────────────────
+   Figma: Sections / Hero block (node-id=9384-4137)
+   The top-of-page hero. One component, four layouts via data-type.
+   Properties (data attributes on .hero-block):
+     data-type : simple-center (default) | simple-left
+                 | image-center | image-right
+   Content toggles (element presence, include/omit the element):
+     .hero-block__badges    — trust badges pill (G2 / Fortune / SOC)
+     .hero-block__paragraph — supporting paragraph
+     .hero-block__buttons   — CTA group (reuses the Button atomic)
+       second .btn          — secondary CTA
+     .hero-block__caption   — small caption under the buttons
+     .hero-block__media     — image (image-center) / .hero-block__media-col (image-right)
+       .btn-play (atomic)   — play / "Launch demo" overlay on the image-center banner
+   Title is Display for the simple types, H1 for the image types.
+   Full-bleed gray section. Mobile-first; layout switches at ≥800px;
+   type sizes shift at ≥1280px via tokens. Reuses the Button + Button Play atomics.
+   ──────────────────────────────────────────────────────────────── */
+
+.hero-block {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  background: var(--background-static-gray-layer-2);
+  padding: var(--spacing-page-vertical-7) var(--spacing-page-sides);
+  overflow: hidden;
+}
+
+/* ── Content wrapper (centered at the content width) ─────────────── */
+.hero-block__content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-between-elements-9);
+  width: 100%;
+  max-width: var(--grid-max-width); /* 1540 */
+}
+
+/* ── Text block (badges + title + paragraph) ─────────────────────── */
+.hero-block__text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-between-elements-6);
+  width: 100%;
+}
+
+.hero-block__title {
+  margin: 0;
+  font-family: var(--family-heading);
+  font-weight: var(--weight-bold);
+  color: var(--content-static-primary);
+  font-size: var(--size-display);
+  line-height: var(--line-height-display);
+  letter-spacing: var(--letter-spacing-display);
+  text-align: center;
+}
+
+.hero-block__paragraph {
+  margin: 0;
+  max-width: 740px;
+  color: var(--content-static-secondary);
+  font-family: var(--family-body);
+  font-weight: var(--weight-regular);
+  font-size: var(--size-paragraph);
+  line-height: var(--line-height-paragraph);
+  letter-spacing: var(--letter-spacing-paragraph);
+  text-align: center;
+}
+
+/* ── Buttons + caption ───────────────────────────────────────────── */
+.hero-block__buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-between-elements-5);
+  width: 100%;
+}
+.hero-block__buttons-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--spacing-3);
+  width: 100%;
+}
+/* Mobile: CTAs stack full-width */
+.hero-block__buttons-row .btn { flex: 1 1 100%; }
+
+.hero-block__caption {
+  margin: 0;
+  max-width: 740px;
+  color: var(--content-static-secondary);
+  font-family: var(--family-body);
+  font-weight: var(--weight-regular);
+  font-size: var(--size-caption);
+  line-height: var(--line-height-caption);
+  letter-spacing: var(--letter-spacing-caption);
+  text-align: center;
+}
+
+/* ── Badges pill ─────────────────────────────────────────────────── */
+.hero-block__badges {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-5);
+  padding: var(--spacing-button-m-vertical) var(--spacing-button-m-horizontal);
+  border: 1px solid var(--border-divider-default);
+  border-radius: var(--radius-panel);
+}
+.hero-block__badge {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-button-l-gap);
+}
+.hero-block__badge-logo {              /* placeholder for a brand logo asset */
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  border-radius: var(--radius-1);
+  background: var(--background-static-alpha-layer-2);
+}
+.hero-block__badge-stars {
+  display: inline-flex;
+  gap: 2px;
+  color: var(--content-static-primary);
+}
+.hero-block__badge-stars svg { width: 16px; height: 16px; }
+.hero-block__badge-text {
+  margin: 0;
+  max-width: 96px;
+  color: var(--content-static-secondary);
+  font-family: var(--family-body);
+  font-weight: var(--weight-regular);
+  font-size: var(--size-caption);
+  line-height: var(--line-height-caption);
+  letter-spacing: var(--letter-spacing-caption);
+}
+/* Third badge (SOC) hides on mobile */
+.hero-block__badge--soc { display: none; }
+
+/* ── Image media ─────────────────────────────────────────────────── */
+.hero-block__image {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  background: var(--background-static-gray-layer-0);
+  color: var(--content-static-tertiary);
+}
+.hero-block__image svg { width: 48px; height: 48px; }
+
+/* image-center banner + bottom fade + optional play button */
+.hero-block__media {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+.hero-block[data-type="image-center"] .hero-block__image { aspect-ratio: 2 / 1; }
+.hero-block__media::after {            /* bottom fade into the section bg */
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 72px;
+  background: linear-gradient(to bottom, transparent, var(--background-static-gray-layer-2));
+  pointer-events: none;
+}
+/* Play overlay reuses the Button Play atomic, centered over the banner. */
+.hero-block__media .btn-play {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+}
+
+/* ── data-type: image-center (banner below the centered content) ──── */
+.hero-block[data-type="image-center"] {
+  gap: var(--spacing-page-vertical-5);
+  padding-top: var(--spacing-page-vertical-6);
+  padding-bottom: 0;                   /* image bleeds to the section edge */
+}
+.hero-block[data-type="image-center"] .hero-block__title {
+  font-size: var(--size-h1);
+  line-height: var(--line-height-h1);
+  letter-spacing: var(--letter-spacing-h1);
+}
+
+/* ── data-type: simple-left (left-aligned; two columns on desktop) ── */
+.hero-block[data-type="simple-left"] .hero-block__content { align-items: flex-start; }
+.hero-block[data-type="simple-left"] .hero-block__text { align-items: flex-start; }
+.hero-block[data-type="simple-left"] .hero-block__title { text-align: left; }
+.hero-block[data-type="simple-left"] .hero-block__paragraph { text-align: left; max-width: none; }
+.hero-block[data-type="simple-left"] .hero-block__buttons { align-items: flex-start; }
+.hero-block[data-type="simple-left"] .hero-block__buttons-row { justify-content: flex-start; }
+
+/* ── data-type: image-right (full-bleed two-column split) ─────────── */
+.hero-block[data-type="image-right"] {
+  flex-direction: column;
+  align-items: stretch;
+  padding: 0;
+}
+.hero-block__content-col {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--spacing-between-elements-7);
+  padding: var(--spacing-between-elements-10) var(--spacing-page-sides);
+}
+.hero-block__media-col {
+  display: flex;
+  background: var(--background-static-alpha-layer-1);
+  padding: var(--spacing-page-sides);
+}
+.hero-block[data-type="image-right"] .hero-block__text { align-items: flex-start; }
+.hero-block[data-type="image-right"] .hero-block__title {
+  font-size: var(--size-h1);
+  line-height: var(--line-height-h1);
+  letter-spacing: var(--letter-spacing-h1);
+  text-align: left;
+}
+.hero-block[data-type="image-right"] .hero-block__paragraph { text-align: left; }
+.hero-block[data-type="image-right"] .hero-block__buttons { align-items: flex-start; }
+.hero-block[data-type="image-right"] .hero-block__buttons-row { justify-content: flex-start; }
+.hero-block[data-type="image-right"] .hero-block__image { aspect-ratio: 1 / 1; }
+
+/* ── Desktop + tablet (≥800px) ───────────────────────────────────── */
+@media (min-width: 800px) {
+  .hero-block {
+    padding-block: var(--spacing-page-vertical-7);
+  }
+
+  /* CTAs sit inline (auto width) once there's room */
+  .hero-block__buttons-row .btn { flex: 0 0 auto; }
+
+  /* third badge appears */
+  .hero-block__badge--soc { display: flex; }
+
+  /* simple-center & image-center: tighter content gap on desktop */
+  .hero-block[data-type="simple-center"] .hero-block__content,
+  .hero-block[data-type="image-center"] .hero-block__content {
+    gap: var(--spacing-between-elements-7);
+  }
+
+  /* ── simple-left: title + buttons left column, paragraph right ───── */
+  /* Flat DOM (text, paragraph, buttons) placed with grid so it reflows to a
+     single left-aligned column on mobile without reordering. */
+  .hero-block[data-type="simple-left"] .hero-block__content {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 415px;
+    column-gap: var(--spacing-between-elements-11);
+    align-items: start;
+  }
+  .hero-block[data-type="simple-left"] .hero-block__text {
+    grid-column: 1;
+    grid-row: 1;
+    max-width: 880px;
+  }
+  .hero-block[data-type="simple-left"] .hero-block__paragraph {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    padding-top: var(--spacing-between-elements-4);
+  }
+  .hero-block[data-type="simple-left"] .hero-block__buttons {
+    grid-column: 1;
+    grid-row: 2;
+    padding-top: var(--spacing-between-elements-8);
+  }
+
+  /* ── image-right: row split, content right-half, image left-half ── */
+  .hero-block[data-type="image-right"] {
+    flex-direction: row;
+    align-items: stretch;
+  }
+  .hero-block__content-col {
+    flex: 1 1 0;
+    min-width: 0;
+    align-items: flex-end;
+    padding: var(--spacing-between-elements-10);
+    padding-left: 0;
+  }
+  .hero-block__content-col > * { width: 496px; max-width: 100%; }
+  .hero-block__media-col {
+    flex: 1 1 0;
+    min-width: 0;
+    align-items: center;
+    justify-content: flex-start;
+    padding: var(--spacing-between-elements-10);
+    padding-right: 0;
+  }
+  .hero-block[data-type="image-right"] .hero-block__image {
+    width: 496px;
+    max-width: 100%;
+  }
+}

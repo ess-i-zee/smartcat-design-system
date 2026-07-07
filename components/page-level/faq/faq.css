@@ -1,0 +1,85 @@
+/* ── FAQ (section) ───────────────────────────────────────────────
+   Figma: Sections / FAQ (node-id=5229-9528)
+   A title plus a list of question/answer pairs. Static — all answers
+   are always visible (no expand/collapse).
+   Elements (presence):
+     .faq__title — H1 (section title)
+     .faq__item  — one per Q&A; .faq__question (H3) + .faq__answer (paragraph)
+   Mobile: question stacked above answer. Desktop+tablet (≥800): two
+   columns — question left (~40%), answer right. Divider above each item.
+   No atomics reused, no JS.
+   ──────────────────────────────────────────────────────────── */
+
+.faq {
+  box-sizing: border-box;
+  width: 100%;
+  padding-inline: var(--grid-page-padding);
+}
+
+.faq__inner {
+  max-width: var(--grid-max-width); /* 1540 */
+  margin-inline: auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-between-elements-8);
+}
+
+.faq__title {
+  margin: 0;
+  font-family: var(--family-heading);
+  font-weight: var(--weight-bold);
+  color: var(--content-static-primary);
+  font-size: var(--size-h1);
+  line-height: var(--line-height-h1);
+  letter-spacing: var(--letter-spacing-h1);
+}
+
+.faq__list {
+  display: flex;
+  flex-direction: column;
+}
+
+.faq__item {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-between-elements-3);
+  padding-block: var(--spacing-between-elements-6);
+  border-top: 1px solid var(--border-divider-default);
+}
+
+.faq__question {
+  margin: 0;
+  font-family: var(--family-heading);
+  font-weight: var(--weight-bold);
+  color: var(--content-static-primary);
+  font-size: var(--size-h3);
+  line-height: var(--line-height-h3);
+  letter-spacing: var(--letter-spacing-h3);
+}
+
+.faq__answer {
+  margin: 0;
+  color: var(--content-static-secondary);
+  font-family: var(--family-body);
+  font-weight: var(--weight-regular);
+  font-size: var(--size-paragraph);
+  line-height: var(--line-height-paragraph);
+  letter-spacing: var(--letter-spacing-paragraph);
+}
+
+/* ── Desktop + tablet ─────────────────────────────────────────── */
+@media (min-width: 800px) {
+  .faq__item {
+    flex-direction: row;
+    gap: var(--spacing-between-elements-9);
+    padding-block: var(--spacing-between-elements-7);
+  }
+  .faq__question {
+    flex: 0 0 40%;
+    max-width: 40%;
+  }
+  .faq__answer {
+    flex: 1;
+    min-width: 0;
+  }
+}

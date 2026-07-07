@@ -1,0 +1,51 @@
+<!--
+  Zigzag — section reference template
+  Figma: Sections / Zigzag (node-id=8789-2093)
+
+  A two-up card: image on one side, text (H2 + paragraph + CTAs) on the other.
+  Properties (on .zigzag):
+    data-image-position : left (default) | right
+  Content toggles — include/omit the element:
+    .zigzag__heading · .zigzag__paragraph · .zigzag__actions (primary .btn + optional secondary)
+
+  Mobile: the image stacks on top of the text (DOM order = image first).
+  data-image-position swaps the two halves on desktop+tablet via CSS order.
+-->
+
+<!-- Image left (default) -->
+<div class="zigzag" data-image-position="left">
+  <div class="zigzag__inner">
+    <div class="zigzag__image">
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M3 19L7.92929 14.0707C7.96834 14.0317 8.03166 14.0317 8.07071 14.0707L10.4293 16.4293C10.4683 16.4683 10.5317 16.4683 10.5707 16.4293L16.4293 10.5707C16.4683 10.5317 16.5317 10.5317 16.5707 10.5707L21.5 15.5M20 20L4 20C2.89543 20 2 19.1046 2 18L2 6C2 4.89543 2.89543 4 4 4L20 4C21.1046 4 22 4.89543 22 6L22 18C22 19.1046 21.1046 20 20 20ZM10 9C10 10.1046 9.10457 11 8 11C6.89543 11 6 10.1046 6 9C6 7.89543 6.89543 7 8 7C9.10457 7 10 7.89543 10 9Z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+    </div>
+    <div class="zigzag__content">
+      <div class="zigzag__text">
+        <h2 class="zigzag__heading">Nisi dolor orci at scelerisque viverra quisque viverra</h2>
+        <p class="zigzag__paragraph">Leo platea arcu vitae mauris elementum. Quis non vestibulum commodo sit nullam mollis sit.</p>
+      </div>
+      <div class="zigzag__actions">
+        <button class="btn" data-type="primary" data-size="m"><span class="btn__label">Button text</span></button>
+        <button class="btn" data-type="secondary" data-size="m"><span class="btn__label">Button text</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Image right -->
+<div class="zigzag" data-image-position="right">
+  <div class="zigzag__inner">
+    <div class="zigzag__image">
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M3 19L7.92929 14.0707C7.96834 14.0317 8.03166 14.0317 8.07071 14.0707L10.4293 16.4293C10.4683 16.4683 10.5317 16.4683 10.5707 16.4293L16.4293 10.5707C16.4683 10.5317 16.5317 10.5317 16.5707 10.5707L21.5 15.5M20 20L4 20C2.89543 20 2 19.1046 2 18L2 6C2 4.89543 2.89543 4 4 4L20 4C21.1046 4 22 4.89543 22 6L22 18C22 19.1046 21.1046 20 20 20ZM10 9C10 10.1046 9.10457 11 8 11C6.89543 11 6 10.1046 6 9C6 7.89543 6.89543 7 8 7C9.10457 7 10 7.89543 10 9Z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+    </div>
+    <div class="zigzag__content">
+      <div class="zigzag__text">
+        <h2 class="zigzag__heading">Nisi dolor orci at scelerisque viverra quisque viverra</h2>
+        <p class="zigzag__paragraph">Leo platea arcu vitae mauris elementum. Quis non vestibulum commodo sit nullam mollis sit.</p>
+      </div>
+      <div class="zigzag__actions">
+        <button class="btn" data-type="primary" data-size="m"><span class="btn__label">Button text</span></button>
+        <button class="btn" data-type="secondary" data-size="m"><span class="btn__label">Button text</span></button>
+      </div>
+    </div>
+  </div>
+</div>

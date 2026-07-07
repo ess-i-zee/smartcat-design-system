@@ -15,7 +15,7 @@
 /* ── Base ────────────────────────────────────────────────────── */
 /* @import url('base/reset.css');         — add when created */
 @import url('base/type-styles.css');
-/* @import url('base/layout.css');        — add when created */
+@import url('base/layout.css');
 
 /* ── Components / Atomic ─────────────────────────────────────── */
 @import url('components/atomic/avatar/avatar.css');
@@ -31,5 +31,21 @@
 @import url('components/atomic/text-field/text-field.css');
 @import url('components/atomic/input-chip/input-chip.css');
 @import url('components/atomic/select/select.css');
+@import url('components/atomic/text-area/text-area.css');
+@import url('components/atomic/input-group/input-group.css');
 
-/* ── Components / Sections ───────────────────────────────────── */
+/* ── Components / Page-level ─────────────────────────────────── */
+@import url('components/page-level/heading/heading.css');
+@import url('components/page-level/text-block/text-block.css');
+@import url('components/page-level/image/image.css');
+@import url('components/page-level/testimonial/testimonial.css');
+@import url('components/page-level/cta/cta.css');
+@import url('components/page-level/numbers/numbers.css');
+@import url('components/page-level/case-study/case-study.css');
+@import url('components/page-level/customer-logos/customer-logos.css');
+@import url('components/page-level/faq/faq.css');
+@import url('components/page-level/accordion-carousel/accordion-carousel.css');
+@import url('components/page-level/cards/cards.css');
+@import url('components/page-level/hero-block/hero-block.css');
+@import url('components/page-level/zigzag/zigzag.css');
+@import url('components/page-level/components-spacing/components-spacing.css');

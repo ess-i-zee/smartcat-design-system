@@ -1,0 +1,105 @@
+/* ── Numbers (section) ───────────────────────────────────────────
+   Figma: Sections / Numbers (node-id=8946-46793)
+   Properties (data attributes on .numbers):
+     data-stats         : 2 | 3 | 4  (cards per row, desktop+tablet)
+     data-case-studies  : true | false (default) — adds logo + CTA footer
+   Elements (presence):
+     .numbers__item        — one stat card per stat (match count to data-stats)
+     .numbers__description — supporting text under the label
+     .numbers__footer      — logo + "Read case study" CTA (case-studies only)
+
+   Each stat is a gray rounded card: big display value, bold label,
+   optional description. Mobile: stacked. Desktop+tablet: equal-width row.
+   Reuses the Button atomic (.btn).
+   ──────────────────────────────────────────────────────────── */
+
+.numbers {
+  box-sizing: border-box;
+  width: 100%;
+  padding-inline: var(--grid-page-padding);
+}
+
+.numbers__inner {
+  max-width: var(--grid-max-width); /* 1540 */
+  margin-inline: auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-between-elements-6);
+}
+
+.numbers__item {
+  box-sizing: border-box;
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-between-elements-6);
+  background: var(--background-static-gray-layer-1);
+  border-radius: var(--radius-5);
+  padding: var(--spacing-card-l-top) var(--spacing-card-l-horizontal) var(--spacing-card-l-bottom);
+}
+
+.numbers__content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-between-elements-6);
+}
+
+.numbers__stat {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-between-elements-3);
+}
+
+.numbers__value {
+  margin: 0;
+  font-family: var(--family-heading);
+  font-weight: var(--weight-bold);
+  color: var(--content-static-primary);
+  font-size: var(--size-display);
+  line-height: var(--line-height-display);
+  letter-spacing: var(--letter-spacing-display);
+}
+
+.numbers__label {
+  margin: 0;
+  font-family: var(--family-heading);
+  font-weight: var(--weight-bold);
+  color: var(--content-static-primary);
+  font-size: var(--size-h4);
+  line-height: var(--line-height-h4);
+  letter-spacing: var(--letter-spacing-h4);
+}
+
+.numbers__description {
+  margin: 0;
+  color: var(--content-static-secondary);
+  font-family: var(--family-body);
+  font-weight: var(--weight-regular);
+  font-size: var(--size-caption);
+  line-height: var(--line-height-caption);
+  letter-spacing: var(--letter-spacing-caption);
+}
+
+.numbers__footer {
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-between-elements-4);
+}
+
+.numbers__logo {
+  font-family: var(--family-body);
+  font-weight: var(--weight-bold);
+  color: var(--content-static-tertiary);
+  font-size: var(--size-caption);
+}
+
+/* ── Desktop + tablet ─────────────────────────────────────────── */
+@media (min-width: 800px) {
+  .numbers__inner {
+    flex-direction: row;
+    align-items: stretch;
+  }
+}

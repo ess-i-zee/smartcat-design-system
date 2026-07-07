@@ -3,12 +3,15 @@
    Source of truth — edit token values directly in this file.
    (Mirrors the Figma "🌐 Smartcat website design system" variables.)
 
-   Strategy: mobile-first
-     :root              → mobile values (base)
-     @media ≥ 769px     → desktop overrides
+   Strategy: mobile-first, two-breakpoint model
+     :root              → tablet + mobile values (base, < 1280px)
+     @media ≥ 1280px    → desktop overrides
+   Note: tablet (800–1279px) shares the mobile/base token values;
+   only true desktop (≥ 1280px) gets the override. The 800px boundary
+   is a section-component breakpoint (see base/layout.css), not a token one.
    ============================================================= */
 
-/* ── Mobile (base) ───────────────────────────────────────────── */
+/* ── Tablet + mobile (base) ──────────────────────────────────── */
 :root {
 
   /* ── Spacing / Card ─────────────────────────────────────── */
@@ -96,15 +99,11 @@
   --radius-card-regular:     var(--radius-5);
   --radius-card-contained:   var(--radius-3);
   --radius-panel:            var(--radius-5);
-
-  /* ── Dimensions ──────────────────────────────────────────── */
-  --dimension-page-width:    var(--dimension-mobile-page-width);
-  --dimension-content-width: var(--dimension-mobile-content-width);
 }
 
-/* ── Desktop overrides (≥ 769px) ─────────────────────────────── */
-/* Only tokens that differ from mobile are listed here.           */
-@media (min-width: 769px) {
+/* ── Desktop overrides (≥ 1280px) ────────────────────────────── */
+/* Only tokens that differ from tablet/mobile are listed here.    */
+@media (min-width: 1280px) {
   :root {
 
     /* ── Spacing / Card ───────────────────────────────────── */
@@ -141,8 +140,6 @@
     --spacing-between-elements-11: var(--spacing-12);
 
     /* ── Dimensions ──────────────────────────────────────── */
-    --dimension-page-width:    var(--dimension-desktop-page-width);
-    --dimension-content-width: var(--dimension-desktop-content-width);
     --dimension-max-text-width: var(--dimension-desktop-max-text-width);
   }
 }

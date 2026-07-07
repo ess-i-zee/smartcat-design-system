@@ -1,0 +1,157 @@
+/* ── Testimonial (section) ───────────────────────────────────────
+   Figma: Sections / Testimonial (node-id=8786-13272)
+   Properties (data attributes on .testimonial):
+     data-mode : single | multi (default)
+   Elements (presence):
+     .testimonial__slide      — one per testimonial; multi shows one at a time
+     .testimonial__quote      — the quote (H3)
+     .testimonial__cta        — optional CTA, reuse .link
+     .testimonial__author     — contained card: avatar + name/role + logo
+     .testimonial__pagination — multi only: prev/next (btn-icon) + dots
+   Reuses atomics: avatar, link, btn-icon. Carousel wired by testimonial.js.
+   Mobile: stacked, dots centered. Desktop+tablet (≥800): row with the
+   pagination column on the right.
+   ──────────────────────────────────────────────────────────── */
+
+.testimonial {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-between-elements-8);
+  background: var(--background-static-gray-layer-1);
+  border-radius: var(--radius-5);
+  padding: var(--spacing-panel-top) var(--spacing-panel-horizontal) var(--spacing-panel-bottom);
+}
+
+.testimonial__track { min-width: 0; }
+
+.testimonial__slide {
+  display: none;
+  flex-direction: column;
+  gap: var(--spacing-between-elements-8);
+}
+.testimonial__slide[data-active] { display: flex; }
+.testimonial[data-mode="single"] .testimonial__slide { display: flex; }
+
+/* ── Quote + CTA ─────────────────────────────────────────────── */
+
+.testimonial__body {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--spacing-between-elements-5);
+}
+
+.testimonial__quote {
+  margin: 0;
+  font-family: var(--family-heading);
+  font-weight: var(--weight-bold);
+  color: var(--content-static-primary);
+  font-size: var(--size-h3);
+  line-height: var(--line-height-h3);
+  letter-spacing: var(--letter-spacing-h3);
+}
+
+.testimonial__cta {
+  font-family: var(--family-body);
+  font-weight: var(--weight-semi-bold);
+  font-size: var(--size-label-l);
+  line-height: var(--line-height-label-l);
+}
+
+/* ── Author (contained card) ─────────────────────────────────── */
+
+.testimonial__author {
+  box-sizing: border-box;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-between-elements-7);
+  background: var(--background-static-alpha-layer-1);
+  border-radius: var(--radius-3);
+  padding: var(--spacing-card-l-horizontal);
+}
+
+.testimonial__author-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-between-elements-3);
+}
+
+.testimonial__name {
+  font-family: var(--family-heading);
+  font-weight: var(--weight-bold);
+  color: var(--content-static-primary);
+  font-size: var(--size-h4);
+  line-height: var(--line-height-h4);
+  letter-spacing: var(--letter-spacing-h4);
+}
+
+.testimonial__role {
+  font-family: var(--family-body);
+  font-weight: var(--weight-regular);
+  color: var(--content-static-secondary);
+  font-size: var(--size-caption);
+  line-height: var(--line-height-caption);
+}
+
+.testimonial__logo {
+  margin-top: var(--spacing-between-elements-3);
+  font-family: var(--family-body);
+  font-weight: var(--weight-bold);
+  color: var(--content-static-tertiary);
+  font-size: var(--size-caption);
+}
+
+/* ── Pagination (multi only) ─────────────────────────────────── */
+
+.testimonial[data-mode="single"] .testimonial__pagination { display: none; }
+
+.testimonial__pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-between-elements-5);
+}
+
+.testimonial__nav { display: none; } /* chevrons appear on desktop+tablet only */
+
+.testimonial__dots {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  height: 36px;
+}
+
+.testimonial__dot {
+  width: 6px;
+  height: 6px;
+  padding: 0;
+  border: none;
+  border-radius: var(--radius-full);
+  background: var(--background-static-alpha-layer-2);
+  cursor: pointer;
+  transition: background 120ms ease;
+}
+.testimonial__dot[data-state="selected"] {
+  background: var(--background-static-gray-inverted);
+}
+
+/* ── Desktop + tablet ────────────────────────────────────────── */
+
+@media (min-width: 800px) {
+  .testimonial {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+  .testimonial__track { flex: 1; }
+  .testimonial__pagination {
+    width: 200px;
+    flex-shrink: 0;
+    justify-content: flex-end;
+    align-items: flex-start;
+  }
+  .testimonial__nav { display: inline-flex; }
+}

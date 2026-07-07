@@ -3,9 +3,10 @@
    Source of truth — edit token values directly in this file.
    (Mirrors the Figma "🌐 Smartcat website design system" variables.)
 
-   Strategy: mobile-first
-     :root              → mobile values (base)
-     @media ≥ 769px     → desktop overrides
+   Strategy: mobile-first, two-breakpoint model
+     :root              → tablet + mobile values (base, < 1280px)
+     @media ≥ 1280px    → desktop overrides
+   (Tablet shares the mobile/base values; only ≥ 1280px overrides.)
 
    Notes:
      - Weight strings from Figma ("Bold" etc.) are mapped to
@@ -67,12 +68,11 @@
   --letter-spacing-label-l:     0px;
   --letter-spacing-label-m:     0px;
   --letter-spacing-label-s:     0px;
-  --letter-spacing-eyebrow:     1.5px;
 }
 
-/* ── Desktop overrides (≥ 769px) ─────────────────────────────── */
-/* Only tokens that differ from mobile are listed here.           */
-@media (min-width: 769px) {
+/* ── Desktop overrides (≥ 1280px) ────────────────────────────── */
+/* Only tokens that differ from tablet/mobile are listed here.    */
+@media (min-width: 1280px) {
   :root {
 
     /* ── Font size ───────────────────────────────────────────── */

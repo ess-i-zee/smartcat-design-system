@@ -1,0 +1,60 @@
+/* ── Image (section) ─────────────────────────────────────────────
+   Figma: Sections / Image (node-id=4499-3894)
+   Properties (data attributes on .image):
+     data-layout : wide (default) | narrow
+   Full-width row; the picture is centered and capped at the content
+   width (1120px). `narrow` insets the picture to a readable measure on
+   desktop+tablet (≥800px); on mobile it renders full-width like `wide`.
+   ──────────────────────────────────────────────────────────── */
+
+.image {
+  box-sizing: border-box;
+  width: 100%;
+  padding-inline: var(--grid-page-padding);
+  display: flex;
+  justify-content: center;
+}
+
+.image__inner {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: var(--grid-max-width); /* 1540 */
+}
+
+.image__frame {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: var(--background-static-alpha-layer-2);
+  border-radius: var(--radius-5);
+  color: var(--content-static-tertiary);
+}
+
+/* Real usage: replace .image__placeholder with this image element */
+.image__media {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.image__placeholder {
+  display: flex;
+}
+
+.image__placeholder svg {
+  width: 28px;
+  height: 28px;
+}
+
+/* Desktop + tablet: narrow caps the picture to the readable measure */
+@media (min-width: 800px) {
+  .image[data-layout="narrow"] .image__frame {
+    max-width: var(--dimension-desktop-max-text-width); /* 740 */
+    margin-inline: auto;
+    border-radius: var(--radius-6); /* 24 */
+  }
+}

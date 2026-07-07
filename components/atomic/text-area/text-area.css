@@ -1,0 +1,110 @@
+/* ── Text area ───────────────────────────────────────────────────
+   Figma: Components / Atomic / Text area (node-id=11986-6006)
+   Properties (data attributes on .text-area):
+     data-size  : l (default) | m
+     data-state : error | disabled
+   CSS-driven states:
+     :hover on .text-area         — hover background
+     :focus-within on .text-area  — focus ring + border color
+     :disabled on native textarea — drives disabled via :has()
+   Resize: the container carries `resize: vertical` (height-only drag, width
+   fixed). It requires `overflow: hidden`. The browser draws the native resize
+   grip at the bottom-right corner — that is the interactive handle. The native
+   <textarea> has `resize: none` so only one grip appears.
+   ──────────────────────────────────────────────────────────────── */
+
+/* ── Container ───────────────────────────────────────────────── */
+
+.text-area {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--border-interaction-default);
+  border-radius: 6px;
+  background: var(--background-interaction-default);
+  transition: background 120ms ease, border-color 120ms ease, box-shadow 120ms ease;
+  /* Height-only resize lives on the container so the native grip lands at the
+     corner. `overflow: hidden` is required for `resize` to take effect. */
+  resize: vertical;
+  overflow: hidden;
+}
+
+/* ── Size variants ───────────────────────────────────────────── */
+
+.text-area[data-size="l"],
+.text-area:not([data-size]) {
+  padding: var(--spacing-input-l-vertical) var(--spacing-input-l-horizontal);
+  min-height: 156px;
+}
+
+.text-area[data-size="m"] {
+  padding: var(--spacing-input-m-vertical) var(--spacing-input-m-horizontal);
+  min-height: 108px;
+}
+
+/* ── Native textarea ─────────────────────────────────────────── */
+
+.text-area__native {
+  flex: 1;
+  min-height: 60px;
+  width: 100%;
+  box-sizing: border-box;
+  appearance: none;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: var(--content-static-primary);
+  font-family: var(--family-body);
+  font-weight: var(--weight-regular);
+  resize: none;
+}
+
+.text-area__native::placeholder {
+  color: var(--content-static-tertiary);
+}
+
+.text-area[data-size="l"] .text-area__native,
+.text-area:not([data-size]) .text-area__native {
+  font-size: var(--size-label-l);
+  line-height: var(--line-height-label-l);
+  letter-spacing: var(--letter-spacing-label-l);
+}
+
+.text-area[data-size="m"] .text-area__native {
+  font-size: var(--size-label-m);
+  line-height: var(--line-height-label-m);
+  letter-spacing: var(--letter-spacing-label-m);
+}
+
+/* ── Interactive states ──────────────────────────────────────── */
+
+.text-area:not([data-state="error"]):not([data-state="disabled"]):hover {
+  background: var(--background-interaction-hover);
+}
+
+.text-area:focus-within {
+  border-color: var(--border-focus-default);
+  box-shadow: 0 0 0 3px var(--border-focus-default);
+  background: var(--background-interaction-focus);
+}
+
+/* ── Error ───────────────────────────────────────────────────── */
+
+.text-area[data-state="error"] {
+  border-color: var(--border-interaction-error);
+}
+
+.text-area[data-state="error"]:focus-within {
+  border-color: var(--border-interaction-error);
+  box-shadow: 0 0 0 3px var(--border-interaction-error);
+}
+
+/* ── Disabled ────────────────────────────────────────────────── */
+
+.text-area[data-state="disabled"],
+.text-area:has(.text-area__native:disabled) {
+  opacity: 0.6;
+  pointer-events: none;
+  cursor: not-allowed;
+}
+

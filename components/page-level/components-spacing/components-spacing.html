@@ -1,0 +1,24 @@
+<!--
+  Components spacing — page-level reference template
+  Figma: Smartcat website design system / Spacing (node-id=9505-14100)
+
+  A contentless full-width vertical spacer placed between page-level
+  components to create standardized vertical gaps and structure Sections.
+  Renders as empty vertical space (no border/background in production).
+
+  Property — data-size on .components-spacing (default 1):
+    Height comes from --spacing-page-vertical-N (responsive, mobile→desktop):
+      1  8→8    equals the layout gutter (e.g. stacked card rows forming a grid)
+      2  8→16
+      3  24→24
+      4  40→40
+      5  48→56   between an H2 Heading and the content below it
+      6  64→80   between an H1 Heading and content; between independent
+                 components in a Section; page top padding when the page
+                 does NOT start with a hero block
+      7  80→120  between separate logical blocks within one Section
+      8  120→160 top/bottom padding of a Section
+    See CLAUDE.md "Components spacing" for full usage guidance.
+-->
+
+<div class="components-spacing" data-size="6"></div>

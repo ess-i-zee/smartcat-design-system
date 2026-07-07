@@ -1,0 +1,100 @@
+/* ── Input group ─────────────────────────────────────────────────
+   Figma: Components / Atomic / Input group (node-id=3638-6279)
+
+   Wraps an input control (Text field, Select, or Text area) with an
+   optional label, an optional message (hint OR error), and an optional
+   character counter. This is the PRIMARY, accessible way to use those
+   inputs — the <label> gives them an accessible name. Use a bare input
+   only when there is genuinely no room for a label.
+
+   Element presence (include or omit, never display:none):
+     .input-group__label    — label=true; a real <label for="…"> for a11y
+       .input-group__suffix             — mandatory: "*"  (semi-bold)
+       .input-group__suffix--optional   — optional: "(optional)"
+       .input-group__suffix--applicable — "(if applicable)"
+       (suffixes are mutually exclusive — include at most one)
+     <input control>        — Text field / Select / Text area, always present
+     .input-group__hints    — hints=true; the row below the input
+       .input-group__message            — hint text (hintText=true)
+       .input-group__message--error     — error message (errorText=true);
+                                           replaces the hint, colored red
+       .input-group__counter            — character counter "0/1000"
+
+   Accessibility:
+     - Give the input's native control an id and point the <label for> at it
+       (Text field / Text area: the native <input>/<textarea>).
+     - Select has no native control: set aria-labelledby on .select to the
+       label's id, and id the label instead of using `for`.
+     - Link the message to the control with aria-describedby for hints/errors.
+   ──────────────────────────────────────────────────────────── */
+
+/* ── Container ───────────────────────────────────────────────── */
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3);
+  /* Own stacking context so a focused input's ring layers cleanly over
+     the adjacent label / hints rows. */
+  isolation: isolate;
+}
+
+/* The wrapped input stretches to the group width (default flex stretch). */
+
+/* ── Label ───────────────────────────────────────────────────── */
+
+.input-group__label {
+  display: flex;
+  gap: var(--spacing-1);
+  align-items: flex-start;
+  font-family: var(--family-body);
+  font-weight: var(--weight-semi-bold);
+  font-size: var(--size-label-m);
+  line-height: var(--line-height-label-m);
+  letter-spacing: var(--letter-spacing-label-m);
+  color: var(--content-static-primary);
+}
+
+/* Label suffixes — all tertiary; "*" stays semi-bold, words are regular */
+.input-group__suffix {
+  flex-shrink: 0;
+  font-weight: var(--weight-semi-bold);
+  color: var(--content-static-tertiary);
+}
+
+.input-group__suffix--optional,
+.input-group__suffix--applicable {
+  font-weight: var(--weight-regular);
+}
+
+/* ── Hints row (message + counter) ───────────────────────────── */
+
+.input-group__hints {
+  display: flex;
+  gap: var(--spacing-5);
+  align-items: flex-start;
+  justify-content: flex-end;
+  font-family: var(--family-body);
+  font-weight: var(--weight-regular);
+  font-size: var(--size-label-m);
+  line-height: var(--line-height-label-m);
+  letter-spacing: var(--letter-spacing-label-m);
+}
+
+/* Hint / error message — takes remaining width, pushing the counter right */
+.input-group__message {
+  flex: 1;
+  min-width: 0;
+  color: var(--content-static-secondary);
+}
+
+.input-group__message--error {
+  color: var(--content-interaction-error);
+}
+
+/* Character counter — never wraps; sits at the right edge */
+.input-group__counter {
+  flex-shrink: 0;
+  white-space: nowrap;
+  color: var(--content-static-secondary);
+}

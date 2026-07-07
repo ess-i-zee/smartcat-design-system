@@ -1,0 +1,23 @@
+/* ── Components spacing (page-level) ──────────────────────────────
+   Figma: Smartcat website design system / Spacing (node-id=9505-14100)
+   Property (data attribute on .components-spacing):
+     data-size : 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8   (default 1)
+   Contentless full-width vertical spacer placed between page-level
+   components to structure Sections. Height maps to the responsive
+   --spacing-page-vertical-* tokens, so mobile→desktop sizing is
+   automatic (≥1280px) — no media query, and no Desktop/Mobile
+   variant (the Figma breakpoint variant collapses into the tokens).
+   Sizes (mobile → desktop): 1 8→8 · 2 8→16 · 3 24→24 · 4 40→40 ·
+     5 48→56 · 6 64→80 · 7 80→120 · 8 120→160
+   See CLAUDE.md "Components spacing" for when to use each size.
+   ──────────────────────────────────────────────────────────── */
+
+.components-spacing { width: 100%; height: var(--spacing-page-vertical-1); }
+.components-spacing[data-size="1"] { height: var(--spacing-page-vertical-1); }
+.components-spacing[data-size="2"] { height: var(--spacing-page-vertical-2); }
+.components-spacing[data-size="3"] { height: var(--spacing-page-vertical-3); }
+.components-spacing[data-size="4"] { height: var(--spacing-page-vertical-4); }
+.components-spacing[data-size="5"] { height: var(--spacing-page-vertical-5); }
+.components-spacing[data-size="6"] { height: var(--spacing-page-vertical-6); }
+.components-spacing[data-size="7"] { height: var(--spacing-page-vertical-7); }
+.components-spacing[data-size="8"] { height: var(--spacing-page-vertical-8); }

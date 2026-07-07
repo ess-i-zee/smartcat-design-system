@@ -1,0 +1,36 @@
+<!--
+  Case study — section reference template
+  Figma: Sections / Case study (node-id=9507-16912)
+
+  A gray panel with a large metric + caption + paragraph + primary CTA
+  on the left, and a contained white author card on the right.
+  Elements (include or omit):
+    .case-study__figure    — metric + caption
+    .case-study__paragraph — supporting text
+    .btn                   — primary CTA
+    .case-study__card      — author card (avatar + name/role + logo)
+  Reuses atomics: button (.btn), avatar (.avatar).
+-->
+
+<div class="case-study">
+  <div class="case-study__inner">
+    <div class="case-study__content">
+      <div class="case-study__figure">
+        <p class="case-study__metric">100%</p>
+        <p class="case-study__caption">caption text</p>
+      </div>
+      <p class="case-study__paragraph">Dignissim non malesuada sollicitudin justo ipsum consequat. Enim interdum dictum vulputate hendrerit eget. Praesent morbi amet tincidunt rhoncus ultrices ullamcorper sagittis sit posuere.</p>
+      <button class="btn" data-type="primary" data-size="l"><span class="btn__label">Primary CTA</span></button>
+    </div>
+    <div class="case-study__card">
+      <div class="case-study__author">
+        <div class="avatar" data-type="icon" data-size="80"></div>
+        <div class="case-study__author-info">
+          <div class="case-study__name">Full Name</div>
+          <div class="case-study__role">Job title</div>
+        </div>
+      </div>
+      <span class="case-study__logo">Logo</span>
+    </div>
+  </div>
+</div>

@@ -48,11 +48,24 @@
   gap: var(--spacing-input-m-gap);
 }
 
-/* Multi-select tightens vertical padding to accommodate chips */
-.select[data-mode="multi"] {
-  padding-top: var(--spacing-input-m-vertical);
-  padding-bottom: var(--spacing-input-m-vertical);
-  align-items: center;
+/* Multi-select padding.
+   Empty (placeholder shown): inherits the size's default padding above, which
+   matches single-select height (52px L / 36px M).
+   Filled (chips present): chips are 36px (L) / 28px (M) tall — taller than the
+   placeholder line — so switch vertical + left padding to the smaller "filled"
+   token. This keeps the total row height constant when chips are added,
+   matching the Figma "Complete" state (node 5672:13958 / 5674:11398). */
+.select[data-mode="multi"][data-size="l"]:has(.input-chip),
+.select[data-mode="multi"]:not([data-size]):has(.input-chip) {
+  padding-top: var(--spacing-input-l-filled);
+  padding-bottom: var(--spacing-input-l-filled);
+  padding-left: var(--spacing-input-l-filled);
+}
+
+.select[data-mode="multi"][data-size="m"]:has(.input-chip) {
+  padding-top: var(--spacing-input-m-filled);
+  padding-bottom: var(--spacing-input-m-filled);
+  padding-left: var(--spacing-input-m-filled);
 }
 
 /* ── Icon slot ───────────────────────────────────────────────── */

@@ -1,0 +1,153 @@
+<!--
+  Cards — section reference template
+  Figma: Sections / Cards - big image (node-id=9295-6180)
+
+  A responsive grid of cards. One component for all visual variants.
+  Properties (on .cards):
+    data-cards          : 2 | 3 | 4 | 5-6  (columns + size tier 2→L, 3-4→M, 5-6→S;
+                          5-6 lays out in a single row on desktop/tablet)
+    data-media          : big-image | small-image | icon
+    data-image-position : top (default) | bottom   (big-image only)
+  Per-card content toggles — include/omit in every card consistently:
+    .cards__media · .cards__number · .cards__heading · .cards__paragraph · .cards__actions
+
+  Anatomy: .cards__card → (big-image media) + .cards__content → number, .cards__text
+  (heading + paragraph), .cards__actions. For small-image / icon the .cards__media
+  sits as the first child INSIDE .cards__content (so the padding insets it).
+
+  Example below: 3 cards (M), big image on top, all content present.
+-->
+
+<div class="cards" data-cards="3" data-media="big-image" data-image-position="top">
+  <div class="cards__inner">
+    <div class="cards__grid">
+
+      <div class="cards__card">
+        <div class="cards__media">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M1.99992 12.6667L5.28611 9.38056C5.31215 9.35452 5.35436 9.35452 5.38039 9.38056L6.95278 10.9529C6.97881 10.979 7.02103 10.979 7.04706 10.9529L10.9528 7.04722C10.9788 7.02119 11.021 7.02119 11.0471 7.04722L14.3333 10.3334M13.3333 13.3334L2.66659 13.3334C1.93021 13.3334 1.33325 12.7365 1.33325 12.0001L1.33325 4.00008C1.33325 3.2637 1.93021 2.66675 2.66659 2.66675L13.3333 2.66675C14.0696 2.66675 14.6666 3.2637 14.6666 4.00008L14.6666 12.0001C14.6666 12.7365 14.0696 13.3334 13.3333 13.3334ZM6.66659 6.00008C6.66659 6.73646 6.06963 7.33342 5.33325 7.33342C4.59687 7.33342 3.99992 6.73646 3.99992 6.00008C3.99992 5.2637 4.59687 4.66675 5.33325 4.66675C6.06963 4.66675 6.66659 5.2637 6.66659 6.00008Z" stroke="currentColor" stroke-linecap="round"/></svg>
+        </div>
+        <div class="cards__content">
+          <span class="cards__number">1</span>
+          <div class="cards__text">
+            <h3 class="cards__heading">Blandit id tristique</h3>
+            <p class="cards__paragraph">Leo platea arcu vitae mauris elementum. Quis non vestibulum commodo sit nullam mollis sit.</p>
+          </div>
+          <div class="cards__actions">
+            <button class="btn" data-type="primary" data-size="m"><span class="btn__label">Button text</span></button>
+            <button class="btn" data-type="secondary" data-size="m"><span class="btn__label">Button text</span></button>
+          </div>
+        </div>
+      </div>
+
+      <div class="cards__card">
+        <div class="cards__media">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M1.99992 12.6667L5.28611 9.38056C5.31215 9.35452 5.35436 9.35452 5.38039 9.38056L6.95278 10.9529C6.97881 10.979 7.02103 10.979 7.04706 10.9529L10.9528 7.04722C10.9788 7.02119 11.021 7.02119 11.0471 7.04722L14.3333 10.3334M13.3333 13.3334L2.66659 13.3334C1.93021 13.3334 1.33325 12.7365 1.33325 12.0001L1.33325 4.00008C1.33325 3.2637 1.93021 2.66675 2.66659 2.66675L13.3333 2.66675C14.0696 2.66675 14.6666 3.2637 14.6666 4.00008L14.6666 12.0001C14.6666 12.7365 14.0696 13.3334 13.3333 13.3334ZM6.66659 6.00008C6.66659 6.73646 6.06963 7.33342 5.33325 7.33342C4.59687 7.33342 3.99992 6.73646 3.99992 6.00008C3.99992 5.2637 4.59687 4.66675 5.33325 4.66675C6.06963 4.66675 6.66659 5.2637 6.66659 6.00008Z" stroke="currentColor" stroke-linecap="round"/></svg>
+        </div>
+        <div class="cards__content">
+          <span class="cards__number">2</span>
+          <div class="cards__text">
+            <h3 class="cards__heading">Blandit id tristique</h3>
+            <p class="cards__paragraph">Leo platea arcu vitae mauris elementum. Quis non vestibulum commodo sit nullam mollis sit.</p>
+          </div>
+          <div class="cards__actions">
+            <button class="btn" data-type="primary" data-size="m"><span class="btn__label">Button text</span></button>
+            <button class="btn" data-type="secondary" data-size="m"><span class="btn__label">Button text</span></button>
+          </div>
+        </div>
+      </div>
+
+      <div class="cards__card">
+        <div class="cards__media">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M1.99992 12.6667L5.28611 9.38056C5.31215 9.35452 5.35436 9.35452 5.38039 9.38056L6.95278 10.9529C6.97881 10.979 7.02103 10.979 7.04706 10.9529L10.9528 7.04722C10.9788 7.02119 11.021 7.02119 11.0471 7.04722L14.3333 10.3334M13.3333 13.3334L2.66659 13.3334C1.93021 13.3334 1.33325 12.7365 1.33325 12.0001L1.33325 4.00008C1.33325 3.2637 1.93021 2.66675 2.66659 2.66675L13.3333 2.66675C14.0696 2.66675 14.6666 3.2637 14.6666 4.00008L14.6666 12.0001C14.6666 12.7365 14.0696 13.3334 13.3333 13.3334ZM6.66659 6.00008C6.66659 6.73646 6.06963 7.33342 5.33325 7.33342C4.59687 7.33342 3.99992 6.73646 3.99992 6.00008C3.99992 5.2637 4.59687 4.66675 5.33325 4.66675C6.06963 4.66675 6.66659 5.2637 6.66659 6.00008Z" stroke="currentColor" stroke-linecap="round"/></svg>
+        </div>
+        <div class="cards__content">
+          <span class="cards__number">3</span>
+          <div class="cards__text">
+            <h3 class="cards__heading">Blandit id tristique</h3>
+            <p class="cards__paragraph">Leo platea arcu vitae mauris elementum. Quis non vestibulum commodo sit nullam mollis sit.</p>
+          </div>
+          <div class="cards__actions">
+            <button class="btn" data-type="primary" data-size="m"><span class="btn__label">Button text</span></button>
+            <button class="btn" data-type="secondary" data-size="m"><span class="btn__label">Button text</span></button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!--
+  Different media — set data-media on the root and move the .cards__media:
+  small-image / icon place the media as the first child INSIDE .cards__content
+  (it is inset by the content padding instead of running full-bleed).
+-->
+
+<!-- Small image (2 cards) -->
+<div class="cards" data-cards="2" data-media="small-image" data-image-position="top">
+  <div class="cards__inner">
+    <div class="cards__grid">
+      <div class="cards__card">
+        <div class="cards__content">
+          <div class="cards__media"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M1.99992 12.6667L5.28611 9.38056C5.31215 9.35452 5.35436 9.35452 5.38039 9.38056L6.95278 10.9529C6.97881 10.979 7.02103 10.979 7.04706 10.9529L10.9528 7.04722C10.9788 7.02119 11.021 7.02119 11.0471 7.04722L14.3333 10.3334M13.3333 13.3334L2.66659 13.3334C1.93021 13.3334 1.33325 12.7365 1.33325 12.0001L1.33325 4.00008C1.33325 3.2637 1.93021 2.66675 2.66659 2.66675L13.3333 2.66675C14.0696 2.66675 14.6666 3.2637 14.6666 4.00008L14.6666 12.0001C14.6666 12.7365 14.0696 13.3334 13.3333 13.3334ZM6.66659 6.00008C6.66659 6.73646 6.06963 7.33342 5.33325 7.33342C4.59687 7.33342 3.99992 6.73646 3.99992 6.00008C3.99992 5.2637 4.59687 4.66675 5.33325 4.66675C6.06963 4.66675 6.66659 5.2637 6.66659 6.00008Z" stroke="currentColor" stroke-linecap="round"/></svg></div>
+          <div class="cards__text">
+            <h3 class="cards__heading">Blandit id tristique</h3>
+            <p class="cards__paragraph">Leo platea arcu vitae mauris elementum. Quis non vestibulum commodo sit nullam mollis sit.</p>
+          </div>
+          <div class="cards__actions">
+            <button class="btn" data-type="primary" data-size="m"><span class="btn__label">Button text</span></button>
+            <button class="btn" data-type="secondary" data-size="m"><span class="btn__label">Button text</span></button>
+          </div>
+        </div>
+      </div>
+      <div class="cards__card">
+        <div class="cards__content">
+          <div class="cards__media"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M1.99992 12.6667L5.28611 9.38056C5.31215 9.35452 5.35436 9.35452 5.38039 9.38056L6.95278 10.9529C6.97881 10.979 7.02103 10.979 7.04706 10.9529L10.9528 7.04722C10.9788 7.02119 11.021 7.02119 11.0471 7.04722L14.3333 10.3334M13.3333 13.3334L2.66659 13.3334C1.93021 13.3334 1.33325 12.7365 1.33325 12.0001L1.33325 4.00008C1.33325 3.2637 1.93021 2.66675 2.66659 2.66675L13.3333 2.66675C14.0696 2.66675 14.6666 3.2637 14.6666 4.00008L14.6666 12.0001C14.6666 12.7365 14.0696 13.3334 13.3333 13.3334ZM6.66659 6.00008C6.66659 6.73646 6.06963 7.33342 5.33325 7.33342C4.59687 7.33342 3.99992 6.73646 3.99992 6.00008C3.99992 5.2637 4.59687 4.66675 5.33325 4.66675C6.06963 4.66675 6.66659 5.2637 6.66659 6.00008Z" stroke="currentColor" stroke-linecap="round"/></svg></div>
+          <div class="cards__text">
+            <h3 class="cards__heading">Blandit id tristique</h3>
+            <p class="cards__paragraph">Leo platea arcu vitae mauris elementum. Quis non vestibulum commodo sit nullam mollis sit.</p>
+          </div>
+          <div class="cards__actions">
+            <button class="btn" data-type="primary" data-size="m"><span class="btn__label">Button text</span></button>
+            <button class="btn" data-type="secondary" data-size="m"><span class="btn__label">Button text</span></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Icon (2 cards) — the .cards__media is a 64px circular container; swap the
+     placeholder <svg> for a real 24×24 design-system icon -->
+<div class="cards" data-cards="2" data-media="icon" data-image-position="top">
+  <div class="cards__inner">
+    <div class="cards__grid">
+      <div class="cards__card">
+        <div class="cards__content">
+          <div class="cards__media"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M8 5L16 5M8 19H16M5 16V8M19 16V8M5 7C3.89543 7 3 6.10457 3 5C3 3.89543 3.89543 3 5 3C6.10457 3 7 3.89543 7 5C7 6.10457 6.10457 7 5 7ZM19 7C17.8954 7 17 6.10457 17 5C17 3.89543 17.8954 3 19 3C20.1046 3 21 3.89543 21 5C21 6.10457 20.1046 7 19 7ZM5 21C3.89543 21 3 20.1046 3 19C3 17.8954 3.89543 17 5 17C6.10457 17 7 17.8954 7 19C7 20.1046 6.10457 21 5 21ZM19 21C17.8954 21 17 20.1046 17 19C17 17.8954 17.8954 17 19 17C20.1046 17 21 17.8954 21 19C21 20.1046 20.1046 21 19 21Z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></div>
+          <div class="cards__text">
+            <h3 class="cards__heading">Blandit id tristique</h3>
+            <p class="cards__paragraph">Leo platea arcu vitae mauris elementum. Quis non vestibulum commodo sit nullam mollis sit.</p>
+          </div>
+          <div class="cards__actions">
+            <button class="btn" data-type="primary" data-size="m"><span class="btn__label">Button text</span></button>
+            <button class="btn" data-type="secondary" data-size="m"><span class="btn__label">Button text</span></button>
+          </div>
+        </div>
+      </div>
+      <div class="cards__card">
+        <div class="cards__content">
+          <div class="cards__media"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M8 5L16 5M8 19H16M5 16V8M19 16V8M5 7C3.89543 7 3 6.10457 3 5C3 3.89543 3.89543 3 5 3C6.10457 3 7 3.89543 7 5C7 6.10457 6.10457 7 5 7ZM19 7C17.8954 7 17 6.10457 17 5C17 3.89543 17.8954 3 19 3C20.1046 3 21 3.89543 21 5C21 6.10457 20.1046 7 19 7ZM5 21C3.89543 21 3 20.1046 3 19C3 17.8954 3.89543 17 5 17C6.10457 17 7 17.8954 7 19C7 20.1046 6.10457 21 5 21ZM19 21C17.8954 21 17 20.1046 17 19C17 17.8954 17.8954 17 19 17C20.1046 17 21 17.8954 21 19C21 20.1046 20.1046 21 19 21Z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></div>
+          <div class="cards__text">
+            <h3 class="cards__heading">Blandit id tristique</h3>
+            <p class="cards__paragraph">Leo platea arcu vitae mauris elementum. Quis non vestibulum commodo sit nullam mollis sit.</p>
+          </div>
+          <div class="cards__actions">
+            <button class="btn" data-type="primary" data-size="m"><span class="btn__label">Button text</span></button>
+            <button class="btn" data-type="secondary" data-size="m"><span class="btn__label">Button text</span></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

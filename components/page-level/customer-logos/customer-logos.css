@@ -1,0 +1,102 @@
+/* ── Customer logos (section) ────────────────────────────────────
+   Figma: Sections / Client logos chain (node-id=9499-13645)
+   Properties (data attributes on .customer-logos):
+     data-type : carousel (auto-marquee, centered) | 1-line | 2-line
+   Elements (presence):
+     .customer-logos__header — label (omit for carousel? — present in all
+                               three here; carousel + 1-line use "Trusted by:",
+                               2-line uses a brand-led sentence)
+     .customer-logos__logo   — one per logo (placeholder box)
+
+   carousel: infinite horizontal marquee (duplicate the logo set in markup
+   so the -50% loop is seamless). 1-line: single row. 2-line: wrapping grid.
+   Mobile: full-width, logos wrap; desktop: max-width 1120 centered.
+   No atomics reused. Logos are placeholder boxes (swap for <img> with real assets).
+   ──────────────────────────────────────────────────────────── */
+
+.customer-logos {
+  box-sizing: border-box;
+  width: 100%;
+  padding-inline: var(--grid-page-padding);
+}
+
+.customer-logos__inner {
+  max-width: var(--grid-max-width); /* 1540 */
+  margin-inline: auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-between-elements-6);
+}
+
+.customer-logos__header {
+  margin: 0;
+  font-family: var(--family-heading);
+  font-weight: var(--weight-bold);
+  color: var(--content-static-primary);
+  font-size: var(--size-h4);
+  line-height: var(--line-height-h4);
+  letter-spacing: var(--letter-spacing-h4);
+}
+.customer-logos__brand { color: var(--content-static-brand); }
+
+.customer-logos__viewport { width: 100%; }
+
+.customer-logos__track {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--spacing-between-elements-6) var(--spacing-between-elements-8);
+}
+
+.customer-logos__logo {
+  flex: 0 0 auto;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 96px;
+  height: 40px;
+  border: 1px dashed var(--border-divider-default);
+  border-radius: var(--radius-2);
+  color: var(--content-static-tertiary);
+  font-family: var(--family-body);
+  font-weight: var(--weight-regular);
+  font-size: var(--size-caption);
+}
+
+/* ── Carousel (auto-marquee) ─────────────────────────────────── */
+.customer-logos[data-type="carousel"] .customer-logos__inner { align-items: center; }
+.customer-logos[data-type="carousel"] .customer-logos__viewport {
+  overflow: hidden;
+  -webkit-mask: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+          mask: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+}
+.customer-logos[data-type="carousel"] .customer-logos__track {
+  flex-wrap: nowrap;
+  width: max-content;
+  animation: customer-logos-marquee 40s linear infinite;
+}
+@keyframes customer-logos-marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+/* ── Desktop + tablet ─────────────────────────────────────────── */
+@media (min-width: 800px) {
+  .customer-logos[data-type="1-line"] .customer-logos__inner {
+    flex-direction: row;
+    align-items: center;
+    gap: var(--spacing-between-elements-8);
+  }
+  .customer-logos[data-type="1-line"] .customer-logos__header { flex-shrink: 0; }
+  .customer-logos[data-type="1-line"] .customer-logos__viewport { flex: 1; }
+  .customer-logos[data-type="1-line"] .customer-logos__track { flex-wrap: nowrap; }
+
+  .customer-logos[data-type="2-line"] .customer-logos__inner {
+    flex-direction: row;
+    align-items: center;
+    gap: var(--spacing-between-elements-9);
+  }
+  .customer-logos[data-type="2-line"] .customer-logos__header { width: 280px; flex-shrink: 0; }
+  .customer-logos[data-type="2-line"] .customer-logos__track { flex: 1; }
+}

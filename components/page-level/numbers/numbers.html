@@ -1,0 +1,91 @@
+<!--
+  Numbers — section reference template
+  Figma: Sections / Numbers (node-id=8946-46793)
+
+  A row of stat cards: big display value + bold label + optional description.
+  Properties:
+    data-stats        : 2 | 3 | 4  (match the number of .numbers__item)
+    data-case-studies : true | false — adds a logo + "Read case study" footer
+  Elements (include or omit):
+    .numbers__description — supporting text under the label
+    .numbers__footer      — logo + CTA (case-studies variant only)
+  CTA reuses the Button atomic (.btn).
+-->
+
+<!-- Default: 3 stats, no footer -->
+<div class="numbers" data-stats="3">
+  <div class="numbers__inner">
+    <div class="numbers__item">
+      <div class="numbers__content">
+        <div class="numbers__stat">
+          <p class="numbers__value">10%</p>
+          <p class="numbers__label">Blandit id tristique</p>
+        </div>
+        <p class="numbers__description">Leo platea arcu vitae mauris elementum. Quis non vestibulum commodo sit nullam mollis sit.</p>
+      </div>
+    </div>
+    <div class="numbers__item">
+      <div class="numbers__content">
+        <div class="numbers__stat">
+          <p class="numbers__value">10%</p>
+          <p class="numbers__label">Blandit id tristique</p>
+        </div>
+        <p class="numbers__description">Leo platea arcu vitae mauris elementum. Quis non vestibulum commodo sit nullam mollis sit.</p>
+      </div>
+    </div>
+    <div class="numbers__item">
+      <div class="numbers__content">
+        <div class="numbers__stat">
+          <p class="numbers__value">10%</p>
+          <p class="numbers__label">Blandit id tristique</p>
+        </div>
+        <p class="numbers__description">Leo platea arcu vitae mauris elementum. Quis non vestibulum commodo sit nullam mollis sit.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Case studies: each card gets a logo + "Read case study" footer -->
+<div class="numbers" data-stats="3" data-case-studies="true">
+  <div class="numbers__inner">
+    <div class="numbers__item">
+      <div class="numbers__content">
+        <div class="numbers__stat">
+          <p class="numbers__value">10%</p>
+          <p class="numbers__label">Blandit id tristique</p>
+        </div>
+        <p class="numbers__description">Leo platea arcu vitae mauris elementum. Quis non vestibulum commodo sit nullam mollis sit.</p>
+      </div>
+      <div class="numbers__footer">
+        <span class="numbers__logo">Logo</span>
+        <button class="btn" data-type="secondary" data-size="m"><span class="btn__label">Read case study</span></button>
+      </div>
+    </div>
+    <div class="numbers__item">
+      <div class="numbers__content">
+        <div class="numbers__stat">
+          <p class="numbers__value">10%</p>
+          <p class="numbers__label">Blandit id tristique</p>
+        </div>
+        <p class="numbers__description">Leo platea arcu vitae mauris elementum. Quis non vestibulum commodo sit nullam mollis sit.</p>
+      </div>
+      <div class="numbers__footer">
+        <span class="numbers__logo">Logo</span>
+        <button class="btn" data-type="secondary" data-size="m"><span class="btn__label">Read case study</span></button>
+      </div>
+    </div>
+    <div class="numbers__item">
+      <div class="numbers__content">
+        <div class="numbers__stat">
+          <p class="numbers__value">10%</p>
+          <p class="numbers__label">Blandit id tristique</p>
+        </div>
+        <p class="numbers__description">Leo platea arcu vitae mauris elementum. Quis non vestibulum commodo sit nullam mollis sit.</p>
+      </div>
+      <div class="numbers__footer">
+        <span class="numbers__logo">Logo</span>
+        <button class="btn" data-type="secondary" data-size="m"><span class="btn__label">Read case study</span></button>
+      </div>
+    </div>
+  </div>
+</div>

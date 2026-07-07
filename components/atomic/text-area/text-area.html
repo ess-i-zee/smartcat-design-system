@@ -1,0 +1,34 @@
+<!--
+  Text area — reference template
+  Figma: Components / Atomic / Text area (node-id=11986-6006)
+
+  Configure with (data attributes on .text-area):
+    data-size="l|m"       — size; default is l
+    data-state="error"    — error state (red border)
+    data-state="disabled" — disabled state
+
+  Only element:
+    .text-area__native  — native <textarea>; add `disabled` attr for disabled state
+
+  Resize behavior:
+    CSS sets `resize: vertical` on the .text-area container (with
+    `overflow: hidden`), so the browser's native grip at the bottom-right
+    corner drags the height only — width stays fixed. The <textarea> itself
+    has `resize: none` so only one handle appears.
+-->
+
+<!-- ── Default, size L ───────────────────────────────────────── -->
+<div class="text-area" data-size="l">
+  <textarea class="text-area__native" placeholder="Start typing…"></textarea></div>
+
+<!-- ── Size M ─────────────────────────────────────────────────── -->
+<div class="text-area" data-size="m">
+  <textarea class="text-area__native" placeholder="Start typing…"></textarea></div>
+
+<!-- ── Error state ───────────────────────────────────────────── -->
+<div class="text-area" data-size="l" data-state="error">
+  <textarea class="text-area__native" placeholder="Start typing…"></textarea></div>
+
+<!-- ── Disabled state ────────────────────────────────────────── -->
+<div class="text-area" data-size="l" data-state="disabled">
+  <textarea class="text-area__native" placeholder="Start typing…" disabled></textarea></div>

@@ -1,0 +1,115 @@
+<!--
+  Input group — reference template
+  Figma: Components / Atomic / Input group (node-id=3638-6279)
+
+  Composes: .input-group__label + an input (Text field / Select / Text area)
+  + .input-group__hints (message and/or character counter).
+
+  Properties (element presence — include or omit, never display:none):
+    .input-group__label                  — label=true
+      .input-group__suffix               — mandatory:    "*"
+      .input-group__suffix--optional     — optional:     "(optional)"
+      .input-group__suffix--applicable   — ifApplicable: "(if applicable)"
+        (mutually exclusive — at most one suffix)
+    .input-group__hints                  — hints=true
+      .input-group__message              — hintText=true
+      .input-group__message--error       — errorText=true (replaces hint)
+      .input-group__counter              — characterCounter=true
+
+  Accessibility wiring:
+    - <label for> → the native control's id (Text field / Text area).
+    - Select has no native control: id the label and set aria-labelledby
+      on .select instead of using `for`.
+    - Link hint/error to the control with aria-describedby.
+    - Add maxlength on the control and input-group.js fills the counter.
+-->
+
+<!-- ── Text field — mandatory, hint + counter ────────────────── -->
+<div class="input-group">
+  <label class="input-group__label" for="ig-name">
+    Label
+    <span class="input-group__suffix" aria-hidden="true">*</span>
+  </label>
+
+  <div class="text-field" data-size="l">
+    <input type="text" id="ig-name" class="text-field__native" placeholder="Placeholder"
+           maxlength="1000" aria-describedby="ig-name-hint" required>
+  </div>
+
+  <div class="input-group__hints">
+    <span class="input-group__message" id="ig-name-hint">Hint text</span>
+    <span class="input-group__counter">0/1000</span>
+  </div>
+</div>
+
+<!-- ── Optional suffix ───────────────────────────────────────── -->
+<div class="input-group">
+  <label class="input-group__label" for="ig-company">
+    Label
+    <span class="input-group__suffix input-group__suffix--optional">(optional)</span>
+  </label>
+  <div class="text-field" data-size="l">
+    <input type="text" id="ig-company" class="text-field__native" placeholder="Placeholder">
+  </div>
+  <div class="input-group__hints">
+    <span class="input-group__message">Hint text</span>
+  </div>
+</div>
+
+<!-- ── "(if applicable)" suffix ──────────────────────────────── -->
+<div class="input-group">
+  <label class="input-group__label" for="ig-vat">
+    Label
+    <span class="input-group__suffix input-group__suffix--applicable">(if applicable)</span>
+  </label>
+  <div class="text-field" data-size="l">
+    <input type="text" id="ig-vat" class="text-field__native" placeholder="Placeholder">
+  </div>
+</div>
+
+<!-- ── Error state (field error + error message) ─────────────── -->
+<div class="input-group">
+  <label class="input-group__label" for="ig-email">Label</label>
+  <div class="text-field" data-size="l" data-state="error">
+    <input type="email" id="ig-email" class="text-field__native" placeholder="Placeholder"
+           aria-describedby="ig-email-err" aria-invalid="true">
+  </div>
+  <div class="input-group__hints">
+    <span class="input-group__message input-group__message--error" id="ig-email-err" role="alert">Error message</span>
+    <span class="input-group__counter">0/1000</span>
+  </div>
+</div>
+
+<!-- ── With Select (no native control → aria-labelledby) ─────── -->
+<div class="input-group">
+  <label class="input-group__label" id="ig-lang-label">
+    Label
+    <span class="input-group__suffix" aria-hidden="true">*</span>
+  </label>
+  <div class="select" data-size="l" role="combobox" aria-labelledby="ig-lang-label" tabindex="0">
+    <span class="select__placeholder">Select option…</span>
+    <span class="select__value" hidden></span>
+    <span class="select__chevron" aria-hidden="true">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3.33337 6L8.00004 10.6667L12.6667 6" stroke="currentColor" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </span>
+    <div class="dropdown-list select__dropdown" data-size="l" hidden>
+      <div class="dropdown-item" data-size="l"><span class="dropdown-item__label">English</span></div>
+      <div class="dropdown-item" data-size="l"><span class="dropdown-item__label">French</span></div>
+      <div class="dropdown-item" data-size="l"><span class="dropdown-item__label">German</span></div>
+    </div>
+  </div>
+  <div class="input-group__hints">
+    <span class="input-group__message">Hint text</span>
+  </div>
+</div>
+
+<!-- ── With Text area — counter only (no hint) ───────────────── -->
+<div class="input-group">
+  <label class="input-group__label" for="ig-bio">Label</label>
+  <div class="text-area" data-size="l">
+    <textarea id="ig-bio" class="text-area__native" placeholder="Start typing…" maxlength="1000"></textarea>
+  </div>
+  <div class="input-group__hints">
+    <span class="input-group__counter">0/1000</span>
+  </div>
+</div>

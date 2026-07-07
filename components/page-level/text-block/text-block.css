@@ -1,0 +1,39 @@
+/* ── Text block (section) ────────────────────────────────────────
+   Figma: Sections / Text block (node-id=4912-6652)
+   Properties (data attributes on .text-block):
+     data-size : default (paragraph) | small (small text)
+   Full-width row; the text column is centered and capped at a
+   readable measure (740px). Type size shifts mobile→desktop
+   automatically via tokens (≥1280px) — no per-size media query needed.
+   ──────────────────────────────────────────────────────────── */
+
+.text-block {
+  box-sizing: border-box;
+  width: 100%;
+  padding-inline: var(--grid-page-padding);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.text-block__text {
+  width: 100%;
+  max-width: var(--dimension-desktop-max-text-width); /* 740 — readable measure */
+  margin: 0;
+  color: var(--content-static-secondary);
+  font-family: var(--family-body);
+  font-weight: var(--weight-regular);
+}
+
+.text-block[data-size="default"] .text-block__text,
+.text-block:not([data-size]) .text-block__text {
+  font-size: var(--size-paragraph);
+  line-height: var(--line-height-paragraph);
+  letter-spacing: var(--letter-spacing-paragraph);
+}
+
+.text-block[data-size="small"] .text-block__text {
+  font-size: var(--size-small-text);
+  line-height: var(--line-height-small-text);
+  letter-spacing: var(--letter-spacing-small-text);
+}

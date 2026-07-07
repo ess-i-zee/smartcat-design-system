@@ -1,0 +1,104 @@
+/* ── Zigzag (section) ─────────────────────────────────────────────
+   Figma: Sections / Zigzag (node-id=8789-2093)
+   A two-up card row: an image on one side, text (H2 + paragraph + CTAs)
+   on the other. Stack several with alternating image sides for the
+   classic "zigzag" page rhythm.
+   Properties (data attribute on .zigzag):
+     data-image-position : left (default) | right   (desktop+tablet)
+   Content toggles (element presence):
+     .zigzag__heading
+     .zigzag__paragraph
+     .zigzag__actions   — CTA buttons: reuse .btn (primary + optional secondary)
+   Single rounded card (min-height 320) centered at the content width.
+   Mobile: the image stacks on top of the text. Type size shifts at
+   ≥1280px via tokens; layout flips at ≥800px. Reuses the Button atomic.
+   ──────────────────────────────────────────────────────────────── */
+
+.zigzag {
+  box-sizing: border-box;
+  width: 100%;
+  padding-inline: var(--grid-page-padding);
+}
+
+.zigzag__inner {
+  max-width: var(--grid-max-width); /* 1540 */
+  margin-inline: auto;
+  display: flex;
+  flex-direction: column;          /* mobile: image on top, text below */
+  min-height: 320px;
+  background: var(--background-static-gray-layer-1);
+  border-radius: var(--radius-card-regular);
+  overflow: hidden;
+}
+
+/* ── Image half ──────────────────────────────────────────────────── */
+.zigzag__image {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  aspect-ratio: 3 / 2;             /* mobile: full-width 3:2 banner */
+  background: var(--background-static-alpha-layer-2);
+  color: var(--content-static-tertiary);
+}
+.zigzag__image svg { width: 48px; height: 48px; }
+
+/* ── Text half ───────────────────────────────────────────────────── */
+.zigzag__content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-between-elements-8);
+  padding: var(--spacing-panel-top) var(--spacing-panel-horizontal) var(--spacing-panel-bottom);
+}
+.zigzag__text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-between-elements-5);
+}
+.zigzag__heading {
+  margin: 0;
+  font-family: var(--family-heading);
+  font-weight: var(--weight-bold);
+  color: var(--content-static-primary);
+  font-size: var(--size-h2);
+  line-height: var(--line-height-h2);
+  letter-spacing: var(--letter-spacing-h2);
+}
+.zigzag__paragraph {
+  margin: 0;
+  color: var(--content-static-secondary);
+  font-family: var(--family-body);
+  font-weight: var(--weight-regular);
+  font-size: var(--size-paragraph);
+  line-height: var(--line-height-paragraph);
+  letter-spacing: var(--letter-spacing-paragraph);
+}
+.zigzag__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: var(--spacing-between-buttons-horzontal);
+}
+
+/* ── Desktop + tablet (≥800px): side-by-side halves ──────────────── */
+@media (min-width: 800px) {
+  .zigzag__inner {
+    flex-direction: row;
+    align-items: stretch;
+  }
+  .zigzag__image {
+    flex: 1 1 0;
+    min-width: 0;
+    aspect-ratio: auto;            /* fill the full height of the row */
+  }
+  .zigzag__content {
+    flex: 1 1 0;
+    min-width: 0;
+    gap: 0;
+    justify-content: space-between; /* text top, buttons bottom */
+  }
+  .zigzag__actions { padding-top: var(--spacing-between-elements-6); }
+
+  /* image on the right */
+  .zigzag[data-image-position="right"] .zigzag__image { order: 1; }
+}

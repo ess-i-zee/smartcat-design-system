@@ -1,0 +1,148 @@
+/* ── Accordion carousel (section) ────────────────────────────────
+   Figma: Sections / Accordion carousel (node-id=9027-10787)
+          item subcomponent (node-id=9027-3759)
+   A list of expandable items paired with a media pane.
+   Desktop+tablet (≥800): accordion list on the left, media on the right;
+     all items visible, the active item expanded (shows its body) and
+     its matching media shown. Single-open.
+   Mobile (<800): one item shown at a time (media on top, active item's
+     heading + body, then pagination dots to switch).
+   Elements (presence):
+     .accordion-carousel__item       — repeat per item (button)
+     .accordion-carousel__body       — shown only when item is expanded
+     .accordion-carousel__media-item — one per item; active one shown
+     .accordion-carousel__pagination — dots (mobile only)
+   State: .accordion-carousel__item[data-state="expanded"|"default"].
+   Wired by accordion-carousel.js. No atomics reused.
+   ──────────────────────────────────────────────────────────── */
+
+.accordion-carousel {
+  box-sizing: border-box;
+  width: 100%;
+  padding-inline: var(--grid-page-padding);
+}
+
+.accordion-carousel__inner {
+  max-width: var(--grid-max-width); /* 1540 */
+  margin-inline: auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-between-elements-4);
+}
+
+/* ── Items ───────────────────────────────────────────────────── */
+.accordion-carousel__items {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-between-elements-4);
+}
+
+.accordion-carousel__item {
+  box-sizing: border-box;
+  width: 100%;
+  margin: 0;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-between-elements-5);
+  background: var(--background-static-gray-layer-1);
+  border: 0;
+  border-radius: var(--radius-3);
+  padding: var(--spacing-card-l-top) var(--spacing-card-l-horizontal) var(--spacing-card-l-bottom);
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  transition: background 120ms ease;
+}
+.accordion-carousel__item:hover { background: var(--background-interaction-hover); }
+.accordion-carousel__item:focus-visible {
+  outline: 4px solid var(--border-focus-default);
+  outline-offset: 0;
+}
+.accordion-carousel__item[data-state="expanded"] {
+  background: var(--background-interaction-selectedsubtle);
+}
+
+/* mobile: only the active item is shown */
+.accordion-carousel__item:not([data-state="expanded"]) { display: none; }
+
+.accordion-carousel__heading {
+  margin: 0;
+  font-family: var(--family-heading);
+  font-weight: var(--weight-bold);
+  color: var(--content-static-primary);
+  font-size: var(--size-h4);
+  line-height: var(--line-height-h4);
+  letter-spacing: var(--letter-spacing-h4);
+}
+
+.accordion-carousel__body {
+  display: none;
+  margin: 0;
+  color: var(--content-static-secondary);
+  font-family: var(--family-body);
+  font-weight: var(--weight-regular);
+  font-size: var(--size-small-text);
+  line-height: var(--line-height-small-text);
+  letter-spacing: var(--letter-spacing-small-text);
+}
+.accordion-carousel__item[data-state="expanded"] .accordion-carousel__body { display: block; }
+
+/* ── Media ───────────────────────────────────────────────────── */
+.accordion-carousel__media {
+  order: -1; /* mobile: media on top */
+  border-radius: var(--radius-5);
+  background: var(--background-static-gray-layer-1);
+  overflow: hidden;
+}
+.accordion-carousel__media-item {
+  display: none;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  align-items: center;
+  justify-content: center;
+  color: var(--content-static-tertiary);
+}
+.accordion-carousel__media-item[data-active] { display: flex; }
+
+/* ── Pagination (mobile only) ────────────────────────────────── */
+.accordion-carousel__pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-between-elements-5);
+}
+.accordion-carousel__dots { display: flex; align-items: center; gap: 4px; height: 36px; }
+.accordion-carousel__dot {
+  width: 6px;
+  height: 6px;
+  padding: 0;
+  border: none;
+  border-radius: var(--radius-full);
+  background: var(--background-static-alpha-layer-2);
+  cursor: pointer;
+  transition: background 120ms ease;
+}
+.accordion-carousel__dot[data-state="selected"] { background: var(--background-static-gray-inverted); }
+
+/* ── Desktop + tablet ─────────────────────────────────────────── */
+@media (min-width: 800px) {
+  .accordion-carousel__inner {
+    flex-direction: row;
+    align-items: stretch;
+    gap: var(--spacing-between-elements-6);
+  }
+  .accordion-carousel__items { flex: 1 1 0; min-width: 0; }
+  .accordion-carousel__item:not([data-state="expanded"]) { display: flex; } /* all items visible */
+  .accordion-carousel__item {
+    padding: var(--spacing-card-l-top) var(--spacing-card-l-horizontal) var(--spacing-card-l-bottom);
+  }
+  .accordion-carousel__media {
+    order: 0;
+    flex: 1 1 0;
+    min-width: 0;
+    display: flex;
+  }
+  .accordion-carousel__media-item { aspect-ratio: auto; flex: 1; min-height: 360px; }
+  .accordion-carousel__pagination { display: none; }
+}

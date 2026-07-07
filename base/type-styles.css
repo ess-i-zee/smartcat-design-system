@@ -1,15 +1,18 @@
+/* Enforce HTML hidden attribute regardless of component display rules */
+[hidden] { display: none !important; }
+
 /* =============================================================
    TYPE STYLES — utility classes mapped to typography tokens
    Source: Figma "🌐 Smartcat website design system" › FOUNDATIONS
    All sizes/line-heights/letter-spacings are responsive via
-   tokens/typography.css (mobile base + ≥769px desktop overrides).
+   tokens/typography.css (tablet+mobile base + ≥1280px desktop overrides).
 
    Naming mirrors Figma style names:
      Display, H1–H3           → single class (Bold only)
      H4, H5                   → -bold / -reg variants
      Paragraph, Small, Caption → -bold / -reg variants
      Label L / M / S          → -semibold / -reg variants
-     Eyebrow                  → single class (Bold + wide tracking)
+     (Eyebrow style removed — do not use eyebrow text)
    Link variants are handled with .text-link modifier (underline).
    ============================================================= */
 
@@ -177,15 +180,6 @@
   line-height:    var(--line-height-label-s);
   font-weight:    var(--weight-regular);
   letter-spacing: var(--letter-spacing-label-s);
-}
-
-/* ── Eyebrow ──────────────────────────────────────────────────── */
-.text-eyebrow {
-  font-family:    var(--family-body);
-  font-size:      var(--size-caption);
-  line-height:    var(--line-height-caption);
-  font-weight:    var(--weight-bold);
-  letter-spacing: var(--letter-spacing-eyebrow);
 }
 
 /* ── Link modifier ────────────────────────────────────────────── */

@@ -44,7 +44,8 @@ document.querySelectorAll('.select').forEach(select => {
 
   if (!isMulti) {
     dropdown.querySelectorAll('.dropdown-item').forEach(item => {
-      item.addEventListener('click', () => {
+      item.addEventListener('click', (e) => {
+        e.stopPropagation();
         const label = item.querySelector('.dropdown-item__label')?.textContent ?? '';
         dropdown.querySelectorAll('.dropdown-item').forEach(i => delete i.dataset.state);
         item.dataset.state = 'selected';
@@ -60,7 +61,8 @@ document.querySelectorAll('.select').forEach(select => {
 
   if (isMulti) {
     dropdown.querySelectorAll('.dropdown-item').forEach(item => {
-      item.addEventListener('click', () => {
+      item.addEventListener('click', (e) => {
+        e.stopPropagation();
         const label = item.querySelector('.dropdown-item__label')?.textContent ?? '';
         if (item.dataset.state === 'selected') {
           delete item.dataset.state;
@@ -169,7 +171,8 @@ document.querySelectorAll('.select').forEach(select => {
   // ── Clear all ──────────────────────────────────────────────────
 
   if (clearBtn) {
-    clearBtn.addEventListener('click', () => {
+    clearBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
       if (isMulti) {
         chipsEl.querySelectorAll('.input-chip').forEach(c => c.remove());
         if (overflowEl) overflowEl.hidden = true;
@@ -180,7 +183,8 @@ document.querySelectorAll('.select').forEach(select => {
         dropdown.querySelectorAll('.dropdown-item').forEach(i => delete i.dataset.state);
       }
       clearBtn.hidden = true;
-      if (isMulti && placeholder) placeholder.hidden = false;
+      syncPlaceholder();
+      syncClearBtn();
     });
   }
 });

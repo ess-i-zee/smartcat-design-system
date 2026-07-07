@@ -1,0 +1,127 @@
+<!--
+  Hero block — section reference template
+  Figma: Sections / Hero block (node-id=9384-4137)
+
+  A full-bleed gray hero. One component, four layouts via data-type:
+    data-type : simple-center (default) | simple-left | image-center | image-right
+  Content toggles — include/omit the element:
+    .hero-block__badges    — trust badges pill (brand logos are placeholders)
+    .hero-block__paragraph — supporting paragraph
+    .hero-block__buttons   — CTA group (reuses the Button atomic; gradient primary)
+      second .btn          — secondary CTA
+    .hero-block__caption   — small caption under the buttons
+    .hero-block__media / __media-col — image (image-center / image-right)
+      .hero-block__play    — play / "Launch demo" overlay (image-center)
+
+  DOM differs per type: simple-center / image-center share one shape; simple-left
+  splits the content into __main (left) + __aside (right); image-right splits the
+  section into __content-col + __media-col.
+-->
+
+<!-- ═══ Simple — Center (default), with badges ═══ -->
+<section class="hero-block" data-type="simple-center">
+  <div class="hero-block__content">
+    <div class="hero-block__text">
+      <div class="hero-block__badges">
+        <div class="hero-block__badge">
+          <span class="hero-block__badge-logo" aria-hidden="true"></span>
+          <span class="hero-block__badge-stars" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M10.6665 1.61445C11.2168 0.531204 12.7833 0.531169 13.3335 1.61445L15.5972 7.04707L21.3433 7.508C22.6732 7.61469 23.212 9.27478 22.1987 10.1428L17.8218 13.8908L19.1597 19.4982C19.4688 20.7958 18.0569 21.8214 16.9185 21.1262L11.9995 18.1203L7.08154 21.1262C5.94305 21.8215 4.53121 20.7958 4.84033 19.4982L6.17725 13.8908L1.80029 10.1428C0.787038 9.27476 1.32677 7.61463 2.65674 7.508L8.40186 7.04707L10.6665 1.61445Z" fill="currentColor"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M10.6665 1.61445C11.2168 0.531204 12.7833 0.531169 13.3335 1.61445L15.5972 7.04707L21.3433 7.508C22.6732 7.61469 23.212 9.27478 22.1987 10.1428L17.8218 13.8908L19.1597 19.4982C19.4688 20.7958 18.0569 21.8214 16.9185 21.1262L11.9995 18.1203L7.08154 21.1262C5.94305 21.8215 4.53121 20.7958 4.84033 19.4982L6.17725 13.8908L1.80029 10.1428C0.787038 9.27476 1.32677 7.61463 2.65674 7.508L8.40186 7.04707L10.6665 1.61445Z" fill="currentColor"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M10.6665 1.61445C11.2168 0.531204 12.7833 0.531169 13.3335 1.61445L15.5972 7.04707L21.3433 7.508C22.6732 7.61469 23.212 9.27478 22.1987 10.1428L17.8218 13.8908L19.1597 19.4982C19.4688 20.7958 18.0569 21.8214 16.9185 21.1262L11.9995 18.1203L7.08154 21.1262C5.94305 21.8215 4.53121 20.7958 4.84033 19.4982L6.17725 13.8908L1.80029 10.1428C0.787038 9.27476 1.32677 7.61463 2.65674 7.508L8.40186 7.04707L10.6665 1.61445Z" fill="currentColor"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M10.6665 1.61445C11.2168 0.531204 12.7833 0.531169 13.3335 1.61445L15.5972 7.04707L21.3433 7.508C22.6732 7.61469 23.212 9.27478 22.1987 10.1428L17.8218 13.8908L19.1597 19.4982C19.4688 20.7958 18.0569 21.8214 16.9185 21.1262L11.9995 18.1203L7.08154 21.1262C5.94305 21.8215 4.53121 20.7958 4.84033 19.4982L6.17725 13.8908L1.80029 10.1428C0.787038 9.27476 1.32677 7.61463 2.65674 7.508L8.40186 7.04707L10.6665 1.61445Z" fill="currentColor"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M10.6665 1.61445C11.2168 0.531204 12.7833 0.531169 13.3335 1.61445L15.5972 7.04707L21.3433 7.508C22.6732 7.61469 23.212 9.27478 22.1987 10.1428L17.8218 13.8908L19.1597 19.4982C19.4688 20.7958 18.0569 21.8214 16.9185 21.1262L11.9995 18.1203L7.08154 21.1262C5.94305 21.8215 4.53121 20.7958 4.84033 19.4982L6.17725 13.8908L1.80029 10.1428C0.787038 9.27476 1.32677 7.61463 2.65674 7.508L8.40186 7.04707L10.6665 1.61445Z" fill="currentColor"/></svg>
+          </span>
+        </div>
+        <div class="hero-block__badge">
+          <span class="hero-block__badge-logo" aria-hidden="true"></span>
+          <p class="hero-block__badge-text">20% of Fortune 100 trust Smartcat</p>
+        </div>
+        <div class="hero-block__badge hero-block__badge--soc">
+          <span class="hero-block__badge-logo" aria-hidden="true"></span>
+          <p class="hero-block__badge-text">SOC II compliant organization</p>
+        </div>
+      </div>
+      <h1 class="hero-block__title">Magna sed massa eget mauris</h1>
+      <p class="hero-block__paragraph">Amet purus id fames nisi molestie egestas morbi morbi. Donec nunc eu quis sit integer arcu. Nulla consequat risus felis varius. Nunc sed cursus purus tempus.</p>
+    </div>
+    <div class="hero-block__buttons">
+      <div class="hero-block__buttons-row">
+        <button class="btn" data-type="gradient" data-size="l"><span class="btn__label">Primary CTA</span></button>
+        <button class="btn" data-type="secondary" data-size="l"><span class="btn__label">Secondary CTA</span></button>
+      </div>
+      <p class="hero-block__caption">Amet purus id fames nisi molestie egestas morbi morbi.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ Simple — Left (title + buttons left column, paragraph right) ═══
+     Flat DOM: text, paragraph, buttons. Desktop places them with grid
+     (title+buttons left, paragraph right); mobile stacks them in order. -->
+<section class="hero-block" data-type="simple-left">
+  <div class="hero-block__content">
+    <div class="hero-block__text">
+      <h1 class="hero-block__title">Magna sed massa eget mauris</h1>
+    </div>
+    <p class="hero-block__paragraph">Amet purus id fames nisi molestie egestas morbi morbi. Donec nunc eu quis sit integer arcu. Nulla consequat risus felis varius. Nunc sed cursus purus tempus. Bibendum urna posuere id turpis fermentum velit vivamus.</p>
+    <div class="hero-block__buttons">
+      <div class="hero-block__buttons-row">
+        <button class="btn" data-type="gradient" data-size="l"><span class="btn__label">Primary CTA</span></button>
+        <button class="btn" data-type="secondary" data-size="l"><span class="btn__label">Secondary CTA</span></button>
+      </div>
+      <p class="hero-block__caption">Amet purus id fames nisi molestie egestas morbi morbi.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ Image — Center (centered content + full-width banner) ═══ -->
+<section class="hero-block" data-type="image-center">
+  <div class="hero-block__content">
+    <div class="hero-block__text">
+      <h1 class="hero-block__title">Magna sed massa eget mauris</h1>
+      <p class="hero-block__paragraph">Amet purus id fames nisi molestie egestas morbi morbi. Donec nunc eu quis sit integer arcu. Nulla consequat risus felis varius. Nunc sed cursus purus tempus.</p>
+    </div>
+    <div class="hero-block__buttons">
+      <div class="hero-block__buttons-row">
+        <button class="btn" data-type="gradient" data-size="l"><span class="btn__label">Primary CTA</span></button>
+        <button class="btn" data-type="secondary" data-size="l"><span class="btn__label">Secondary CTA</span></button>
+      </div>
+      <p class="hero-block__caption">Amet purus id fames nisi molestie egestas morbi morbi.</p>
+    </div>
+  </div>
+  <div class="hero-block__media">
+    <div class="hero-block__image">
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M3 19L7.92929 14.0707C7.96834 14.0317 8.03166 14.0317 8.07071 14.0707L10.4293 16.4293C10.4683 16.4683 10.5317 16.4683 10.5707 16.4293L16.4293 10.5707C16.4683 10.5317 16.5317 10.5317 16.5707 10.5707L21.5 15.5M20 20L4 20C2.89543 20 2 19.1046 2 18L2 6C2 4.89543 2.89543 4 4 4L20 4C21.1046 4 22 4.89543 22 6L22 18C22 19.1046 21.1046 20 20 20ZM10 9C10 10.1046 9.10457 11 8 11C6.89543 11 6 10.1046 6 9C6 7.89543 6.89543 7 8 7C9.10457 7 10 7.89543 10 9Z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+    </div>
+    <!-- Play overlay reuses the Button Play atomic. Video usage shown; for the
+         "Launch demo" usage swap .btn-play__icon for
+         <span class="btn-play__label">Launch<br>Demo</span> -->
+    <button class="btn-play" data-style="gradient" aria-label="Play video">
+      <span class="btn-play__icon" aria-hidden="true">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21.4012 10.1686C22.8109 10.9825 22.8109 13.0173 21.4012 13.8313L8.71344 21.1565C7.30369 21.9705 5.5415 20.9531 5.5415 19.3252L5.5415 4.67466C5.5415 3.04683 7.30369 2.02943 8.71344 2.84335L21.4012 10.1686Z" fill="currentColor"/></svg>
+      </span>
+    </button>
+  </div>
+</section>
+
+<!-- ═══ Image — Right (full-bleed split: content left, image right) ═══ -->
+<section class="hero-block" data-type="image-right">
+  <div class="hero-block__content-col">
+    <div class="hero-block__text">
+      <h1 class="hero-block__title">Magna sed massa eget mauris</h1>
+      <p class="hero-block__paragraph">Amet purus id fames nisi molestie egestas morbi morbi. Donec nunc eu quis sit integer arcu. Nulla consequat risus felis varius. Nunc sed cursus purus tempus. Bibendum urna posuere id turpis fermentum velit vivamus.</p>
+    </div>
+    <div class="hero-block__buttons">
+      <div class="hero-block__buttons-row">
+        <button class="btn" data-type="gradient" data-size="l"><span class="btn__label">Primary CTA</span></button>
+        <button class="btn" data-type="secondary" data-size="l"><span class="btn__label">Secondary CTA</span></button>
+      </div>
+      <p class="hero-block__caption">Amet purus id fames nisi molestie egestas morbi morbi.</p>
+    </div>
+  </div>
+  <div class="hero-block__media-col">
+    <div class="hero-block__image">
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M3 19L7.92929 14.0707C7.96834 14.0317 8.03166 14.0317 8.07071 14.0707L10.4293 16.4293C10.4683 16.4683 10.5317 16.4683 10.5707 16.4293L16.4293 10.5707C16.4683 10.5317 16.5317 10.5317 16.5707 10.5707L21.5 15.5M20 20L4 20C2.89543 20 2 19.1046 2 18L2 6C2 4.89543 2.89543 4 4 4L20 4C21.1046 4 22 4.89543 22 6L22 18C22 19.1046 21.1046 20 20 20ZM10 9C10 10.1046 9.10457 11 8 11C6.89543 11 6 10.1046 6 9C6 7.89543 6.89543 7 8 7C9.10457 7 10 7.89543 10 9Z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+    </div>
+  </div>
+</section>

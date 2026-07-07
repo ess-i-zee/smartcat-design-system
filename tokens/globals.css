@@ -178,9 +178,5 @@
   --radius-full: 1000px;
 
   /* ── Dimensions ──────────────────────────────────────────── */
-  --dimension-mobile-page-width:      390px;
-  --dimension-desktop-page-width:     1280px;
-  --dimension-desktop-content-width:  1120px;
-  --dimension-mobile-content-width:   360px;
   --dimension-desktop-max-text-width: 740px;
 }

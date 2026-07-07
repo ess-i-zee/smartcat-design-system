@@ -1,0 +1,203 @@
+/* ── Cards (section) ─────────────────────────────────────────────
+   Figma: Sections / Cards - big image (node-id=9295-6180)
+          Card - big image subcomponent (node-id=8509-12281)
+          Card - small image (node-id=9295-8117)
+          Card - icon (node-id=9295-10411)
+   A responsive grid of cards. One component for all three visual
+   variants — switch the media slot with data-media.
+   Properties (data attributes on .cards):
+     data-cards          : 2 | 3 | 4 | 5-6  (grid columns + card size tier:
+                           2→L, 3→M, 4→M, 5-6→S; 5-6 lays out in a single row)
+     data-media          : big-image (full-bleed 3:2 banner, flush to the card
+                           edges) | small-image (contained ~120px box) | icon
+                           (24px icon in a 64px circular container)
+                           — the .cards__media <svg> is a placeholder; swap
+                           for a real image / design-system icon
+     data-image-position : top (default) | bottom   (big-image only)
+   Per-card content toggles (element presence, applied to every card):
+     .cards__media     — include for has-image
+     .cards__number    — include for has-number
+     .cards__heading   — include for has-heading
+     .cards__paragraph — include for has-paragraph
+     .cards__actions   — include for has-cta (primary .btn + optional secondary)
+   Anatomy: .cards__card (no padding, clips media) → .cards__media (big-image
+   full-bleed) + .cards__content (padding + card gap) → .cards__text wraps the
+   heading+paragraph at a tight 8px gap. For small-image / icon the .cards__media
+   sits inside .cards__content so the padding insets it.
+   Card visuals reuse the Button atomic. Mobile: single column.
+   ──────────────────────────────────────────────────────────── */
+
+.cards {
+  box-sizing: border-box;
+  width: 100%;
+  padding-inline: var(--grid-page-padding);
+}
+
+.cards__inner {
+  max-width: var(--grid-max-width); /* 1540 */
+  margin-inline: auto;
+}
+
+.cards__grid {
+  display: grid;
+  grid-template-columns: 1fr;        /* mobile: single column */
+  gap: var(--spacing-between-elements-6);
+}
+
+/* ── Card ────────────────────────────────────────────────────── */
+.cards__card {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  background: var(--background-static-gray-layer-1);
+  border-radius: var(--radius-card-regular);
+  overflow: hidden;                  /* clips the full-bleed image corners */
+}
+
+/* Text content region — holds the card padding + gap (set per size tier). */
+.cards__content {
+  display: flex;
+  flex-direction: column;
+  /* size-tier padding/gap set below via data-cards (base = M) */
+  gap: var(--spacing-card-m-gap);
+  padding: var(--spacing-card-m-top) var(--spacing-card-m-horizontal) var(--spacing-card-m-bottom);
+}
+
+/* Heading + paragraph group — tighter 8px gap, independent of the card gap. */
+.cards__text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3);
+}
+
+.cards__number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: var(--radius-full);
+  background: var(--background-static-gray-inverted);
+  color: var(--content-static-inverted);
+  font-family: var(--family-body);
+  font-weight: var(--weight-bold);
+  font-size: var(--size-caption);
+  line-height: 1;
+}
+
+.cards__heading {
+  margin: 0;
+  font-family: var(--family-heading);
+  font-weight: var(--weight-bold);
+  color: var(--content-static-primary);
+  font-size: var(--size-h3);
+  line-height: var(--line-height-h3);
+  letter-spacing: var(--letter-spacing-h3);
+}
+
+.cards__paragraph {
+  margin: 0;
+  color: var(--content-static-secondary);
+  font-family: var(--family-body);
+  font-weight: var(--weight-regular);
+  font-size: var(--size-small-text);
+  line-height: var(--line-height-small-text);
+  letter-spacing: var(--letter-spacing-small-text);
+}
+
+.cards__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: var(--spacing-3);
+}
+
+/* ── Size tiers (driven by data-cards) ───────────────────────── */
+/* L — 2 cards */
+.cards[data-cards="2"] .cards__content {
+  padding: var(--spacing-card-l-top) var(--spacing-card-l-horizontal) var(--spacing-card-l-bottom);
+  gap: var(--spacing-card-l-gap);
+}
+/* M — 3 & 4 cards (base values already M; explicit for clarity) */
+.cards[data-cards="3"] .cards__content,
+.cards[data-cards="4"] .cards__content {
+  padding: var(--spacing-card-m-top) var(--spacing-card-m-horizontal) var(--spacing-card-m-bottom);
+  gap: var(--spacing-card-m-gap);
+}
+/* S — 5-6 cards */
+.cards[data-cards="5-6"] .cards__content {
+  padding: var(--spacing-card-s-top) var(--spacing-card-s-horizontal) var(--spacing-card-s-bottom);
+  gap: var(--spacing-card-s-gap);
+}
+.cards[data-cards="5-6"] .cards__heading {
+  font-size: var(--size-h5);
+  line-height: var(--line-height-h5);
+  letter-spacing: var(--letter-spacing-h5);
+}
+.cards[data-cards="5-6"] .cards__paragraph {
+  font-size: var(--size-caption);
+  line-height: var(--line-height-caption);
+  letter-spacing: var(--letter-spacing-caption);
+}
+/* S: CTAs stack vertically, left-aligned at their content width */
+.cards[data-cards="5-6"] .cards__actions {
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+/* ── Media variants (data-media) ─────────────────────────────── */
+/* big-image: full-bleed 3:2 banner, flush to the card's top + side edges.
+   It is a direct child of .cards__card; the card's overflow:hidden rounds
+   the top corners to match the card. */
+.cards[data-media="big-image"] .cards__media {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  aspect-ratio: 3 / 2;
+  background: var(--background-static-alpha-layer-2);
+  color: var(--content-static-tertiary);
+}
+.cards[data-media="big-image"] .cards__media svg { width: 16px; height: 16px; }
+/* image at the bottom of the card */
+.cards[data-media="big-image"][data-image-position="bottom"] .cards__media { order: 1; }
+
+/* small-image: a contained square box, inset by the .cards__content padding. */
+.cards[data-media="small-image"] .cards__media {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 120px;
+  height: 120px;
+  background: var(--background-static-alpha-layer-2);
+  border-radius: var(--radius-card-contained);
+  color: var(--content-static-tertiary);
+}
+.cards[data-cards="5-6"][data-media="small-image"] .cards__media { width: 104px; height: 104px; } /* S */
+.cards[data-media="small-image"] .cards__media svg { width: 16px; height: 16px; }
+
+/* icon: a 24px icon centered in a 64px circular tinted container. */
+.cards[data-media="icon"] .cards__media {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  background: var(--background-static-alpha-layer-1);
+  border-radius: var(--radius-full);
+  color: var(--content-static-primary);
+}
+.cards[data-media="icon"] .cards__media svg { width: 24px; height: 24px; }
+
+/* ── Desktop + tablet ─────────────────────────────────────────── */
+@media (min-width: 800px) {
+  .cards[data-cards="2"] .cards__grid { grid-template-columns: repeat(2, 1fr); }
+  .cards[data-cards="3"] .cards__grid { grid-template-columns: repeat(3, 1fr); }
+  .cards[data-cards="4"] .cards__grid { grid-template-columns: repeat(4, 1fr); }
+  /* 5-6: a single row of equal columns (works for either 5 or 6 cards) */
+  .cards[data-cards="5-6"] .cards__grid {
+    grid-template-columns: none;
+    grid-auto-flow: column;
+    grid-auto-columns: 1fr;
+  }
+}

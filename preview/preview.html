@@ -1,0 +1,1985 @@
+﻿<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smartcat Design System — Foundations</title>
+
+  <!-- Design system stylesheet (tokens → base → components) -->
+  <link rel="stylesheet" href="../main.css">
+
+  <!-- Fonts used by the system (degrade gracefully if offline) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Plus+Jakarta+Sans:wght@400;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* =========================================================
+       PREVIEW CHROME  (prefixed .dsp- to never collide with the
+       design-system component classes). Chrome is built FROM the
+       design tokens so it adapts to light / dark automatically.
+       ========================================================= */
+
+    * { box-sizing: border-box; }
+
+    html, body { margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--family-body);
+      color: var(--content-static-primary);
+      background: var(--background-static-gray-layer-2);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Layout ─────────────────────────────────────────── */
+    .dsp-shell { display: flex; min-height: 100vh; }
+
+    .dsp-nav {
+      position: sticky;
+      top: 0;
+      align-self: flex-start;
+      height: 100vh;
+      width: 248px;
+      flex-shrink: 0;
+      overflow-y: auto;
+      padding: var(--spacing-6) var(--spacing-5);
+      background: var(--background-static-gray-layer-0);
+      border-right: 1px solid var(--border-divider-default);
+    }
+
+    .dsp-brand {
+      display: flex; align-items: center; gap: var(--spacing-3);
+      margin-bottom: var(--spacing-7);
+    }
+    .dsp-brand__name { font-weight: 700; font-size: 15px; line-height: 1.2; }
+
+    .dsp-nav__group { margin-bottom: var(--spacing-6); }
+    .dsp-nav__title {
+      font-size: 11px; font-weight: 700; letter-spacing: 0;
+      color: var(--content-static-primary);
+      margin: 0 0 var(--spacing-3) var(--spacing-3);
+    }
+    .dsp-nav a.dsp-nav__title { display: block; text-decoration: none; margin-left: 0; }
+    .dsp-nav a {
+      display: block;
+      padding: var(--spacing-2) var(--spacing-3);
+      border-radius: var(--radius-2);
+      color: var(--content-static-secondary);
+      text-decoration: none;
+      font-size: 14px;
+      line-height: 1.9;
+      margin-left: 8px;
+    }
+    .dsp-nav a:hover { background: var(--background-interaction-hover); color: var(--content-static-primary); }
+    .dsp-nav a.is-active { background: var(--background-interaction-selectedsubtle); color: var(--content-static-primary); font-weight: 600; }
+
+    .dsp-main { flex: 1; min-width: 0; }
+
+    .dsp-seg {
+      display: inline-flex; padding: 3px; gap: 2px;
+      background: var(--background-static-alpha-layer-1);
+      border-radius: var(--radius-3);
+    }
+    .dsp-seg button {
+      appearance: none; border: 0; cursor: pointer;
+      padding: 6px 14px; border-radius: var(--radius-2);
+      font-family: var(--family-body); font-size: 13px; font-weight: 600;
+      background: transparent; color: var(--content-static-secondary);
+    }
+    .dsp-seg button.is-active {
+      background: var(--background-static-gray-layer-0);
+      color: var(--content-static-primary);
+      box-shadow: var(--shadow-elevation-s);
+    }
+
+    /* ── Content sections ───────────────────────────────── */
+    .dsp-content { padding: var(--spacing-8) var(--spacing-8) 160px; max-width: 1180px; }
+
+    .dsp-section { margin-bottom: var(--spacing-12); scroll-margin-top: 80px; }
+    .dsp-section__head { margin-bottom: var(--spacing-6); }
+    .dsp-section__head h2 { font-family: var(--family-heading); font-size: 28px; font-weight: 700; margin: 0 0 6px; letter-spacing: -0.5px; }
+    .dsp-section__head p  { margin: 0; color: var(--content-static-secondary); max-width: 680px; font-size: var(--size-small-text); line-height: var(--line-height-small-text); font-weight: var(--weight-regular); letter-spacing: var(--letter-spacing-small-text); }
+
+    .dsp-subhead {
+      font-size: 12px; font-weight: 700; letter-spacing: 0;
+      color: var(--content-static-tertiary);
+      margin: var(--spacing-8) 0 var(--spacing-4);
+    }
+    .dsp-subhead:first-of-type { margin-top: var(--spacing-5); }
+
+    /* ── Cards / panels ─────────────────────────────────── */
+    .dsp-panel {
+      background: var(--background-static-gray-layer-0);
+      border: 1px solid var(--border-divider-default);
+      border-radius: var(--radius-3);
+      padding: var(--spacing-6);
+    }
+
+    /* ── Color swatches ─────────────────────────────────── */
+    .dsp-swatches {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: var(--spacing-4);
+    }
+    .dsp-swatch {
+      border: 1px solid var(--border-divider-default);
+      border-radius: var(--radius-3);
+      overflow: hidden;
+      background: var(--background-static-gray-layer-0);
+    }
+    .dsp-swatch__chip {
+      height: 64px;
+      background-image:
+        linear-gradient(45deg, var(--background-static-alpha-layer-2) 25%, transparent 25%),
+        linear-gradient(-45deg, var(--background-static-alpha-layer-2) 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, var(--background-static-alpha-layer-2) 75%),
+        linear-gradient(-45deg, transparent 75%, var(--background-static-alpha-layer-2) 75%);
+      background-size: 14px 14px;
+      background-position: 0 0, 0 7px, 7px -7px, -7px 0;
+      position: relative;
+    }
+    .dsp-swatch__chip::after {
+      content: ''; position: absolute; inset: 0;
+      background: var(--_c);
+    }
+    .dsp-swatch__meta { padding: var(--spacing-3) var(--spacing-4); }
+    .dsp-swatch__name { font-size: 12px; font-weight: 600; word-break: break-word; line-height: 1.35; }
+    .dsp-swatch__val  { font-size: 11px; color: var(--content-static-secondary); font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; margin-top: 2px; }
+
+    /* ── Color tables ───────────────────────────────────── */
+    .dsp-ct__sub {
+      font-size: 13px; font-weight: 600;
+      color: var(--content-static-primary);
+      padding: var(--spacing-3) 0 var(--spacing-2);
+      margin-top: var(--spacing-4);
+      margin-bottom: var(--spacing-3);
+    }
+    .dsp-ct__sub:first-child { margin-top: 0; }
+    .dsp-ctable { width: 100%; border-collapse: collapse; table-layout: fixed; }
+    .dsp-ctable th:nth-child(1) { width: 44%; }
+    .dsp-ctable th:nth-child(2) { width: 76px; }
+    .dsp-ctable th:nth-child(4) { width: 140px; }
+    .dsp-ctable thead th {
+      font-size: 11px; font-weight: 700; letter-spacing: 0;
+      color: var(--content-static-tertiary);
+      padding: var(--spacing-2) var(--spacing-4);
+      background: var(--background-static-gray-layer-1);
+      text-align: left; white-space: nowrap;
+    }
+    .dsp-ctable tbody tr:hover { background: var(--background-interaction-hover); }
+    .dsp-ctable td {
+      padding: 7px var(--spacing-4);
+      vertical-align: middle;
+    }
+    .dsp-ctable__name {
+      font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+      font-size: 12px; color: var(--content-static-secondary);
+      white-space: nowrap;
+    }
+    .dsp-ctable__chip-cell { width: 40px; }
+    .dsp-ctable__chip {
+      width: 20px; height: 20px; border-radius: 50%;
+      display: inline-block; position: relative;
+      background-image:
+        linear-gradient(45deg, var(--background-static-alpha-layer-2) 25%, transparent 25%),
+        linear-gradient(-45deg, var(--background-static-alpha-layer-2) 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, var(--background-static-alpha-layer-2) 75%),
+        linear-gradient(-45deg, transparent 75%, var(--background-static-alpha-layer-2) 75%);
+      background-size: 8px 8px;
+      background-position: 0 0, 0 4px, 4px -4px, -4px 0;
+    }
+    .dsp-ctable__chip::after {
+      content: ''; position: absolute; inset: 0; border-radius: 50%;
+      background: var(--_c);
+    }
+    .dsp-ctable__alias {
+      font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+      font-size: 12px; color: var(--content-static-secondary); white-space: nowrap;
+    }
+    .dsp-ctable__val {
+      font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+      font-size: 12px; color: var(--content-static-secondary); white-space: nowrap;
+    }
+
+    /* ── Scale table variant (spacing / radius) ─────────── */
+    .dsp-ctable--scale th:nth-child(1) { width: 220px; }
+    .dsp-ctable--scale th:nth-child(2) { width: auto; }
+    .dsp-ctable--scale th:nth-child(3) { width: 100px; }
+    .dsp-ctable__bar {
+      height: 12px; border-radius: 2px;
+      background: var(--content-static-primary);
+      display: inline-block; min-width: 1px; max-width: 100%;
+    }
+    .dsp-ctable__rbox {
+      width: 80px; height: 80px;
+      border: 1.5px solid var(--border-divider-default);
+      background: var(--background-static-alpha-layer-1);
+      display: inline-block; box-sizing: border-box;
+    }
+
+    /* ── Typography rows ────────────────────────────────── */
+    .dsp-type-row {
+      display: grid; grid-template-columns: 1fr 240px; gap: var(--spacing-6);
+      align-items: center;
+      padding: var(--spacing-5) 0;
+      border-bottom: 1px solid var(--border-divider-default);
+    }
+    .dsp-type-row:last-child { border-bottom: 0; }
+    .dsp-type-sample { min-width: 0; overflow: hidden; }
+    .dsp-type-meta { text-align: right; }
+    .dsp-type-class {
+      font-family: var(--family-body);
+      font-size: var(--size-label-m); line-height: var(--line-height-label-m);
+      color: var(--content-static-primary); font-weight: var(--weight-semi-bold);
+    }
+    .dsp-type-specs { font-size: 12px; color: var(--content-static-secondary); margin-top: 4px; line-height: 1.5; }
+
+    /* ── Effects ────────────────────────────────────────── */
+    .dsp-effects { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: var(--spacing-6); }
+    .dsp-effect-tile { text-align: center; }
+    .dsp-effect-box {
+      height: 120px; border-radius: var(--radius-4);
+      background: var(--background-static-gray-layer-0);
+      border: 1px solid var(--border-divider-default);
+      margin-bottom: var(--spacing-4);
+    }
+    .dsp-effect-name { font-size: 13px; font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-weight: 600; }
+    .dsp-effect-val  { font-size: 11px; color: var(--content-static-secondary); margin-top: 3px; }
+
+    /* ── Component playground ───────────────────────────── */
+    .dsp-play {
+      display: grid; grid-template-columns: 1fr 300px; gap: 0;
+      border: 1px solid var(--border-divider-default);
+      border-radius: var(--radius-5);
+      overflow: hidden;
+      background: var(--background-static-gray-layer-0);
+    }
+    .dsp-stage {
+      display: flex; align-items: center; justify-content: center;
+      min-height: 280px; padding: var(--spacing-9);
+      background:
+        radial-gradient(var(--background-static-alpha-layer-2) 1px, transparent 1px);
+      background-size: 18px 18px;
+    }
+    .dsp-controls {
+      border-left: 1px solid var(--border-divider-default);
+      padding: var(--spacing-5);
+      background: var(--background-static-gray-layer-0);
+      display: flex; flex-direction: column; gap: var(--spacing-5);
+    }
+    .dsp-field { display: flex; flex-direction: column; gap: var(--spacing-2); }
+    .dsp-field__label {
+      font-size: 11px; font-weight: 700; letter-spacing: 0;
+      color: var(--content-static-tertiary);
+    }
+    .dsp-field__hint { font-size: 11px; color: var(--content-static-tertiary); font-weight: 400; text-transform: none; letter-spacing: 0; }
+
+    .dsp-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+    .dsp-chip {
+      appearance: none; cursor: pointer;
+      font-family: var(--family-body); font-size: 12px; font-weight: 600;
+      padding: 6px 10px; border-radius: var(--radius-2);
+      border: 1px solid var(--border-button-default);
+      background: var(--background-static-gray-layer-0);
+      color: var(--content-static-secondary);
+    }
+    .dsp-chip:hover { background: var(--background-interaction-hover); }
+    .dsp-chip.is-active {
+      background: var(--background-interaction-selectedstrong);
+      color: var(--content-static-inverted);
+      border-color: transparent;
+    }
+
+    .dsp-toggle { display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-4); }
+    .dsp-toggle__label { font-size: 13px; font-weight: 500; }
+    .dsp-switch { position: relative; width: 38px; height: 22px; flex-shrink: 0; }
+    .dsp-switch input { position: absolute; opacity: 0; width: 100%; height: 100%; margin: 0; cursor: pointer; }
+    .dsp-switch__track {
+      position: absolute; inset: 0; border-radius: var(--radius-full);
+      background: var(--background-static-alpha-layer-3); transition: background 120ms ease;
+    }
+    .dsp-switch__track::after {
+      content: ''; position: absolute; top: 2px; left: 2px;
+      width: 18px; height: 18px; border-radius: 50%;
+      background: var(--background-static-gray-layer-0); box-shadow: var(--shadow-elevation-s);
+      transition: transform 120ms ease;
+    }
+    .dsp-switch input:checked + .dsp-switch__track { background: var(--background-interaction-selectedbrand); }
+    .dsp-switch input:checked + .dsp-switch__track::after { transform: translateX(16px); }
+
+    .dsp-text-input, .dsp-select {
+      font-family: var(--family-body); font-size: 13px;
+      padding: 8px 10px; border-radius: var(--radius-2);
+      border: 1px solid var(--border-interaction-default);
+      background: var(--background-static-gray-layer-0);
+      color: var(--content-static-primary);
+      width: 100%;
+    }
+
+    /* ── Code snippet ───────────────────────────────────── */
+    .dsp-code {
+      position: relative;
+      margin-top: var(--spacing-4);
+      background: var(--color-non-semantic-gray-100);
+      border-radius: var(--radius-3);
+      overflow: hidden;
+    }
+    .dsp-code pre {
+      margin: 0; padding: var(--spacing-5);
+      overflow-x: auto;
+      font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+      font-size: 12.5px; line-height: 1.6;
+      color: #e7e3f5;
+    }
+    .dsp-copy {
+      position: absolute; top: 10px; right: 10px;
+      appearance: none; cursor: pointer;
+      font-family: var(--family-body); font-size: 11px; font-weight: 600;
+      padding: 5px 10px; border-radius: var(--radius-2);
+      border: 1px solid rgba(255,255,255,0.18);
+      background: rgba(255,255,255,0.08); color: #fff;
+    }
+    .dsp-copy:hover { background: rgba(255,255,255,0.16); }
+
+    /* ── Variant matrix ─────────────────────────────────── */
+    .dsp-matrix { width: 100%; border-collapse: collapse; }
+    .dsp-matrix th, .dsp-matrix td {
+      padding: var(--spacing-4); text-align: left; vertical-align: middle;
+      border-bottom: 1px solid var(--border-divider-default);
+    }
+    .dsp-matrix th { font-size: 12px; color: var(--content-static-tertiary); font-weight: 700; letter-spacing: 0; }
+    .dsp-matrix td:first-child { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-size: 13px; color: var(--content-static-secondary); }
+    .dsp-matrix__cell { display: flex; gap: var(--spacing-4); align-items: center; flex-wrap: wrap; }
+    .dsp-matrix tr:last-child td { border-bottom: 0; }
+
+    /* ── Icon gallery ───────────────────────────────────── */
+    .dsp-icon-toolbar { display: flex; gap: var(--spacing-4); align-items: center; margin-bottom: var(--spacing-5); flex-wrap: wrap; }
+    .dsp-icon-search { flex: 1; min-width: 200px; max-width: 360px; }
+    .dsp-icon-count { font-size: 13px; color: var(--content-static-secondary); }
+    .dsp-icon-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(104px, 1fr));
+      gap: var(--spacing-3);
+    }
+    .dsp-icon-tile {
+      display: flex; flex-direction: column; align-items: center; gap: var(--spacing-3);
+      padding: var(--spacing-5) var(--spacing-3);
+      border: 1px solid var(--border-divider-default);
+      border-radius: var(--radius-3);
+      cursor: pointer; text-align: center;
+      background: var(--background-static-gray-layer-0);
+      transition: background 100ms ease, border-color 100ms ease;
+    }
+    .dsp-icon-tile:hover { background: var(--background-interaction-hover); border-color: var(--content-static-brand); }
+    .dsp-icon-tile img { width: 24px; height: 24px; }
+    .dsp-icon-tile span { font-size: 10.5px; color: var(--content-static-secondary); word-break: break-word; line-height: 1.3; }
+
+    /* dark mode: invert the (black-stroke) icon SVGs so they stay visible */
+    [data-theme="dark"] .dsp-icon-tile img,
+    [data-theme="dark"] .icon { filter: invert(1) hue-rotate(180deg); }
+
+    .dsp-note {
+      font-size: 13px; color: var(--content-static-secondary);
+      background: var(--background-static-brand-layer-1);
+      border: 1px solid var(--background-static-brand-layer-3);
+      border-radius: var(--radius-3);
+      padding: var(--spacing-4) var(--spacing-5);
+      margin-bottom: var(--spacing-5);
+    }
+    .dsp-note code { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 12px; }
+
+    /* ── Control stage hint ─────────────────────────────── */
+    .dsp-stage__hint {
+      font-size: 12px; color: var(--content-static-tertiary);
+    }
+
+    /* ── Section head row layout (heading + inline control) ── */
+    .dsp-section__head--row {
+      display: flex; align-items: flex-start; justify-content: space-between; gap: var(--spacing-5);
+    }
+    .dsp-section__head--row .dsp-shd-text { flex: 1; }
+    .dsp-section__head--row .dsp-seg { flex-shrink: 0; margin-top: 6px; }
+
+    /* ── Accordion ───────────────────────────────────────── */
+    .dsp-acc__trigger {
+      display: flex; align-items: center; justify-content: space-between; width: 100%;
+      appearance: none; background: none; cursor: pointer;
+      font-family: var(--family-heading);
+      font-size: var(--size-h5); line-height: var(--line-height-h5);
+      font-weight: var(--weight-bold); letter-spacing: var(--letter-spacing-h5);
+      color: var(--content-static-primary); text-align: left;
+      padding: var(--spacing-5) 0;
+      border: none;
+      border-top: 1px solid var(--border-divider-default);
+    }
+    .dsp-acc__chevron {
+      flex-shrink: 0; display: inline-flex; color: var(--content-static-secondary);
+      transition: transform 200ms ease;
+    }
+    .dsp-acc__trigger[aria-expanded="true"] .dsp-acc__chevron { transform: rotate(180deg); }
+    .dsp-acc__panel { margin-bottom: var(--spacing-2); }
+    .dsp-acc__panel[hidden] { display: none; }
+
+    /* ── Grid visualiser ─────────────────────────────────── */
+    .dsp-gviz {
+      border: 1px solid var(--border-divider-default);
+      border-radius: var(--radius-3); overflow: hidden;
+      background: var(--background-static-gray-layer-0);
+    }
+    .dsp-gviz__annot {
+      display: flex; border-bottom: 1px solid var(--border-divider-default);
+      background: var(--background-static-gray-layer-1);
+    }
+    .dsp-gviz__ann {
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      padding: var(--spacing-2) var(--spacing-3);
+      font-size: 10px; line-height: 1.5;
+      color: var(--content-static-tertiary); text-align: center;
+    }
+    .dsp-gviz__ann--pp {
+      flex-shrink: 0;
+      background: rgba(110,70,255,0.04);
+      border-right: 1px dashed rgba(110,70,255,0.3);
+    }
+    .dsp-gviz__ann--pp:last-child { border-right: 0; border-left: 1px dashed rgba(110,70,255,0.3); }
+    .dsp-gviz__ann-val {
+      font-family: ui-monospace, Menlo, Consolas, monospace;
+      font-size: 11px; font-weight: 700; color: var(--content-static-brand);
+    }
+    .dsp-gviz__ann--inner { flex: 1; }
+    .dsp-gviz__frame { display: flex; min-height: 72px; align-items: stretch; }
+    .dsp-gviz__pad {
+      flex-shrink: 0;
+      background: rgba(110,70,255,0.06);
+      border-right: 1px dashed rgba(110,70,255,0.3);
+    }
+    .dsp-gviz__pad--r { border-right: 0; border-left: 1px dashed rgba(110,70,255,0.3); }
+    .dsp-gviz__inner {
+      flex: 1; display: flex; min-width: 0;
+      padding-top: var(--spacing-4); padding-bottom: var(--spacing-4);
+    }
+    .dsp-gviz__col {
+      flex: 1; background: rgba(110,70,255,0.14); border-radius: 2px; min-height: 40px;
+    }
+    .dsp-gviz__spec {
+      border-top: 1px solid var(--border-divider-default);
+      padding: var(--spacing-3) var(--spacing-5);
+      font-size: 11px; color: var(--content-static-secondary);
+      font-family: ui-monospace, Menlo, Consolas, monospace;
+      background: var(--background-static-gray-layer-1);
+    }
+    .dsp-gviz__mw { display: block; color: var(--content-static-brand); margin-top: 2px; }
+
+    @media (max-width: 880px) {
+      .dsp-nav { display: none; }
+      .dsp-play { grid-template-columns: 1fr; }
+      .dsp-controls { border-left: 0; border-top: 1px solid var(--border-divider-default); }
+      .dsp-type-row { grid-template-columns: 1fr; }
+      .dsp-type-meta { text-align: left; }
+    }
+
+    /* ── Simulated link states (preview matrix only) ────────── */
+    .link.dsp-link-hover[data-variant="default"],
+    .link.dsp-link-hover[data-variant="heading"]        { color: var(--content-interaction-hover); }
+    .link.dsp-link-hover[data-variant="high-contrast"]  { color: var(--content-link-hover); }
+    .link.dsp-link-active[data-variant="default"],
+    .link.dsp-link-active[data-variant="heading"]       { color: var(--content-interaction-active); }
+    .link.dsp-link-active[data-variant="high-contrast"] { color: var(--content-link-active); }
+    .link.dsp-link-visited                              { opacity: 0.6; }
+    .link.dsp-link-visited[data-variant="heading"]      { opacity: 0.7; }
+    .link.dsp-link-focus {
+      outline: 2px solid var(--border-focus-default);
+      outline-offset: 2px;
+    }
+  </style>
+</head>
+<body>
+  <div class="dsp-shell">
+
+    <!-- ░░ SIDEBAR ░░ -->
+    <aside class="dsp-nav">
+      <div class="dsp-brand">
+        <div>
+          <div class="dsp-brand__name">Smartcat website design system</div>
+        </div>
+      </div>
+
+      <div class="dsp-nav__group">
+        <a class="dsp-nav__title is-active" href="preview.html">Foundations</a>
+        <a href="#colors">Colors</a>
+        <a href="#spacing">Spacing</a>
+        <a href="#radius">Radius</a>
+        <a href="#typography">Typography</a>
+        <a href="#effects">Effects</a>
+        <a href="#layout-grid">Layout grid</a>
+      </div>
+
+      <div class="dsp-nav__group">
+        <a class="dsp-nav__title" href="preview-atomic-components.html">Atomic components</a>
+        <a href="preview-atomic-components.html#button">Button</a>
+        <a href="preview-atomic-components.html#avatar">Avatar</a>
+        <a href="preview-atomic-components.html#icon">Icon</a>
+        <a href="preview-atomic-components.html#control">Control</a>
+        <a href="preview-atomic-components.html#dropdown-list">Dropdown list</a>
+        <a href="preview-atomic-components.html#link">Link</a>
+        <a href="preview-atomic-components.html#text-field">Text field</a>
+        <a href="preview-atomic-components.html#input-chip">Input chip</a>
+        <a href="preview-atomic-components.html#select">Select</a>
+        <a href="preview-atomic-components.html#text-area">Text area</a>
+        <a href="preview-atomic-components.html#input-group">Input group</a>
+      </div>
+
+      <div class="dsp-nav__group">
+        <a class="dsp-nav__title" href="preview-page-level-components.html">Page-level components</a>
+        <a href="preview-page-level-components.html#components-spacing">Components spacing</a>
+        <a href="preview-page-level-components.html#heading">Heading</a>
+        <a href="preview-page-level-components.html#text-block">Text block</a>
+        <a href="preview-page-level-components.html#image">Image</a>
+        <a href="preview-page-level-components.html#testimonial">Testimonial</a>
+        <a href="preview-page-level-components.html#cta">CTA</a>
+        <a href="preview-page-level-components.html#numbers">Numbers</a>
+        <a href="preview-page-level-components.html#case-study">Case study</a>
+        <a href="preview-page-level-components.html#customer-logos">Customer logos</a>
+        <a href="preview-page-level-components.html#faq">FAQ</a>
+        <a href="preview-page-level-components.html#accordion-carousel">Accordion carousel</a>
+        <a href="preview-page-level-components.html#cards">Cards</a>
+      </div>
+    </aside>
+
+    <!-- ░░ MAIN ░░ -->
+    <div class="dsp-main">
+      <div class="dsp-content">
+
+        <!-- ═══════════ COLORS ═══════════ -->
+        <section class="dsp-section" id="colors">
+          <div class="dsp-section__head dsp-section__head--row">
+            <div class="dsp-shd-text">
+              <h2>Colors</h2>
+            </div>
+            <div class="dsp-seg" id="theme-seg">
+              <button data-theme-val="light" class="is-active">Light</button>
+              <button data-theme-val="dark">Dark</button>
+            </div>
+          </div>
+          <button class="dsp-acc__trigger" aria-expanded="false" data-target="ct-global">Global colors <span class="dsp-acc__chevron"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3.33 6L8 10.67L12.67 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button>
+          <div class="dsp-acc__panel" id="ct-global" hidden></div>
+          <button class="dsp-acc__trigger" aria-expanded="false" data-target="ct-semantic">Semantic global colors <span class="dsp-acc__chevron"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3.33 6L8 10.67L12.67 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button>
+          <div class="dsp-acc__panel" id="ct-semantic" hidden></div>
+          <button class="dsp-acc__trigger" aria-expanded="false" data-target="ct-background">Background <span class="dsp-acc__chevron"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3.33 6L8 10.67L12.67 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button>
+          <div class="dsp-acc__panel" id="ct-background" hidden></div>
+          <button class="dsp-acc__trigger" aria-expanded="false" data-target="ct-content">Content <span class="dsp-acc__chevron"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3.33 6L8 10.67L12.67 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button>
+          <div class="dsp-acc__panel" id="ct-content" hidden></div>
+          <button class="dsp-acc__trigger" aria-expanded="false" data-target="ct-border">Border <span class="dsp-acc__chevron"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3.33 6L8 10.67L12.67 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button>
+          <div class="dsp-acc__panel" id="ct-border" hidden></div>
+        </section>
+
+        <!-- ═══════════ SPACING ═══════════ -->
+        <section class="dsp-section" id="spacing">
+          <div class="dsp-section__head dsp-section__head--row">
+            <div class="dsp-shd-text">
+              <h2>Spacing</h2>
+            </div>
+            <div class="dsp-seg" id="spacing-bp-seg">
+              <button class="is-active" data-bp="desktop">Desktop</button>
+              <button data-bp="mobile">Mobile+tablet</button>
+            </div>
+          </div>
+          <div id="spacing-mount"></div>
+        </section>
+
+        <!-- ═══════════ RADIUS ═══════════ -->
+        <section class="dsp-section" id="radius">
+          <div class="dsp-section__head dsp-section__head--row">
+            <div class="dsp-shd-text">
+              <h2>Border Radius</h2>
+            </div>
+            <div class="dsp-seg" id="radius-bp-seg">
+              <button class="is-active" data-bp="desktop">Desktop</button>
+              <button data-bp="mobile">Mobile+tablet</button>
+            </div>
+          </div>
+          <div id="radius-mount"></div>
+        </section>
+
+        <!-- ═══════════ TYPOGRAPHY ═══════════ -->
+        <section class="dsp-section" id="typography">
+          <div class="dsp-section__head dsp-section__head--row">
+            <div class="dsp-shd-text">
+              <h2>Typography</h2>
+            </div>
+            <div class="dsp-seg" id="type-bp-seg">
+              <button class="is-active" data-bp="desktop">Desktop</button>
+              <button data-bp="mobile">Mobile+tablet</button>
+            </div>
+          </div>
+          <div class="dsp-panel" id="type-mount"></div>
+        </section>
+
+        <!-- ═══════════ EFFECTS ═══════════ -->
+        <section class="dsp-section" id="effects">
+          <div class="dsp-section__head">
+            <h2>Effects</h2>
+            <p>Elevation shadows and the illustration inset highlight.</p>
+          </div>
+          <div class="dsp-panel"><div class="dsp-effects" id="effects-mount"></div></div>
+        </section>
+
+        <!-- ═══════════ LAYOUT GRID ═══════════ -->
+        <section class="dsp-section" id="layout-grid">
+          <div class="dsp-section__head dsp-section__head--row">
+            <div class="dsp-shd-text">
+              <h2>Layout grid</h2>
+              <p>Two breakpoints: columns flip at 800px (mobile 4 → tablet/desktop 12); page and column padding and the 1540px max width flip at 1280px. Tablet keeps the mobile token values. Defined in <code>base/layout.css</code>.</p>
+            </div>
+            <div class="dsp-seg" id="grid-bp-seg">
+              <button class="is-active" data-bp="desktop">Desktop</button>
+              <button data-bp="tablet">Tablet</button>
+              <button data-bp="mobile">Mobile</button>
+            </div>
+          </div>
+
+          <div class="dsp-subhead" style="margin-top:0">Structure</div>
+          <div id="grid-diagram"></div>
+        </section>
+
+
+      </div>
+    </div>
+  </div>
+
+  <script>
+  /* =============================================================
+     PREVIEW LOGIC — vanilla JS, reads live token values so the
+     gallery always matches the actual CSS (and current theme).
+     ============================================================= */
+  (function () {
+    const $  = (s, r = document) => r.querySelector(s);
+    const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+    const esc = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    const cssVal = (name) => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+    let _resolveEl = null;
+    function resolveTokenPx(token) {
+      if (!_resolveEl) {
+        _resolveEl = document.createElement('span');
+        _resolveEl.style.cssText = 'position:absolute;visibility:hidden;pointer-events:none';
+        document.body.appendChild(_resolveEl);
+      }
+      _resolveEl.style.width = 'var(' + token + ')';
+      return getComputedStyle(_resolveEl).width || '—';
+    }
+
+    /* paths as they appear from a page in pages/ (matches the
+       reference templates that use ../components/…) */
+    const ICON_PATH = (size, name) => `../components/atomic/icon/svg/${size}x${size}/${name}.svg`;
+    /* paths that actually resolve from THIS file at the project root */
+    const ICON_PATH_LOCAL = (size, name) => `../components/atomic/icon/svg/${size}x${size}/${name}.svg`;
+
+    /* inline SVGs for the button playground — copied from the icon library,
+       currentColor already set there so they tint with the button text */
+    const SVG_PLACEHOLDER = `<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6.66667 4.16667L13.3333 4.16667M6.66667 15.8333H13.3333M4.16667 13.3333V6.66667M15.8333 13.3333V6.66667M4.16667 5.83333C3.24619 5.83333 2.5 5.08714 2.5 4.16667C2.5 3.24619 3.24619 2.5 4.16667 2.5C5.08714 2.5 5.83333 3.24619 5.83333 4.16667C5.83333 5.08714 5.08714 5.83333 4.16667 5.83333ZM15.8333 5.83333C14.9129 5.83333 14.1667 5.08714 14.1667 4.16667C14.1667 3.24619 14.9129 2.5 15.8333 2.5C16.7538 2.5 17.5 3.24619 17.5 4.16667C17.5 5.08714 16.7538 5.83333 15.8333 5.83333ZM4.16667 17.5C3.24619 17.5 2.5 16.7538 2.5 15.8333C2.5 14.9129 3.24619 14.1667 4.16667 14.1667C5.08714 14.1667 5.83333 14.9129 5.83333 15.8333C5.83333 16.7538 5.08714 17.5 4.16667 17.5ZM15.8333 17.5C14.9129 17.5 14.1667 16.7538 14.1667 15.8333C14.1667 14.9129 14.9129 14.1667 15.8333 14.1667C16.7538 14.1667 17.5 14.9129 17.5 15.8333C17.5 16.7538 16.7538 17.5 15.8333 17.5Z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>`;
+    const SVG_CHEVRON    = `<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4.16663 7.5L9.99996 13.3333L15.8333 7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+
+    /* ---------- COLOR TOKENS ---------- */
+    function rngGroup(title, prefix, steps, aliasPrefix) {
+      return { title, tokens: steps.map(s => ({
+        name: `${prefix}-${s}`,
+        alias: aliasPrefix ? `${aliasPrefix}-${s}` : null
+      })) };
+    }
+
+    const GLOBAL_COLOR_GROUPS = [
+      rngGroup('Gray',        'color-non-semantic-gray',         [5,10,20,30,40,50,60,70,80,90,100]),
+      rngGroup('Gray Alpha',  'color-non-semantic-gray-alpha',   [5,10,20,30,40,50,60,70,80,90,100]),
+      rngGroup('White Alpha', 'color-non-semantic-white-alpha',  [0,5,10,20,30,40,50,60,70,80,90,100]),
+      rngGroup('Purple',      'color-non-semantic-purple',       [5,10,20,30,40,50,60,70,80,90,100]),
+      rngGroup('Red',         'color-non-semantic-red',          [5,10,20,30,40,50,60,70,80,90,100]),
+      rngGroup('Mint',        'color-non-semantic-mint',         [5,10,20,30,40,50,60,70,80,90,100]),
+      rngGroup('Blue',        'color-non-semantic-blue',         [5,10,20,30,40,50,60,70,80,90,100]),
+      rngGroup('Pink',        'color-non-semantic-pink',         [5,10,20,30,40,50,60,70,80,90,100]),
+      rngGroup('Orange',      'color-non-semantic-orange',       [5,10,20,30,40,50,60,70,80,90,100]),
+    ];
+
+    const SEMANTIC_COLOR_GROUPS = [
+      rngGroup('Brand',    'color-semantic-brand',    [5,10,20,30,40,50,60,70,80,90,100], 'color-non-semantic-purple'),
+      rngGroup('Negative', 'color-semantic-negative', [5,10,20,30,40,50,60,70,80,90,100], 'color-non-semantic-red'),
+    ];
+
+    const BACKGROUND_GROUPS = [
+      { title: 'Static', tokens: [
+        { name: 'background-static-gray-layer-0',    alias: 'color-non-semantic-white-alpha-100' },
+        { name: 'background-static-gray-layer-1',    alias: 'color-non-semantic-gray-5' },
+        { name: 'background-static-gray-layer-2',    alias: 'color-non-semantic-gray-10' },
+        { name: 'background-static-gray-layer-3',    alias: 'color-non-semantic-gray-20' },
+        { name: 'background-static-gray-inverted',   alias: 'color-non-semantic-gray-100' },
+        { name: 'background-static-gray-overlay',    alias: 'color-non-semantic-gray-alpha-50' },
+        { name: 'background-static-alpha-layer-1',   alias: 'color-non-semantic-gray-alpha-5' },
+        { name: 'background-static-alpha-layer-2',   alias: 'color-non-semantic-gray-alpha-10' },
+        { name: 'background-static-alpha-layer-3',   alias: 'color-non-semantic-gray-alpha-20' },
+        { name: 'background-static-red-layer-1',     alias: 'color-non-semantic-red-10' },
+        { name: 'background-static-red-layer-2',     alias: 'color-non-semantic-red-20' },
+        { name: 'background-static-red-layer-3',     alias: 'color-non-semantic-red-30' },
+        { name: 'background-static-red-inverted',    alias: 'color-non-semantic-red-90' },
+        { name: 'background-static-orange-layer-1',  alias: 'color-non-semantic-orange-10' },
+        { name: 'background-static-orange-layer-2',  alias: 'color-non-semantic-orange-20' },
+        { name: 'background-static-orange-layer-3',  alias: 'color-non-semantic-orange-30' },
+        { name: 'background-static-orange-inverted', alias: 'color-non-semantic-orange-90' },
+        { name: 'background-static-mint-layer-1',    alias: 'color-non-semantic-mint-10' },
+        { name: 'background-static-mint-layer-2',    alias: 'color-non-semantic-mint-20' },
+        { name: 'background-static-mint-layer-3',    alias: 'color-non-semantic-mint-30' },
+        { name: 'background-static-mint-inverted',   alias: 'color-non-semantic-mint-90' },
+        { name: 'background-static-blue-layer-1',    alias: 'color-non-semantic-blue-10' },
+        { name: 'background-static-blue-layer-2',    alias: 'color-non-semantic-blue-20' },
+        { name: 'background-static-blue-layer-3',    alias: 'color-non-semantic-blue-30' },
+        { name: 'background-static-blue-inverted',   alias: 'color-non-semantic-blue-80' },
+        { name: 'background-static-brand-layer-1',   alias: 'color-non-semantic-purple-10' },
+        { name: 'background-static-brand-layer-2',   alias: 'color-non-semantic-purple-20' },
+        { name: 'background-static-brand-layer-3',   alias: 'color-non-semantic-purple-30' },
+        { name: 'background-static-brand-inverted',  alias: 'color-non-semantic-purple-70' },
+        { name: 'background-static-pink-layer-1',    alias: 'color-non-semantic-pink-10' },
+        { name: 'background-static-pink-layer-2',    alias: 'color-non-semantic-pink-20' },
+        { name: 'background-static-pink-layer-3',    alias: 'color-non-semantic-pink-30' },
+        { name: 'background-static-pink-inverted',   alias: 'color-non-semantic-pink-90' },
+      ]},
+      { title: 'Button', tokens: [
+        { name: 'background-button-primary-default',   alias: 'color-non-semantic-gray-alpha-90' },
+        { name: 'background-button-primary-hover',     alias: 'color-non-semantic-gray-alpha-70' },
+        { name: 'background-button-primary-active',    alias: 'color-non-semantic-gray-alpha-60' },
+        { name: 'background-button-secondary-default', alias: 'color-non-semantic-gray-alpha-10' },
+        { name: 'background-button-secondary-hover',   alias: 'color-non-semantic-gray-alpha-20' },
+        { name: 'background-button-secondary-active',  alias: 'color-non-semantic-gray-alpha-30' },
+        { name: 'background-button-ghost-default',     alias: 'color-non-semantic-white-alpha-0' },
+        { name: 'background-button-ghost-hover',       alias: 'color-non-semantic-gray-alpha-5' },
+        { name: 'background-button-ghost-active',      alias: 'color-non-semantic-gray-alpha-10' },
+        { name: 'background-button-gradient-default',  alias: 'gradient' },
+        { name: 'background-button-gradient-hover',    alias: 'gradient' },
+        { name: 'background-button-gradient-active',   alias: 'gradient' },
+      ]},
+      { title: 'Interaction', tokens: [
+        { name: 'background-interaction-default',         alias: 'color-non-semantic-white-alpha-0' },
+        { name: 'background-interaction-hover',           alias: 'color-non-semantic-gray-alpha-5' },
+        { name: 'background-interaction-active',          alias: 'color-non-semantic-gray-alpha-20' },
+        { name: 'background-interaction-focus',           alias: 'color-non-semantic-gray-alpha-5' },
+        { name: 'background-interaction-selectedsubtle',  alias: 'color-non-semantic-gray-alpha-10' },
+        { name: 'background-interaction-selectedstrong',  alias: 'background-button-primary-default' },
+        { name: 'background-interaction-selectedbrand',   alias: 'color-semantic-brand-70' },
+        { name: 'background-interaction-errorblank',      alias: 'color-non-semantic-white-alpha-0' },
+        { name: 'background-interaction-errorsolid',      alias: 'color-semantic-negative-80' },
+        { name: 'background-illustration-semitrasparent', alias: 'color-non-semantic-white-alpha-50' },
+      ]},
+    ];
+
+    const CONTENT_GROUPS = [
+      { title: 'Static', tokens: [
+        { name: 'content-static-primary',   alias: 'color-non-semantic-gray-alpha-100' },
+        { name: 'content-static-secondary', alias: 'color-non-semantic-gray-alpha-60' },
+        { name: 'content-static-tertiary',  alias: 'color-non-semantic-gray-alpha-40' },
+        { name: 'content-static-inverted',  alias: 'color-non-semantic-white-alpha-100' },
+        { name: 'content-static-brand',     alias: 'color-semantic-brand-70' },
+        { name: 'content-static-blue',      alias: 'color-non-semantic-blue-70' },
+        { name: 'content-static-green',     alias: 'color-non-semantic-mint-60' },
+        { name: 'content-static-pink',      alias: 'color-non-semantic-pink-70' },
+        { name: 'content-static-orange',    alias: 'color-non-semantic-orange-80' },
+      ]},
+      { title: 'Interaction', tokens: [
+        { name: 'content-interaction-default', alias: 'color-non-semantic-gray-alpha-100' },
+        { name: 'content-interaction-hover',   alias: 'color-non-semantic-gray-alpha-60' },
+        { name: 'content-interaction-active',  alias: 'color-non-semantic-gray-alpha-40' },
+        { name: 'content-interaction-error',   alias: 'color-semantic-negative-80' },
+      ]},
+      { title: 'Link', tokens: [
+        { name: 'content-link-default', alias: 'color-semantic-brand-70' },
+        { name: 'content-link-hover',   alias: 'color-semantic-brand-60' },
+        { name: 'content-link-active',  alias: 'color-semantic-brand-50' },
+      ]},
+      { title: 'Misc', tokens: [
+        { name: 'content-misc-rating', alias: 'color-non-semantic-orange-70' },
+      ]},
+    ];
+
+    const BORDER_GROUPS = [
+      { title: 'Button', tokens: [
+        { name: 'border-button-default', alias: 'color-non-semantic-gray-alpha-20' },
+        { name: 'border-button-hover',   alias: 'color-non-semantic-gray-alpha-20' },
+        { name: 'border-button-active',  alias: 'color-non-semantic-gray-alpha-20' },
+      ]},
+      { title: 'Interaction', tokens: [
+        { name: 'border-interaction-default', alias: 'color-non-semantic-gray-alpha-20' },
+        { name: 'border-interaction-hover',   alias: 'color-non-semantic-gray-alpha-20' },
+        { name: 'border-interaction-active',  alias: 'color-non-semantic-gray-alpha-20' },
+        { name: 'border-interaction-error',   alias: 'color-semantic-negative-80' },
+      ]},
+      { title: 'Focus', tokens: [
+        { name: 'border-focus-default', alias: 'color-non-semantic-purple-40' },
+      ]},
+      { title: 'Divider', tokens: [
+        { name: 'border-divider-default', alias: 'color-non-semantic-gray-alpha-20' },
+      ]},
+      { title: 'Link', tokens: [
+        { name: 'border-link-default', alias: 'color-non-semantic-gray-alpha-50' },
+        { name: 'border-link-purple',  alias: 'color-semantic-brand-70' },
+      ]},
+    ];
+
+    function buildColorSection(groups) {
+      const wrap = document.createDocumentFragment();
+      groups.forEach(group => {
+        const sub = document.createElement('div');
+        sub.className = 'dsp-ct__sub';
+        sub.textContent = group.title;
+
+        const panel = document.createElement('div');
+        panel.className = 'dsp-panel';
+        panel.style.cssText = 'padding:0;overflow:hidden;margin-bottom:var(--spacing-4)';
+
+        const table = document.createElement('table');
+        table.className = 'dsp-ctable';
+        table.innerHTML = '<thead><tr><th>Name</th><th>Color</th><th>Alias</th><th>Value</th></tr></thead>';
+        const tbody = document.createElement('tbody');
+
+        group.tokens.forEach(t => {
+          const varName = '--' + t.name;
+          const tr = document.createElement('tr');
+          tr.innerHTML =
+            `<td class="dsp-ctable__name">${t.name}</td>` +
+            `<td class="dsp-ctable__chip-cell"><span class="dsp-ctable__chip" style="--_c:var(${varName})"></span></td>` +
+            `<td class="dsp-ctable__alias">${t.alias || '—'}</td>` +
+            `<td class="dsp-ctable__val" data-token="${varName}"></td>`;
+          tbody.appendChild(tr);
+        });
+
+        table.appendChild(tbody);
+        panel.appendChild(table);
+        wrap.appendChild(sub);
+        wrap.appendChild(panel);
+      });
+      return wrap;
+    }
+
+    function renderColors() {
+      if (!$('#ct-global')) return;
+      $('#ct-global').appendChild(buildColorSection(GLOBAL_COLOR_GROUPS));
+      $('#ct-semantic').appendChild(buildColorSection(SEMANTIC_COLOR_GROUPS));
+      $('#ct-background').appendChild(buildColorSection(BACKGROUND_GROUPS));
+      $('#ct-content').appendChild(buildColorSection(CONTENT_GROUPS));
+      $('#ct-border').appendChild(buildColorSection(BORDER_GROUPS));
+      refreshColorValues();
+    }
+    function refreshColorValues() {
+      $$('[data-token]').forEach(el => { el.textContent = cssVal(el.dataset.token) || '—'; });
+    }
+
+    /* ---------- SPACING / RADIUS / DIMENSIONS ---------- */
+    const SPACING = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15].map(n => `--spacing-${n}`);
+    const RADII   = ['--radius-1','--radius-2','--radius-3','--radius-4','--radius-5','--radius-6','--radius-full'];
+
+    /* Primitive spacing scale (globals.css — no breakpoint dependency) */
+    const SP_PX = [0,2,4,8,12,16,24,32,40,48,56,64,80,96,112,128];
+    const sp = n => SP_PX[n] + 'px';
+
+    /* Mobile/tablet base values resolved from tokens/sizes.css :root */
+    const SPACING_MOBILE = {
+      '--spacing-card-l-top':sp(5),'--spacing-card-l-horizontal':sp(5),'--spacing-card-l-bottom':sp(6),'--spacing-card-l-gap':sp(5),
+      '--spacing-card-m-top':sp(5),'--spacing-card-m-horizontal':sp(5),'--spacing-card-m-bottom':sp(6),'--spacing-card-m-gap':sp(5),
+      '--spacing-card-s-top':sp(5),'--spacing-card-s-horizontal':sp(5),'--spacing-card-s-bottom':sp(6),'--spacing-card-s-gap':sp(5),
+      '--spacing-button-xl-horizontal':sp(9),'--spacing-button-xl-vertical':sp(6),'--spacing-button-xl-gap':sp(4),
+      '--spacing-button-l-horizontal':sp(6),'--spacing-button-l-vertical':sp(5),'--spacing-button-l-gap':sp(4),
+      '--spacing-button-m-horizontal':sp(5),'--spacing-button-m-vertical':sp(3),'--spacing-button-m-gap':sp(3),
+      '--spacing-between-buttons-horzontal':sp(3),
+      '--spacing-input-l-horizontal':sp(5),'--spacing-input-l-vertical':sp(5),'--spacing-input-l-gap':sp(4),'--spacing-input-l-filled':sp(3),
+      '--spacing-input-m-horizontal':sp(4),'--spacing-input-m-vertical':sp(3),'--spacing-input-m-gap':sp(3),'--spacing-input-m-filled':sp(2),
+      '--spacing-panel-horizontal':sp(5),'--spacing-panel-top':sp(6),'--spacing-panel-bottom':sp(7),
+      '--spacing-page-sides':'15px',
+      '--spacing-page-vertical-1':sp(3),'--spacing-page-vertical-2':sp(3),'--spacing-page-vertical-3':sp(6),
+      '--spacing-page-vertical-4':sp(8),'--spacing-page-vertical-5':sp(9),'--spacing-page-vertical-6':sp(11),
+      '--spacing-page-vertical-7':sp(12),'--spacing-page-vertical-8':sp(14),
+      '--spacing-between-elements-1':sp(1),'--spacing-between-elements-2':sp(2),'--spacing-between-elements-3':sp(3),
+      '--spacing-between-elements-4':sp(3),'--spacing-between-elements-5':sp(4),'--spacing-between-elements-6':sp(5),
+      '--spacing-between-elements-7':sp(6),'--spacing-between-elements-8':sp(7),'--spacing-between-elements-9':sp(8),
+      '--spacing-between-elements-10':sp(9),'--spacing-between-elements-11':sp(11),
+      '--spacing-between-gutter-default':sp(3),
+      '--spacing-dropdown-item-l-vertical':'10px','--spacing-dropdown-item-l-horizontal':sp(5),
+      '--spacing-dropdown-item-m-vertical':sp(3),'--spacing-dropdown-item-m-horizontal':sp(4),
+      '--spacing-dropdown-search-l-vertical':'14px','--spacing-dropdown-search-l-horizontal':sp(5),
+      '--spacing-dropdown-search-m-vertical':sp(3),'--spacing-dropdown-search-m-horizontal':sp(4),
+      '--spacing-dropdown-list-padding':sp(2),
+    };
+    /* Desktop overrides from tokens/sizes.css @media (min-width:1280px) */
+    const SPACING_DESKTOP = Object.assign({}, SPACING_MOBILE, {
+      '--spacing-card-l-top':sp(7),'--spacing-card-l-horizontal':sp(7),'--spacing-card-l-bottom':sp(9),'--spacing-card-l-gap':sp(6),
+      '--spacing-card-m-top':sp(6),'--spacing-card-m-horizontal':sp(6),'--spacing-card-m-bottom':sp(8),'--spacing-card-m-gap':sp(6),
+      '--spacing-panel-horizontal':sp(9),'--spacing-panel-top':sp(9),'--spacing-panel-bottom':sp(10),
+      '--spacing-page-sides':sp(12),
+      '--spacing-page-vertical-2':sp(5),'--spacing-page-vertical-5':sp(10),
+      '--spacing-page-vertical-6':sp(12),'--spacing-page-vertical-7':sp(14),'--spacing-page-vertical-8':sp(15),
+      '--spacing-between-elements-4':sp(4),'--spacing-between-elements-5':sp(5),'--spacing-between-elements-6':sp(6),
+      '--spacing-between-elements-7':sp(7),'--spacing-between-elements-8':sp(8),'--spacing-between-elements-9':sp(10),
+      '--spacing-between-elements-10':sp(11),'--spacing-between-elements-11':sp(12),
+    });
+
+    function getBpSpacingVal(token, mode) {
+      const m = token.match(/^--spacing-(\d+)$/);
+      if (m) return (SP_PX[+m[1]] ?? 0) + 'px';
+      return ((mode === 'desktop') ? SPACING_DESKTOP : SPACING_MOBILE)[token] || resolveTokenPx(token);
+    }
+
+    const SPACING_GROUPS = [
+      { title: 'Global', tokens: SPACING },
+      { title: 'Card', tokens: [
+        '--spacing-card-l-top','--spacing-card-l-horizontal','--spacing-card-l-bottom','--spacing-card-l-gap',
+        '--spacing-card-m-top','--spacing-card-m-horizontal','--spacing-card-m-bottom','--spacing-card-m-gap',
+        '--spacing-card-s-top','--spacing-card-s-horizontal','--spacing-card-s-bottom','--spacing-card-s-gap',
+      ]},
+      { title: 'Button', tokens: [
+        '--spacing-button-xl-horizontal','--spacing-button-xl-vertical','--spacing-button-xl-gap',
+        '--spacing-button-l-horizontal','--spacing-button-l-vertical','--spacing-button-l-gap',
+        '--spacing-button-m-horizontal','--spacing-button-m-vertical','--spacing-button-m-gap',
+        '--spacing-between-buttons-horzontal',
+      ]},
+      { title: 'Input', tokens: [
+        '--spacing-input-l-horizontal','--spacing-input-l-vertical','--spacing-input-l-gap','--spacing-input-l-filled',
+        '--spacing-input-m-horizontal','--spacing-input-m-vertical','--spacing-input-m-gap','--spacing-input-m-filled',
+      ]},
+      { title: 'Panel', tokens: [
+        '--spacing-panel-horizontal','--spacing-panel-top','--spacing-panel-bottom',
+      ]},
+      { title: 'Page', tokens: [
+        '--spacing-page-sides',
+        '--spacing-page-vertical-1','--spacing-page-vertical-2','--spacing-page-vertical-3','--spacing-page-vertical-4',
+        '--spacing-page-vertical-5','--spacing-page-vertical-6','--spacing-page-vertical-7','--spacing-page-vertical-8',
+      ]},
+      { title: 'Between elements', tokens: [
+        '--spacing-between-elements-1','--spacing-between-elements-2','--spacing-between-elements-3',
+        '--spacing-between-elements-4','--spacing-between-elements-5','--spacing-between-elements-6',
+        '--spacing-between-elements-7','--spacing-between-elements-8','--spacing-between-elements-9',
+        '--spacing-between-elements-10','--spacing-between-elements-11',
+        '--spacing-between-gutter-default',
+      ]},
+      { title: 'Dropdown', tokens: [
+        '--spacing-dropdown-item-l-vertical','--spacing-dropdown-item-l-horizontal',
+        '--spacing-dropdown-item-m-vertical','--spacing-dropdown-item-m-horizontal',
+        '--spacing-dropdown-search-l-vertical','--spacing-dropdown-search-l-horizontal',
+        '--spacing-dropdown-search-m-vertical','--spacing-dropdown-search-m-horizontal',
+        '--spacing-dropdown-list-padding',
+      ]},
+    ];
+
+    const RADII_GROUPS = [
+      { title: 'Global', tokens: RADII },
+      { title: 'Component', tokens: [
+        '--radius-button','--radius-button-container',
+        '--radius-card-regular','--radius-card-contained',
+        '--radius-panel',
+      ]},
+    ];
+
+    const ACC_CHEVRON_SVG = `<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3.33 6L8 10.67L12.67 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+
+    function renderScaleTable(mountId, groups, kind, bpMode) {
+      const bp = bpMode || 'desktop';
+      const mount = document.getElementById(mountId);
+      if (!mount) return;
+      mount.innerHTML = '';
+      const frag = document.createDocumentFragment();
+      groups.forEach(group => {
+        const panelId = mountId + '-' + group.title.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+
+        const trigger = document.createElement('button');
+        trigger.className = 'dsp-acc__trigger';
+        trigger.setAttribute('aria-expanded', 'false');
+        trigger.dataset.target = panelId;
+        trigger.innerHTML = `${group.title} <span class="dsp-acc__chevron">${ACC_CHEVRON_SVG}</span>`;
+        frag.appendChild(trigger);
+
+        const panel = document.createElement('div');
+        panel.className = 'dsp-acc__panel';
+        panel.id = panelId;
+        panel.hidden = true;
+
+        const tableWrap = document.createElement('div');
+        tableWrap.className = 'dsp-panel';
+        tableWrap.style.cssText = 'padding:0;overflow:hidden;margin-bottom:var(--spacing-4)';
+
+        const table = document.createElement('table');
+        table.className = 'dsp-ctable dsp-ctable--scale';
+        table.innerHTML = '<thead><tr><th>Name</th><th>Demo</th><th>Value</th></tr></thead>';
+        const tbody = document.createElement('tbody');
+
+        group.tokens.forEach(t => {
+          const tr = document.createElement('tr');
+          const val = (kind === 'spacing') ? getBpSpacingVal(t, bp) : resolveTokenPx(t);
+          const px = parseFloat(val) || 0;
+          let demoCell;
+          if (kind === 'spacing') {
+            demoCell = `<td><span class="dsp-ctable__bar" data-sp-bar="${t}" style="width:${Math.min(px, 300)}px"></span></td>`;
+          } else {
+            demoCell = `<td><span class="dsp-ctable__rbox" style="border-radius:var(${t})"></span></td>`;
+          }
+          tr.innerHTML =
+            `<td class="dsp-ctable__name">${t.replace('--','')}</td>` +
+            demoCell +
+            `<td class="dsp-ctable__val" data-sp-token="${t}" data-sp-kind="${kind}">${val}</td>`;
+          tbody.appendChild(tr);
+        });
+
+        table.appendChild(tbody);
+        tableWrap.appendChild(table);
+        panel.appendChild(tableWrap);
+        frag.appendChild(panel);
+      });
+      mount.appendChild(frag);
+      initAccordions();
+    }
+
+    function refreshScaleValues(mountId, kind, bpMode) {
+      document.querySelectorAll('#' + mountId + ' [data-sp-token]').forEach(el => {
+        const t = el.dataset.spToken;
+        const val = (kind === 'spacing') ? getBpSpacingVal(t, bpMode) : resolveTokenPx(t);
+        el.textContent = val;
+        const bar = el.closest('tr')?.querySelector('[data-sp-bar]');
+        if (bar) bar.style.width = Math.min(parseFloat(val) || 0, 300) + 'px';
+      });
+    }
+
+    /* ---------- TYPOGRAPHY ---------- */
+    /* [cls, label, mob_sz, mob_lh, weight, family, desk_sz, desk_lh] */
+    const TYPE_DATA = [
+      ['text-display',         'Display',             56, 64,  700, 'Plus Jakarta Sans', 72, 80],
+      ['text-h1',              'Heading 1',            32, 40,  700, 'Plus Jakarta Sans', 48, 58],
+      ['text-h2',              'Heading 2',            24, 32,  700, 'Plus Jakarta Sans', 32, 40],
+      ['text-h3',              'Heading 3',            18, 28,  700, 'Plus Jakarta Sans', 24, 32],
+      ['text-h4-bold',         'Heading 4 · Bold',     16, 24,  700, 'Plus Jakarta Sans', 18, 24],
+      ['text-h4-reg',          'Heading 4 · Regular',  16, 24,  400, 'Plus Jakarta Sans', 18, 24],
+      ['text-h5-bold',         'Heading 5 · Bold',     14, 20,  700, 'Plus Jakarta Sans', 16, 22],
+      ['text-h5-reg',          'Heading 5 · Regular',  14, 20,  400, 'Plus Jakarta Sans', 16, 22],
+      ['text-paragraph-bold',  'Paragraph · Bold',     16, 26,  700, 'Inter',             18, 30],
+      ['text-paragraph-reg',   'Paragraph · Regular',  16, 26,  400, 'Inter',             18, 30],
+      ['text-small-bold',      'Small · Bold',         14, 22,  700, 'Inter',             16, 26],
+      ['text-small-reg',       'Small · Regular',      14, 22,  400, 'Inter',             16, 26],
+      ['text-caption-bold',    'Caption · Bold',       12, 16,  700, 'Inter',             14, 20],
+      ['text-caption-reg',     'Caption · Regular',    12, 16,  400, 'Inter',             14, 20],
+      ['text-label-l-semibold','Label L · Semibold',   16, 20,  600, 'Inter',             16, 20],
+      ['text-label-l-reg',     'Label L · Regular',    16, 20,  400, 'Inter',             16, 20],
+      ['text-label-m-semibold','Label M · Semibold',   14, 20,  600, 'Inter',             14, 20],
+      ['text-label-m-reg',     'Label M · Regular',    14, 20,  400, 'Inter',             14, 20],
+      ['text-label-s-semibold','Label S · Semibold',   10, 16,  600, 'Inter',             10, 16],
+      ['text-label-s-reg',     'Label S · Regular',    10, 16,  400, 'Inter',             10, 16],
+    ];
+    let typeBpMode = 'desktop';
+
+    function renderType() {
+      const mount = $('#type-mount');
+      if (!mount) return;
+      mount.innerHTML = '';
+      TYPE_DATA.forEach(([cls, label], i) => {
+        const row = document.createElement('div');
+        row.className = 'dsp-type-row';
+        row.innerHTML =
+          `<div class="dsp-type-sample"><span class="${cls}" data-type-sample="${i}">${label}</span></div>
+           <div class="dsp-type-meta">
+             <div class="dsp-type-class">.${cls}</div>
+             <div class="dsp-type-specs" data-type-idx="${i}"></div>
+           </div>`;
+        mount.appendChild(row);
+      });
+      refreshTypeSpecs();
+    }
+    function refreshTypeSpecs() {
+      $$('[data-type-idx]').forEach(el => {
+        const d = TYPE_DATA[+el.dataset.typeIdx];
+        if (!d) return;
+        const sz = typeBpMode === 'desktop' ? d[6] : d[2];
+        const lh = typeBpMode === 'desktop' ? d[7] : d[3];
+        el.textContent = `${sz}px / ${lh}px · ${d[4]} · ${d[5]}`;
+      });
+      // Resize the live sample text to match the toggled breakpoint
+      // (the CSS class always resolves to the current viewport, so we
+      // override size + line-height inline; weight/family are unchanged).
+      $$('[data-type-sample]').forEach(el => {
+        const d = TYPE_DATA[+el.dataset.typeSample];
+        if (!d) return;
+        const sz = typeBpMode === 'desktop' ? d[6] : d[2];
+        const lh = typeBpMode === 'desktop' ? d[7] : d[3];
+        el.style.fontSize = sz + 'px';
+        el.style.lineHeight = lh + 'px';
+      });
+    }
+
+    /* ---------- ACCORDION ---------- */
+    function initAccordions() {
+      document.querySelectorAll('.dsp-acc__trigger').forEach(trigger => {
+        if (trigger._accBound) return;
+        trigger._accBound = true;
+        trigger.addEventListener('click', function () {
+          const panel = document.getElementById(this.dataset.target);
+          if (!panel) return;
+          const open = this.getAttribute('aria-expanded') === 'true';
+          this.setAttribute('aria-expanded', String(!open));
+          panel.hidden = open;
+        });
+      });
+    }
+
+    /* ---------- LAYOUT GRID DIAGRAM ---------- */
+    const GRID_BP_DATA = {
+      desktop: { cols: 12, pagePad: 80, colPad: 24, gutter: 8, maxWidth: 1540, label: 'Desktop (≥1280px)' },
+      tablet:  { cols: 12, pagePad: 16, colPad: 16, gutter: 8, maxWidth: null,  label: 'Tablet (800–1279px)' },
+      mobile:  { cols: 4,  pagePad: 16, colPad: 16, gutter: 8, maxWidth: null,  label: 'Mobile (<800px)' },
+    };
+
+    function renderGridDiagram(mode) {
+      const mount = document.getElementById('grid-diagram');
+      if (!mount) return;
+      const d = GRID_BP_DATA[mode] || GRID_BP_DATA.desktop;
+      const cols = Array.from({ length: d.cols }, () => '<div class="dsp-gviz__col"></div>').join('');
+      mount.innerHTML =
+        `<div class="dsp-gviz">
+          <div class="dsp-gviz__annot">
+            <div class="dsp-gviz__ann dsp-gviz__ann--pp" style="width:${d.pagePad}px">
+              <span>Page padding</span><span class="dsp-gviz__ann-val">${d.pagePad}px</span>
+            </div>
+            <div class="dsp-gviz__ann dsp-gviz__ann--inner">
+              Column padding ${d.colPad}px · Gutter ${d.gutter}px${d.maxWidth ? ' · Max content width ' + d.maxWidth + 'px' : ''}
+            </div>
+            <div class="dsp-gviz__ann dsp-gviz__ann--pp" style="width:${d.pagePad}px">
+              <span>Page padding</span><span class="dsp-gviz__ann-val">${d.pagePad}px</span>
+            </div>
+          </div>
+          <div class="dsp-gviz__frame">
+            <div class="dsp-gviz__pad" style="width:${d.pagePad}px"></div>
+            <div class="dsp-gviz__inner" style="gap:${d.gutter}px;padding-left:${d.colPad}px;padding-right:${d.colPad}px">${cols}</div>
+            <div class="dsp-gviz__pad dsp-gviz__pad--r" style="width:${d.pagePad}px"></div>
+          </div>
+          <div class="dsp-gviz__spec">
+            ${d.label} · Columns ${d.cols} · Gutter ${d.gutter}px · Page padding ${d.pagePad}px · Column padding ${d.colPad}px${d.maxWidth ? `<span class="dsp-gviz__mw">Max content width: ${d.maxWidth}px</span>` : ''}
+          </div>
+        </div>`;
+    }
+
+    /* ---------- EFFECTS ---------- */
+    const EFFECTS = [
+      ['--shadow-elevation-l', 'shadow-elevation-l'],
+      ['--shadow-elevation-m', 'shadow-elevation-m'],
+      ['--shadow-elevation-s', 'shadow-elevation-s'],
+      ['--shadow-illustration-panel-top', 'shadow-illustration-panel-top'],
+    ];
+    function renderEffects() {
+      const mount = $('#effects-mount');
+      if (!mount) return;
+      mount.innerHTML = '';
+      EFFECTS.forEach(([v, name]) => {
+        const tile = document.createElement('div');
+        tile.className = 'dsp-effect-tile';
+        tile.innerHTML =
+          `<div class="dsp-effect-box" style="box-shadow: var(${v})"></div>
+           <div class="dsp-effect-name">${name}</div>
+           <div class="dsp-effect-val">${cssVal(v)}</div>`;
+        mount.appendChild(tile);
+      });
+    }
+
+    /* ---------- CHIP GROUPS (shared) ---------- */
+    function buildChips(mountSel, values, initial, onPick) {
+      const mount = $(mountSel);
+      if (!mount) return;
+      mount.innerHTML = '';
+      values.forEach(v => {
+        const b = document.createElement('button');
+        b.className = 'dsp-chip' + (v === initial ? ' is-active' : '');
+        b.textContent = v;
+        b.dataset.value = v;
+        b.addEventListener('click', () => {
+          $$('.dsp-chip', mount).forEach(c => c.classList.remove('is-active'));
+          b.classList.add('is-active');
+          onPick(v);
+        });
+        mount.appendChild(b);
+      });
+    }
+
+    /* ---------- BUTTON PLAYGROUND ---------- */
+    const BTN_TYPES = ['primary','secondary','outlined','ghost','gradient','text-purple','text-black'];
+    const btnState = { type: 'primary', size: 'l', label: 'Button text',
+                       leading: false, trailing: false, chevron: false, disabled: false };
+
+    function renderButton() {
+      if (!$('#btn-preview')) return;
+      const attrs = [`class="btn"`, `data-type="${btnState.type}"`, `data-size="${btnState.size}"`];
+      if (btnState.disabled) attrs.push('disabled');
+      const attrStr = attrs.join(' ');
+      const parts = [];
+
+      if (btnState.leading)
+        parts.push(`  <span class="btn__icon" aria-hidden="true">${SVG_PLACEHOLDER}</span>`);
+      parts.push(`  <span class="btn__label">${esc(btnState.label) || 'Button text'}</span>`);
+      if (btnState.trailing)
+        parts.push(`  <span class="btn__icon" aria-hidden="true">${SVG_PLACEHOLDER}</span>`);
+      if (btnState.chevron)
+        parts.push(`  <span class="btn__chevron" aria-hidden="true">${SVG_CHEVRON}</span>`);
+
+      const html = `<button ${attrStr}>\n${parts.join('\n')}\n</button>`;
+      $('#btn-preview').innerHTML = html;
+      $('#btn-code').textContent  = html;
+    }
+
+    function renderButtonMatrix() {
+      const tbody = $('#btn-matrix');
+      if (!tbody) return;
+      tbody.innerHTML = '';
+      BTN_TYPES.forEach(type => {
+        const tr = document.createElement('tr');
+        const mk = (size) =>
+          `<div class="btn" data-type="${type}" data-size="${size}"><span class="btn__label">Button</span></div>`;
+        tr.innerHTML =
+          `<td>${type}</td>
+           <td><div class="dsp-matrix__cell">${mk('l')}</div></td>
+           <td><div class="dsp-matrix__cell">${mk('m')}</div></td>`;
+        tbody.appendChild(tr);
+      });
+    }
+
+    /* ---------- AVATAR PLAYGROUND ---------- */
+    const AV_SIZES = ['24','32','48','64','80','104'];
+    const PHOTO = "data:image/svg+xml;utf8," + encodeURIComponent(
+      `<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'>
+         <defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'>
+           <stop offset='0' stop-color='%237d39fc'/><stop offset='1' stop-color='%23c326ed'/>
+         </linearGradient></defs>
+         <rect width='160' height='160' fill='url(%23g)'/>
+         <circle cx='80' cy='62' r='30' fill='rgba(255,255,255,0.92)'/>
+         <path d='M30 150 a50 50 0 0 1 100 0 z' fill='rgba(255,255,255,0.92)'/>
+       </svg>`);
+    const avState = { type: 'icon', size: '104' };
+
+    function renderAvatar() {
+      if (!$('#avatar-preview')) return;
+      let html;
+      if (avState.type === 'photo') {
+        html = `<div class="avatar" data-type="photo" data-size="${avState.size}">\n  <img class="avatar__photo" src="photo.jpg" alt="Jane Smith">\n</div>`;
+        $('#avatar-preview').innerHTML =
+          `<div class="avatar" data-type="photo" data-size="${avState.size}"><img class="avatar__photo" src="${PHOTO}" alt="Jane Smith"></div>`;
+      } else {
+        html = `<div class="avatar" data-type="icon" data-size="${avState.size}"></div>`;
+        $('#avatar-preview').innerHTML = html;
+      }
+      $('#avatar-code').textContent = html;
+    }
+    function renderAvatarSizes() {
+      const mount = $('#avatar-sizes');
+      if (!mount) return;
+      mount.innerHTML = '';
+      AV_SIZES.forEach(s => {
+        const wrap = document.createElement('div');
+        wrap.style.textAlign = 'center';
+        wrap.innerHTML =
+          `<div class="avatar" data-type="icon" data-size="${s}"></div>
+           <div style="font-size:11px;color:var(--content-static-secondary);margin-top:6px">${s}</div>`;
+        mount.appendChild(wrap);
+      });
+    }
+
+    /* ---------- ICON GALLERY ---------- */
+    const ICONS = ["alarm","archive","arrow-blocked-bottom","arrow-blocked-left","arrow-blocked-right","arrow-blocked-top","arrow-bottom-left","arrow-bottom-right","arrow-bottom","arrow-circle-bottom-left","arrow-circle-bottom-right","arrow-circle-bottom","arrow-circle-left","arrow-circle-right","arrow-circle-top-left","arrow-circle-top-right","arrow-circle-top","arrow-dropdown-collapsed","arrow-dropdown","arrow-left","arrow-right","arrow-top-left","arrow-top-right","arrow-top","automotive","award","bag","bell","binary-code","board","book","bookmark","box","briefcase-dollar","briefcase","bubble-conversation","bubble-dots","bubble-exclamation-mark","bubble-question-mark","bubble-text","business","calendar-dates","calendar-upcoming","calendar","camera","cancel","cardholder","caret-bottom","caret-circle-bottom","caret-circle-left","caret-circle-right","caret-circle-top","caret-left","caret-right","caret-top","cart","chart-1","chart-2","check-in-box","check-in-circle","check","checklist","chevron-down","chevron-left","chevron-right","chevron-top","chip","clipboard","clock-clockwise","clock-counterclockwise","clock","cloud","code","controller","credit-card","cross-small","cross","cursor","design","desktop","document-1","document-2","dollar","download-from-cloud","download","ease","envelope-open","envelope","exclamation-mark","expand","facebook","factory","folder","forward","gear","globe","government","graduation-cap","grid","headphones","heart","hide","image","information","integration","invoice","key","laptop","layout","legal","library","life-ring","life-science","lighting-bolt","link","linkedin","list-with-pencil","location","lock-closed","lock-opened","magic-wand","magnifier-glass","megaphone","menu-hamburger","menu-kebab","menu-meatballs","microphone-off","microphone-on","minus-circle","minus","mobile","note","paper-clip","pause","placeholder","play","plus-circle","plus","question-mark","reverse","rewind","rocket","scale","school","security","send-a-message","share-android","share-ios","share","show","shuffle","skip-back","skip-forward","sliders","sparkle","star-filled","star","stopwatch","subtitles","tablet","tag","thumbs-down","thumbs-up","ticket","translation","typing","upload-to-cloud","upload","user-add","user-check","user-lock","user-remove","user","users","video","volume-off","volume-on","wallet","website","workspace","x"];
+    const iconState = { size: '24', query: '' };
+
+    function renderIcons() {
+      const grid = $('#icon-grid');
+      if (!grid) return;
+      const q = iconState.query.toLowerCase();
+      const list = ICONS.filter(n => n.includes(q));
+      grid.innerHTML = '';
+      $('#icon-count').textContent = `${list.length} of ${ICONS.length}`;
+      list.forEach(name => {
+        const tile = document.createElement('div');
+        tile.className = 'dsp-icon-tile';
+        tile.innerHTML =
+          `<img src="${ICON_PATH_LOCAL(iconState.size, name)}" alt="" width="24" height="24" loading="lazy">
+           <span>${name}</span>`;
+        tile.addEventListener('click', () => {
+          const code = `<img class="icon" data-size="${iconState.size}" src="${ICON_PATH(iconState.size, name)}" alt="">`;
+          $('#icon-code').textContent = code;
+          $('#icon-code-wrap').style.display = 'block';
+          $('#icon-code-wrap').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        });
+        grid.appendChild(tile);
+      });
+    }
+
+    /* ---------- COPY BUTTONS ---------- */
+    $$('.dsp-copy').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const text = $(btn.dataset.copy).textContent;
+        navigator.clipboard?.writeText(text).then(() => {
+          const old = btn.textContent; btn.textContent = 'Copied ✓';
+          setTimeout(() => btn.textContent = old, 1200);
+        });
+      });
+    });
+
+    /* ---------- THEME TOGGLE ---------- */
+    function refreshDynamicValues() { refreshColorValues(); renderEffectsValues(); }
+    function renderEffectsValues() {
+      $$('#effects-mount .dsp-effect-tile').forEach((tile, i) => {
+        tile.querySelector('.dsp-effect-val').textContent = cssVal(EFFECTS[i][0]);
+      });
+    }
+    $('#theme-seg').addEventListener('click', (e) => {
+      const b = e.target.closest('button'); if (!b) return;
+      document.documentElement.setAttribute('data-theme', b.dataset.themeVal);
+      $$('#theme-seg button').forEach(x => x.classList.toggle('is-active', x === b));
+      refreshDynamicValues();
+    });
+
+    /* ---------- SCROLLSPY ---------- */
+    const navLinks = $$('.dsp-nav a');
+    const spy = new IntersectionObserver((entries) => {
+      entries.forEach(en => {
+        if (en.isIntersecting) {
+          navLinks.forEach(l => l.classList.toggle('is-active', l.getAttribute('href') === '#' + en.target.id));
+        }
+      });
+    }, { rootMargin: '-40% 0px -55% 0px' });
+    navLinks.filter(a => (a.getAttribute('href') || '').startsWith('#')).map(a => $(a.getAttribute('href'))).forEach(s => s && spy.observe(s));
+
+    /* ---------- CONTROL PLAYGROUND ---------- */
+    document.querySelectorAll('.js-indeterminate').forEach(el => { el.indeterminate = true; });
+
+    let ctrlType    = 'checkbox';
+    let ctrlSize    = 'm';
+    let ctrlState   = 'default';
+    let ctrlLabel   = 'Label';
+    let cbState     = 'unchecked'; // 'unchecked' | 'checked' | 'indeterminate'
+    let radioChecked = false;
+
+    const ctrlWrapper   = $('#ctrl-wrapper');
+    const ctrlInput     = $('#ctrl-input');
+    const ctrlLabelText = $('#ctrl-label-text');
+    const ctrlHint      = $('#ctrl-value-hint');
+    const ctrlCodeEl    = $('#ctrl-code');
+
+    function applyCtrlState() {
+      ctrlWrapper.setAttribute('data-control', ctrlType);
+      ctrlWrapper.setAttribute('data-label-size', ctrlSize);
+
+      if (ctrlState === 'error') {
+        ctrlWrapper.setAttribute('data-state', 'error');
+        ctrlInput.disabled = false;
+      } else if (ctrlState === 'disabled') {
+        ctrlWrapper.removeAttribute('data-state');
+        ctrlInput.disabled = true;
+      } else {
+        ctrlWrapper.removeAttribute('data-state');
+        ctrlInput.disabled = false;
+      }
+
+      if (ctrlType === 'checkbox') {
+        if (cbState === 'checked')            { ctrlInput.checked = true;  ctrlInput.indeterminate = false; }
+        else if (cbState === 'indeterminate') { ctrlInput.checked = false; ctrlInput.indeterminate = true;  }
+        else                                  { ctrlInput.checked = false; ctrlInput.indeterminate = false; }
+      } else {
+        ctrlInput.checked = radioChecked;
+        ctrlInput.indeterminate = false;
+      }
+
+      ctrlLabelText.textContent = ctrlLabel;
+
+      if (ctrlState === 'disabled') {
+        ctrlHint.textContent = 'Disabled';
+      } else if (ctrlType === 'checkbox') {
+        ctrlHint.textContent = cbState.charAt(0).toUpperCase() + cbState.slice(1) + ' — click to cycle';
+      } else {
+        ctrlHint.textContent = (radioChecked ? 'Checked' : 'Unchecked') + ' — click to toggle';
+      }
+
+      updateCtrlCode();
+    }
+
+    function updateCtrlCode() {
+      const stateAttr = ctrlState === 'error'    ? ' data-state="error"' : '';
+      const disAttr   = ctrlState === 'disabled' ? ' disabled' : '';
+      const chkAttr   = (ctrlType === 'checkbox' && cbState === 'checked') ||
+                        (ctrlType === 'radio' && radioChecked) ? ' checked' : '';
+      const indScript = (ctrlType === 'checkbox' && cbState === 'indeterminate')
+        ? '\n<script>document.querySelector(\'#your-input\').indeterminate = true;<\/script>' : '';
+      ctrlCodeEl.textContent =
+`<label class="control" data-control="${ctrlType}" data-label-size="${ctrlSize}"${stateAttr}>
+  <input type="checkbox" class="control__native"${chkAttr}${disAttr}>
+  <span class="control__indicator" aria-hidden="true"></span>
+  <span class="control__label">${esc(ctrlLabel)}</span>
+</label>${indScript}`;
+    }
+
+    ctrlWrapper?.addEventListener('click', function (e) {
+      e.preventDefault();
+      if (ctrlState === 'disabled') return;
+      if (ctrlType === 'checkbox') {
+        if (cbState === 'unchecked')       cbState = 'checked';
+        else if (cbState === 'checked')    cbState = 'indeterminate';
+        else                               cbState = 'unchecked';
+      } else {
+        radioChecked = !radioChecked;
+      }
+      applyCtrlState();
+    });
+
+    function bindCtrlChips(containerId, callback) {
+      $('#' + containerId)?.addEventListener('click', function (e) {
+        const chip = e.target.closest('.dsp-chip');
+        if (!chip) return;
+        this.querySelectorAll('.dsp-chip').forEach(c => c.classList.toggle('is-active', c === chip));
+        callback(chip.dataset.value);
+      });
+    }
+
+    bindCtrlChips('ctrl-type-chips', val => { ctrlType = val; if (val === 'radio') cbState = 'unchecked'; applyCtrlState(); });
+    bindCtrlChips('ctrl-size-chips',  val => { ctrlSize  = val; applyCtrlState(); });
+    bindCtrlChips('ctrl-state-chips', val => { ctrlState = val; applyCtrlState(); });
+
+    $('#ctrl-label-input')?.addEventListener('input', function () { ctrlLabel = this.value; applyCtrlState(); });
+
+    if (ctrlWrapper) applyCtrlState();
+
+    /* ---------- INIT ---------- */
+    renderColors();
+    initAccordions();
+    renderScaleTable('spacing-mount', SPACING_GROUPS, 'spacing', 'desktop');
+    renderScaleTable('radius-mount', RADII_GROUPS, 'radius', 'desktop');
+    renderType();
+    renderEffects();
+    renderGridDiagram('desktop');
+
+    buildChips('#btn-type', BTN_TYPES, btnState.type, v => { btnState.type = v; renderButton(); });
+    buildChips('#btn-size', ['l','m'], btnState.size, v => { btnState.size = v; renderButton(); });
+    $('#btn-label')?.addEventListener('input', e => { btnState.label = e.target.value; renderButton(); });
+    ['leading','trailing','chevron','disabled'].forEach(k => {
+      $('#btn-' + k)?.addEventListener('change', e => { btnState[k] = e.target.checked; renderButton(); });
+    });
+    renderButton();
+    renderButtonMatrix();
+
+    buildChips('#avatar-type', ['icon','photo'], avState.type, v => { avState.type = v; renderAvatar(); });
+    buildChips('#avatar-size', AV_SIZES, avState.size, v => { avState.size = v; renderAvatar(); });
+    renderAvatar();
+    renderAvatarSizes();
+
+    buildChips('#icon-size', ['16','20','24'], iconState.size, v => { iconState.size = v; renderIcons(); });
+    $('#icon-search')?.addEventListener('input', e => { iconState.query = e.target.value; renderIcons(); });
+    renderIcons();
+
+    /* -- Spacing breakpoint toggle -- */
+    document.getElementById('spacing-bp-seg')?.addEventListener('click', function (e) {
+      const b = e.target.closest('button[data-bp]'); if (!b) return;
+      this.querySelectorAll('button').forEach(x => x.classList.toggle('is-active', x === b));
+      refreshScaleValues('spacing-mount', 'spacing', b.dataset.bp);
+    });
+
+    /* -- Radius breakpoint toggle -- */
+    document.getElementById('radius-bp-seg')?.addEventListener('click', function (e) {
+      const b = e.target.closest('button[data-bp]'); if (!b) return;
+      this.querySelectorAll('button').forEach(x => x.classList.toggle('is-active', x === b));
+      refreshScaleValues('radius-mount', 'radius', b.dataset.bp);
+    });
+
+    /* -- Typography breakpoint toggle -- */
+    document.getElementById('type-bp-seg')?.addEventListener('click', function (e) {
+      const b = e.target.closest('button[data-bp]'); if (!b) return;
+      this.querySelectorAll('button').forEach(x => x.classList.toggle('is-active', x === b));
+      typeBpMode = b.dataset.bp;
+      refreshTypeSpecs();
+    });
+
+    /* -- Grid breakpoint toggle -- */
+    document.getElementById('grid-bp-seg')?.addEventListener('click', function (e) {
+      const b = e.target.closest('button[data-bp]'); if (!b) return;
+      this.querySelectorAll('button').forEach(x => x.classList.toggle('is-active', x === b));
+      renderGridDiagram(b.dataset.bp);
+    });
+
+    /* ---------- DROPDOWN LIST PLAYGROUND ---------- */
+    const SVG_SEARCH = `<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14.3334 14.3333L12 11.9999M13.3334 7.33325C13.3334 4.01954 10.6471 1.33325 7.33337 1.33325C4.01967 1.33325 1.33337 4.01954 1.33337 7.33325C1.33337 10.647 4.01967 13.3333 7.33337 13.3333C10.6471 13.3333 13.3334 10.647 13.3334 7.33325Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+    const SVG_ICON16 = `<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5.33333 3.33333L10.6667 3.33333M5.33333 12.6667H10.6667M3.33333 10.6667V5.33333M12.6667 10.6667V5.33333M3.33333 4.66667C2.59695 4.66667 2 4.06971 2 3.33333C2 2.59695 2.59695 2 3.33333 2C4.06971 2 4.66667 2.59695 4.66667 3.33333C4.66667 4.06971 4.06971 4.66667 3.33333 4.66667ZM12.6667 4.66667C11.9303 4.66667 11.3333 4.06971 11.3333 3.33333C11.3333 2.59695 11.9303 2 12.6667 2C13.403 2 14 2.59695 14 3.33333C14 4.06971 13.403 4.66667 12.6667 4.66667ZM3.33333 14C2.59695 14 2 13.403 2 12.6667C2 11.9303 2.59695 11.3333 3.33333 11.3333C4.06971 11.3333 4.66667 11.9303 4.66667 12.6667C4.66667 13.403 4.06971 14 3.33333 14ZM12.6667 14C11.9303 14 11.3333 13.403 11.3333 12.6667C11.3333 11.9303 11.9303 11.3333 12.6667 11.3333C13.403 11.3333 14 11.9303 14 12.6667C14 13.403 13.403 14 12.6667 14Z" stroke="currentColor" stroke-linecap="round"/></svg>`;
+
+    const ddlState = { size: 'm', searchable: false, checkbox: false, leading: false, trailing: false };
+    const DDL_ITEMS = ['List item', 'List item', 'Selected item', 'List item', 'List item'];
+
+    function buildDDLHTML(state) {
+      const { size, searchable, checkbox, leading, trailing } = state;
+      const i = (indent) => '  '.repeat(indent);
+      let out = `<div class="dropdown-list" data-size="${size}">\n`;
+
+      if (searchable) {
+        out += `${i(1)}<div class="dropdown-search" data-size="${size}">\n`;
+        out += `${i(2)}<input class="dropdown-search__input" type="text" placeholder="Search">\n`;
+        out += `${i(2)}<span class="dropdown-search__icon" aria-hidden="true">${SVG_SEARCH}</span>\n`;
+        out += `${i(1)}</div>\n`;
+      }
+
+      DDL_ITEMS.forEach((label, idx) => {
+        const isSelected = idx === 2;
+        const stateAttr = isSelected ? ' data-state="selected"' : '';
+        out += `${i(1)}<div class="dropdown-item" data-size="${size}"${stateAttr}>\n`;
+        if (checkbox)  out += `${i(2)}<span class="dropdown-item__checkbox" aria-hidden="true"></span>\n`;
+        if (leading)   out += `${i(2)}<span class="dropdown-item__leading-icon" aria-hidden="true">${SVG_ICON16}</span>\n`;
+        out +=         `${i(2)}<span class="dropdown-item__label">${esc(label)}</span>\n`;
+        if (trailing)  out += `${i(2)}<span class="dropdown-item__trailing-icon" aria-hidden="true">${SVG_ICON16}</span>\n`;
+        out += `${i(1)}</div>\n`;
+      });
+
+      out += `</div>`;
+      return out;
+    }
+
+    function renderDDL() {
+      if (!$('#ddl-preview')) return;
+      const html = buildDDLHTML(ddlState);
+      $('#ddl-preview').innerHTML = html;
+      /* set a comfortable fixed width for the preview */
+      const list = $('#ddl-preview .dropdown-list');
+      if (list) list.style.width = '220px';
+      $('#ddl-code').textContent = html;
+    }
+
+    /* size chips */
+    $('#ddl-size')?.addEventListener('click', function(e) {
+      const chip = e.target.closest('.dsp-chip');
+      if (!chip) return;
+      this.querySelectorAll('.dsp-chip').forEach(c => c.classList.toggle('is-active', c === chip));
+      ddlState.size = chip.dataset.value;
+      renderDDL();
+    });
+
+    /* toggle switches */
+    [['ddl-searchable','searchable'],['ddl-checkbox','checkbox'],['ddl-leading','leading'],['ddl-trailing','trailing']].forEach(([id, key]) => {
+      $('#' + id)?.addEventListener('change', function() { ddlState[key] = this.checked; renderDDL(); });
+    });
+
+    renderDDL();
+
+    /* ---------- TEXT FIELD PLAYGROUND ---------- */
+    const SVG_CROSS16    = `<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M11.3127 3.9797C11.5079 3.78449 11.8245 3.7846 12.0197 3.9797C12.215 4.17496 12.215 4.49147 12.0197 4.68673L8.70626 7.99923L12.0197 11.3127C12.215 11.508 12.215 11.8245 12.0197 12.0197C11.8245 12.215 11.508 12.215 11.3127 12.0197L7.99923 8.70626L4.68673 12.0197C4.49147 12.215 4.17496 12.215 3.9797 12.0197C3.7846 11.8245 3.78449 11.5079 3.9797 11.3127L7.2922 7.99923L3.9797 4.68673C3.78444 4.49147 3.78444 4.17496 3.9797 3.9797C4.17496 3.78444 4.49147 3.78444 4.68673 3.9797L7.99923 7.2922L11.3127 3.9797Z" fill="currentColor" fill-opacity="0.94"/></svg>`;
+    const SVG_CHEVRON16  = `<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3.33337 6L8.00004 10.6667L12.6667 6" stroke="currentColor" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+
+    const tfState = { size: 'l', state: '', leading: false, prefix: false, suffix: false, trailing: false, clearable: false, placeholder: 'Placeholder' };
+
+    function buildTFHTML(s) {
+      const stateAttr    = s.state ? ` data-state="${s.state}"` : '';
+      const disabledAttr = s.state === 'disabled' ? ' disabled' : '';
+      let h = `<div class="text-field" data-size="${s.size}"${stateAttr}>\n`;
+      if (s.leading)   h += `  <span class="text-field__leading-icon" aria-hidden="true">${SVG_ICON16}</span>\n`;
+      if (s.prefix)    h += `  <span class="text-field__prefix">Prefix</span>\n`;
+      h +=              `  <input type="text" class="text-field__native" placeholder="${esc(s.placeholder)}"${disabledAttr}>\n`;
+      if (s.suffix)    h += `  <span class="text-field__suffix">Suffix</span>\n`;
+      if (s.clearable) h += `  <button class="text-field__clear" type="button" aria-label="Clear" hidden>${SVG_CROSS16}</button>\n`;
+      else if (s.trailing) h += `  <span class="text-field__trailing-icon" aria-hidden="true">${SVG_ICON16}</span>\n`;
+      h += `</div>`;
+      return h;
+    }
+
+    function initTextField(field) {
+      const input = field.querySelector('.text-field__native');
+      const clear = field.querySelector('.text-field__clear');
+      if (!input || !clear) return;
+      const sync = () => { clear.hidden = !input.value; };
+      input.addEventListener('input', sync);
+      clear.addEventListener('click', () => { input.value = ''; input.focus(); sync(); });
+      sync();
+    }
+
+    function renderTF() {
+      const mount = $('#tf-preview');
+      if (!mount) return;
+      const html = buildTFHTML(tfState);
+      mount.innerHTML = html;
+      $('#tf-code').textContent = html;
+      const field = mount.querySelector('.text-field');
+      if (field) initTextField(field);
+    }
+
+    /* chips */
+    $('#tf-size')?.addEventListener('click', function(e) {
+      const chip = e.target.closest('.dsp-chip');
+      if (!chip) return;
+      this.querySelectorAll('.dsp-chip').forEach(c => c.classList.toggle('is-active', c === chip));
+      tfState.size = chip.dataset.value;
+      renderTF();
+    });
+    $('#tf-state')?.addEventListener('click', function(e) {
+      const chip = e.target.closest('.dsp-chip');
+      if (!chip) return;
+      this.querySelectorAll('.dsp-chip').forEach(c => c.classList.toggle('is-active', c === chip));
+      tfState.state = chip.dataset.value;
+      renderTF();
+    });
+    /* toggles */
+    [['tf-leading','leading'],['tf-prefix','prefix'],['tf-suffix','suffix'],['tf-trailing','trailing'],['tf-clearable','clearable']].forEach(([id, key]) => {
+      $('#' + id)?.addEventListener('change', function() { tfState[key] = this.checked; renderTF(); });
+    });
+    $('#tf-placeholder')?.addEventListener('input', function() { tfState.placeholder = this.value; renderTF(); });
+
+    /* init matrix clear buttons (they have pre-set values so show without hidden) */
+    $$('.dsp-matrix .text-field').forEach(initTextField);
+
+    renderTF();
+
+    /* ---------- INPUT CHIP PLAYGROUND ---------- */
+    const chipState = { size: 'l', leading: false, deletable: true, label: 'Option label' };
+
+    function buildChipHTML(s) {
+      let h = `<div class="input-chip" data-size="${s.size}">\n`;
+      if (s.leading)   h += `  <span class="input-chip__leading-icon" aria-hidden="true">${SVG_ICON16}</span>\n`;
+      h +=              `  <span class="input-chip__label">${esc(s.label)}</span>\n`;
+      if (s.deletable) h += `  <button class="input-chip__clear" type="button" aria-label="Remove">${SVG_CROSS16}</button>\n`;
+      h += `</div>`;
+      return h;
+    }
+
+    function renderChip() {
+      if (!$('#chip-preview')) return;
+      const html = buildChipHTML(chipState);
+      $('#chip-preview').innerHTML = html;
+      $('#chip-code').textContent = html;
+    }
+
+    $('#chip-size')?.addEventListener('click', function(e) {
+      const chip = e.target.closest('.dsp-chip');
+      if (!chip) return;
+      this.querySelectorAll('.dsp-chip').forEach(c => c.classList.toggle('is-active', c === chip));
+      chipState.size = chip.dataset.value;
+      renderChip();
+    });
+    [['chip-leading','leading'],['chip-deletable','deletable']].forEach(([id, key]) => {
+      $('#' + id)?.addEventListener('change', function() { chipState[key] = this.checked; renderChip(); });
+    });
+    $('#chip-label')?.addEventListener('input', function() { chipState.label = this.value; renderChip(); });
+
+    renderChip();
+
+    /* ---------- SELECT PLAYGROUND ---------- */
+    const SEL_OPTS = ['English','French','German','Spanish','Portuguese','Japanese'];
+    const selState = { size: 'l', mode: 'single', state: '', clearable: false };
+
+    function buildSelectHTML(s) {
+      const stateAttr = s.state ? ` data-state="${s.state}"` : '';
+      const modeAttr  = s.mode === 'multi' ? ' data-mode="multi"' : '';
+      let h = `<div class="select" data-size="${s.size}"${modeAttr}${stateAttr}>\n`;
+      if (s.mode === 'multi') {
+        h += `  <div class="select__chips">\n`;
+        h += `    <span class="select__placeholder">Select options…</span>\n`;
+        h += `    <span class="select__overflow-count" hidden></span>\n`;
+        h += `  </div>\n`;
+      } else {
+        h += `  <span class="select__placeholder">Select option…</span>\n`;
+        h += `  <span class="select__value" hidden></span>\n`;
+      }
+      if (s.clearable) h += `  <button class="select__clear" type="button" aria-label="${s.mode === 'multi' ? 'Clear all' : 'Clear selection'}" hidden>${SVG_CROSS16}</button>\n`;
+      h += `  <span class="select__chevron" aria-hidden="true">${SVG_CHEVRON16}</span>\n`;
+      h += `  <div class="dropdown-list select__dropdown" data-size="${s.size}" hidden>\n`;
+      SEL_OPTS.forEach(opt => {
+        if (s.mode === 'multi')
+          h += `    <div class="dropdown-item" data-size="${s.size}"><span class="dropdown-item__checkbox"></span><span class="dropdown-item__label">${opt}</span></div>\n`;
+        else
+          h += `    <div class="dropdown-item" data-size="${s.size}"><span class="dropdown-item__label">${opt}</span></div>\n`;
+      });
+      h += `  </div>\n</div>`;
+      return h;
+    }
+
+    function initSelectEl(sel) {
+      const isMulti   = sel.dataset.mode === 'multi';
+      const dropdown  = sel.querySelector('.select__dropdown');
+      const clearBtn  = sel.querySelector('.select__clear');
+      const placeholder = sel.querySelector('.select__placeholder');
+      const valueEl   = isMulti ? null : sel.querySelector('.select__value');
+      const chipsEl   = isMulti ? sel.querySelector('.select__chips') : null;
+      const overflowEl = isMulti ? sel.querySelector('.select__overflow-count') : null;
+      if (!dropdown) return;
+
+      function sortItems() {
+        const items = [...dropdown.querySelectorAll('.dropdown-item')];
+        const sel2 = items.filter(i => i.dataset.state === 'selected');
+        const unsel = items.filter(i => i.dataset.state !== 'selected');
+        [...sel2, ...unsel].forEach(i => dropdown.appendChild(i));
+      }
+
+      function open()  { if (isMulti) sortItems(); sel.dataset.open = ''; dropdown.hidden = false; }
+      function close() { delete sel.dataset.open; dropdown.hidden = true; }
+
+      sel.addEventListener('click', e => {
+        if (e.target.closest('.select__clear') || e.target.closest('.input-chip__clear')) return;
+        sel.hasAttribute('data-open') ? close() : open();
+      });
+      document.addEventListener('click', e => { if (!sel.contains(e.target)) close(); }, { capture: false });
+
+      if (!isMulti) {
+        dropdown.querySelectorAll('.dropdown-item').forEach(item => {
+          item.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const label = item.querySelector('.dropdown-item__label')?.textContent ?? '';
+            dropdown.querySelectorAll('.dropdown-item').forEach(i => delete i.dataset.state);
+            item.dataset.state = 'selected';
+            if (valueEl) { valueEl.textContent = label; valueEl.hidden = false; }
+            if (placeholder) placeholder.hidden = true;
+            if (clearBtn) clearBtn.hidden = false;
+            close();
+          });
+        });
+      }
+
+      if (isMulti) {
+        dropdown.querySelectorAll('.dropdown-item').forEach(item => {
+          item.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const label = item.querySelector('.dropdown-item__label')?.textContent ?? '';
+            if (item.dataset.state === 'selected') {
+              delete item.dataset.state;
+              chipsEl.querySelectorAll('.input-chip').forEach(c => { if (c.dataset.label === label) c.remove(); });
+            } else {
+              item.dataset.state = 'selected';
+              const chip = document.createElement('div');
+              chip.className = 'input-chip';
+              chip.dataset.size = sel.dataset.size || 'l';
+              chip.dataset.label = label;
+              chip.innerHTML = `<span class="input-chip__label">${label}</span><button class="input-chip__clear" type="button" aria-label="Remove ${label}">${SVG_CROSS16}</button>`;
+              chip.querySelector('.input-chip__clear').addEventListener('click', () => {
+                chip.remove();
+                dropdown.querySelectorAll('.dropdown-item').forEach(i => { if (i.querySelector('.dropdown-item__label')?.textContent === label) delete i.dataset.state; });
+                syncSel();
+              });
+              chipsEl.insertBefore(chip, overflowEl);
+            }
+            syncSel();
+          });
+        });
+      }
+
+      function syncSel() {
+        const chips = chipsEl ? [...chipsEl.querySelectorAll('.input-chip')] : [];
+        if (placeholder) placeholder.hidden = isMulti ? chips.length > 0 : (valueEl && !valueEl.hidden);
+        if (clearBtn) clearBtn.hidden = isMulti ? chips.length === 0 : (!valueEl || valueEl.hidden);
+        if (overflowEl) syncOverflow(chips);
+      }
+
+      function syncOverflow(chips) {
+        chips.forEach(c => { c.hidden = false; });
+        overflowEl.hidden = true;
+        requestAnimationFrame(() => {
+          const cRight = chipsEl.getBoundingClientRect().right;
+          let n = 0;
+          for (let i = chips.length - 1; i >= 0; i--) {
+            if (chips[i].getBoundingClientRect().right > cRight) { chips[i].hidden = true; n++; }
+          }
+          if (n === 0) return;
+          overflowEl.textContent = `+${n}`; overflowEl.hidden = false;
+          requestAnimationFrame(() => {
+            const oLeft = overflowEl.getBoundingClientRect().left;
+            chips.filter(c => !c.hidden).reverse().forEach(c => {
+              if (c.getBoundingClientRect().right > oLeft) { c.hidden = true; n++; overflowEl.textContent = `+${n}`; }
+            });
+          });
+        });
+      }
+
+      if (clearBtn) {
+        clearBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          if (isMulti) {
+            chipsEl.querySelectorAll('.input-chip').forEach(c => c.remove());
+            if (overflowEl) overflowEl.hidden = true;
+          } else {
+            if (valueEl) { valueEl.hidden = true; valueEl.textContent = ''; }
+            if (placeholder) placeholder.hidden = false;
+          }
+          dropdown.querySelectorAll('.dropdown-item').forEach(i => delete i.dataset.state);
+          clearBtn.hidden = true;
+          syncSel();
+        });
+      }
+    }
+
+    function renderSel() {
+      const mount = $('#sel-preview');
+      if (!mount) return;
+      const html = buildSelectHTML(selState);
+      mount.innerHTML = html;
+      $('#sel-code').textContent = html;
+      const selectEl = mount.querySelector('.select');
+      if (selectEl) initSelectEl(selectEl);
+    }
+
+    $('#sel-size')?.addEventListener('click', function(e) {
+      const chip = e.target.closest('.dsp-chip');
+      if (!chip) return;
+      this.querySelectorAll('.dsp-chip').forEach(c => c.classList.toggle('is-active', c === chip));
+      selState.size = chip.dataset.value;
+      renderSel();
+    });
+    $('#sel-mode')?.addEventListener('click', function(e) {
+      const chip = e.target.closest('.dsp-chip');
+      if (!chip) return;
+      this.querySelectorAll('.dsp-chip').forEach(c => c.classList.toggle('is-active', c === chip));
+      selState.mode = chip.dataset.value;
+      renderSel();
+    });
+    $('#sel-state')?.addEventListener('click', function(e) {
+      const chip = e.target.closest('.dsp-chip');
+      if (!chip) return;
+      this.querySelectorAll('.dsp-chip').forEach(c => c.classList.toggle('is-active', c === chip));
+      selState.state = chip.dataset.value;
+      renderSel();
+    });
+    $('#sel-clearable')?.addEventListener('change', function() { selState.clearable = this.checked; renderSel(); });
+
+    renderSel();
+
+    /* ---------- TEXT AREA PLAYGROUND ---------- */
+    const taState = { size: 'l', state: '', placeholder: 'Start typing…' };
+
+    function buildTextAreaHTML(s) {
+      const stateAttr   = s.state ? ` data-state="${s.state}"` : '';
+      const disabledAttr = s.state === 'disabled' ? ' disabled' : '';
+      let h = `<div class="text-area" data-size="${s.size}"${stateAttr}>\n`;
+      h += `  <textarea class="text-area__native" placeholder="${esc(s.placeholder)}"${disabledAttr}></textarea>\n`;
+      h += `</div>`;
+      return h;
+    }
+
+    function renderTA() {
+      if (!$('#ta-preview')) return;
+      const html = buildTextAreaHTML(taState);
+      $('#ta-preview').innerHTML = html;
+      $('#ta-code').textContent = html;
+    }
+
+    $('#ta-size')?.addEventListener('click', function(e) {
+      const chip = e.target.closest('.dsp-chip');
+      if (!chip) return;
+      this.querySelectorAll('.dsp-chip').forEach(c => c.classList.toggle('is-active', c === chip));
+      taState.size = chip.dataset.value;
+      renderTA();
+    });
+    $('#ta-state')?.addEventListener('click', function(e) {
+      const chip = e.target.closest('.dsp-chip');
+      if (!chip) return;
+      this.querySelectorAll('.dsp-chip').forEach(c => c.classList.toggle('is-active', c === chip));
+      taState.state = chip.dataset.value;
+      renderTA();
+    });
+    $('#ta-placeholder')?.addEventListener('input', function() { taState.placeholder = this.value; renderTA(); });
+
+    renderTA();
+
+    /* ---------- INPUT GROUP PLAYGROUND ---------- */
+    const igState = { input: 'text-field', suffix: 'mandatory', label: true, hint: true, error: false, counter: true };
+
+    function buildInputGroupHTML(s) {
+      const id = 'ig-demo';
+      const isSelect = s.input === 'select';
+      const maxAttr = s.counter ? ' maxlength="1000"' : '';
+      const describe = s.error ? `${id}-err` : (s.hint ? `${id}-hint` : '');
+      const describeAttr = describe ? ` aria-describedby="${describe}"` : '';
+      const errStateAttr = s.error ? ' data-state="error"' : '';
+      const invalidAttr  = s.error ? ' aria-invalid="true"' : '';
+
+      let h = `<div class="input-group">\n`;
+
+      if (s.label) {
+        const labelAttr = isSelect ? ` id="${id}-label"` : ` for="${id}"`;
+        h += `  <label class="input-group__label"${labelAttr}>\n    Label\n`;
+        if (s.suffix === 'mandatory')       h += `    <span class="input-group__suffix" aria-hidden="true">*</span>\n`;
+        else if (s.suffix === 'optional')   h += `    <span class="input-group__suffix input-group__suffix--optional">(optional)</span>\n`;
+        else if (s.suffix === 'applicable') h += `    <span class="input-group__suffix input-group__suffix--applicable">(if applicable)</span>\n`;
+        h += `  </label>\n`;
+      }
+
+      if (s.input === 'text-field') {
+        h += `  <div class="text-field" data-size="l"${errStateAttr}>\n`;
+        h += `    <input type="text" id="${id}" class="text-field__native" placeholder="Placeholder"${maxAttr}${describeAttr}${invalidAttr}>\n`;
+        h += `  </div>\n`;
+      } else if (s.input === 'text-area') {
+        h += `  <div class="text-area" data-size="l"${errStateAttr}>\n`;
+        h += `    <textarea id="${id}" class="text-area__native" placeholder="Start typing…"${maxAttr}${describeAttr}${invalidAttr}></textarea>\n`;
+        h += `  </div>\n`;
+      } else {
+        h += `  <div class="select" data-size="l"${errStateAttr} role="combobox" aria-labelledby="${id}-label"${describeAttr} tabindex="0">\n`;
+        h += `    <span class="select__placeholder">Select option…</span>\n`;
+        h += `    <span class="select__value" hidden></span>\n`;
+        h += `    <span class="select__chevron" aria-hidden="true">${SVG_CHEVRON16}</span>\n`;
+        h += `    <div class="dropdown-list select__dropdown" data-size="l" hidden>\n`;
+        ['English','French','German','Spanish'].forEach(o => {
+          h += `      <div class="dropdown-item" data-size="l"><span class="dropdown-item__label">${o}</span></div>\n`;
+        });
+        h += `    </div>\n`;
+        h += `  </div>\n`;
+      }
+
+      if (s.hint || s.error || s.counter) {
+        h += `  <div class="input-group__hints">\n`;
+        if (s.error)     h += `    <span class="input-group__message input-group__message--error" id="${id}-err" role="alert">Error message</span>\n`;
+        else if (s.hint) h += `    <span class="input-group__message" id="${id}-hint">Hint text</span>\n`;
+        if (s.counter)   h += `    <span class="input-group__counter">0/1000</span>\n`;
+        h += `  </div>\n`;
+      }
+
+      h += `</div>`;
+      return h;
+    }
+
+    function renderIG() {
+      const mount = $('#ig-preview');
+      if (!mount) return;
+      const html = buildInputGroupHTML(igState);
+      mount.innerHTML = html;
+      $('#ig-code').textContent = html;
+      // Re-wire the freshly-rendered controls
+      const selectEl = mount.querySelector('.select');
+      if (selectEl) initSelectEl(selectEl);
+      const counter = mount.querySelector('.input-group__counter');
+      const field = mount.querySelector('.text-field__native, .text-area__native');
+      if (counter && field) {
+        const max = field.getAttribute('maxlength');
+        const upd = () => { counter.textContent = max ? `${field.value.length}/${max}` : `${field.value.length}`; };
+        field.addEventListener('input', upd);
+        upd();
+      }
+    }
+
+    $('#ig-input')?.addEventListener('click', function(e) {
+      const chip = e.target.closest('.dsp-chip'); if (!chip) return;
+      this.querySelectorAll('.dsp-chip').forEach(c => c.classList.toggle('is-active', c === chip));
+      igState.input = chip.dataset.value; renderIG();
+    });
+    $('#ig-suffix')?.addEventListener('click', function(e) {
+      const chip = e.target.closest('.dsp-chip'); if (!chip) return;
+      this.querySelectorAll('.dsp-chip').forEach(c => c.classList.toggle('is-active', c === chip));
+      igState.suffix = chip.dataset.value; renderIG();
+    });
+    $('#ig-label')?.addEventListener('change', function() { igState.label = this.checked; renderIG(); });
+    $('#ig-hint')?.addEventListener('change', function() { igState.hint = this.checked; renderIG(); });
+    $('#ig-error')?.addEventListener('change', function() { igState.error = this.checked; renderIG(); });
+    $('#ig-counter')?.addEventListener('change', function() { igState.counter = this.checked; renderIG(); });
+
+    renderIG();
+
+
+    /* ---------- TESTIMONIAL CAROUSEL ---------- */
+    $$('.testimonial[data-mode="multi"]').forEach(testimonial => {
+      const slides = $$('.testimonial__slide', testimonial);
+      const dots   = $$('.testimonial__dot', testimonial);
+      const prev   = $('.testimonial__nav--prev', testimonial);
+      const next   = $('.testimonial__nav--next', testimonial);
+      if (slides.length <= 1) return;
+      let index = slides.findIndex(s => s.hasAttribute('data-active'));
+      if (index < 0) index = 0;
+      function show(n) {
+        index = (n + slides.length) % slides.length;
+        slides.forEach((s, i) => i === index ? s.setAttribute('data-active', '') : s.removeAttribute('data-active'));
+        dots.forEach((d, i) => i === index ? d.setAttribute('data-state', 'selected') : d.removeAttribute('data-state'));
+      }
+      if (prev) prev.addEventListener('click', () => show(index - 1));
+      if (next) next.addEventListener('click', () => show(index + 1));
+      dots.forEach((d, i) => d.addEventListener('click', () => show(i)));
+      show(index);
+    });
+
+  })();
+  </script>
+</body>
+</html>

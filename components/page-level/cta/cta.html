@@ -1,0 +1,55 @@
+<!--
+  CTA — section reference template
+  Figma: Sections / CTA (node-id=8525-2437)
+
+  A heading with optional supporting paragraph and CTA buttons.
+  Properties:
+    data-type      : regular (gray card) | blank (no background)
+    data-alignment : default (left) | center
+    data-paragraph : presence — split layout w/ supporting paragraph
+  Elements (include or omit):
+    .cta__heading   — always
+    .cta__body      — wrap paragraph + actions
+    .cta__paragraph — supporting text (for has-paragraph)
+    .cta__actions   — CTA buttons (.btn primary + optional secondary)
+  CTAs reuse the Button atomic (.btn) at size l.
+-->
+
+<!-- Split — gray card, title left, paragraph + CTAs right (desktop+tablet) -->
+<div class="cta" data-type="regular" data-alignment="default" data-paragraph>
+  <div class="cta__inner">
+    <h1 class="cta__heading">Sit nec duis odio non proin aliquet</h1>
+    <div class="cta__body">
+      <p class="cta__paragraph">Amet luctus eros turpis libero duis morbi. Pharetra dictum orci tellus urna pellentesque et. Viverra tempor scelerisque semper lacus enim.</p>
+      <div class="cta__actions">
+        <button class="btn" data-type="secondary" data-size="l"><span class="btn__label">Secondary CTA</span></button>
+        <button class="btn" data-type="primary" data-size="l"><span class="btn__label">Primary CTA</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Centered, blank — title + paragraph + CTAs stacked & centered -->
+<div class="cta" data-type="blank" data-alignment="center" data-paragraph>
+  <div class="cta__inner">
+    <h1 class="cta__heading">Sit nec duis odio non proin aliquet</h1>
+    <div class="cta__body">
+      <p class="cta__paragraph">Amet luctus eros turpis libero duis morbi. Pharetra dictum orci tellus urna pellentesque et. Viverra tempor scelerisque semper lacus enim.</p>
+      <div class="cta__actions">
+        <button class="btn" data-type="secondary" data-size="l"><span class="btn__label">Secondary CTA</span></button>
+        <button class="btn" data-type="primary" data-size="l"><span class="btn__label">Primary CTA</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Stacked, no paragraph — title + CTAs -->
+<div class="cta" data-type="blank" data-alignment="default">
+  <div class="cta__inner">
+    <h1 class="cta__heading">Sit nec duis odio non proin aliquet</h1>
+    <div class="cta__actions">
+      <button class="btn" data-type="secondary" data-size="l"><span class="btn__label">Secondary CTA</span></button>
+      <button class="btn" data-type="primary" data-size="l"><span class="btn__label">Primary CTA</span></button>
+    </div>
+  </div>
+</div>

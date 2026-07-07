@@ -1,0 +1,61 @@
+<!--
+  Accordion carousel — section reference template
+  Figma: Sections / Accordion carousel (node-id=9027-10787)
+
+  Desktop+tablet: accordion list (left) + media pane (right); the active
+  item is expanded and shows its matching media. Mobile: one item at a
+  time (media on top, active card, pagination dots). Single-open.
+  Wired by accordion-carousel.js (or an inlined copy).
+  Elements:
+    .accordion-carousel__item       — button per item; data-state expanded|default
+    .accordion-carousel__body       — shown only when expanded
+    .accordion-carousel__media-item — one per item; [data-active] is shown
+    .accordion-carousel__dot        — one per item (mobile pagination)
+-->
+
+<div class="accordion-carousel">
+  <div class="accordion-carousel__inner">
+    <div class="accordion-carousel__items">
+      <button class="accordion-carousel__item" type="button" data-state="expanded" aria-expanded="true">
+        <span class="accordion-carousel__heading">Heading</span>
+        <p class="accordion-carousel__body">Porttitor elementum aliquam pulvinar vivamus. Praesent viverra orci tellus ut massa nunc pharetra.</p>
+      </button>
+      <button class="accordion-carousel__item" type="button" data-state="default" aria-expanded="false">
+        <span class="accordion-carousel__heading">Heading</span>
+        <p class="accordion-carousel__body">Porttitor elementum aliquam pulvinar vivamus. Praesent viverra orci tellus ut massa nunc pharetra.</p>
+      </button>
+      <button class="accordion-carousel__item" type="button" data-state="default" aria-expanded="false">
+        <span class="accordion-carousel__heading">Heading</span>
+        <p class="accordion-carousel__body">Porttitor elementum aliquam pulvinar vivamus. Praesent viverra orci tellus ut massa nunc pharetra.</p>
+      </button>
+      <button class="accordion-carousel__item" type="button" data-state="default" aria-expanded="false">
+        <span class="accordion-carousel__heading">Heading</span>
+        <p class="accordion-carousel__body">Porttitor elementum aliquam pulvinar vivamus. Praesent viverra orci tellus ut massa nunc pharetra.</p>
+      </button>
+    </div>
+
+    <div class="accordion-carousel__media">
+      <div class="accordion-carousel__media-item" data-active>
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M3 19L7.92929 14.0707C7.96834 14.0317 8.03166 14.0317 8.07071 14.0707L10.4293 16.4293C10.4683 16.4683 10.5317 16.4683 10.5707 16.4293L16.4293 10.5707C16.4683 10.5317 16.5317 10.5317 16.5707 10.5707L21.5 15.5M20 20L4 20C2.89543 20 2 19.1046 2 18L2 6C2 4.89543 2.89543 4 4 4L20 4C21.1046 4 22 4.89543 22 6L22 18C22 19.1046 21.1046 20 20 20ZM10 9C10 10.1046 9.10457 11 8 11C6.89543 11 6 10.1046 6 9C6 7.89543 6.89543 7 8 7C9.10457 7 10 7.89543 10 9Z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </div>
+      <div class="accordion-carousel__media-item">
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M3 19L7.92929 14.0707C7.96834 14.0317 8.03166 14.0317 8.07071 14.0707L10.4293 16.4293C10.4683 16.4683 10.5317 16.4683 10.5707 16.4293L16.4293 10.5707C16.4683 10.5317 16.5317 10.5317 16.5707 10.5707L21.5 15.5M20 20L4 20C2.89543 20 2 19.1046 2 18L2 6C2 4.89543 2.89543 4 4 4L20 4C21.1046 4 22 4.89543 22 6L22 18C22 19.1046 21.1046 20 20 20ZM10 9C10 10.1046 9.10457 11 8 11C6.89543 11 6 10.1046 6 9C6 7.89543 6.89543 7 8 7C9.10457 7 10 7.89543 10 9Z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </div>
+      <div class="accordion-carousel__media-item">
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M3 19L7.92929 14.0707C7.96834 14.0317 8.03166 14.0317 8.07071 14.0707L10.4293 16.4293C10.4683 16.4683 10.5317 16.4683 10.5707 16.4293L16.4293 10.5707C16.4683 10.5317 16.5317 10.5317 16.5707 10.5707L21.5 15.5M20 20L4 20C2.89543 20 2 19.1046 2 18L2 6C2 4.89543 2.89543 4 4 4L20 4C21.1046 4 22 4.89543 22 6L22 18C22 19.1046 21.1046 20 20 20ZM10 9C10 10.1046 9.10457 11 8 11C6.89543 11 6 10.1046 6 9C6 7.89543 6.89543 7 8 7C9.10457 7 10 7.89543 10 9Z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </div>
+      <div class="accordion-carousel__media-item">
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M3 19L7.92929 14.0707C7.96834 14.0317 8.03166 14.0317 8.07071 14.0707L10.4293 16.4293C10.4683 16.4683 10.5317 16.4683 10.5707 16.4293L16.4293 10.5707C16.4683 10.5317 16.5317 10.5317 16.5707 10.5707L21.5 15.5M20 20L4 20C2.89543 20 2 19.1046 2 18L2 6C2 4.89543 2.89543 4 4 4L20 4C21.1046 4 22 4.89543 22 6L22 18C22 19.1046 21.1046 20 20 20ZM10 9C10 10.1046 9.10457 11 8 11C6.89543 11 6 10.1046 6 9C6 7.89543 6.89543 7 8 7C9.10457 7 10 7.89543 10 9Z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </div>
+    </div>
+
+    <div class="accordion-carousel__pagination">
+      <div class="accordion-carousel__dots">
+        <button class="accordion-carousel__dot" type="button" data-state="selected" aria-label="Go to item 1"></button>
+        <button class="accordion-carousel__dot" type="button" aria-label="Go to item 2"></button>
+        <button class="accordion-carousel__dot" type="button" aria-label="Go to item 3"></button>
+        <button class="accordion-carousel__dot" type="button" aria-label="Go to item 4"></button>
+      </div>
+    </div>
+  </div>
+</div>

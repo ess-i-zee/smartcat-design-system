@@ -1,0 +1,98 @@
+/* ── CTA (section) ───────────────────────────────────────────────
+   Figma: Sections / CTA (node-id=8525-2437)
+   Properties (data attributes on .cta):
+     data-type      : regular (gray card) | blank (no background)
+     data-alignment : default (left) | center
+     data-paragraph (presence) — split layout w/ supporting paragraph
+                                  (default alignment, desktop+tablet)
+   Elements (presence):
+     .cta__heading   — H1, always present
+     .cta__body      — wrap paragraph + actions
+     .cta__paragraph — supporting text (include for has-paragraph)
+     .cta__actions   — CTA buttons: reuse .btn (primary + optional secondary)
+
+   Full-width row, content centered at 1120px. Type shifts via tokens
+   (≥1280px); layout flips at ≥800px. Reuses the Button atomic.
+   ──────────────────────────────────────────────────────────── */
+
+.cta {
+  box-sizing: border-box;
+  width: 100%;
+  padding-inline: var(--grid-page-padding);
+}
+
+.cta__inner {
+  max-width: var(--grid-max-width); /* 1540 */
+  margin-inline: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--spacing-between-elements-7);
+}
+
+/* Filled gray-card variant */
+.cta[data-type="regular"] .cta__inner {
+  background: var(--background-static-gray-layer-1);
+  border-radius: var(--radius-5);
+  padding: var(--spacing-panel-top) var(--spacing-panel-horizontal) var(--spacing-panel-bottom);
+}
+
+/* Centered variant */
+.cta[data-alignment="center"] .cta__inner {
+  align-items: center;
+  text-align: center;
+}
+
+.cta__heading {
+  margin: 0;
+  font-family: var(--family-heading);
+  font-weight: var(--weight-bold);
+  color: var(--content-static-primary);
+  font-size: var(--size-h1);
+  line-height: var(--line-height-h1);
+  letter-spacing: var(--letter-spacing-h1);
+}
+
+.cta__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-between-elements-6);
+}
+.cta[data-alignment="center"] .cta__body { align-items: center; }
+
+.cta__paragraph {
+  margin: 0;
+  color: var(--content-static-secondary);
+  font-family: var(--family-body);
+  font-weight: var(--weight-regular);
+  font-size: var(--size-paragraph);
+  line-height: var(--line-height-paragraph);
+  letter-spacing: var(--letter-spacing-paragraph);
+}
+
+.cta__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: var(--spacing-3);
+}
+.cta[data-alignment="center"] .cta__actions { justify-content: center; }
+
+/* ── Desktop + tablet ─────────────────────────────────────────── */
+@media (min-width: 800px) {
+  /* Split: title left (fills), body right (~415px) — default alignment only */
+  .cta[data-paragraph][data-alignment="default"] .cta__inner {
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--spacing-between-elements-11);
+  }
+  .cta[data-paragraph][data-alignment="default"] .cta__heading {
+    flex: 1 1 0;
+    min-width: 0;
+  }
+  .cta[data-paragraph][data-alignment="default"] .cta__body {
+    width: 415px;
+    flex-shrink: 0;
+  }
+}

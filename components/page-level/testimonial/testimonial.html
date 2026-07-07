@@ -1,0 +1,108 @@
+<!--
+  Testimonial — section reference template
+  Figma: Sections / Testimonial (node-id=8786-13272)
+
+  Configure with data-mode on .testimonial:
+    data-mode="multi"   — carousel: multiple .testimonial__slide, one shown at
+                          a time, navigated by .testimonial__pagination
+    data-mode="single"  — one testimonial, no pagination
+
+  Composition:
+    .testimonial__slide  → .testimonial__body (.testimonial__quote + optional
+                           .testimonial__cta) + .testimonial__author
+    .testimonial__author → avatar (reuse) + name / role / logo
+    pagination           → prev/next btn-icon (reuse) + clickable dots
+
+  testimonial.js wires the carousel. Reuses: avatar, link, btn-icon.
+  Omit .testimonial__cta when there is no CTA.
+-->
+
+<!-- ── Multi (carousel) ─────────────────────────────────────────── -->
+<section class="testimonial" data-mode="multi" aria-roledescription="carousel" aria-label="Customer testimonials">
+  <div class="testimonial__track">
+
+    <article class="testimonial__slide" data-active>
+      <div class="testimonial__body">
+        <blockquote class="testimonial__quote">“Quam ultricies arcu placerat amet vestibulum eu. Non sit elementum id sociis elit id venenatis. Id aliquam mattis quis phasellus commodo tincidunt egestas posuere.”</blockquote>
+        <a class="link testimonial__cta" data-variant="high-contrast" href="#">Explore case study →</a>
+      </div>
+      <div class="testimonial__author">
+        <div class="avatar" data-type="icon" data-size="64"></div>
+        <div class="testimonial__author-info">
+          <div class="testimonial__name">Full name</div>
+          <div class="testimonial__role">Job title and company</div>
+          <div class="testimonial__logo">Logo</div>
+        </div>
+      </div>
+    </article>
+
+    <article class="testimonial__slide">
+      <div class="testimonial__body">
+        <blockquote class="testimonial__quote">“Scelerisque metus parturient lectus aliquet suspendisse convallis mollis. Non nunc eget egestas netus diam magna. Viverra et commodo ornare feugiat gravida.”</blockquote>
+        <a class="link testimonial__cta" data-variant="high-contrast" href="#">Explore case study →</a>
+      </div>
+      <div class="testimonial__author">
+        <div class="avatar" data-type="icon" data-size="64"></div>
+        <div class="testimonial__author-info">
+          <div class="testimonial__name">Full name</div>
+          <div class="testimonial__role">Job title and company</div>
+          <div class="testimonial__logo">Logo</div>
+        </div>
+      </div>
+    </article>
+
+    <article class="testimonial__slide">
+      <div class="testimonial__body">
+        <blockquote class="testimonial__quote">“Commodo tempor aliquam in egestas orci. Iaculis felis felis a blandit augue tortor nunc ultrices ut. Turpis libero faucibus tristique facilisis nec risus.”</blockquote>
+        <a class="link testimonial__cta" data-variant="high-contrast" href="#">Explore case study →</a>
+      </div>
+      <div class="testimonial__author">
+        <div class="avatar" data-type="icon" data-size="64"></div>
+        <div class="testimonial__author-info">
+          <div class="testimonial__name">Full name</div>
+          <div class="testimonial__role">Job title and company</div>
+          <div class="testimonial__logo">Logo</div>
+        </div>
+      </div>
+    </article>
+
+  </div>
+
+  <div class="testimonial__pagination">
+    <button class="btn-icon testimonial__nav testimonial__nav--prev" data-type="outlined" data-size="m" data-shape="square" type="button" aria-label="Previous testimonial">
+      <span class="btn-icon__icon" aria-hidden="true">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12.5 4.16675L6.66667 10.0001L12.5 15.8334" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+    </button>
+    <div class="testimonial__dots">
+      <button class="testimonial__dot" data-state="selected" type="button" aria-label="Go to testimonial 1"></button>
+      <button class="testimonial__dot" type="button" aria-label="Go to testimonial 2"></button>
+      <button class="testimonial__dot" type="button" aria-label="Go to testimonial 3"></button>
+    </div>
+    <button class="btn-icon testimonial__nav testimonial__nav--next" data-type="outlined" data-size="m" data-shape="square" type="button" aria-label="Next testimonial">
+      <span class="btn-icon__icon" aria-hidden="true">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7.5 4.16675L13.3333 10.0001L7.5 15.8334" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+    </button>
+  </div>
+</section>
+
+<!-- ── Single (no pagination) ───────────────────────────────────── -->
+<section class="testimonial" data-mode="single">
+  <div class="testimonial__track">
+    <article class="testimonial__slide">
+      <div class="testimonial__body">
+        <blockquote class="testimonial__quote">“Quam ultricies arcu placerat amet vestibulum eu. Non sit elementum id sociis elit id venenatis. Id aliquam mattis quis phasellus commodo tincidunt egestas posuere. Bibendum nibh dignissim auctor feugiat non scelerisque proin posuere mattis.”</blockquote>
+        <a class="link testimonial__cta" data-variant="high-contrast" href="#">Explore case study →</a>
+      </div>
+      <div class="testimonial__author">
+        <div class="avatar" data-type="icon" data-size="64"></div>
+        <div class="testimonial__author-info">
+          <div class="testimonial__name">Full name</div>
+          <div class="testimonial__role">Job title and company</div>
+          <div class="testimonial__logo">Logo</div>
+        </div>
+      </div>
+    </article>
+  </div>
+</section>
