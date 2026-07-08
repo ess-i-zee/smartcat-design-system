@@ -42,9 +42,11 @@ Theme and background are **two independent, composable axes** (set on `.deck-sli
 | Mesh gradient (soft pastel) | *(asset, not yet built)* | Section titles / occasional emphasis in light mode. Intense — never every slide. |
 | Dark gradient | dark | Regular dark slides; can also carry a light-mode section title. |
 | Solid black | dark, layer-0 | Regular dark slides; strong section titles. |
-| **Brand gradient** | `data-layer="brand"` (+ `data-theme="dark"` for white text) | Hero moments only: section dividers, the closing "thank you", at most 1–2 per deck. |
+| **Brand / inverted background** | `data-layer="brand"` (no theme flip — see note) | Hero moments only: section dividers, the closing "thank you", at most 1–2 per deck. |
 
 Rule of thumb: **content slides** lean solid (white / gray / black); **gradients are reserved for dividers and the open/close.**
+
+**Note on brand/inverted backgrounds.** `background-static-brand-inverted` (and every other `*-inverted` background token) is a self-contained pair with `--content-static-inverted` — it already contrasts correctly in whichever theme is ambient (dark purple + white text in light mode; pale purple + near-black text in dark mode). Do **not** add `data-theme="dark"` to "get" white text — that flips the background to the pale dark-mode value while independently flipping content to white, which is illegible. `base/deck-layout.css` handles this correctly by repointing `--content-static-primary`/`secondary` to `--content-static-inverted` on `data-layer="brand"`; when hand-building a slide outside that mechanism (e.g. authoring raw shapes), use the inverted background with the inverted content color directly, in one theme, with no flip.
 
 ---
 
@@ -133,3 +135,4 @@ Do **not** move deck reasoning into `CLAUDE.md` — that file holds only the har
 ### Changelog
 - Initial version — derived from visual inspection of the "Smartcat deck template 2026 – All Designs" reference deck (106 slides): design DNA, background/theme axes, slide-role catalog, decision procedure.
 - Test-driven refinements — built and rendered a sample composition slide ("What slow localization costs you"): named `--content-static-brand` as the stat-figure token; added the "recurring reshape → component variant" principle. Same test fixed a deck-grid bug: `.deck-slide` now zeroes column padding so grid content sits flush to the 48px slide padding (see `base/deck-layout.css`).
+- Correctness fix — a token audit (ahead of a full generated deck) found the "brand + `data-theme=dark`" guidance from the prior refinement was wrong: `*-inverted` background tokens are self-contained pairs with `--content-static-inverted`, already correct in either ambient theme; combining with a theme flip breaks contrast. `base/deck-layout.css` and the background table above corrected — no code elsewhere had shipped this yet.

@@ -60,11 +60,23 @@
 .deck-slide[data-layer="2"] { background: var(--background-static-gray-layer-2); }
 .deck-slide[data-layer="3"] { background: var(--background-static-gray-layer-3); }
 
-/* Brand background — one of the sanctioned Section backgrounds, applied to a
-   slide the same way as any layer. It sets ONLY the background; it does not
-   touch content-color tokens. Theme and background are independent, composable
-   axes: `data-layer="brand"` on its own gives the light-mode brand background
-   (dark text, per tokens/colors.css); add `data-theme="dark"` for the
-   white-on-deep-purple treatment — the dark-mode block flips every content
-   token correctly. Never hand-patch individual content tokens here. */
-.deck-slide[data-layer="brand"] { background: var(--background-static-brand-inverted); }
+/* Brand background — one of the sanctioned Section backgrounds. Every
+   `*-inverted` background token (gray, red, orange, mint, blue, brand, pink)
+   is a SELF-CONTAINED, theme-aware pair with `--content-static-inverted` —
+   NOT with `--content-static-primary`/`secondary`, and NOT via `data-theme`.
+   `--content-static-inverted` already flips correctly on its own: white in
+   light mode (pairing with brand-inverted's dark purple-70), near-black in
+   dark mode (pairing with brand-inverted's pale purple-30). Do NOT combine
+   this with `data-theme="dark"` — that flips the background to the pale
+   dark-mode value while independently flipping content-static-primary to
+   white, giving white-on-pale (illegible), the opposite of the fix. The
+   correct fix repoints primary/secondary to the inverted content token,
+   which is already theme-correct in either ambient theme. There is no
+   dedicated "secondary-inverted" token, so secondary uses the same solid
+   inverted color as primary here — a known loss of the primary/secondary
+   hierarchy inside this one band, not a workaround to remove later. */
+.deck-slide[data-layer="brand"] {
+  background: var(--background-static-brand-inverted);
+  --content-static-primary: var(--content-static-inverted);
+  --content-static-secondary: var(--content-static-inverted);
+}
