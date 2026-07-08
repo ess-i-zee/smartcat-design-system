@@ -23,6 +23,7 @@ These are what make a slide read as Smartcat. Hold them constant no matter what 
   - **Brand purple** `#731EF2` for single-color brand emphasis — stat figures, chart primaries, active/"our" elements, number badges. For text and figures the token is **`--content-static-brand`** (not a background token).
   - **Semantic green/red** (`--...-positive` / `--...-negative`) **only for genuinely positive/negative meaning** — highlights vs lowlights, Gantt done vs pending, thumbs up/down. Never decoratively.
 - **Surfaces (panels/cards).** Rounded corners, generous internal padding. On **light** backgrounds → solid gray layer-1 panels. On **dark** backgrounds → translucent frosted alpha panels (`--background-static-alpha-*`), not solid blocks. One featured panel per comparison may use the brand gradient fill.
+- **Gutter vs. slide padding.** The 8px gutter (`--grid-gutter`) is for the gap between two adjacent elements that **each carry their own visible surface** — stacked cards, side-by-side panels — where the tight gap reads as edges within one grid. It assumes a surface on both sides of the gap. When one side of a gap is **bare** (no background of its own — a hero stat, a bare heading, plain text) next to a paneled neighbour, there is no second edge for the gutter to relate to; use the slide's own padding value instead (**48px**, `--spacing-9`), so the bare content reads as sitting in the slide's whitespace rather than glued to the panel. Apply this per adjacency, not globally — override that one row's gap locally; do not redefine `--grid-gutter` itself, since other rows/stacks in the same slide may still be panel-to-panel and need the true 8px gutter.
 
 ---
 
@@ -108,7 +109,7 @@ Run these in order for each slide:
 2. **How much content, how many items?** This picks the layout skeleton: 1 item → full-width or centered; 2–4 → a `.grid` row of panels/columns; many shallow items → cards or a list; paired items → side-by-side panels. Respect the "whitespace is deliberate" invariant — if it's getting cramped, split into two slides.
 3. **Where does this slide sit in the deck's rhythm?** Pick theme + background per section B — alternate light/dark in bands, reserve gradients for dividers and the open/close.
 4. **Compose it** from tokens + atomic components (section A + the recipe). Reshape components as needed; keep every color/size/space/radius a token.
-5. **Sanity-check against the DNA (A):** right title placement (cover = bottom-left, else top-left); period-style headline where it fits; semantic colors only for real positive/negative; brand gradient only on a hero moment; panels styled per light/dark; generous whitespace.
+5. **Sanity-check against the DNA (A):** right title placement (cover = bottom-left, else top-left); period-style headline where it fits; semantic colors only for real positive/negative; brand gradient only on a hero moment; panels styled per light/dark; generous whitespace; **for every gap between adjacent elements, check whether both sides have a surface — gutter (8px) if both do, slide padding (48px) if either is bare.**
 
 When two roles both fit, choose the one that needs the least visual machinery — a clean heading + paragraph beats a forced diagram.
 
