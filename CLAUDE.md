@@ -384,7 +384,7 @@ Concretely, you are free to:
 
 Whatever you build, keep it token-based (colors, type, spacing, radius all from `tokens/*.css`) and assembled from atomic components — that is what keeps a custom slide on-brand. Page-level web components are a convenient *starting point* to reshape, never a constraint.
 
-**Mechanically**, lay a slide out inside `.deck-slide` with a `.grid` row (the same class from `base/layout.css`) below the title and place items with `data-grid-span="1".."12"` — the grid is locked to 12 columns / 24px column padding inside `.deck-slide`, same as web desktop. Stack multiple `.grid` rows for vertical composition.
+**Mechanically**, lay a slide out inside `.deck-slide` with a `.grid` row (the same class from `base/layout.css`) below the title and place items with `data-grid-span="1".."12"` — the grid is locked to 12 columns with an 8px gutter and **no column padding**, so grid content sits flush to the slide's 48px padding on both edges (aligned with the title's origin). Stack multiple `.grid` rows for vertical composition.
 
 ```html
 <div class="deck-slide">

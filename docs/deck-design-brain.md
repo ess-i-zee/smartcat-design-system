@@ -4,6 +4,8 @@ How to decide what a slide should look like and how to build it. This is the *re
 
 The core principle (from CLAUDE.md): **compose every slide from design tokens and atomic components upward, and be creative with anything larger.** There are no deck-specific components. Every recipe below is a *composition* of existing atomic/page-level pieces and raw tokens — reshape them freely (horizontal cards, mixed sub-components, side-by-side or stacked), never treat a web component as a fixed unit.
 
+**When a reshape recurs**, promote it to a documented component variant (in the component's own CSS) rather than re-declaring the same override in slide after slide — e.g. a horizontal card layout, or a brand-coloured stat figure. Slide-local CSS is fine for a genuine one-off; it is a smell once you've written it twice.
+
 This is a living document. New reference slides refine it — see "E. Extending the brain" at the end.
 
 ---
@@ -18,7 +20,7 @@ These are what make a slide read as Smartcat. Hold them constant no matter what 
 - **Color.**
   - Neutrals: near-black `#13101C` text / off-white + gray surfaces in light mode; white text / near-black surfaces in dark mode. Always via `--content-*` and `--background-static-gray-layer-*` tokens.
   - **Brand gradient** (the signature accent): white → pink `#DA00FE` → purple `#731EF2` → indigo, left-to-right. Used for hero moments — section-divider backgrounds, the testimonial/comparison "hero" panel, chart fills, decorative objects. Not for ordinary content.
-  - **Brand purple** `#731EF2` for single-color brand emphasis — stat figures, chart primaries, active/"our" elements, number badges.
+  - **Brand purple** `#731EF2` for single-color brand emphasis — stat figures, chart primaries, active/"our" elements, number badges. For text and figures the token is **`--content-static-brand`** (not a background token).
   - **Semantic green/red** (`--...-positive` / `--...-negative`) **only for genuinely positive/negative meaning** — highlights vs lowlights, Gantt done vs pending, thumbs up/down. Never decoratively.
 - **Surfaces (panels/cards).** Rounded corners, generous internal padding. On **light** backgrounds → solid gray layer-1 panels. On **dark** backgrounds → translucent frosted alpha panels (`--background-static-alpha-*`), not solid blocks. One featured panel per comparison may use the brand gradient fill.
 
@@ -65,7 +67,7 @@ Each role: *when to reach for it*, and *how to compose it* from tokens + atomic/
 - **Agenda.** Full-width stacked rows (~65% width), each = an icon tile on the left + a label. Emphasize the final/action row with a brand-purple fill. Compose from atomic icon tiles + token-styled rows.
 
 ### Quantitative & proof
-- **Numbers / stats.** Title + a `.grid` row of 2–4 panels, each = a big **brand-purple** figure (Display scale) + bold caption + supporting paragraph. Built from `numbers`.
+- **Numbers / stats.** Title + a `.grid` row of 2–4 panels, each = a big **brand-purple** figure (Display scale) + bold caption + supporting paragraph. Built from `numbers`. Note: `numbers.css` paints `.numbers__value` in `--content-static-primary`; for the deck's brand-purple figure set the value colour to `--content-static-brand`. That override recurs — a candidate to graduate into a `numbers` brand-figure variant.
 - **Charts.** Title + a `.grid` row of panels, each holding one simple chart (donut, bar pair, arrow/pentagon). **Purple = the primary/highlighted series; white/outline = the comparison series.** Caption paragraph under each. Compose chart shapes from token-colored elements.
 - **Key metrics / OKR.** A row of "KR" cards (white number badge + text) above a "Steps established" sub-heading and a row of numbered step cards. Step number badges may use semantic green. Compose from panels + badges.
 - **Highlights vs lowlights.** Two panels side by side, each = heading + a semantic icon badge top-right (green thumbs-up / red thumbs-down) + bulleted list. Compose from panels + semantic-colored atomic badges.
@@ -129,3 +131,4 @@ Do **not** move deck reasoning into `CLAUDE.md` — that file holds only the har
 
 ### Changelog
 - Initial version — derived from visual inspection of the "Smartcat deck template 2026 – All Designs" reference deck (106 slides): design DNA, background/theme axes, slide-role catalog, decision procedure.
+- Test-driven refinements — built and rendered a sample composition slide ("What slow localization costs you"): named `--content-static-brand` as the stat-figure token; added the "recurring reshape → component variant" principle. Same test fixed a deck-grid bug: `.deck-slide` now zeroes column padding so grid content sits flush to the 48px slide padding (see `base/deck-layout.css`).

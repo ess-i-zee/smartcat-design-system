@@ -39,7 +39,10 @@
   --grid-page-padding: 0;
   --grid-max-width: 1184px;
   --grid-columns: 12;           /* lock to desktop's 12-column grid, fixed */
-  --grid-column-padding: 24px;  /* lock to desktop's column inset, fixed */
+  --grid-column-padding: 0;     /* no column inset — grid content sits flush to
+                                   the 48px slide padding on both edges, aligned
+                                   with the title's origin. Columns are separated
+                                   by the 8px --grid-gutter only (deck grid spec). */
   --spacing-page-vertical-6: var(--spacing-12); /* lock to 80px — never the 64px mobile value */
   box-sizing: border-box;
   position: relative;
