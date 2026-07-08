@@ -1,5 +1,14 @@
 # Design System Rules
 
+## Output formats
+
+This design system serves two output formats:
+
+- **Web-based interfaces** — landing pages and other web UI. Everything in this document, from "Component tiers" through "Component file structure," is scoped to this format, including the two-breakpoint responsive model in "Breakpoints & layout grid."
+- **Presentation decks** — slide decks built with this design system. See "Presentation decks" near the end of this document. Decks reuse the same color, typography, radius, and spacing tokens as web — only the layout treatment differs (a fixed slide canvas instead of a responsive page).
+
+Where "Presentation decks" doesn't override a rule, the general guidance above still applies (icon usage, text casing, tokens-only CSS, component content patterns, etc.) — only layout/responsiveness is format-specific.
+
 ## Component tiers
 
 ### Atomic components (`components/atomic/`)
@@ -334,6 +343,61 @@ Every CSS file opens with a spec comment listing the component name, its Figma s
    Card size is set automatically by data-cards on the component root.
    ──────────────────────────────────────────────────── */
 ```
+
+---
+
+## Presentation decks
+
+Rules specific to building presentation decks (slide decks) with this design system. Anything not overridden here follows the general rules above — icons, text casing, tokens-only CSS, component content patterns, and Figma property mapping all still apply. Only layout treatment changes.
+
+### Fixed canvas, not responsive
+
+- Every slide is a **fixed 1280×720px canvas** (16:9). Decks have no mobile/tablet/desktop responsive behavior — no media queries, no breakpoint switching. This replaces the "Breakpoints & layout grid" model entirely for decks.
+- Colors, typography, radius, and spacing tokens are the same variables used on web (`tokens/*.css`) — decks introduce no new tokens. Values are applied as fixed constants (never a `@media` query).
+- Do not reuse the web page grid (`.section` / `.container` / `.grid`, 1540px max-width) as-is for slides — it's sized for a browser viewport and doesn't fit a 1280px canvas.
+
+### Deck layout grid (strict)
+
+These numbers come from measuring the actual Smartcat Google Slides template (exact shape geometry extracted from its PPTX export), not guessed — treat them as fixed, non-negotiable layout rules for every slide:
+
+| Rule | Value | Token |
+|---|---|---|
+| Page padding (all 4 sides) | **48px** | `--spacing-9` |
+| Content width | **1184px** | 1280 − 2×48 |
+| Column gutter | **8px** | matches web's `--grid-gutter` |
+| Slide title position | flush at the page-padding origin — 48px from top, 48px from left | — |
+| Slide title scale | **H1 desktop** (`data-level="h1"` on `heading`) | `--size-h1` / `--line-height-h1` (desktop, 48px/58px) |
+| Section-heading / single-statement divider slides | **Display** scale (a whole slide that's just one big headline, no body content) | `--size-display` (desktop, 72px) |
+| Big stat figures (a numbers-style slide) | **Display** scale | `--size-display` (desktop, 72px) |
+| Heading → content gap | **80px**, applied uniformly regardless of slide type | Components-spacing size-6 (desktop value) |
+
+Every slide is built inside a `.deck-slide` wrapper (fixed 1280×720px box, applies the page padding above). What goes inside it is composed from tokens and atomic components — see "Composing a slide" below.
+
+### Composing a slide — compose freely from tokens and atomic components
+
+**A slide is not "one page-level component in a box."** Build slides by composing from **design tokens and atomic components** upward, and be creative with anything larger. There is no reuse-first rule here and no parallel "deck component" set — do **not** create `components/deck/*`, and do not treat a web page-level component as a fixed unit you must drop in whole.
+
+Concretely, you are free to:
+- **Combine components vertically *and* horizontally** — e.g. a row of small cards with a text-block underneath, or two pieces side by side.
+- **Mix sub-components** — take individual pieces and place them together, e.g. one card with an icon next to one card with a number; a stat figure beside a quote.
+- **Reshape an existing component's internal layout** for the slide — e.g. turn a normally-stacked card into a horizontal card with the icon or image on the left and the text content on the right. Change the arrangement; keep the tokens.
+
+Whatever you build, keep it token-based (colors, type, spacing, radius all from `tokens/*.css`) and assembled from atomic components — that is what keeps a custom slide on-brand. Page-level web components are a convenient *starting point* to reshape, never a constraint.
+
+**Mechanically**, lay a slide out inside `.deck-slide` with a `.grid` row (the same class from `base/layout.css`) below the title and place items with `data-grid-span="1".."12"` — the grid is locked to 12 columns / 24px column padding inside `.deck-slide`, same as web desktop. Stack multiple `.grid` rows for vertical composition.
+
+```html
+<div class="deck-slide">
+  <div class="heading">…</div>
+  <div class="grid">
+    <!-- a reshaped horizontal icon-card beside a number-card, 6 + 6 = 12 -->
+    <div class="…" data-grid-span="6">…</div>
+    <div class="…" data-grid-span="6">…</div>
+  </div>
+</div>
+```
+
+**How to decide what to build for a given slide — and the catalog of recurring slide roles with their composition recipes — lives in `docs/deck-design-brain.md`.** Consult it before designing a deck; extend it as new example slides are provided.
 
 ---
 

@@ -1,0 +1,67 @@
+/* =============================================================
+   DECK LAYOUT — fixed-canvas grid for presentation decks
+   See CLAUDE.md "Presentation decks" → "Deck layout grid".
+   Numbers verified against the reference Smartcat Google Slides
+   template (exact PPTX shape geometry), not guessed.
+
+   Nesting model:
+     .deck-slide          — fixed 1280×720px canvas, no responsive
+                            behavior. Provides the 48px page padding
+                            and the 80px heading→content gap. Neutralizes
+                            --grid-page-padding for reused page-level
+                            components (heading, cards, numbers) so they
+                            don't double the inset.
+     direct children      — either ONE reused/dedicated component filling
+                            the full content width (the reference deck's
+                            own single-purpose slide types), OR a `.grid`
+                            row (same class as web, from base/layout.css)
+                            for freeform multi-component composition —
+                            e.g. a stacked-cards column next to a
+                            testimonial, via data-grid-span, exactly like
+                            composing a web page. Slides are NOT limited
+                            to one component each — see CLAUDE.md
+                            "Presentation decks" → "Composing a slide".
+
+   --grid-page-padding is zeroed (not just left alone) because reused
+   page-level components (heading, cards, numbers) apply it as their
+   OWN horizontal inset — .deck-slide already provides the 48px inset
+   via its own padding, so the token must be neutralized here to avoid
+   doubling it. --spacing-page-vertical-6 is pinned to its desktop
+   (80px) value directly, rather than relying on the ambient viewport
+   being ≥1280px, so the gap stays fixed even if a slide is ever
+   embedded in a narrower container (e.g. a smaller preview panel).
+   Other tokens (typography, card/panel spacing) are NOT locked here —
+   deck pages are expected to be viewed at ≥1280px, where the existing
+   @media(min-width:1280px) desktop-tier values are already active.
+   ============================================================= */
+
+.deck-slide {
+  --grid-page-padding: 0;
+  --grid-max-width: 1184px;
+  --grid-columns: 12;           /* lock to desktop's 12-column grid, fixed */
+  --grid-column-padding: 24px;  /* lock to desktop's column inset, fixed */
+  --spacing-page-vertical-6: var(--spacing-12); /* lock to 80px — never the 64px mobile value */
+  box-sizing: border-box;
+  position: relative;
+  width: 1280px;
+  height: 720px;
+  padding: 48px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-page-vertical-6); /* 80px — heading→content gap, fixed */
+  overflow: hidden;
+  background: var(--background-static-gray-layer-0);
+}
+
+.deck-slide[data-layer="1"] { background: var(--background-static-gray-layer-1); }
+.deck-slide[data-layer="2"] { background: var(--background-static-gray-layer-2); }
+.deck-slide[data-layer="3"] { background: var(--background-static-gray-layer-3); }
+
+/* Brand background — one of the sanctioned Section backgrounds, applied to a
+   slide the same way as any layer. It sets ONLY the background; it does not
+   touch content-color tokens. Theme and background are independent, composable
+   axes: `data-layer="brand"` on its own gives the light-mode brand background
+   (dark text, per tokens/colors.css); add `data-theme="dark"` for the
+   white-on-deep-purple treatment — the dark-mode block flips every content
+   token correctly. Never hand-patch individual content tokens here. */
+.deck-slide[data-layer="brand"] { background: var(--background-static-brand-inverted); }

@@ -16,6 +16,7 @@
 /* @import url('base/reset.css');         — add when created */
 @import url('base/type-styles.css');
 @import url('base/layout.css');
+@import url('base/deck-layout.css');
 
 /* ── Components / Atomic ─────────────────────────────────────── */
 @import url('components/atomic/avatar/avatar.css');

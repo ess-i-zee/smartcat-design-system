@@ -6,11 +6,17 @@
    A responsive grid of cards. One component for all three visual
    variants — switch the media slot with data-media.
    Properties (data attributes on .cards):
-     data-cards          : 2 | 3 | 4 | 5-6  (grid columns + card size tier:
-                           2→L, 3→M, 4→M, 5-6→S; 5-6 lays out in a single row)
+     data-cards          : 1 | 2 | 3 | 4 | 5-6  (grid columns + card size tier:
+                           1→single-column vertical stack (M tier, no desktop
+                           override exists so it never goes multi-column —
+                           for a narrow composed grid cell, e.g. a stacked-
+                           cards column next to a testimonial), 2→L, 3→M,
+                           4→M, 5-6→S; 5-6 lays out in a single row)
      data-media          : big-image (full-bleed 3:2 banner, flush to the card
                            edges) | small-image (contained ~120px box) | icon
-                           (24px icon in a 64px circular container)
+                           (24px icon in a 64px circular container) | none
+                           (no media slot — text-only card: omit .cards__media
+                           entirely from markup, same as has-image=false)
                            — the .cards__media <svg> is a placeholder; swap
                            for a real image / design-system icon
      data-image-position : top (default) | bottom   (big-image only)

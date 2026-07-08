@@ -1,10 +1,14 @@
 /* ── Heading (section) ───────────────────────────────────────────
    Figma: Sections / Heading (node-id=4464-3642)
    Properties:
-     data-level : h1 | h2 | h3   (default h1) — visual type style of the
-                                  title, chosen by hierarchy level. Sets
-                                  style only; pick the matching semantic
-                                  tag (<h1>/<h2>/<h3>) for accessibility.
+     data-level : h1 | h2 | h3 | display   (default h1) — visual type
+                                  style of the title, chosen by hierarchy
+                                  level. Sets style only; pick the matching
+                                  semantic tag (<h1>/<h2>/<h3>) for
+                                  accessibility. "display" is for standalone
+                                  divider/statement moments (e.g. a deck's
+                                  section-heading slide) — not used on
+                                  ordinary web pages.
      data-paragraph (presence)  — split layout: title left, supporting
                                   paragraph + CTAs right (desktop+tablet)
    Elements (presence):
@@ -52,6 +56,12 @@
   font-size: var(--size-h3);
   line-height: var(--line-height-h3);
   letter-spacing: var(--letter-spacing-h3);
+}
+
+.heading[data-level="display"] .heading__title {
+  font-size: var(--size-display);
+  line-height: var(--line-height-display);
+  letter-spacing: var(--letter-spacing-display);
 }
 
 .heading__body {

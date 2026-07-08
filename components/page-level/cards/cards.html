@@ -4,9 +4,10 @@
 
   A responsive grid of cards. One component for all visual variants.
   Properties (on .cards):
-    data-cards          : 2 | 3 | 4 | 5-6  (columns + size tier 2→L, 3-4→M, 5-6→S;
-                          5-6 lays out in a single row on desktop/tablet)
-    data-media          : big-image | small-image | icon
+    data-cards          : 1 | 2 | 3 | 4 | 5-6  (columns + size tier: 1→single-
+                          column vertical stack, 2→L, 3-4→M, 5-6→S; 5-6 lays
+                          out in a single row on desktop/tablet)
+    data-media          : big-image | small-image | icon | none (omit .cards__media)
     data-image-position : top (default) | bottom   (big-image only)
   Per-card content toggles — include/omit in every card consistently:
     .cards__media · .cards__number · .cards__heading · .cards__paragraph · .cards__actions
@@ -145,6 +146,40 @@
           <div class="cards__actions">
             <button class="btn" data-type="primary" data-size="m"><span class="btn__label">Button text</span></button>
             <button class="btn" data-type="secondary" data-size="m"><span class="btn__label">Button text</span></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Text-only (3 cards) — data-media="none": .cards__media is omitted entirely,
+     same as any other has-x=false content toggle. Used by the deck's
+     "heading + 3 cards" slide type. -->
+<div class="cards" data-cards="3" data-media="none">
+  <div class="cards__inner">
+    <div class="cards__grid">
+      <div class="cards__card">
+        <div class="cards__content">
+          <div class="cards__text">
+            <h3 class="cards__heading">Heading 1</h3>
+            <p class="cards__paragraph">Leo platea arcu vitae mauris elementum. Quis non vestibulum commodo sit nullam mollis sit.</p>
+          </div>
+        </div>
+      </div>
+      <div class="cards__card">
+        <div class="cards__content">
+          <div class="cards__text">
+            <h3 class="cards__heading">Heading 2</h3>
+            <p class="cards__paragraph">Leo platea arcu vitae mauris elementum. Quis non vestibulum commodo sit nullam mollis sit.</p>
+          </div>
+        </div>
+      </div>
+      <div class="cards__card">
+        <div class="cards__content">
+          <div class="cards__text">
+            <h3 class="cards__heading">Heading 3</h3>
+            <p class="cards__paragraph">Leo platea arcu vitae mauris elementum. Quis non vestibulum commodo sit nullam mollis sit.</p>
           </div>
         </div>
       </div>
