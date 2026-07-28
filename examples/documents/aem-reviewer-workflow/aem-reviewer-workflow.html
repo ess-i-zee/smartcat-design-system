@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AEM Reviewer Workflow — Smartcat</title>
+
+<link rel="stylesheet" href="../../../main.css">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Plus+Jakarta+Sans:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+  /* Preview chrome only — stacks and centers the fixed-size pages for
+     on-screen viewing. Never applies when printing/exporting to PDF,
+     so it can't introduce extra blank pages via body padding/gap. */
+  @media screen {
+    body {
+      margin: 0;
+      background: var(--background-static-gray-layer-3);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--spacing-9);
+      padding: var(--spacing-9) 0;
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════════
+     PAGE 1 — Cover
+     ═══════════════════════════════════════════════════════════ -->
+<div class="doc-page" data-theme="dark">
+  <div class="doc-hero">
+    <div class="doc-hero__topbar">
+      <img class="doc-hero__logo" src="../../../images/smartcat-logo-white.svg" alt="Smartcat">
+      <p class="text-caption-reg doc-hero__tag">Internal guide</p>
+    </div>
+
+    <div class="doc-hero__body">
+      <h1 class="text-display doc-hero__title">AEM Reviewer<br><span class="doc-hero__title-accent">Workflow</span></h1>
+      <p class="text-h4-reg doc-hero__meta">For <span class="doc-hero__meta-accent">Internal Reviewers</span></p>
+      <p class="text-paragraph-reg doc-hero__subtitle">A step-by-step guide to reviewing AEM translations in Smartcat, from accepting the task to completing the review.</p>
+    </div>
+
+    <div class="doc-hero__toc">
+      <div class="doc-hero__toc-column">
+        <div class="doc-hero__toc-item">
+          <div class="doc-hero__toc-item-main">
+            <span class="text-small-bold doc-hero__toc-number">01</span>
+            <span class="text-small-reg doc-hero__toc-label">Overview</span>
+            <span class="text-small-reg doc-hero__toc-page">2</span>
+          </div>
+        </div>
+        <div class="doc-hero__toc-item">
+          <div class="doc-hero__toc-item-main">
+            <span class="text-small-bold doc-hero__toc-number">02</span>
+            <span class="text-small-reg doc-hero__toc-label">Accessing the file</span>
+            <span class="text-small-reg doc-hero__toc-page">3</span>
+          </div>
+        </div>
+        <div class="doc-hero__toc-item">
+          <div class="doc-hero__toc-item-main">
+            <span class="text-small-bold doc-hero__toc-number">03</span>
+            <span class="text-small-reg doc-hero__toc-label">Reviewing and editing the file</span>
+            <span class="text-small-reg doc-hero__toc-page">7</span>
+          </div>
+        </div>
+      </div>
+      <div class="doc-hero__toc-column">
+        <div class="doc-hero__toc-item">
+          <div class="doc-hero__toc-item-main">
+            <span class="text-small-bold doc-hero__toc-number">04</span>
+            <span class="text-small-reg doc-hero__toc-label">Navigating to other files</span>
+            <span class="text-small-reg doc-hero__toc-page">9</span>
+          </div>
+        </div>
+        <div class="doc-hero__toc-item">
+          <div class="doc-hero__toc-item-main">
+            <span class="text-small-bold doc-hero__toc-number">05</span>
+            <span class="text-small-reg doc-hero__toc-label">Tips and keyboard shortcuts</span>
+            <span class="text-small-reg doc-hero__toc-page">10</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     PAGE 2 — Overview
+     ═══════════════════════════════════════════════════════════ -->
+<div class="doc-page">
+  <header class="doc-header">
+    <img class="doc-header__logo" src="../../../images/smartcat-logo-black.svg" alt="Smartcat">
+    <span class="doc-header__tag">Internal guide</span>
+  </header>
+
+  <div class="doc-content">
+    <h1 class="text-h1 doc-heading">Overview</h1>
+
+    <div class="doc-meta">
+      <div class="doc-meta__row">
+        <div class="doc-meta__label">
+          <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M16.6666 1.66675V3.33341M16.6666 3.33341H18.3332M16.6666 3.33341V5.00008M16.6666 3.33341H14.9999M16.6666 15.0001V16.6667M16.6666 16.6667H18.3332M16.6666 16.6667V18.3334M16.6666 16.6667H14.9999M7.53137 7.79719L2.03674 9.60427C1.65475 9.7299 1.65475 10.2703 2.03674 10.3959L7.53137 12.203C7.65707 12.2443 7.75566 12.3429 7.79701 12.4686L9.60409 17.9632C9.72972 18.3452 10.2701 18.3452 10.3957 17.9632L12.2028 12.4686C12.2441 12.3429 12.3427 12.2443 12.4684 12.203L17.9631 10.3959C18.3451 10.2703 18.345 9.7299 17.9631 9.60427L12.4684 7.79719C12.3427 7.75585 12.2441 7.65726 12.2028 7.53155L10.3957 2.03692C10.2701 1.65493 9.72972 1.65493 9.60409 2.03692L7.79701 7.53155C7.75566 7.65726 7.65707 7.75585 7.53137 7.79719Z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          AI drafted
+        </div>
+        <div class="doc-meta__values">
+          <p class="doc-meta__value">No</p>
+        </div>
+      </div>
+      <div class="doc-meta__row">
+        <div class="doc-meta__label">
+          <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M12.4739 8.02075C14.1135 8.02075 15.4426 6.6916 15.4426 5.052C15.4426 3.41241 14.1135 2.08325 12.4739 2.08325M15.6076 17.9166C16.8828 17.9166 17.9166 16.8828 17.9166 15.6075C17.9166 13.6381 16.6838 11.9567 14.9478 11.2927M10.4947 5.052C10.4947 6.6916 9.16555 8.02075 7.52596 8.02075C5.88636 8.02075 4.55721 6.6916 4.55721 5.052C4.55721 3.41241 5.88636 2.08325 7.52596 2.08325C9.16555 2.08325 10.4947 3.41241 10.4947 5.052ZM4.39228 17.9166H10.6596C11.9349 17.9166 12.9687 16.8828 12.9687 15.6076C12.9687 13.0571 10.9011 10.9895 8.35061 10.9895H6.70131C4.15083 10.9895 2.08325 13.0571 2.08325 15.6076C2.08325 16.8828 3.11704 17.9166 4.39228 17.9166Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Audience
+        </div>
+        <div class="doc-meta__values">
+          <span class="doc-meta__pill" data-color="blue">Internal only</span>
+        </div>
+      </div>
+      <div class="doc-meta__row">
+        <div class="doc-meta__label">
+          <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M2.58304 11.3092C2.27098 10.9968 2.0957 10.5732 2.0957 10.1316L2.0957 3.75016C2.0957 2.82969 2.8419 2.0835 3.76237 2.0835H10.1424C10.5848 2.0835 11.0091 2.25941 11.3217 2.57247L18.2523 9.51268C18.9024 10.1637 18.9021 11.2183 18.2515 11.8689L11.8708 18.2496C11.2196 18.9008 10.1637 18.9004 9.51298 18.2488L2.58304 11.3092Z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="6.25" cy="6.25" r="1.25" fill="currentColor"/></svg>
+          Category
+        </div>
+        <div class="doc-meta__values">
+          <span class="doc-meta__pill" data-color="orange">Translating &amp; the CAT Editor</span>
+        </div>
+      </div>
+      <div class="doc-meta__row">
+        <div class="doc-meta__label">
+          <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M8.75006 17.0833L9.90278 14.3586M17.9167 17.0833L16.764 14.3586L13.7591 7.25611C13.5999 6.87994 13.0668 6.87994 12.9077 7.25611L9.90278 14.3586M9.90278 14.3586H16.764M1.66675 12.4999C7.16675 10.4166 9.16675 7.49992 9.16675 4.16659M10.4168 12.4999C6.32196 10.9489 4.58385 8.96952 3.75009 6.66658C3.65492 6.40371 3.57697 6.13706 3.5153 5.86689M1.66675 3.74992H6.25008M6.25008 3.74992H10.8334M6.25008 3.74992V2.08325" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Product area
+        </div>
+        <div class="doc-meta__values">
+          <span class="doc-meta__pill" data-color="pink">AI translation</span>
+          <span class="doc-meta__pill" data-color="pink">CAT editor</span>
+        </div>
+      </div>
+      <div class="doc-meta__row">
+        <div class="doc-meta__label">
+          <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M5.70038 10.7004L7.91675 12.9167C8.1796 13.1796 8.60577 13.1796 8.86862 12.9167L14.4504 7.33499M18.3334 10.0001C18.3334 5.39771 14.6025 1.66675 10.0001 1.66675C5.39771 1.66675 1.66675 5.39771 1.66675 10.0001C1.66675 14.6025 5.39771 18.3334 10.0001 18.3334C14.6025 18.3334 18.3334 14.6025 18.3334 10.0001Z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          Status
+        </div>
+        <div class="doc-meta__values">
+          <span class="doc-meta__pill">Needs Review</span>
+        </div>
+      </div>
+    </div>
+
+    <p class="text-paragraph-reg doc-heading-intro">This article provides an end-to-end workflow for using Smartcat to translate from Adobe Experience Manager (AEM). It walks through step-by-step instructions for Smartcat users translating and reviewing content from AEM.</p>
+  </div>
+
+  <footer class="doc-footer">
+    <p class="doc-footer__title">AEM Reviewer Workflow</p>
+    <p class="doc-footer__page">2 / 10</p>
+  </footer>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     PAGE 3 — Accessing the file (1/4)
+     ═══════════════════════════════════════════════════════════ -->
+<div class="doc-page">
+  <header class="doc-header">
+    <img class="doc-header__logo" src="../../../images/smartcat-logo-black.svg" alt="Smartcat">
+    <span class="doc-header__tag">Internal guide</span>
+  </header>
+
+  <div class="doc-content">
+    <h1 class="text-h1 doc-heading">Accessing the file</h1>
+
+    <div class="doc-steps">
+      <div class="doc-steps__step">
+        <span class="doc-steps__number">1</span>
+        <div class="doc-steps__body">
+          <p class="doc-steps__text">Receive an email from your Workspace Admin that invites you to review a project in that workspace. The email is from Smartcat.</p>
+          <div class="doc-screenshot">
+            <div class="doc-screenshot__container">
+              <div class="doc-screenshot__frame"><img src="assets/email-inbox-row.png" alt="Inbox row showing an email from Smartcat: Invitation from CCM AEM — You've been invited to a task"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="doc-steps__step">
+        <span class="doc-steps__number">2</span>
+        <div class="doc-steps__body">
+          <p class="doc-steps__text">Open the email to review the details of the task, including the administrator who invited you and the task to which you've been assigned.</p>
+        </div>
+      </div>
+      <div class="doc-steps__step">
+        <span class="doc-steps__number">3</span>
+        <div class="doc-steps__body">
+          <p class="doc-steps__text">Click Go to Task to open the task in Smartcat.</p>
+        </div>
+      </div>
+      <div class="doc-steps__step">
+        <span class="doc-steps__number">4</span>
+        <div class="doc-steps__body">
+          <p class="doc-steps__text">Sign in to Smartcat.</p>
+          <div class="doc-screenshot">
+            <div class="doc-screenshot__container">
+              <div class="doc-screenshot__frame"><img src="assets/sign-in.png" alt="Sign in to Smartcat dialog with email field and SSO options for Microsoft, Google, LinkedIn, and ProZ"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="doc-steps__step">
+        <span class="doc-steps__number">5</span>
+        <div class="doc-steps__body">
+          <p class="doc-steps__text">Smartcat opens to the accepted project on your Personal Tasks page. From the project preview, click the tabs at the top of the pop-up to review the Files in the project, an Overview of the project — including the number of words and the source and target languages — and Smartcat's linguistic-asset Statistics for the project.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="doc-footer">
+    <p class="doc-footer__title">AEM Reviewer Workflow</p>
+    <p class="doc-footer__page">3 / 10</p>
+  </footer>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     PAGE 4 — Accessing the file (2/4) — Files tab
+     ═══════════════════════════════════════════════════════════ -->
+<div class="doc-page">
+  <header class="doc-header">
+    <img class="doc-header__logo" src="../../../images/smartcat-logo-black.svg" alt="Smartcat">
+    <span class="doc-header__tag">Internal guide</span>
+  </header>
+
+  <div class="doc-content">
+    <div class="doc-screenshot">
+      <div class="doc-screenshot__container">
+        <div class="doc-screenshot__frame"><img src="assets/task-details-files.png" alt="RE-1 details pop-up, Files tab, listing veraflo-therapy.locjson, ASSETMETADATA_is.locjson, and veraflo-therapy.zip with word counts totalling 2,050"></div>
+      </div>
+      <p class="doc-screenshot__caption">Files tab — the files included in the project.</p>
+    </div>
+  </div>
+
+  <footer class="doc-footer">
+    <p class="doc-footer__title">AEM Reviewer Workflow</p>
+    <p class="doc-footer__page">4 / 10</p>
+  </footer>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     PAGE 5 — Accessing the file (3/4) — Overview tab
+     ═══════════════════════════════════════════════════════════ -->
+<div class="doc-page">
+  <header class="doc-header">
+    <img class="doc-header__logo" src="../../../images/smartcat-logo-black.svg" alt="Smartcat">
+    <span class="doc-header__tag">Internal guide</span>
+  </header>
+
+  <div class="doc-content">
+    <div class="doc-screenshot">
+      <div class="doc-screenshot__container">
+        <div class="doc-screenshot__frame"><img src="assets/task-details-overview.png" alt="RE-1 details pop-up, Overview tab, showing workflow stage Translation review, 2,050 units, languages English to Icelandic, 0% progress, 1/3 files completed"></div>
+      </div>
+      <p class="doc-screenshot__caption">Overview tab — workflow stage, word count, and languages.</p>
+    </div>
+  </div>
+
+  <footer class="doc-footer">
+    <p class="doc-footer__title">AEM Reviewer Workflow</p>
+    <p class="doc-footer__page">5 / 10</p>
+  </footer>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     PAGE 6 — Accessing the file (4/4) — Statistics tab, accept, open file
+     ═══════════════════════════════════════════════════════════ -->
+<div class="doc-page">
+  <header class="doc-header">
+    <img class="doc-header__logo" src="../../../images/smartcat-logo-black.svg" alt="Smartcat">
+    <span class="doc-header__tag">Internal guide</span>
+  </header>
+
+  <div class="doc-content">
+    <div class="doc-screenshot">
+      <div class="doc-screenshot__container">
+        <div class="doc-screenshot__frame"><img src="assets/task-details-statistics.png" alt="RE-1 details pop-up, Statistics tab, showing TM matches and repetitions breakdown, total words 2,050, weighted words 1,456"></div>
+      </div>
+      <p class="doc-screenshot__caption">Statistics tab — TM matches and repetitions.</p>
+    </div>
+
+    <div class="doc-steps">
+      <div class="doc-steps__step">
+        <span class="doc-steps__number">6</span>
+        <div class="doc-steps__body">
+          <p class="doc-steps__text">Click Accept to accept the task.</p>
+        </div>
+      </div>
+      <div class="doc-steps__step">
+        <span class="doc-steps__number">7</span>
+        <div class="doc-steps__body">
+          <p class="doc-steps__text">Once you have accepted the task, click Open file to begin reviewing the files in the project.</p>
+          <div class="doc-screenshot">
+            <div class="doc-screenshot__container">
+              <div class="doc-screenshot__frame"><img src="assets/open-file-arrow.png" alt="Open file button, highlighted with an arrow, next to the project's total and weighted word counts"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="doc-footer">
+    <p class="doc-footer__title">AEM Reviewer Workflow</p>
+    <p class="doc-footer__page">6 / 10</p>
+  </footer>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     PAGE 7 — Reviewing and editing the file (1/3)
+     ═══════════════════════════════════════════════════════════ -->
+<div class="doc-page">
+  <header class="doc-header">
+    <img class="doc-header__logo" src="../../../images/smartcat-logo-black.svg" alt="Smartcat">
+    <span class="doc-header__tag">Internal guide</span>
+  </header>
+
+  <div class="doc-content">
+    <h1 class="text-h1 doc-heading">Reviewing and editing the file</h1>
+
+    <div class="doc-steps">
+      <div class="doc-steps__step">
+        <span class="doc-steps__number">1</span>
+        <div class="doc-steps__body">
+          <p class="doc-steps__text">Smartcat displays a live preview of the AEM page in the target language. The live preview lets you view the translation in the context of the original page.</p>
+          <div class="doc-screenshot">
+            <div class="doc-screenshot__container">
+              <div class="doc-screenshot__frame"><img src="assets/live-preview.png" alt="Live preview of an AEM page translated into Icelandic, with the Smartcat translation-review toolbar at the top"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="doc-steps__step">
+        <span class="doc-steps__number">2</span>
+        <div class="doc-steps__body">
+          <p class="doc-steps__text">Review the page translation and confirm segments. Hover over a section of text and click the Edit (pencil) icon to view the source and target translation.</p>
+          <div class="doc-screenshot">
+            <div class="doc-screenshot__container">
+              <div class="doc-screenshot__frame"><img src="assets/segment-edit-arrow.png" alt="A translated heading and paragraph on the live preview, with an arrow pointing to the edit pencil icon"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="doc-footer">
+    <p class="doc-footer__title">AEM Reviewer Workflow</p>
+    <p class="doc-footer__page">7 / 10</p>
+  </footer>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     PAGE 8 — Reviewing and editing the file (2/3)
+     ═══════════════════════════════════════════════════════════ -->
+<div class="doc-page">
+  <header class="doc-header">
+    <img class="doc-header__logo" src="../../../images/smartcat-logo-black.svg" alt="Smartcat">
+    <span class="doc-header__tag">Internal guide</span>
+  </header>
+
+  <div class="doc-content">
+    <div class="doc-screenshot">
+      <div class="doc-screenshot__container">
+        <div class="doc-screenshot__frame"><img src="assets/translation-popup.png" alt="Translation pop-up showing the source text on the left and the target text on the right, with an AI badge and a confirm checkmark"></div>
+      </div>
+      <p class="doc-screenshot__caption">The source and target translation panel.</p>
+    </div>
+
+    <p class="text-paragraph-reg doc-heading-intro">Hover over the AI box on the right side of the panel to view the translation source and any AI insights. Make changes by clicking into the right-hand box and entering them, then confirm the segment.</p>
+    <div class="doc-screenshot">
+      <div class="doc-screenshot__container">
+        <div class="doc-screenshot__frame"><img src="assets/ai-checkmark.png" alt="AI source badge next to a green confirm checkmark"></div>
+      </div>
+    </div>
+
+    <div class="doc-steps">
+      <div class="doc-steps__step">
+        <span class="doc-steps__number">3</span>
+        <div class="doc-steps__body">
+          <p class="doc-steps__text">Click outside the pop-up to close it, then navigate to other segments in the live preview, or use the arrows at the bottom of the pop-up.</p>
+          <div class="doc-screenshot">
+            <div class="doc-screenshot__container">
+              <div class="doc-screenshot__frame"><img src="assets/segment-confirmed.png" alt="A confirmed segment showing 100% translation-memory match and a green checkmark"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <p class="text-paragraph-reg doc-heading-intro">Track the number of confirmed words in the progress bar at the top of the screen, and continue until Translation review reaches 100%.</p>
+    <div class="doc-screenshot">
+      <div class="doc-screenshot__container">
+        <div class="doc-screenshot__frame"><img src="assets/progress-bar.png" alt="Translation review progress bar showing 24 of 2,518 words confirmed, 0.95%, highlighted"></div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="doc-footer">
+    <p class="doc-footer__title">AEM Reviewer Workflow</p>
+    <p class="doc-footer__page">8 / 10</p>
+  </footer>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     PAGE 9 — Reviewing and editing the file (3/3) + navigating files (same page, via divider)
+     ═══════════════════════════════════════════════════════════ -->
+<div class="doc-page">
+  <header class="doc-header">
+    <img class="doc-header__logo" src="../../../images/smartcat-logo-black.svg" alt="Smartcat">
+    <span class="doc-header__tag">Internal guide</span>
+  </header>
+
+  <div class="doc-content">
+    <p class="text-paragraph-reg doc-heading-intro">When completing the translation review, be sure to review the page's metadata translations too — find them by clicking the Attributes button in the bottom-left corner of the page.</p>
+    <div class="doc-screenshot">
+      <div class="doc-screenshot__container">
+        <div class="doc-screenshot__frame"><img src="assets/attributes-button-arrow.png" alt="Bottom-left corner of the live preview, with an arrow pointing to the Attributes tab"></div>
+      </div>
+    </div>
+
+    <div class="doc-divider">
+      <h1 class="text-h1 doc-heading">Navigating to other files in the project</h1>
+    </div>
+
+    <div class="doc-steps">
+      <div class="doc-steps__step">
+        <span class="doc-steps__number">1</span>
+        <div class="doc-steps__body">
+          <p class="doc-steps__text">When you've finished reviewing a translation, select another file in the project from the file dropdown, then click its name to open it. Repeat the review and confirmation for every file in the project.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="doc-screenshot">
+      <div class="doc-screenshot__container">
+        <div class="doc-screenshot__frame"><img src="assets/file-dropdown.png" alt="File dropdown listing advanced-wound-care, ASSETMETADATA_is, negative-pressure-wound-therapy, and veraflo-therapy, with an arrow pointing to the dropdown toggle"></div>
+      </div>
+      <p class="doc-screenshot__caption">The .json files in a project don't show their file extension in the dropdown.</p>
+    </div>
+  </div>
+
+  <footer class="doc-footer">
+    <p class="doc-footer__title">AEM Reviewer Workflow</p>
+    <p class="doc-footer__page">9 / 10</p>
+  </footer>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     PAGE 10 — Tips & keyboard shortcuts
+     ═══════════════════════════════════════════════════════════ -->
+<div class="doc-page">
+  <header class="doc-header">
+    <img class="doc-header__logo" src="../../../images/smartcat-logo-black.svg" alt="Smartcat">
+    <span class="doc-header__tag">Internal guide</span>
+  </header>
+
+  <div class="doc-content">
+    <h1 class="text-h1 doc-heading">Tips and keyboard shortcuts</h1>
+
+    <h2 class="text-h2 doc-heading">Tips for using the editor</h2>
+    <div class="doc-callout" data-color="blue">
+      <ul class="doc-callout__list">
+        <li class="doc-callout__item"><span class="doc-callout__item-text">View the translation source — see whether a segment was translated by AI or pulled from translation memory.</span></li>
+        <li class="doc-callout__item"><span class="doc-callout__item-text">See notifications for spelling or grammar errors, and read comments left by a colleague or an external linguist.</span></li>
+        <li class="doc-callout__item"><span class="doc-callout__item-text">See the in-context preview of the target text, when the format supports it, and search the source or target text for specific entries.</span></li>
+      </ul>
+    </div>
+
+    <h2 class="text-h2 doc-heading">Keyboard shortcuts</h2>
+    <div class="doc-callout">
+      <ul class="doc-callout__list">
+        <li class="doc-callout__item"><span class="doc-callout__item-text"><span class="doc-callout__term">Confirm a segment</span><kbd class="doc-kbd">Ctrl+Enter</kbd></span></li>
+        <li class="doc-callout__item"><span class="doc-callout__item-text"><span class="doc-callout__term">Go to next unconfirmed</span><kbd class="doc-kbd">F9</kbd></span></li>
+        <li class="doc-callout__item"><span class="doc-callout__item-text"><span class="doc-callout__term">Jump to a segment</span><kbd class="doc-kbd">Ctrl+G</kbd></span></li>
+        <li class="doc-callout__item"><span class="doc-callout__item-text"><span class="doc-callout__term">Undo</span><kbd class="doc-kbd">Ctrl+Z</kbd><span class="doc-callout__term">Redo</span><kbd class="doc-kbd">Ctrl+Y</kbd></span></li>
+        <li class="doc-callout__item"><span class="doc-callout__item-text"><span class="doc-callout__term">Copy source to target</span><kbd class="doc-kbd">Ctrl+Insert</kbd></span></li>
+        <li class="doc-callout__item"><span class="doc-callout__item-text"><span class="doc-callout__term">Find and replace</span><kbd class="doc-kbd">Ctrl+H</kbd></span></li>
+        <li class="doc-callout__item"><span class="doc-callout__item-text"><span class="doc-callout__term">Change case</span><kbd class="doc-kbd">Shift+F3</kbd></span></li>
+      </ul>
+    </div>
+  </div>
+
+  <footer class="doc-footer">
+    <p class="doc-footer__title">AEM Reviewer Workflow</p>
+    <p class="doc-footer__page">10 / 10</p>
+  </footer>
+</div>
+
+</body>
+</html>

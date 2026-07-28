@@ -5,20 +5,20 @@
    Full-width row; the picture is centered and capped at the content
    width (1120px). `narrow` insets the picture to a readable measure on
    desktop+tablet (≥800px); on mobile it renders full-width like `wide`.
+   Root .image is a plain full-width wrapper (no padding of its own — see
+   CLAUDE.md "Sections"). Nest the reference template's .container around
+   .image__inner for its 1540px max-width and centering — that replaces
+   the centering this used to do via flex justify-content.
    ──────────────────────────────────────────────────────────── */
 
 .image {
   box-sizing: border-box;
   width: 100%;
-  padding-inline: var(--grid-page-padding);
-  display: flex;
-  justify-content: center;
 }
 
 .image__inner {
   box-sizing: border-box;
   width: 100%;
-  max-width: var(--grid-max-width); /* 1540 */
 }
 
 .image__frame {

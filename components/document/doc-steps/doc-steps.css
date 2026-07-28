@@ -1,0 +1,69 @@
+/* ── Document / Steps ─────────────────────────────────────────
+   Figma: n/a (document tier is code-authored, no Figma source)
+   A numbered instruction list — each step pairs a number badge with a
+   short instruction paragraph, and may carry its own screenshot below
+   the text (full width, wrap it in .doc-screenshot).
+   Elements:
+     .doc-steps__media — include for a step with its own screenshot
+   Step-list properties (data attributes, on .doc-steps):
+     data-marker : number (default) | icon — icon replaces the solid
+                   numbered badge with a light brand-tint circle holding
+                   a 18×18 inline svg (stroke="currentColor"); use for
+                   an unordered row list (options, checks) rather than
+                   a literal ordered sequence — sequential instructions
+                   should keep the numbered badge
+   ──────────────────────────────────────────────────────────── */
+
+.doc-steps {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-6);
+}
+
+.doc-steps__step {
+  display: flex;
+  gap: var(--spacing-4);
+}
+
+.doc-steps__number {
+  flex: 0 0 32px;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-full);
+  background: var(--background-static-brand-inverted);
+  color: var(--content-static-inverted);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--family-body);
+  font-weight: var(--weight-semi-bold);
+  font-size: var(--size-small-text);
+}
+
+.doc-steps[data-marker="icon"] .doc-steps__number {
+  background: var(--background-static-brand-layer-1);
+  color: var(--content-static-brand);
+}
+
+.doc-steps[data-marker="icon"] .doc-steps__number svg {
+  width: 18px;
+  height: 18px;
+}
+
+.doc-steps__body {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+}
+
+.doc-steps__text {
+  margin: 0;
+  padding-top: 2px; /* optically centers the first line against the number badge */
+  font-family: var(--family-body);
+  font-weight: var(--weight-regular);
+  font-size: var(--size-paragraph);
+  line-height: var(--line-height-paragraph);
+  color: var(--content-static-secondary);
+}

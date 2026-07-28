@@ -24,18 +24,18 @@
   align-items: center;
   width: 100%;
   background: var(--background-static-gray-layer-2);
-  padding: var(--spacing-page-vertical-7) var(--spacing-page-sides);
+  padding: var(--spacing-page-vertical-7) var(--grid-page-padding);
   overflow: hidden;
 }
 
-/* ── Content wrapper (centered at the content width) ─────────────── */
+/* ── Content wrapper (centered at the content width; the .container
+   ancestor in the reference template owns the 1540px max-width) ───── */
 .hero-block__content {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: var(--spacing-between-elements-9);
   width: 100%;
-  max-width: var(--grid-max-width); /* 1540 */
 }
 
 /* ── Text block (badges + title + paragraph) ─────────────────────── */
@@ -211,12 +211,12 @@
   flex-direction: column;
   align-items: flex-start;
   gap: var(--spacing-between-elements-7);
-  padding: var(--spacing-between-elements-10) var(--spacing-page-sides);
+  padding: var(--spacing-between-elements-10) var(--grid-page-padding);
 }
 .hero-block__media-col {
   display: flex;
   background: var(--background-static-alpha-layer-1);
-  padding: var(--spacing-page-sides);
+  padding: var(--grid-page-padding);
 }
 .hero-block[data-type="image-right"] .hero-block__text { align-items: flex-start; }
 .hero-block[data-type="image-right"] .hero-block__title {

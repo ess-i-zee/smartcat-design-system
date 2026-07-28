@@ -1,0 +1,104 @@
+/* ── One-pager / Comparison ───────────────────────────────────
+   Before/after or problem/solution narrative. Two columns, each a
+   stack of icon+text rows; the "solution" column is the one visual
+   highlight in the pair. Sits inside .op-band (typically light,
+   layer-0), directly beneath a plain section heading (see
+   docs/onepagers-design-brain.md for the heading composition pattern).
+   Properties (data attributes):
+     data-variant on .op-comparison__column : problem | solution
+   Elements:
+     .op-comparison__summary — optional bold closing line(s); wrap the
+                                emphasized fragment in <mark> to color it
+                                brand-purple (see .op-comparison__summary mark)
+   Color rule (one-pager specific — do not use semantic red/green here):
+     problem = neutral gray column + tertiary-colored icon.
+     solution = brand-tint column + brand-purple icon.
+     This mirrors the live reference decks: contrast is gray-vs-purple,
+     not red-vs-green — semantic red/green is reserved for genuinely
+     positive/negative meaning elsewhere (see CLAUDE.md Icons/DNA notes).
+   ──────────────────────────────────────────────────────────── */
+
+.op-comparison {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-7);
+}
+
+.op-comparison__columns {
+  display: flex;
+  align-items: stretch;
+  gap: var(--spacing-6);
+}
+
+.op-comparison__column {
+  flex: 1 1 0;
+  min-width: 0;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-6);
+  padding: var(--spacing-7);
+  border-radius: var(--radius-5);
+  background: var(--background-static-gray-layer-1);
+}
+
+.op-comparison__column[data-variant="solution"] {
+  background: var(--background-static-brand-layer-1);
+}
+
+.op-comparison__column-title {
+  margin: 0;
+  font-family: var(--family-heading);
+  font-weight: var(--weight-bold);
+  color: var(--content-static-primary);
+  font-size: var(--size-h4);
+  line-height: var(--line-height-h4);
+  letter-spacing: var(--letter-spacing-h4);
+}
+
+.op-comparison__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-5);
+}
+
+.op-comparison__row {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-4);
+}
+
+.op-comparison__icon {
+  flex-shrink: 0;
+  display: flex;
+  width: 20px;
+  height: 20px;
+  color: var(--content-static-tertiary);
+}
+
+.op-comparison__column[data-variant="solution"] .op-comparison__icon {
+  color: var(--content-static-brand);
+}
+
+.op-comparison__text {
+  margin: 0;
+  font-family: var(--family-body);
+  font-weight: var(--weight-regular);
+  color: var(--content-static-secondary);
+  font-size: var(--size-small-text);
+  line-height: var(--line-height-small-text);
+}
+
+.op-comparison__summary {
+  margin: 0;
+  font-family: var(--family-body);
+  font-weight: var(--weight-semi-bold);
+  color: var(--content-static-primary);
+  font-size: var(--size-small-text);
+  line-height: var(--line-height-small-text);
+}
+
+.op-comparison__summary mark {
+  background: none;
+  color: var(--content-static-brand);
+}

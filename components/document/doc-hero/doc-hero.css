@@ -1,0 +1,171 @@
+/* ── Document / Hero (cover page) ─────────────────────────────
+   Figma: n/a (document tier is code-authored, no Figma source)
+   Self-sufficient — like .op-hero (one-pagers) / hero-block (web), this
+   is the page's only element: never wrapped in .doc-header/.doc-content/
+   .doc-footer. Place a .doc-page[data-theme="dark"] containing only
+   .doc-hero as every document's default opening page — skip only when
+   a specific document has an explicit reason not to.
+
+   Left-aligned layout: a topbar (logo + optional tag) pinned to the
+   top, then the title block and an optional table-of-contents each
+   pinned a fixed distance below the previous element — whatever space
+   remains settles naturally at the bottom of the page.
+
+   Dark theme is free: every color below is a --content-static-* token,
+   already re-declared under [data-theme="dark"] in tokens/colors.css.
+   The logo is not token-driven, so the white SVG variant is referenced
+   explicitly in markup — see CLAUDE.md "Logo".
+
+   No page number is shown on this page (no .doc-footer); numbering
+   starts at 2 on the next physical page.
+
+   Elements:
+     .doc-hero__tag           — include for has-tag (e.g. "Internal guide")
+     .doc-hero__title-accent  — wrap a key word/phrase in the title to
+                                 render it in brand purple
+     .doc-hero__meta          — include for has-audience-line (e.g. "For Linguists")
+     .doc-hero__meta-accent   — wrap the audience/client name to render
+                                 it in brand purple
+     .doc-hero__subtitle      — include for has-description
+     .doc-hero__toc           — include for has-table-of-contents; holds
+                                 1–2 .doc-hero__toc-column children
+     .doc-hero__toc-page      — include for has-page-number, on a
+                                 .doc-hero__toc-item; right-aligned via
+                                 the label's flex:1 1 auto
+     .doc-hero__toc-subitem   — include for has-subsection; an indented
+                                 row nested directly under a .doc-hero__toc-item,
+                                 for a sub-section within that top-level entry
+   ──────────────────────────────────────────────────────────── */
+
+.doc-hero {
+  flex: 1 1 auto;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  padding: var(--spacing-9);
+}
+
+.doc-hero__topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.doc-hero__logo {
+  height: 20px;
+  width: auto;
+}
+
+.doc-hero__tag {
+  margin: 0;
+  padding: var(--spacing-1) var(--spacing-3);
+  border: 1px solid var(--border-divider-default);
+  border-radius: var(--radius-full);
+  color: var(--content-static-secondary);
+}
+
+.doc-hero__body {
+  margin-top: var(--spacing-15); /* 160px — fixed distance below the topbar */
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3);
+  max-width: 800px;
+}
+
+.doc-hero__title {
+  margin: 0;
+  color: var(--content-static-primary);
+}
+
+.doc-hero__title-accent {
+  color: var(--content-static-brand);
+}
+
+.doc-hero__meta {
+  margin: 0;
+  color: var(--content-static-secondary);
+}
+
+.doc-hero__meta-accent {
+  color: var(--content-static-brand);
+}
+
+.doc-hero__subtitle {
+  margin: 0;
+  color: var(--content-static-secondary);
+}
+
+.doc-hero__toc {
+  margin-top: var(--spacing-13); /* 96px — fixed distance below the body */
+  display: flex;
+  gap: var(--spacing-9);
+  max-width: 960px;
+}
+
+.doc-hero__toc-column {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.doc-hero__toc-item {
+  display: flex;
+  flex-direction: column;
+  border-bottom: 1px solid var(--border-divider-default);
+}
+
+.doc-hero__toc-item-main {
+  display: flex;
+  align-items: baseline;
+  gap: var(--spacing-3);
+  padding-block: var(--spacing-3);
+}
+
+.doc-hero__toc-item:has(.doc-hero__toc-subitem) .doc-hero__toc-item-main {
+  padding-bottom: var(--spacing-1);
+}
+
+.doc-hero__toc-item .doc-hero__toc-subitem:last-child {
+  padding-bottom: var(--spacing-3);
+}
+
+.doc-hero__toc-number {
+  color: var(--content-static-brand);
+}
+
+.doc-hero__toc-label {
+  flex: 1 1 auto;
+  color: var(--content-static-secondary);
+}
+
+.doc-hero__toc-page {
+  color: var(--content-static-tertiary);
+}
+
+/* Nested sub-section row — indented under its parent .doc-hero__toc-item,
+   with a dotted leader filling the gap before the page number. */
+.doc-hero__toc-subitem {
+  display: flex;
+  align-items: baseline;
+  gap: var(--spacing-3);
+  padding-block: var(--spacing-2);
+  padding-left: var(--spacing-9); /* 48px indent under the number+label above */
+}
+
+.doc-hero__toc-subitem-label {
+  flex: 0 0 auto;
+  color: var(--content-static-tertiary);
+}
+
+.doc-hero__toc-subitem-leader {
+  flex: 1 1 auto;
+  min-width: var(--spacing-6);
+  border-bottom: 1px dotted var(--border-divider-default);
+  margin-bottom: 4px; /* lifts the dotted rule to sit mid-line, not on the text baseline */
+}
+
+.doc-hero__toc-subitem-page {
+  flex: 0 0 auto;
+  color: var(--content-static-tertiary);
+}

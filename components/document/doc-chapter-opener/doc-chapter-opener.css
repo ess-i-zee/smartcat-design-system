@@ -1,0 +1,67 @@
+/* ── Document / Chapter opener ────────────────────────────────
+   Figma: n/a (document tier is code-authored, no Figma source)
+   Self-sufficient — like .doc-hero, this is the page's only element:
+   never wrapped in .doc-header/.doc-content/.doc-footer. Place on a
+   .doc-page (dark-themed, or a light page for a brand-tint variant —
+   see data-color) as an interior part/chapter divider for long,
+   multi-part documents (roughly 30+ pages across several distinct
+   parts). Skip it for shorter or single-part documents — a plain
+   .doc-divider is enough there.
+
+   Unlike .doc-hero (top-pinned, repeats once per document), this
+   page's title block vertically centers — the conventional book/report
+   "part opener" placement — and it still carries its own page number,
+   since it has no .doc-footer.
+
+   Elements:
+     .doc-chapter-opener__label   — include for has-part-label (e.g. "Part 2")
+     .doc-chapter-opener__summary — include for has-summary-card; a
+                                     floating card previewing what the
+                                     part covers
+   ──────────────────────────────────────────────────────────── */
+
+.doc-chapter-opener {
+  flex: 1 1 auto;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  padding: var(--spacing-9);
+}
+
+.doc-chapter-opener__pagenum {
+  margin: 0;
+  align-self: flex-end;
+  color: var(--content-static-tertiary);
+}
+
+.doc-chapter-opener__body {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  max-width: 800px;
+}
+
+.doc-chapter-opener__label {
+  margin: 0;
+  color: var(--content-static-brand);
+}
+
+.doc-chapter-opener__title {
+  margin: 0;
+  margin-top: var(--spacing-3);
+  color: var(--content-static-primary);
+}
+
+.doc-chapter-opener__summary {
+  margin-top: var(--spacing-13); /* 96px — same fixed-distance-below pattern as .doc-hero__toc */
+  max-width: 640px;
+  padding: var(--spacing-7);
+  border-radius: var(--radius-5);
+  background: var(--background-static-gray-layer-1);
+}
+
+.doc-chapter-opener__summary-text {
+  margin: 0;
+  color: var(--content-static-secondary);
+}

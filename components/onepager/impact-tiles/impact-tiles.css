@@ -1,0 +1,82 @@
+/* ── One-pager / Impact tiles ─────────────────────────────────
+   Aggregate outcomes across the organization — 3-5 short icon+title+
+   caption tiles in a row. Sits inside .op-band (typically light,
+   layer-0 or layer-1). See docs/onepagers-design-brain.md.
+   Properties (data attributes):
+     data-tiles on .op-impact-tiles : 3 | 4 | 5
+   Elements:
+     .op-impact-tiles__summary — optional closing pill, same pattern as
+                                  .op-steps__summary
+   ──────────────────────────────────────────────────────────── */
+
+.op-impact-tiles {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-8);
+}
+
+.op-impact-tiles__row {
+  display: flex;
+  gap: var(--spacing-7);
+}
+
+.op-impact-tiles__tile {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+}
+
+.op-impact-tiles__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-3);
+  background: var(--background-static-gray-layer-2);
+  color: var(--content-static-primary);
+}
+
+.op-impact-tiles__icon svg { width: 20px; height: 20px; }
+
+.op-impact-tiles__title {
+  margin: 0;
+  font-family: var(--family-heading);
+  font-weight: var(--weight-bold);
+  color: var(--content-static-primary);
+  font-size: var(--size-h5);
+  line-height: var(--line-height-h5);
+}
+
+.op-impact-tiles__text {
+  margin: 0;
+  font-family: var(--family-body);
+  font-weight: var(--weight-regular);
+  color: var(--content-static-secondary);
+  font-size: var(--size-small-text);
+  line-height: var(--line-height-small-text);
+}
+
+.op-impact-tiles__summary {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  padding: var(--spacing-3) var(--spacing-5);
+  border-radius: var(--radius-full);
+  background: var(--background-static-gray-layer-2);
+  color: var(--content-static-primary);
+  font-family: var(--family-body);
+  font-weight: var(--weight-semi-bold);
+  font-size: var(--size-small-text);
+  line-height: var(--line-height-small-text);
+}
+
+.op-impact-tiles__summary svg {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  color: var(--content-static-brand);
+}

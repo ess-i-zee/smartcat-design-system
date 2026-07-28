@@ -1,0 +1,184 @@
+/* =============================================================
+   DOCUMENT LAYOUT — fixed-width, fixed-height, paginated canvas
+   New output-format tier, alongside web / decks / one-pagers.
+   See CLAUDE.md "Documents".
+
+   Unlike a one-pager (single scrolling canvas, auto height), a document
+   is genuinely paginated — it prints or exports to PDF as a sequence of
+   discrete physical pages, each repeating a running header and footer,
+   exactly like the source PDF this format replaces. Width AND height are
+   both fixed per page.
+
+   Page size: 1290px wide × 1670px tall (≈ US-Letter 8.5:11 proportion
+   at this width). Every .doc-page is one physical page.
+
+   Nesting model:
+     .doc-page       — one physical page: fixed 1290×1670, flex column.
+     .doc-header     — self-sufficient, repeats on every .doc-page (logo).
+     .doc-content    — the page's content area: fixed side padding,
+                       vertical flex rhythm between components. Direct
+                       children default to a centered 800px text column;
+                       .doc-screenshot/.doc-divider breathe wider (960px).
+     .doc-footer     — self-sufficient, repeats on every .doc-page
+                       (document title + page number).
+
+   The one exception is the cover page: a .doc-page[data-theme="dark"]
+   containing only .doc-hero (no .doc-header/.doc-content/.doc-footer) —
+   see components/document/doc-hero. Every document defaults to opening
+   with one, per CLAUDE.md "Documents → Cover page".
+   ============================================================= */
+
+.doc-page {
+  box-sizing: border-box;
+  width: 1290px;
+  height: 1670px;
+  display: flex;
+  flex-direction: column;
+  background: var(--background-static-gray-layer-0);
+  overflow: hidden; /* safety clip — content is authored to fit one page */
+  break-after: page;
+  page-break-after: always;
+}
+
+.doc-page:last-child {
+  break-after: auto;
+  page-break-after: avoid;
+}
+
+/* ── Header (self-sufficient, repeats every page) ─────────────── */
+
+.doc-header {
+  box-sizing: border-box;
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-6) var(--spacing-9);
+  border-bottom: 1px solid var(--border-divider-default);
+}
+
+.doc-header__logo {
+  height: 20px;
+  width: auto;
+}
+
+.doc-header__tag {
+  font-family: var(--family-body);
+  font-weight: var(--weight-semi-bold);
+  font-size: var(--size-caption);
+  line-height: var(--line-height-caption);
+  color: var(--content-static-secondary);
+}
+
+/* ── Content area ──────────────────────────────────────────────── */
+
+.doc-content {
+  box-sizing: border-box;
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-7);
+  padding: var(--spacing-7) var(--spacing-9);
+}
+
+/* Default content measure — a centered reading column, narrower than
+   the full content width, for every text-bearing block. */
+.doc-content > * {
+  width: 100%;
+  max-width: 800px;
+  margin-inline: auto;
+}
+
+/* Section dividers breathe wider than the text column — up to 960px,
+   still centered and still inside the page's normal content padding
+   (never full-bleed past it). */
+.doc-content > .doc-divider {
+  max-width: 960px;
+}
+
+/* Screenshot CONTAINERS span the full content width — page width minus
+   the 48px page padding on each side, same as everything else's outer
+   bound. The 960px cap applies to the image itself, not this container
+   — see doc-screenshot's .doc-screenshot__frame. */
+.doc-content > .doc-screenshot {
+  max-width: none;
+}
+
+/* A step's own screenshot (components/document/doc-steps) is nested
+   inside .doc-steps__body, not a direct .doc-content child, so the rule
+   above never reaches it — left alone it inherits .doc-steps's 800px
+   text-column width instead of the full content area, rendering visibly
+   narrower than every other screenshot on the page. Breaks it out to the
+   same full width: escapes the text column's own inset within the fixed
+   1194px content area ((1194 − 800) / 2 = 197px each side), plus, on the
+   left only, the 32px number badge and its gap. Fixed pixel values, not
+   tokens, since this canvas is a fixed (non-responsive) size — see
+   CLAUDE.md "Document layout grid". */
+.doc-steps__body > .doc-screenshot {
+  margin-left: calc(-197px - 32px - var(--spacing-4));
+  margin-right: -197px;
+}
+
+/* Section heading — composed directly from type-style utility classes,
+   exactly like the one-pager tier's .op-heading. */
+.doc-heading {
+  margin: 0;
+  color: var(--content-static-primary);
+}
+
+/* H1 = a new top-level Section — its spacing comes entirely from the
+   preceding .doc-divider (see components/document/doc-divider), so it
+   carries no margin-top rule of its own.
+
+   H2/H3 = a subsection within a Section — proportional top margin,
+   expressed as a top-up over .doc-content's ambient 32px gap so the
+   total lands on a clean value: 32 + 48 = 80px (H2), 32 + 24 = 56px (H3). */
+h2.doc-heading { margin-top: var(--spacing-9); }
+h3.doc-heading { margin-top: var(--spacing-6); }
+
+/* Safety: a heading that opens the page (or opens a .doc-block that
+   opens the page) shouldn't inherit the extra top margin — there's
+   nothing above it on the page to separate from. */
+.doc-content > *:first-child,
+.doc-content > *:first-child > h2.doc-heading:first-child,
+.doc-content > *:first-child > h3.doc-heading:first-child {
+  margin-top: 0;
+}
+
+.doc-heading-intro {
+  margin: 0;
+  color: var(--content-static-secondary);
+}
+
+/* ── Footer (self-sufficient, repeats every page) ─────────────── */
+
+.doc-footer {
+  box-sizing: border-box;
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-5) var(--spacing-9);
+  border-top: 1px solid var(--border-divider-default);
+}
+
+.doc-footer__title,
+.doc-footer__page {
+  margin: 0;
+  font-family: var(--family-body);
+  font-weight: var(--weight-regular);
+  font-size: var(--size-caption);
+  line-height: var(--line-height-caption);
+  color: var(--content-static-tertiary);
+}
+
+/* ── Print ──────────────────────────────────────────────────────
+   Each .doc-page IS one PDF page — no browser-added margins, no
+   scaling. Preview-only chrome (page background, centering, gap
+   between pages) must live in the consuming page's own <style>,
+   never here. */
+@media print {
+  @page { size: 1290px 1670px; margin: 0; }
+  html, body { margin: 0; padding: 0; }
+}

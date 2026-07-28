@@ -12,17 +12,17 @@
    so the -50% loop is seamless). 1-line: single row. 2-line: wrapping grid.
    Mobile: full-width, logos wrap; desktop: max-width 1120 centered.
    No atomics reused. Logos are placeholder boxes (swap for <img> with real assets).
+   Root .customer-logos is a plain full-width wrapper (no padding of its
+   own — see CLAUDE.md "Sections"); nest the reference template's
+   .container around .customer-logos__inner for its 1540px max-width.
    ──────────────────────────────────────────────────────────── */
 
 .customer-logos {
   box-sizing: border-box;
   width: 100%;
-  padding-inline: var(--grid-page-padding);
 }
 
 .customer-logos__inner {
-  max-width: var(--grid-max-width); /* 1540 */
-  margin-inline: auto;
   display: flex;
   flex-direction: column;
   gap: var(--spacing-between-elements-6);

@@ -1,0 +1,23 @@
+/* ── Document / Divider ───────────────────────────────────────
+   Figma: n/a (document tier is code-authored, no Figma source)
+   Marks a top-level Section boundary and carries the new Section's H1
+   inside it — place between the end of one H1 section's content and
+   the next H1, when both fall on the same page. Spans wider than the
+   text column (max-width 960px override lives in base/document-layout.css).
+
+   Author-placed: this tier has no automatic section detection. Skip it
+   when the new Section instead starts at the top of a fresh page —
+   the page break already separates them; a divider with nothing above
+   or below it on the same page is a broken pattern.
+   ──────────────────────────────────────────────────────────── */
+
+.doc-divider {
+  width: 100%;
+  border: none;
+  border-top: 1px solid var(--border-divider-default);
+  /* Ambient .doc-content gap (--spacing-7, 32px) + this top-up = 120px
+     total between the previous section's content and the line. */
+  margin-top: calc(var(--spacing-14) - var(--spacing-7));
+  /* 120px between the line and the H1 heading inside it. */
+  padding-top: var(--spacing-14);
+}

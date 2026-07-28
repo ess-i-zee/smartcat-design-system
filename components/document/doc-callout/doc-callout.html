@@ -1,0 +1,62 @@
+<!--
+  Document / Callout — reference template
+  Usages: a plain tip list, a keyboard-shortcut list (pair a
+  .doc-callout__term with a .doc-kbd chip instead of description text),
+  a categorized/icon-led insight callout, and a checklist callout.
+-->
+<div class="doc-callout">
+  <p class="doc-callout__heading">Tips for using the editor</p>
+  <ul class="doc-callout__list">
+    <li class="doc-callout__item">
+      <span class="doc-callout__item-text">Review, correct, and confirm specific segments.</span>
+    </li>
+    <li class="doc-callout__item">
+      <span class="doc-callout__item-text">
+        <span class="doc-callout__term">View the translation source</span>
+        <span>— see whether a segment was translated by AI or pulled from translation memory.</span>
+      </span>
+    </li>
+  </ul>
+</div>
+
+<div class="doc-callout">
+  <p class="doc-callout__heading">Confirming and navigating segments</p>
+  <ul class="doc-callout__list">
+    <li class="doc-callout__item">
+      <span class="doc-callout__item-text">
+        <span class="doc-callout__term">Confirm a segment</span>
+        <span>— click the green checkmark or press</span>
+        <kbd class="doc-kbd">Ctrl+Enter</kbd>
+      </span>
+    </li>
+  </ul>
+</div>
+
+<!-- Categorized + icon-led: data-color groups it visually, .doc-callout__icon
+     leads the heading. -->
+<div class="doc-callout" data-color="blue">
+  <div class="doc-callout__head">
+    <span class="doc-callout__icon" aria-hidden="true">
+      <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="10" cy="10" r="7.5" stroke="currentColor" stroke-width="1.5"/><path d="M10 6v4l3 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+    </span>
+    <p class="doc-callout__heading">Good to know</p>
+  </div>
+  <ul class="doc-callout__list">
+    <li class="doc-callout__item">
+      <span class="doc-callout__item-text">AI-translated segments are automatically saved to translation memory once confirmed.</span>
+    </li>
+  </ul>
+</div>
+
+<!-- Checklist: data-marker="checkbox" swaps the dot bullet for an outlined square. -->
+<div class="doc-callout" data-marker="checkbox">
+  <p class="doc-callout__heading">Before you submit the file</p>
+  <ul class="doc-callout__list">
+    <li class="doc-callout__item">
+      <span class="doc-callout__item-text">All segments are confirmed.</span>
+    </li>
+    <li class="doc-callout__item">
+      <span class="doc-callout__item-text">Tags and placeholders are intact.</span>
+    </li>
+  </ul>
+</div>

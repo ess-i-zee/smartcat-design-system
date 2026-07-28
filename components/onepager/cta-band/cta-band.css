@@ -1,0 +1,48 @@
+/* ── One-pager / CTA band ──────────────────────────────────────
+   Closes most one-pagers. Self-sufficient — carries its own solid
+   brand-purple background directly, like .op-hero, and is never
+   wrapped in .op-band.
+   Notes:
+     - Unlike decks (no interactive UI), one-pagers are viewed as
+       documents, so a real .btn is correct here — see CLAUDE.md
+       "One-pagers".
+     - The button uses data-type="secondary" as-is. The reference
+       one-pagers render a near-white pill here, but no semantic
+       "button on brand" token pair exists yet (only content text has
+       a sanctioned inverted pairing) — flag this to the design team
+       if an exact match is needed rather than inventing a one-off
+       non-semantic override.
+   ──────────────────────────────────────────────────────────── */
+
+.op-cta-band {
+  box-sizing: border-box;
+  width: 100%;
+  padding: var(--spacing-12) var(--spacing-9);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-6);
+  text-align: center;
+  background: var(--background-static-brand-inverted);
+}
+
+.op-cta-band__heading {
+  margin: 0;
+  font-family: var(--family-heading);
+  font-weight: var(--weight-bold);
+  color: var(--content-static-inverted);
+  font-size: var(--size-h1);
+  line-height: var(--line-height-h1);
+  letter-spacing: var(--letter-spacing-h1);
+}
+
+.op-cta-band__paragraph {
+  margin: 0;
+  max-width: 560px;
+  font-family: var(--family-body);
+  font-weight: var(--weight-regular);
+  color: var(--content-static-inverted);
+  opacity: 0.85;
+  font-size: var(--size-paragraph);
+  line-height: var(--line-height-paragraph);
+}

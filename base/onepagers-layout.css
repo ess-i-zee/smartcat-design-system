@@ -1,0 +1,137 @@
+/* =============================================================
+   ONE-PAGER LAYOUT — fixed-width, variable-height document canvas
+   See CLAUDE.md "One-pagers" → "One-pager layout".
+
+   A one-pager is a printed/PDF-style document, not a responsive page
+   and not a fixed-height slide: constant WIDTH, variable HEIGHT.
+   Width 1280px (same fixed width validated for the deck canvas).
+   Height is auto — grows with content — with a 1656px floor, which is
+   the exact proportion of a US Letter page (8.5:11) at this width
+   (1280 × 11/8.5 ≈ 1656), so a one-pager that stops at minimum length
+   still prints/exports at a familiar document ratio. Taller documents
+   are expected and normal.
+
+   Nesting model:
+     .op-page      — the document canvas: fixed 1280px width, auto height.
+                     No padding of its own — every band supplies its own.
+     .op-band      — a full-bleed row, exactly like the web .section-band
+                     and the deck's data-layer axis, but WITHOUT any
+                     responsive behavior: fixed 48px inline padding
+                     (--spacing-9, the same value validated for the deck
+                     canvas) and fixed vertical padding. Background is set
+                     by data-layer (gray steps, brand tint, or solid brand)
+                     × data-theme (light/dark) — same two composable axes
+                     used by the deck canvas.
+     component     — one onepager-tier component (components/onepager/*)
+                     sits inside a band and never carries its own side
+                     padding or background.
+
+   Two components are self-sufficient, exactly like hero-block on web and
+   the cover/closing treatment on decks: .op-hero (opens every one-pager)
+   and .op-cta-band (closes most of them). Both carry their own solid
+   brand-purple background directly and must never be wrapped in .op-band.
+   ============================================================= */
+
+.op-page {
+  box-sizing: border-box;
+  width: 1280px;
+  min-height: 1656px;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  background: var(--background-static-gray-layer-0);
+  overflow-x: hidden; /* clip intentional edge-bleed decoration only */
+
+  /* Scope the shared grid system (base/website-layout.css) to a fixed
+     12-column, no-column-padding grid — same technique as .deck-slide —
+     so a `.grid` row used inside a band sits flush to the band's own
+     48px padding, aligned with every other band's content edge. */
+  --grid-columns: 12;
+  --grid-gutter: 8px;
+  --grid-page-padding: 0;
+  --grid-column-padding: 0;
+}
+
+/* ── Band (full-bleed background + fixed page padding) ──────────
+   The only place side padding is ever applied. Vertical padding is a
+   fixed constant (documents don't reflow across breakpoints) — override
+   per instance with data-padding="compact" for tighter bands (e.g. a
+   logo strip) where the default rhythm reads as too loose. */
+
+.op-band {
+  box-sizing: border-box;
+  width: 100%;
+  padding-inline: var(--spacing-9);   /* 48px */
+  padding-block: var(--spacing-13);   /* 96px */
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-8);              /* heading → content gap */
+  background: var(--background-static-gray-layer-0);
+}
+
+.op-band[data-padding="compact"] { padding-block: var(--spacing-9); /* 48px */ }
+
+.op-band[data-layer="0"] { background: var(--background-static-gray-layer-0); }
+.op-band[data-layer="1"] { background: var(--background-static-gray-layer-1); }
+.op-band[data-layer="2"] { background: var(--background-static-gray-layer-2); }
+.op-band[data-layer="3"] { background: var(--background-static-gray-layer-3); }
+
+/* Brand-tint — a soft accent band (e.g. the platform-pillars block).
+   Light enough in both themes that default content tokens stay legible
+   with no repointing. */
+.op-band[data-layer="brand-tint"] { background: var(--background-static-brand-layer-1); }
+
+/* Brand — solid, saturated brand-purple. Self-contained pairing with
+   --content-static-inverted, same mechanism as the deck canvas's
+   data-layer="brand" (see base/deck-layout.css for the full rationale).
+   Do NOT combine with data-theme="dark" — background-static-brand-inverted
+   already has its own (different) dark-mode value, and flipping both
+   independently breaks contrast. */
+.op-band[data-layer="brand"] {
+  background: var(--background-static-brand-inverted);
+  --content-static-primary: var(--content-static-inverted);
+  --content-static-secondary: var(--content-static-inverted);
+}
+
+/* ── Shared section heading ──────────────────────────────────────
+   Onepager sections compose their heading directly from the type-style
+   utility classes (.text-h1 etc., see base/type-styles.css) rather than
+   reusing the web's `heading` page-level component — per the "don't
+   reuse page-level components" rule (see CLAUDE.md "One-pagers"). Those
+   utility classes carry font metrics only, no color, so pair every
+   heading with .op-heading (and .op-heading-intro for the optional
+   supporting paragraph) to pick up the correct color automatically —
+   including the flip to white inside a data-layer="brand" or
+   data-theme="dark" band, since both read the same --content-static-*
+   custom properties every band already sets.
+   Usage: <h2 class="text-h1 op-heading">Title</h2>
+          <p class="text-paragraph-reg op-heading-intro">Supporting line.</p> */
+
+.op-heading {
+  margin: 0;
+  color: var(--content-static-primary);
+}
+
+.op-heading-intro {
+  margin: 0;
+  max-width: var(--dimension-desktop-max-text-width);
+  color: var(--content-static-secondary);
+}
+
+/* ── Shared media utility ────────────────────────────────────────
+   The recurring "product-UI screenshot" visual type (see CLAUDE.md
+   "Visual type per media slot"): a rounded image floating on a soft
+   lavender-gradient backdrop. Used by op-hero and op-steps. */
+
+.op-media {
+  box-sizing: border-box;
+  border-radius: var(--radius-5);
+  overflow: hidden;
+  background: linear-gradient(135deg, var(--color-non-semantic-purple-10), var(--color-non-semantic-purple-20));
+}
+
+.op-media img {
+  width: 100%;
+  height: auto;
+  display: block;
+}

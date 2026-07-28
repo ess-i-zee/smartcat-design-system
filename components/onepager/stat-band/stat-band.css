@@ -1,0 +1,42 @@
+/* ── One-pager / Stat band ────────────────────────────────────
+   A standalone proof moment — 2-4 big brand-purple numbers, no cards,
+   no borders. Always wrap in .op-band data-layer="brand" (see
+   docs/onepagers-design-brain.md) — the band's repointing of
+   --content-static-primary/secondary to inverted is what turns these
+   values and labels white; this component sets no color of its own
+   beyond that.
+   Properties (data attributes):
+     data-stats on .op-stat-band : 2 | 3 | 4
+   ──────────────────────────────────────────────────────────── */
+
+.op-stat-band {
+  display: flex;
+  gap: var(--spacing-9);
+}
+
+.op-stat-band__stat {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3);
+}
+
+.op-stat-band__value {
+  margin: 0;
+  font-family: var(--family-heading);
+  font-weight: var(--weight-bold);
+  color: var(--content-static-primary);
+  font-size: var(--size-display);
+  line-height: var(--line-height-display);
+  letter-spacing: var(--letter-spacing-display);
+}
+
+.op-stat-band__label {
+  margin: 0;
+  font-family: var(--family-body);
+  font-weight: var(--weight-regular);
+  color: var(--content-static-secondary);
+  font-size: var(--size-paragraph);
+  line-height: var(--line-height-paragraph);
+}

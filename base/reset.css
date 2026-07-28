@@ -1,0 +1,33 @@
+/* =============================================================
+   RESET — minimal structural reset
+   Clears browser user-agent defaults that would otherwise fight
+   the design system's own spacing/layout (components-spacing,
+   typography classes, grid). Loads first, before type-styles.css
+   and website-layout.css, so later rules can override it.
+   ============================================================= */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+h1, h2, h3, h4, h5, h6, p {
+  margin: 0;
+  padding: 0;
+}
+
+ul, ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+img, svg {
+  display: block;
+  max-width: 100%;
+}

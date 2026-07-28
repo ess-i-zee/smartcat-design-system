@@ -18,17 +18,17 @@
 
    Full-width row, content centered at 1120px. Type size shifts
    mobile→desktop via tokens (≥1280px); layout flips at ≥800px.
+   Root .heading is a plain full-width wrapper (no padding of its own —
+   see CLAUDE.md "Sections"). Nest the reference template's .container
+   around .heading__inner for its 1540px max-width.
    ──────────────────────────────────────────────────────────── */
 
 .heading {
   box-sizing: border-box;
   width: 100%;
-  padding-inline: var(--grid-page-padding);
 }
 
 .heading__inner {
-  max-width: var(--grid-max-width); /* 1540 */
-  margin-inline: auto;
   display: flex;
   flex-direction: column;
   align-items: flex-start;

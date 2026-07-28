@@ -1,0 +1,124 @@
+/* ── Document / Callout ───────────────────────────────────────
+   Figma: n/a (document tier is code-authored, no Figma source)
+   A tinted box for a bulleted list of tips/notes/shortcuts — each item
+   is a bullet followed by inline text; pair a .doc-callout__term with
+   a description, or with a .doc-kbd chip, on the same line.
+   Elements:
+     .doc-callout__head    — wrap heading with .doc-callout__icon; omit
+                              the wrapper and use .doc-callout__heading
+                              alone when there's no icon
+     .doc-callout__icon    — include for has-icon; a single 20×20 inline
+                              svg (stroke="currentColor"), never a photo
+                              or decorative graphic
+     .doc-callout__heading — include for has-heading
+   Callout properties (data attributes):
+     data-color  : gray (default) | blue | orange | pink — mirrors
+                   .doc-meta__pill's color system, for grouping callouts
+                   by category (tip vs. warning vs. shortcut, etc.)
+     data-marker : dot (default) | checkbox — checkbox renders each
+                   .doc-callout__item with an outlined square instead of
+                   a dot bullet, for a scannable checklist
+   ──────────────────────────────────────────────────────────── */
+
+.doc-callout {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+  padding: var(--spacing-5) var(--spacing-6);
+  border-radius: var(--radius-4);
+  background: var(--background-static-gray-layer-1);
+}
+
+.doc-callout[data-color="blue"]   { background: var(--background-static-blue-layer-1); }
+.doc-callout[data-color="orange"] { background: var(--background-static-orange-layer-1); }
+.doc-callout[data-color="pink"]   { background: var(--background-static-pink-layer-1); }
+
+.doc-callout__head {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+}
+
+.doc-callout__icon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  color: var(--content-static-primary);
+}
+
+.doc-callout__heading {
+  margin: 0;
+  font-family: var(--family-body);
+  font-weight: var(--weight-semi-bold);
+  font-size: var(--size-small-text);
+  line-height: var(--line-height-small-text);
+  color: var(--content-static-primary);
+}
+
+.doc-callout__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3);
+}
+
+.doc-callout__item {
+  display: flex;
+  gap: var(--spacing-3);
+}
+
+.doc-callout__item::before {
+  content: "";
+  flex: 0 0 4px;
+  width: 4px;
+  height: 4px;
+  margin-top: 8px;
+  border-radius: var(--radius-full);
+  background: var(--content-static-tertiary);
+}
+
+.doc-callout[data-marker="checkbox"] .doc-callout__item::before {
+  flex: 0 0 14px;
+  width: 14px;
+  height: 14px;
+  margin-top: var(--spacing-2);
+  border-radius: var(--radius-1);
+  background: none;
+  border: 1.5px solid var(--content-static-tertiary);
+}
+
+.doc-callout__item-text {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: var(--spacing-2);
+  font-family: var(--family-body);
+  font-weight: var(--weight-regular);
+  font-size: var(--size-small-text);
+  line-height: var(--line-height-small-text);
+  color: var(--content-static-secondary);
+}
+
+/* A separate structural term — e.g. an action name preceding its
+   description or shortcut — not inline emphasis of a word mid-sentence. */
+.doc-callout__term {
+  font-weight: var(--weight-semi-bold);
+  color: var(--content-static-primary);
+}
+
+/* A keyboard key/shortcut chip, e.g. <kbd class="doc-kbd">Ctrl+Enter</kbd> */
+.doc-kbd {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--spacing-1) var(--spacing-3);
+  border: 1px solid var(--border-divider-default);
+  border-radius: var(--radius-1);
+  background: var(--background-static-gray-layer-0);
+  font-family: var(--family-body);
+  font-weight: var(--weight-semi-bold);
+  font-size: var(--size-caption);
+  line-height: var(--line-height-caption);
+  color: var(--content-static-primary);
+}

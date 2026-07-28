@@ -1,0 +1,23 @@
+<!--
+  Document / Screenshot — reference template
+  The frame sizes to the image's own resolution (never stretched) up to
+  a 960px ceiling — see CLAUDE.md "Image containers".
+-->
+<div class="doc-screenshot">
+  <div class="doc-screenshot__container">
+    <div class="doc-screenshot__frame">
+      <img src="screenshot.png" alt="">
+    </div>
+  </div>
+  <p class="doc-screenshot__caption">Optional caption describing the screenshot.</p>
+</div>
+
+<!-- Sub-40px source crop: set width/height to exactly double the source
+     file's real pixel dimensions (e.g. a 24×18px source → 48×36 here). -->
+<div class="doc-screenshot">
+  <div class="doc-screenshot__container">
+    <div class="doc-screenshot__frame">
+      <img src="tiny-icon.png" width="48" height="36" alt="">
+    </div>
+  </div>
+</div>

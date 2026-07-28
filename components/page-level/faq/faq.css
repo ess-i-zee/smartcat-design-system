@@ -8,17 +8,17 @@
    Mobile: question stacked above answer. Desktop+tablet (≥800): two
    columns — question left (~40%), answer right. Divider above each item.
    No atomics reused, no JS.
+   Root .faq is a plain full-width wrapper (no padding of its own — see
+   CLAUDE.md "Sections"). Nest the reference template's .container around
+   .faq__inner for its 1540px max-width.
    ──────────────────────────────────────────────────────────── */
 
 .faq {
   box-sizing: border-box;
   width: 100%;
-  padding-inline: var(--grid-page-padding);
 }
 
 .faq__inner {
-  max-width: var(--grid-max-width); /* 1540 */
-  margin-inline: auto;
   display: flex;
   flex-direction: column;
   gap: var(--spacing-between-elements-8);

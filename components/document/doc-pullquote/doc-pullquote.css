@@ -1,0 +1,28 @@
+/* ── Document / Pull-quote ────────────────────────────────────
+   Figma: n/a (document tier is code-authored, no Figma source)
+   A lightweight emphasized statement pulled out of the running text —
+   a left border rule and large primary-colored text, no quote-mark
+   glyph (glyph ornaments are a dropped pattern for this tier — see
+   docs/document-design-brain.md). Use sparingly, for a genuine
+   pull-out statement, not as a generic "important paragraph" box —
+   that's what .doc-callout is for.
+   Elements:
+     .doc-pullquote__attribution — include for has-attribution
+   ──────────────────────────────────────────────────────────── */
+
+.doc-pullquote {
+  margin: 0;
+  border-left: 1px solid var(--border-divider-default);
+  padding-left: var(--spacing-6);
+}
+
+.doc-pullquote__text {
+  margin: 0;
+  color: var(--content-static-primary);
+}
+
+.doc-pullquote__attribution {
+  margin: 0;
+  margin-top: var(--spacing-3);
+  color: var(--content-static-secondary);
+}

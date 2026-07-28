@@ -11,9 +11,18 @@
    Reuses atomics: avatar, link, btn-icon. Carousel wired by testimonial.js.
    Mobile: stacked, dots centered. Desktop+tablet (≥800): row with the
    pagination column on the right.
+   Root .testimonial is a plain full-width wrapper (no padding of its own —
+   see CLAUDE.md "Sections"); .testimonial__inner is the visual card. Nest
+   the reference template's .container around .testimonial for its
+   1540px max-width.
    ──────────────────────────────────────────────────────────── */
 
 .testimonial {
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.testimonial__inner {
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -142,7 +151,7 @@
 /* ── Desktop + tablet ────────────────────────────────────────── */
 
 @media (min-width: 800px) {
-  .testimonial {
+  .testimonial__inner {
     flex-direction: row;
     align-items: flex-start;
   }

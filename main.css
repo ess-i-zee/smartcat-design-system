@@ -13,10 +13,12 @@
 @import url('tokens/effects.css');
 
 /* ── Base ────────────────────────────────────────────────────── */
-/* @import url('base/reset.css');         — add when created */
+@import url('base/reset.css');
 @import url('base/type-styles.css');
-@import url('base/layout.css');
+@import url('base/website-layout.css');
 @import url('base/deck-layout.css');
+@import url('base/onepagers-layout.css');
+@import url('base/document-layout.css');
 
 /* ── Components / Atomic ─────────────────────────────────────── */
 @import url('components/atomic/avatar/avatar.css');
@@ -50,3 +52,29 @@
 @import url('components/page-level/hero-block/hero-block.css');
 @import url('components/page-level/zigzag/zigzag.css');
 @import url('components/page-level/components-spacing/components-spacing.css');
+
+/* ── Components / Onepager ────────────────────────────────────── */
+@import url('components/onepager/hero/hero.css');
+@import url('components/onepager/logo-strip/logo-strip.css');
+@import url('components/onepager/comparison/comparison.css');
+@import url('components/onepager/benefit-cards/benefit-cards.css');
+@import url('components/onepager/steps/steps.css');
+@import url('components/onepager/quote/quote.css');
+@import url('components/onepager/impact-tiles/impact-tiles.css');
+@import url('components/onepager/stat-band/stat-band.css');
+@import url('components/onepager/rating-tiles/rating-tiles.css');
+@import url('components/onepager/platform-pillars/platform-pillars.css');
+@import url('components/onepager/cta-band/cta-band.css');
+@import url('components/onepager/footer/footer.css');
+
+/* ── Components / Document ───────────────────────────────────── */
+@import url('components/document/doc-hero/doc-hero.css');
+@import url('components/document/doc-meta/doc-meta.css');
+@import url('components/document/doc-steps/doc-steps.css');
+@import url('components/document/doc-callout/doc-callout.css');
+@import url('components/document/doc-screenshot/doc-screenshot.css');
+@import url('components/document/doc-divider/doc-divider.css');
+@import url('components/document/doc-pullquote/doc-pullquote.css');
+@import url('components/document/doc-footnotes/doc-footnotes.css');
+@import url('components/document/doc-chapter-opener/doc-chapter-opener.css');
+@import url('components/document/doc-timeline/doc-timeline.css');

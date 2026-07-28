@@ -1,0 +1,85 @@
+/* ── Document / Meta table ────────────────────────────────────
+   Figma: n/a (document tier is code-authored, no Figma source)
+   A property table for document metadata (status, audience, category,
+   tags…) — mirrors the property-table pattern common to knowledge-base
+   articles. Two-column rows: label (icon + text) | value.
+   Value properties (element presence):
+     .doc-meta__value           — plain text value
+     .doc-meta__pill            — tag-style value, use data-color
+   Pill properties (data attributes):
+     data-color : gray | blue | orange | pink
+   ──────────────────────────────────────────────────────────── */
+
+.doc-meta {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--border-divider-default);
+  border-radius: var(--radius-3);
+  overflow: hidden;
+}
+
+.doc-meta__row {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid var(--border-divider-default);
+}
+
+.doc-meta__row:last-child {
+  border-bottom: none;
+}
+
+.doc-meta__label {
+  flex: 0 0 220px;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+  padding: var(--spacing-4) var(--spacing-5);
+  font-family: var(--family-body);
+  font-weight: var(--weight-regular);
+  font-size: var(--size-small-text);
+  line-height: var(--line-height-small-text);
+  color: var(--content-static-secondary);
+}
+
+.doc-meta__label svg {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  color: var(--content-static-tertiary);
+}
+
+.doc-meta__values {
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--spacing-2);
+  padding: var(--spacing-4) var(--spacing-5);
+  border-left: 1px solid var(--border-divider-default);
+}
+
+.doc-meta__value {
+  margin: 0;
+  font-family: var(--family-body);
+  font-weight: var(--weight-regular);
+  font-size: var(--size-small-text);
+  line-height: var(--line-height-small-text);
+  color: var(--content-static-primary);
+}
+
+.doc-meta__pill {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--spacing-1) var(--spacing-3);
+  border-radius: var(--radius-2);
+  font-family: var(--family-body);
+  font-weight: var(--weight-regular);
+  font-size: var(--size-small-text);
+  line-height: var(--line-height-small-text);
+  background: var(--background-static-gray-layer-2);
+  color: var(--content-static-primary);
+}
+
+.doc-meta__pill[data-color="blue"]   { background: var(--background-static-blue-layer-1);   color: var(--content-static-blue); }
+.doc-meta__pill[data-color="orange"] { background: var(--background-static-orange-layer-1); color: var(--content-static-orange); }
+.doc-meta__pill[data-color="pink"]   { background: var(--background-static-pink-layer-1);    color: var(--content-static-pink); }

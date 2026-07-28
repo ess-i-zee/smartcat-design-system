@@ -1,0 +1,362 @@
+/* ── Hero 2026 · Video on the right ───────────────────────────────
+   Figma: 2026 redesign elements / Video on the right (node-id=101-3463)
+   Exploratory hero-block variant (hero-bloacks-2026 collection).
+
+   NOT a design-system component yet — this stylesheet is scoped to the
+   example page and lives beside it, so nothing in the shared system is
+   touched. It still references design tokens only (semantic first,
+   primitives only where no semantic token covers on-media player chrome).
+
+   Layout: full-bleed gray hero, self-sufficient Section (owns its own
+   page padding, never wrapped in .section-band). Three grid regions —
+   text content, video, logo ticker — re-arranged at each breakpoint
+   (see .hero-2026__grid below). Reuses the Button + Button Icon atomics.
+
+   NOTE — this file carries a ≥1280px media query, which the two-
+   breakpoint model in CLAUDE.md normally forbids for page-level
+   components (layout switches only at 800px; tokens shift at 1280px).
+   The Figma source specifies three genuinely different grid
+   arrangements, so the third layout can't be expressed by token
+   shifts alone. Flagged rather than silently bent.
+   ──────────────────────────────────────────────────────────────── */
+
+.hero-2026 {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  background: var(--background-static-gray-layer-2);
+  padding-inline: var(--grid-page-padding);
+  overflow: hidden;
+}
+
+/* ── Grid: three regions, re-arranged per breakpoint ─────────────
+   mobile  (<800)      1 column × 3 rows — text, video, ticker stacked
+                       top to bottom (DOM order = visual order).
+   tablet  (800–1279)  2 columns — text | video on row 1; ticker spans
+                       both columns on row 2.
+   desktop (≥1280)     2 columns — text (row 1) and ticker (row 2) in
+                       column 1; video spans both rows in column 2.
+   ──────────────────────────────────────────────────────────────── */
+.hero-2026__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  width: 100%;
+}
+
+/* ── Text content ────────────────────────────────────────────────── */
+.hero-2026__content {
+  display: flex;
+  flex-direction: column;
+  padding-block: var(--spacing-between-elements-10) var(--spacing-between-elements-9);
+}
+
+.hero-2026__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-between-elements-7);
+}
+
+/* ── Trust badges (GDPR / ISO / SOC 2) ───────────────────────────── */
+/* Two treatments, swapped at the 1280px boundary:
+     < 1280  compact — 16px design-system line icon, short label
+             ("GDPR-compliant"), badges sized to their content.
+     ≥ 1280  full    — 32px certification seal, label carries the
+             trailing "organization", badges share the row equally
+             and wrap to two lines inside a 136px cap.
+   Only ever one icon and one label form is rendered; the other is
+   display:none, so it leaves the accessibility tree too. */
+.hero-2026__badges {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: var(--spacing-between-elements-6);
+}
+.hero-2026__badge {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  gap: var(--spacing-between-elements-2);
+}
+
+/* Compact icon (default) — inherits color via stroke="currentColor" */
+.hero-2026__badge-icon {
+  display: flex;
+  flex-shrink: 0;
+  color: var(--content-static-secondary);
+}
+.hero-2026__badge-icon svg { display: block; }
+
+/* Full-size certification seal (desktop only) */
+.hero-2026__badge-seal {
+  display: none;
+  flex-shrink: 0;
+  height: 32px;
+  width: auto;
+}
+
+.hero-2026__badge-text {
+  margin: 0;
+  white-space: nowrap;
+  color: var(--content-static-secondary);
+  font-family: var(--family-body);
+  font-weight: var(--weight-regular);
+  font-size: var(--size-label-s);
+  line-height: var(--line-height-label-s);
+  letter-spacing: var(--letter-spacing-label-s);
+}
+/* The trailing " organization" — desktop only */
+.hero-2026__badge-suffix { display: none; }
+
+/* ── Heading + paragraph ─────────────────────────────────────────── */
+.hero-2026__title {
+  margin: 0;
+  font-family: var(--family-heading);
+  font-weight: var(--weight-bold);
+  color: var(--content-static-primary);
+  font-size: var(--size-h1);
+  line-height: var(--line-height-h1);
+  letter-spacing: var(--letter-spacing-h1);
+}
+.hero-2026__paragraph {
+  margin: 0;
+  max-width: 640px;
+  color: var(--content-static-secondary);
+  font-family: var(--family-body);
+  font-weight: var(--weight-regular);
+  font-size: var(--size-paragraph);
+  line-height: var(--line-height-paragraph);
+  letter-spacing: var(--letter-spacing-paragraph);
+}
+
+/* ── CTA buttons (each with a small caption beneath) ─────────────── */
+.hero-2026__buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-between-buttons-horzontal);
+}
+.hero-2026__button-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-3);
+}
+.hero-2026__button-group .btn {
+  min-width: 200px;
+  width: 100%;
+}
+.hero-2026__button-caption {
+  margin: 0;
+  color: var(--content-static-secondary);
+  font-family: var(--family-body);
+  font-weight: var(--weight-regular);
+  font-size: var(--size-label-s);
+  line-height: var(--line-height-label-s);
+  letter-spacing: var(--letter-spacing-label-s);
+  text-align: center;
+}
+
+/* ── Trust logos strip (logo ticker) ─────────────────────────────── */
+.hero-2026__trust {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-between-elements-6);
+  padding-block: var(--spacing-between-elements-7) var(--spacing-between-elements-9);
+  border-top: 0.5px solid var(--border-divider-default);
+}
+/* Mobile: the label sits above the ticker at full width; it only becomes
+   a fixed 177px side column once the row layout kicks in at ≥800px. */
+.hero-2026__trust-text {
+  margin: 0;
+  color: var(--content-static-secondary);
+  font-family: var(--family-body);
+  font-weight: var(--weight-regular);
+  font-size: var(--size-caption);
+  line-height: var(--line-height-caption);
+  letter-spacing: var(--letter-spacing-caption);
+}
+/* Ticker: overflow-clipped viewport with a left/right fade mask; the
+   track inside holds the logo set twice back-to-back and animates a
+   continuous -50% translate so the loop seam is invisible. */
+.hero-2026__logos {
+  position: relative;
+  min-width: 0;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(to right, transparent, black var(--spacing-12), black calc(100% - var(--spacing-12)), transparent);
+  mask-image: linear-gradient(to right, transparent, black var(--spacing-12), black calc(100% - var(--spacing-12)), transparent);
+}
+.hero-2026__logos-track {
+  display: flex;
+  align-items: center;
+  height: 32px;
+  gap: var(--spacing-8);
+  width: max-content;
+  animation: hero-2026-ticker 30s linear infinite;
+}
+/* Each logo keeps its own Figma-native height (they aren't uniform —
+   e.g. Zurich is taller than Trip.com) and is vertically centered in
+   the shared 32px row, matching the Figma "Client logo" containers. */
+.hero-2026__logos-track img {
+  max-height: 32px;
+  width: auto;
+  flex-shrink: 0;
+  display: block;
+}
+@keyframes hero-2026-ticker {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-2026__logos-track {
+    animation: none;
+  }
+}
+
+/* ── Video panel ─────────────────────────────────────────────────── */
+/* Mobile takes no top padding — the text block above it already
+   supplies the gap; the column inset + divider arrive at ≥800px. */
+.hero-2026__media {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-between-elements-5);
+  justify-content: center;
+  padding-bottom: var(--spacing-between-elements-9);
+}
+.hero-2026__video {
+  position: relative;
+  width: 100%;
+}
+.hero-2026__video img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1932 / 1087;
+  object-fit: cover;
+  border-radius: var(--radius-panel);
+}
+
+/* ── Video control bar (player chrome over the media) ────────────── */
+/* This is bespoke media-player chrome — there are no semantic tokens
+   authored for on-video controls, so the translucent white track/fill
+   fall back to the white-alpha and brand primitives from globals.css. */
+.hero-2026__video-controls {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-4);
+  padding: var(--spacing-3) var(--spacing-4);
+  border-radius: var(--radius-panel);
+  background: var(--background-static-gray-overlay);
+}
+.hero-2026__progress {
+  flex: 1 1 auto;
+  height: 4px;
+  border-radius: var(--radius-full);
+  background: var(--color-non-semantic-white-alpha-30);
+  overflow: hidden;
+}
+.hero-2026__progress-fill {
+  height: 100%;
+  width: 9%;
+  border-radius: var(--radius-full);
+  background: var(--color-semantic-brand-50);
+}
+.hero-2026__time {
+  flex-shrink: 0;
+  font-family: ui-monospace, "SF Mono", "JetBrains Mono", monospace;
+  font-size: var(--size-caption);
+  line-height: var(--line-height-caption);
+  color: var(--content-static-inverted);
+  white-space: nowrap;
+}
+/* Ghost icon buttons sit on the dark bar — tint them (and their hover
+   state) to the inverted content color; the btn-icon atomic itself is
+   untouched, this is a context-local color composition only. */
+.hero-2026__video-controls .btn-icon {
+  color: var(--content-static-inverted);
+}
+.hero-2026__video-controls .btn-icon:hover {
+  background: var(--color-non-semantic-white-alpha-20);
+}
+.hero-2026__video-controls .btn-icon:active {
+  background: var(--color-non-semantic-white-alpha-30);
+}
+
+/* ── Tablet + desktop (≥800px) ───────────────────────────────────── */
+/* Two columns. Text and video share row 1; the ticker moves onto its
+   own row 2 spanning the full width. */
+@media (min-width: 800px) {
+  .hero-2026 { padding-inline: var(--spacing-between-elements-8); }
+
+  .hero-2026__grid {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+
+  .hero-2026__content {
+    grid-column: 1;
+    grid-row: 1;
+    padding-right: var(--spacing-between-elements-9);
+    padding-bottom: var(--spacing-between-elements-11);
+  }
+
+  /* CTAs sit inline (auto width) once there's room */
+  .hero-2026__buttons { flex-wrap: nowrap; }
+  .hero-2026__button-group .btn { width: auto; }
+
+  /* Video column: hairline divider + left inset from the split */
+  .hero-2026__media {
+    grid-column: 2;
+    grid-row: 1;
+    padding-top: var(--spacing-between-elements-10);
+    padding-left: var(--spacing-between-elements-9);
+    border-left: 0.5px solid var(--border-divider-default);
+  }
+
+  /* Ticker spans both columns; label becomes a fixed side column. */
+  .hero-2026__trust {
+    grid-column: 1 / span 2;
+    grid-row: 2;
+    flex-direction: row;
+    align-items: center;
+    gap: var(--spacing-between-elements-7);
+    padding-right: var(--spacing-between-elements-9);
+  }
+  .hero-2026__trust-text {
+    flex-shrink: 0;
+    width: 177px;
+    max-width: 224px;
+  }
+  .hero-2026__logos {
+    flex: 1 1 auto;
+  }
+}
+
+/* ── Desktop (≥1280px) ───────────────────────────────────────────── */
+/* The ticker tucks under the text in column 1, and the video grows to
+   span both rows in column 2 — see the NOTE in the file header on why
+   this component needs a third breakpoint. */
+@media (min-width: 1280px) {
+  .hero-2026 { padding-inline: var(--grid-page-padding); }
+
+  .hero-2026__trust {
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  .hero-2026__media {
+    grid-row: 1 / span 2;
+  }
+
+  /* Badges switch to the full treatment: seal replaces the line icon,
+     "organization" reappears, and the three share the row equally. */
+  .hero-2026__badge {
+    flex: 1 0 0;
+    min-width: 0;
+    max-width: 136px;
+    gap: var(--spacing-between-elements-4);
+  }
+  .hero-2026__badge-icon   { display: none; }
+  .hero-2026__badge-seal   { display: block; }
+  .hero-2026__badge-suffix { display: inline; }
+  .hero-2026__badge-text   { white-space: normal; }
+}

@@ -1,0 +1,61 @@
+/* ── One-pager / Benefit cards ────────────────────────────────
+   Parallel, independent value props — use instead of Comparison when
+   the content is NOT a before/after narrative (see docs/
+   onepagers-design-brain.md, "Comparison vs. Benefit cards"). Sits
+   inside .op-band, directly beneath a plain section heading.
+   Properties (data attributes):
+     data-cards on .op-benefit-cards : 2 | 3 | 4
+   Elements:
+     .op-benefit-cards__icon — 24px design-system icon in a brand-tint
+                               circular tile
+   ──────────────────────────────────────────────────────────── */
+
+.op-benefit-cards {
+  display: flex;
+  gap: var(--spacing-6);
+}
+
+.op-benefit-cards__card {
+  flex: 1 1 0;
+  min-width: 0;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-5);
+  padding: var(--spacing-7);
+  border-radius: var(--radius-5);
+  background: var(--background-static-gray-layer-1);
+}
+
+.op-benefit-cards__icon {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-full);
+  background: var(--background-static-brand-layer-2);
+  color: var(--content-static-brand);
+}
+
+.op-benefit-cards__icon svg { width: 24px; height: 24px; }
+
+.op-benefit-cards__heading {
+  margin: 0;
+  font-family: var(--family-heading);
+  font-weight: var(--weight-bold);
+  color: var(--content-static-primary);
+  font-size: var(--size-h4);
+  line-height: var(--line-height-h4);
+  letter-spacing: var(--letter-spacing-h4);
+}
+
+.op-benefit-cards__paragraph {
+  margin: 0;
+  font-family: var(--family-body);
+  font-weight: var(--weight-regular);
+  color: var(--content-static-secondary);
+  font-size: var(--size-small-text);
+  line-height: var(--line-height-small-text);
+}

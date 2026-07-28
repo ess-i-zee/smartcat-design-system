@@ -1,0 +1,119 @@
+/* ── One-pager / Quote ────────────────────────────────────────
+   Single customer testimonial. Sits inside .op-band — the surrounding
+   band's data-layer/data-theme decides its background (light-purple
+   tint is the common choice; a dark band works too, see
+   docs/onepagers-design-brain.md for the decorative-dark variant).
+   Properties (data attributes):
+     data-layout on .op-quote : standalone (default, centered) | with-stats
+   Elements:
+     .op-quote__stats — content toggle: only present in the with-stats
+                         layout, a stack of big proof numbers beside
+                         the quote (reuses the same value/label pattern
+                         as op-stat-band, at a smaller scale)
+   ──────────────────────────────────────────────────────────── */
+
+.op-quote {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-6);
+  max-width: 720px;
+  margin-inline: auto;
+  text-align: center;
+}
+
+.op-quote__mark {
+  width: 32px;
+  height: 32px;
+  color: var(--content-static-brand);
+}
+
+.op-quote__text {
+  margin: 0;
+  font-family: var(--family-heading);
+  font-weight: var(--weight-bold);
+  color: var(--content-static-primary);
+  font-size: var(--size-h2);
+  line-height: var(--line-height-h2);
+  letter-spacing: var(--letter-spacing-h2);
+}
+
+.op-quote__author {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-4);
+}
+
+.op-quote__author-info {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-1);
+  text-align: left;
+}
+
+.op-quote__name {
+  font-family: var(--family-heading);
+  font-weight: var(--weight-bold);
+  color: var(--content-static-primary);
+  font-size: var(--size-h5);
+  line-height: var(--line-height-h5);
+}
+
+.op-quote__role {
+  font-family: var(--family-body);
+  font-weight: var(--weight-regular);
+  color: var(--content-static-secondary);
+  font-size: var(--size-caption);
+  line-height: var(--line-height-caption);
+}
+
+/* ── with-stats layout ───────────────────────────────────────── */
+
+.op-quote[data-layout="with-stats"] {
+  flex-direction: row;
+  align-items: flex-start;
+  max-width: none;
+  margin-inline: 0;
+  text-align: left;
+  gap: var(--spacing-11);
+}
+
+.op-quote[data-layout="with-stats"] .op-quote__body {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--spacing-6);
+}
+
+.op-quote__stats {
+  flex: 0 0 auto;
+  display: flex;
+  gap: var(--spacing-9);
+}
+
+.op-quote__stat {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+}
+
+.op-quote__stat-value {
+  margin: 0;
+  font-family: var(--family-heading);
+  font-weight: var(--weight-bold);
+  color: var(--content-static-brand);
+  font-size: var(--size-display);
+  line-height: var(--line-height-display);
+  letter-spacing: var(--letter-spacing-display);
+}
+
+.op-quote__stat-label {
+  margin: 0;
+  font-family: var(--family-body);
+  font-weight: var(--weight-regular);
+  color: var(--content-static-secondary);
+  font-size: var(--size-caption);
+  line-height: var(--line-height-caption);
+}

@@ -14,7 +14,7 @@
      direct children      — either ONE reused/dedicated component filling
                             the full content width (the reference deck's
                             own single-purpose slide types), OR a `.grid`
-                            row (same class as web, from base/layout.css)
+                            row (same class as web, from base/website-layout.css)
                             for freeform multi-component composition —
                             e.g. a stacked-cards column next to a
                             testimonial, via data-grid-span, exactly like

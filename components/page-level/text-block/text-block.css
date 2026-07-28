@@ -5,21 +5,23 @@
    Full-width row; the text column is centered and capped at a
    readable measure (740px). Type size shifts mobile→desktop
    automatically via tokens (≥1280px) — no per-size media query needed.
+   Root .text-block is a plain full-width wrapper (no padding of its own
+   — see CLAUDE.md "Sections"). Nest the reference template's .container
+   around .text-block__text for the shared 1540px max-width — the 740px
+   reading measure below is a separate, narrower cap nested inside that,
+   now centered via its own margin-inline instead of the parent's flex
+   (it's no longer a direct flex child once .container sits between them).
    ──────────────────────────────────────────────────────────── */
 
 .text-block {
   box-sizing: border-box;
   width: 100%;
-  padding-inline: var(--grid-page-padding);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 }
 
 .text-block__text {
   width: 100%;
   max-width: var(--dimension-desktop-max-text-width); /* 740 — readable measure */
-  margin: 0;
+  margin: 0 auto;
   color: var(--content-static-secondary);
   font-family: var(--family-body);
   font-weight: var(--weight-regular);

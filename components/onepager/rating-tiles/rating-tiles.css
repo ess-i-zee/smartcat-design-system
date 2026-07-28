@@ -1,0 +1,104 @@
+/* ── One-pager / Rating tiles ─────────────────────────────────
+   G2-style rating/scale proof — small tiles combining a CSS-only
+   conic-gradient gauge ring with a big number, or a wide combo tile
+   (icon + stat + short paragraph). Industry/vertical one-pagers only
+   (see docs/onepagers-design-brain.md). Typically sits on a dark
+   .op-band (data-theme="dark").
+   Properties (data attributes):
+     data-variant on .op-rating-tiles__tile : gauge (default) | wide
+   Custom property (set inline per gauge tile):
+     --op-rating-value : 0-100 — the filled percentage of the ring
+   ──────────────────────────────────────────────────────────── */
+
+.op-rating-tiles {
+  display: flex;
+  gap: var(--spacing-6);
+}
+
+.op-rating-tiles__tile {
+  flex: 1 1 0;
+  min-width: 0;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-5);
+  padding: var(--spacing-6);
+  border-radius: var(--radius-5);
+  background: var(--background-static-gray-layer-1);
+}
+
+.op-rating-tiles__tile[data-variant="wide"] {
+  flex: 1.4 1 0;
+}
+
+/* ── Gauge ────────────────────────────────────────────────────── */
+
+.op-rating-tiles__ring {
+  --op-rating-value: 0;
+  flex-shrink: 0;
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-full);
+  background: conic-gradient(var(--content-static-brand) calc(var(--op-rating-value) * 1%), var(--background-static-gray-layer-3) 0);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.op-rating-tiles__ring-inner {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-full);
+  background: var(--background-static-gray-layer-0);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.op-rating-tiles__ring-value {
+  font-family: var(--family-heading);
+  font-weight: var(--weight-bold);
+  color: var(--content-static-primary);
+  font-size: var(--size-h5);
+  line-height: var(--line-height-h5);
+}
+
+.op-rating-tiles__label {
+  margin: 0;
+  font-family: var(--family-body);
+  font-weight: var(--weight-regular);
+  color: var(--content-static-secondary);
+  font-size: var(--size-caption);
+  line-height: var(--line-height-caption);
+}
+
+/* ── Wide combo tile ──────────────────────────────────────────── */
+
+.op-rating-tiles__wide-icon {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-3);
+  background: var(--background-static-gray-layer-0);
+  color: var(--content-static-primary);
+}
+
+.op-rating-tiles__wide-icon svg { width: 20px; height: 20px; }
+
+.op-rating-tiles__wide-text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+}
+
+.op-rating-tiles__value {
+  margin: 0;
+  font-family: var(--family-heading);
+  font-weight: var(--weight-bold);
+  color: var(--content-static-primary);
+  font-size: var(--size-h2);
+  line-height: var(--line-height-h2);
+}

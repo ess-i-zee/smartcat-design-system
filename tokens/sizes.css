@@ -8,7 +8,7 @@
      @media ≥ 1280px    → desktop overrides
    Note: tablet (800–1279px) shares the mobile/base token values;
    only true desktop (≥ 1280px) gets the override. The 800px boundary
-   is a section-component breakpoint (see base/layout.css), not a token one.
+   is a section-component breakpoint (see base/website-layout.css), not a token one.
    ============================================================= */
 
 /* ── Tablet + mobile (base) ──────────────────────────────────── */

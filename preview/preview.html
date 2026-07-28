@@ -27,7 +27,7 @@
     body {
       font-family: var(--family-body);
       color: var(--content-static-primary);
-      background: var(--background-static-gray-layer-2);
+      background: var(--background-static-gray-layer-3);
       -webkit-font-smoothing: antialiased;
     }
 
@@ -73,6 +73,32 @@
     .dsp-nav a:hover { background: var(--background-interaction-hover); color: var(--content-static-primary); }
     .dsp-nav a.is-active { background: var(--background-interaction-selectedsubtle); color: var(--content-static-primary); font-weight: 600; }
 
+    /* ── Collapsible sidebar ─────────────────────────────── */
+    .dsp-nav__collapse {
+      appearance: none; border: 0; cursor: pointer; flex-shrink: 0;
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 28px; height: 28px; margin-left: auto;
+      border-radius: var(--radius-2);
+      background: transparent; color: var(--content-static-tertiary);
+    }
+    .dsp-nav__collapse:hover { background: var(--background-interaction-hover); color: var(--content-static-primary); }
+
+    .dsp-nav-fab {
+      display: none;
+      position: fixed; top: var(--spacing-5); left: var(--spacing-5); z-index: 40;
+      width: 40px; height: 40px; border-radius: var(--radius-full);
+      align-items: center; justify-content: center;
+      border: 1px solid var(--border-divider-default);
+      background: var(--background-static-gray-layer-0);
+      color: var(--content-static-secondary);
+      box-shadow: var(--shadow-elevation-s);
+      cursor: pointer;
+    }
+    .dsp-nav-fab:hover { color: var(--content-static-primary); }
+
+    html.dsp-nav-collapsed .dsp-nav { display: none; }
+    html.dsp-nav-collapsed .dsp-nav-fab { display: flex; }
+
     .dsp-main { flex: 1; min-width: 0; }
 
     .dsp-seg {
@@ -93,7 +119,7 @@
     }
 
     /* ── Content sections ───────────────────────────────── */
-    .dsp-content { padding: var(--spacing-8) var(--spacing-8) 160px; max-width: 1180px; }
+    .dsp-content { padding: var(--spacing-8) var(--spacing-8) 160px; }
 
     .dsp-section { margin-bottom: var(--spacing-12); scroll-margin-top: 80px; }
     .dsp-section__head { margin-bottom: var(--spacing-6); }
@@ -326,20 +352,42 @@
     }
     .dsp-code pre {
       margin: 0; padding: var(--spacing-5);
-      overflow-x: auto;
+      overflow: auto;
+      scrollbar-width: none;    /* Firefox */
+      -ms-overflow-style: none; /* legacy Edge */
       font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
       font-size: 12.5px; line-height: 1.6;
       color: #e7e3f5;
     }
-    .dsp-copy {
+    .dsp-code pre::-webkit-scrollbar { display: none; } /* Chromium/Safari */
+    .dsp-code__actions {
       position: absolute; top: 10px; right: 10px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .dsp-copy, .dsp-code__expand {
       appearance: none; cursor: pointer;
       font-family: var(--family-body); font-size: 11px; font-weight: 600;
       padding: 5px 10px; border-radius: var(--radius-2);
       border: 1px solid rgba(255,255,255,0.18);
       background: rgba(255,255,255,0.08); color: #fff;
     }
-    .dsp-copy:hover { background: rgba(255,255,255,0.16); }
+    .dsp-copy:hover, .dsp-code__expand:hover { background: rgba(255,255,255,0.16); }
+    .dsp-code__expand { display: none; }
+
+    /* ── Code snippet: 10-line collapse ─────────────────── */
+    .dsp-code.is-collapsible pre {
+      /* 10 lines * 20px line-height + pre's own 16px top/bottom padding */
+      max-height: 232px;
+    }
+    .dsp-code.is-collapsible.is-expanded pre { max-height: none; }
+    .dsp-code__fade {
+      display: none;
+      position: absolute; left: 0; right: 0; bottom: 0; height: 56px;
+      background: linear-gradient(to bottom, transparent, var(--color-non-semantic-gray-100));
+      pointer-events: none;
+    }
+    .dsp-code.is-collapsible:not(.is-expanded) .dsp-code__fade { display: block; }
+    .dsp-code.is-collapsible .dsp-code__expand { display: inline-flex; }
 
     /* ── Variant matrix ─────────────────────────────────── */
     .dsp-matrix { width: 100%; border-collapse: collapse; }
@@ -471,6 +519,7 @@
 
     @media (max-width: 880px) {
       .dsp-nav { display: none; }
+      .dsp-nav-fab { display: none !important; }
       .dsp-play { grid-template-columns: 1fr; }
       .dsp-controls { border-left: 0; border-top: 1px solid var(--border-divider-default); }
       .dsp-type-row { grid-template-columns: 1fr; }
@@ -493,6 +542,12 @@
   </style>
 </head>
 <body>
+  <script>
+    if (localStorage.getItem('dsp-nav-collapsed') === '1') document.documentElement.classList.add('dsp-nav-collapsed');
+  </script>
+  <button class="dsp-nav-fab" id="dsp-nav-fab" type="button" title="Show sidebar" aria-label="Show sidebar">
+    <svg width="18" height="18" viewBox="0 0 16 16" fill="none"><path d="M6 3L11 8L6 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </button>
   <div class="dsp-shell">
 
     <!-- ░░ SIDEBAR ░░ -->
@@ -501,6 +556,9 @@
         <div>
           <div class="dsp-brand__name">Smartcat website design system</div>
         </div>
+        <button class="dsp-nav__collapse" id="dsp-nav-collapse-btn" type="button" title="Collapse sidebar" aria-label="Collapse sidebar">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8L10 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
       </div>
 
       <div class="dsp-nav__group">
@@ -628,7 +686,7 @@
           <div class="dsp-section__head dsp-section__head--row">
             <div class="dsp-shd-text">
               <h2>Layout grid</h2>
-              <p>Two breakpoints: columns flip at 800px (mobile 4 → tablet/desktop 12); page and column padding and the 1540px max width flip at 1280px. Tablet keeps the mobile token values. Defined in <code>base/layout.css</code>.</p>
+              <p>Two breakpoints: columns flip at 800px (mobile 4 → tablet/desktop 12); page and column padding and the 1540px max width flip at 1280px. Tablet keeps the mobile token values. Defined in <code>base/website-layout.css</code>.</p>
             </div>
             <div class="dsp-seg" id="grid-bp-seg">
               <button class="is-active" data-bp="desktop">Desktop</button>
@@ -667,9 +725,9 @@
       return getComputedStyle(_resolveEl).width || '—';
     }
 
-    /* paths as they appear from a page in pages/ (matches the
-       reference templates that use ../components/…) */
-    const ICON_PATH = (size, name) => `../components/atomic/icon/svg/${size}x${size}/${name}.svg`;
+    /* paths as they appear from a page in examples/pages/ (matches the
+       reference templates that use ../../components/…) */
+    const ICON_PATH = (size, name) => `../../components/atomic/icon/svg/${size}x${size}/${name}.svg`;
     /* paths that actually resolve from THIS file at the project root */
     const ICON_PATH_LOCAL = (size, name) => `../components/atomic/icon/svg/${size}x${size}/${name}.svg`;
 
@@ -1304,12 +1362,28 @@
     }
 
     /* ---------- COPY BUTTONS ---------- */
+    function legacyCopy(text) {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.cssText = 'position:fixed;top:-1000px;opacity:0';
+      document.body.appendChild(ta);
+      ta.select();
+      try { document.execCommand('copy'); } catch (e) { /* ignore */ }
+      document.body.removeChild(ta);
+    }
+    function copyText(text) {
+      if (navigator.clipboard?.writeText) {
+        return navigator.clipboard.writeText(text).catch(() => legacyCopy(text));
+      }
+      legacyCopy(text);
+      return Promise.resolve();
+    }
     $$('.dsp-copy').forEach(btn => {
       btn.addEventListener('click', () => {
         const text = $(btn.dataset.copy).textContent;
-        navigator.clipboard?.writeText(text).then(() => {
-          const old = btn.textContent; btn.textContent = 'Copied ✓';
-          setTimeout(() => btn.textContent = old, 1200);
+        copyText(text).then(() => {
+          const old = btn.textContent; btn.textContent = 'Copied';
+          setTimeout(() => btn.textContent = old, 3000);
         });
       });
     });
@@ -1977,6 +2051,49 @@
       if (next) next.addEventListener('click', () => show(index + 1));
       dots.forEach((d, i) => d.addEventListener('click', () => show(i)));
       show(index);
+    });
+
+    /* ---------- CODE BLOCK TRUNCATION ---------- */
+    const CODE_LINE_LIMIT = 10;
+    $$('.dsp-code').forEach(wrap => {
+      const codeEl = wrap.querySelector('code');
+      const preEl  = wrap.querySelector('pre');
+      const copyBtn = wrap.querySelector('.dsp-copy');
+      if (!codeEl || !preEl) return;
+      const expandBtn = document.createElement('button');
+      expandBtn.type = 'button';
+      expandBtn.className = 'dsp-code__expand';
+      expandBtn.textContent = 'Expand code';
+      expandBtn.addEventListener('click', () => {
+        const expanded = wrap.classList.toggle('is-expanded');
+        expandBtn.textContent = expanded ? 'Collapse code' : 'Expand code';
+      });
+      const actions = document.createElement('div');
+      actions.className = 'dsp-code__actions';
+      actions.appendChild(expandBtn);
+      if (copyBtn) actions.appendChild(copyBtn);
+      wrap.insertBefore(actions, wrap.firstChild);
+      const fade = document.createElement('div');
+      fade.className = 'dsp-code__fade';
+      wrap.appendChild(fade);
+      const update = () => {
+        const lines = (codeEl.textContent.match(/\n/g) || []).length + 1;
+        const collapsible = lines > CODE_LINE_LIMIT;
+        wrap.classList.toggle('is-collapsible', collapsible);
+        if (!collapsible) wrap.classList.remove('is-expanded');
+      };
+      new MutationObserver(update).observe(codeEl, { childList: true, characterData: true, subtree: true });
+      update();
+    });
+
+    /* ---------- SIDEBAR COLLAPSE ---------- */
+    $('#dsp-nav-collapse-btn')?.addEventListener('click', () => {
+      document.documentElement.classList.add('dsp-nav-collapsed');
+      localStorage.setItem('dsp-nav-collapsed', '1');
+    });
+    $('#dsp-nav-fab')?.addEventListener('click', () => {
+      document.documentElement.classList.remove('dsp-nav-collapsed');
+      localStorage.setItem('dsp-nav-collapsed', '0');
     });
 
   })();

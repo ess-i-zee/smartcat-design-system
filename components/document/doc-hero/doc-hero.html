@@ -1,0 +1,60 @@
+<!--
+  Document / Hero (cover page) — reference template
+  Self-sufficient — place directly as the .doc-page's only child, on a
+  .doc-page[data-theme="dark"]. Default opening page for every document.
+-->
+<div class="doc-page" data-theme="dark">
+  <div class="doc-hero">
+    <div class="doc-hero__topbar">
+      <img class="doc-hero__logo" src="../../../images/smartcat-logo-white.svg" alt="Smartcat">
+      <p class="text-caption-reg doc-hero__tag">Internal guide</p> <!-- omit if not needed -->
+    </div>
+
+    <div class="doc-hero__body">
+      <h1 class="text-display doc-hero__title">Document Name<br><span class="doc-hero__title-accent">Key Word</span></h1>
+      <p class="text-h4-reg doc-hero__meta">For <span class="doc-hero__meta-accent">Audience</span></p> <!-- omit if not needed -->
+      <p class="text-paragraph-reg doc-hero__subtitle">Optional one- to three-line description of what this document covers.</p> <!-- omit if not needed -->
+    </div>
+
+    <div class="doc-hero__toc"> <!-- omit if the document has no clean set of top-level sections to list -->
+      <div class="doc-hero__toc-column">
+        <div class="doc-hero__toc-item">
+          <div class="doc-hero__toc-item-main">
+            <span class="text-small-bold doc-hero__toc-number">01</span>
+            <span class="text-small-reg doc-hero__toc-label">First section</span>
+            <span class="text-small-reg doc-hero__toc-page">2</span> <!-- omit if not needed -->
+          </div>
+          <!-- omit subitems if the section has no sub-parts to list -->
+          <div class="doc-hero__toc-subitem">
+            <span class="text-caption-reg doc-hero__toc-subitem-label">Getting access</span>
+            <span class="doc-hero__toc-subitem-leader"></span>
+            <span class="text-caption-reg doc-hero__toc-subitem-page">3</span>
+          </div>
+        </div>
+        <div class="doc-hero__toc-item">
+          <div class="doc-hero__toc-item-main">
+            <span class="text-small-bold doc-hero__toc-number">02</span>
+            <span class="text-small-reg doc-hero__toc-label">Second section</span>
+            <span class="text-small-reg doc-hero__toc-page">5</span>
+          </div>
+        </div>
+      </div>
+      <div class="doc-hero__toc-column">
+        <div class="doc-hero__toc-item">
+          <div class="doc-hero__toc-item-main">
+            <span class="text-small-bold doc-hero__toc-number">03</span>
+            <span class="text-small-reg doc-hero__toc-label">Third section</span>
+            <span class="text-small-reg doc-hero__toc-page">8</span>
+          </div>
+        </div>
+        <div class="doc-hero__toc-item">
+          <div class="doc-hero__toc-item-main">
+            <span class="text-small-bold doc-hero__toc-number">04</span>
+            <span class="text-small-reg doc-hero__toc-label">Fourth section</span>
+            <span class="text-small-reg doc-hero__toc-page">10</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

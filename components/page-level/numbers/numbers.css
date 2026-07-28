@@ -11,17 +11,17 @@
    Each stat is a gray rounded card: big display value, bold label,
    optional description. Mobile: stacked. Desktop+tablet: equal-width row.
    Reuses the Button atomic (.btn).
+   Root .numbers is a plain full-width wrapper (no padding of its own —
+   see CLAUDE.md "Sections"); nest the reference template's .container
+   around .numbers__inner for its 1540px max-width.
    ──────────────────────────────────────────────────────────── */
 
 .numbers {
   box-sizing: border-box;
   width: 100%;
-  padding-inline: var(--grid-page-padding);
 }
 
 .numbers__inner {
-  max-width: var(--grid-max-width); /* 1540 */
-  margin-inline: auto;
   display: flex;
   flex-direction: column;
   gap: var(--spacing-between-elements-6);

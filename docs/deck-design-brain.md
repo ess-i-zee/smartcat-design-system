@@ -24,6 +24,7 @@ These are what make a slide read as Smartcat. Hold them constant no matter what 
   - **Semantic green/red** (`--...-positive` / `--...-negative`) **only for genuinely positive/negative meaning** — highlights vs lowlights, Gantt done vs pending, thumbs up/down. Never decoratively.
 - **Surfaces (panels/cards).** Rounded corners, generous internal padding. On **light** backgrounds → solid gray layer-1 panels. On **dark** backgrounds → translucent frosted alpha panels (`--background-static-alpha-*`), not solid blocks. One featured panel per comparison may use the brand gradient fill.
 - **Gutter vs. slide padding.** The 8px gutter (`--grid-gutter`) is for the gap between two adjacent elements that **each carry their own visible surface** — stacked cards, side-by-side panels — where the tight gap reads as edges within one grid. It assumes a surface on both sides of the gap. When one side of a gap is **bare** (no background of its own — a hero stat, a bare heading, plain text) next to a paneled neighbour, there is no second edge for the gutter to relate to; use the slide's own padding value instead (**48px**, `--spacing-9`), so the bare content reads as sitting in the slide's whitespace rather than glued to the panel. Apply this per adjacency, not globally — override that one row's gap locally; do not redefine `--grid-gutter` itself, since other rows/stacks in the same slide may still be panel-to-panel and need the true 8px gutter.
+- **No interactive UI — ever.** A deck is presented and viewed, not operated. The button paradigm (`.btn`, hover/active states, a click affordance) belongs to web UI and has no place on a slide. For a call to action, next step, or contact info, set it as **plain or link-styled text** (`--content-link-default` for a hyperlink-like emphasis, or just regular text) — never a pill, fill, border, or anything shaped like a clickable button. This applies everywhere a web instinct might reach for `.btn`, most commonly the closing slide.
 
 ---
 
@@ -90,7 +91,7 @@ Each role: *when to reach for it*, and *how to compose it* from tokens + atomic/
 - **Table.** Bold column headers, thin row dividers, muted values. Highlight the key column with a gray fill (e.g. the label column of a pricing table); add a bold summary/total row below when relevant. Compose from token-styled table markup.
 
 ### Closing
-- **Closing / thank-you.** Title top-left ("Questions? Thank you."), on a brand-gradient, dark, or gray background — mirror the cover's treatment. Optional contact block. Build from `heading`.
+- **Closing / thank-you.** Title top-left ("Questions? Thank you."), on a brand-gradient, dark, or gray background — mirror the cover's treatment. Optional contact info or next-step links, set as plain/link-styled text — **not `.btn`** (see "No interactive UI" in Design DNA). Build from `heading`.
 
 ---
 
@@ -111,7 +112,7 @@ Run these in order for each slide:
 2. **How much content, how many items?** This picks the layout skeleton: 1 item → full-width or centered; 2–4 → a `.grid` row of panels/columns; many shallow items → cards or a list; paired items → side-by-side panels. Respect the "whitespace is deliberate" invariant — if it's getting cramped, split into two slides.
 3. **Where does this slide sit in the deck's rhythm?** Pick theme + background per section B — alternate light/dark in bands, reserve gradients for dividers and the open/close.
 4. **Compose it** from tokens + atomic components (section A + the recipe). Reshape components as needed; keep every color/size/space/radius a token.
-5. **Sanity-check against the DNA (A):** right title placement (cover = bottom-left, else top-left); period-style headline where it fits; semantic colors only for real positive/negative; brand gradient only on a hero moment; panels styled per light/dark; generous whitespace; **for every gap between adjacent elements, check whether both sides have a surface — gutter (8px) if both do, slide padding (48px) if either is bare.**
+5. **Sanity-check against the DNA (A):** right title placement (cover = bottom-left, else top-left); period-style headline where it fits; semantic colors only for real positive/negative; brand gradient only on a hero moment; panels styled per light/dark; generous whitespace; **for every gap between adjacent elements, check whether both sides have a surface — gutter (8px) if both do, slide padding (48px) if either is bare**; **no `.btn` anywhere — any call to action or link is plain/link-styled text.**
 
 When two roles both fit, choose the one that needs the least visual machinery — a clean heading + paragraph beats a forced diagram.
 
@@ -136,3 +137,4 @@ Do **not** move deck reasoning into `CLAUDE.md` — that file holds only the har
 - Initial version — derived from visual inspection of the "Smartcat deck template 2026 – All Designs" reference deck (106 slides): design DNA, background/theme axes, slide-role catalog, decision procedure.
 - Test-driven refinements — built and rendered a sample composition slide ("What slow localization costs you"): named `--content-static-brand` as the stat-figure token; added the "recurring reshape → component variant" principle. Same test fixed a deck-grid bug: `.deck-slide` now zeroes column padding so grid content sits flush to the 48px slide padding (see `base/deck-layout.css`).
 - Correctness fix — a token audit (ahead of a full generated deck) found the "brand + `data-theme=dark`" guidance from the prior refinement was wrong: `*-inverted` background tokens are self-contained pairs with `--content-static-inverted`, already correct in either ambient theme; combining with a theme flip breaks contrast. `base/deck-layout.css` and the background table above corrected — no code elsewhere had shipped this yet.
+- Rule added — a full 10-slide test deck used real `.btn` components for the closing slide's CTAs. Corrected: decks are presented/viewed, not operated, so the button paradigm doesn't belong on a slide at all. Added "No interactive UI — ever" to Design DNA, updated the Closing recipe and the decision procedure's sanity-check to require plain/link-styled text instead of `.btn` for any call to action or link.

@@ -1,0 +1,42 @@
+/* ── One-pager / Logo strip ───────────────────────────────────
+   Customer trust signal — logos only, no attribution, no quote.
+   Sits inside .op-band (typically data-layer="0" data-padding="compact",
+   directly beneath the hero). See CLAUDE.md "One-pagers".
+   Elements:
+     .op-logo-strip__intro — one supporting sentence (regular paragraph,
+                              NOT an eyebrow — plain body copy)
+     .op-logo-strip__grid  — 5-6 logos per row, 1-2 rows
+   Logos are monochrome (grayscale), per CLAUDE.md's "Monochrome customer
+   logo" visual-type rule — apply via the grayscale filter below so a
+   full-color source logo still renders correctly.
+   ──────────────────────────────────────────────────────────── */
+
+.op-logo-strip {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-7);
+}
+
+.op-logo-strip__intro {
+  margin: 0;
+  max-width: var(--dimension-desktop-max-text-width);
+  font-family: var(--family-body);
+  font-weight: var(--weight-regular);
+  color: var(--content-static-primary);
+  font-size: var(--size-paragraph);
+  line-height: var(--line-height-paragraph);
+}
+
+.op-logo-strip__grid {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--spacing-8) var(--spacing-9);
+}
+
+.op-logo-strip__logo {
+  height: 24px;
+  width: auto;
+  filter: grayscale(100%);
+  opacity: 0.6;
+}

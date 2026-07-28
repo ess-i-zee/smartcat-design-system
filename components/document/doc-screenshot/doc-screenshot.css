@@ -1,0 +1,63 @@
+/* ── Document / Screenshot ────────────────────────────────────
+   Figma: n/a (document tier is code-authored, no Figma source)
+   Frames a product-UI screenshot inside a tinted, padded container —
+   the container caps at 1080px and centers itself on the page (never
+   stretching to the full content width), and separately horizontally
+   centers the frame inside it. The bordered frame never crops or
+   re-annotates the source image — callout arrows/highlights already
+   baked into a screenshot stay as-is.
+
+   Sizing (see CLAUDE.md "Image containers"): the frame is never
+   distorted or stretched past the source image's own resolution.
+   width:auto sizes the frame to the image's natural pixels (centered by
+   the container), up to a 960px ceiling that only ever caps DOWN, never
+   stretches UP. If a source image is under 40px on both sides, the
+   author must render it at 2x by setting the <img>'s width/height HTML
+   attributes to exactly double the source file's real pixel dimensions
+   (this doubles both dimensions equally, so proportions stay intact) —
+   there is no automatic way to detect "the original was tiny" in CSS.
+   Elements:
+     .doc-screenshot__caption — include for has-caption
+   ──────────────────────────────────────────────────────────── */
+
+.doc-screenshot {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+}
+
+.doc-screenshot__container {
+  width: 100%;
+  max-width: 1080px;
+  margin-inline: auto;
+  display: flex;
+  justify-content: center;
+  padding-block: var(--spacing-8); /* 40px */
+  background: var(--background-static-gray-layer-2);
+  border-radius: var(--radius-5); /* 16px */
+}
+
+.doc-screenshot__frame {
+  width: auto;
+  max-width: 960px;
+  border: 1px solid var(--border-divider-default);
+  border-radius: var(--radius-3);
+  box-shadow: var(--shadow-elevation-s);
+  overflow: hidden;
+}
+
+.doc-screenshot__frame img {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: 100%; /* only ever caps the frame's own 960px ceiling down, never stretches up to it */
+}
+
+.doc-screenshot__caption {
+  margin: 0;
+  font-family: var(--family-body);
+  font-weight: var(--weight-regular);
+  font-size: var(--size-caption);
+  line-height: var(--line-height-caption);
+  color: var(--content-static-tertiary);
+}

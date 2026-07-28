@@ -1,0 +1,99 @@
+/* ── One-pager / Hero ─────────────────────────────────────────
+   Opens every one-pager. Self-sufficient — carries its own solid
+   brand-purple background directly and is never wrapped in .op-band
+   (same rule as hero-block on web). See CLAUDE.md "One-pagers".
+   Elements (presence):
+     .op-hero__topbar   — logo + primary CTA button (reuse .btn)
+     .op-hero__row      — content column + media column
+     .op-hero__content  — headline + paragraph
+     .op-hero__media    — .op-media-wrapped screenshot, optional .op-hero__tag
+                          floating annotations (content toggle, 0-2 typical)
+   Notes:
+     - Headline is set in <br> line breaks by the author, one short
+       phrase per line, styled as a stylistic device — see the deck
+       DNA precedent ("Deck heading.") which this one-pager DNA shares.
+     - .op-hero__tag mimics a small floating UI annotation over the
+       screenshot (e.g. "Translation review") — a real white surface,
+       NOT tinted by the hero's brand background, so it intentionally
+       uses ambient (untouched) content tokens rather than the
+       inverted ones used by the headline/paragraph.
+   ──────────────────────────────────────────────────────────── */
+
+.op-hero {
+  box-sizing: border-box;
+  width: 100%;
+  padding: var(--spacing-11) var(--spacing-9) var(--spacing-12);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-9);
+  background: var(--background-static-brand-inverted);
+}
+
+.op-hero__topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-6);
+}
+
+.op-hero__logo {
+  height: 24px;
+  width: auto;
+}
+
+.op-hero__row {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-9);
+}
+
+.op-hero__content {
+  flex: 0 0 55%;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-6);
+}
+
+.op-hero__headline {
+  margin: 0;
+  font-family: var(--family-heading);
+  font-weight: var(--weight-bold);
+  color: var(--content-static-inverted);
+  font-size: var(--size-display);
+  line-height: var(--line-height-display);
+  letter-spacing: var(--letter-spacing-display);
+}
+
+.op-hero__paragraph {
+  margin: 0;
+  max-width: 480px;
+  font-family: var(--family-body);
+  font-weight: var(--weight-regular);
+  color: var(--content-static-inverted);
+  opacity: 0.8;
+  font-size: var(--size-paragraph);
+  line-height: var(--line-height-paragraph);
+}
+
+.op-hero__media {
+  flex: 1;
+  min-width: 0;
+  position: relative;
+}
+
+.op-hero__tag {
+  position: absolute;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  padding: var(--spacing-2) var(--spacing-4);
+  border-radius: var(--radius-full);
+  background: var(--background-static-gray-layer-0);
+  color: var(--content-static-primary);
+  box-shadow: var(--shadow-elevation-m);
+  font-family: var(--family-body);
+  font-weight: var(--weight-semi-bold);
+  font-size: var(--size-caption);
+  line-height: var(--line-height-caption);
+}

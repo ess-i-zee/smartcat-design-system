@@ -12,17 +12,17 @@
    Single rounded card (min-height 320) centered at the content width.
    Mobile: the image stacks on top of the text. Type size shifts at
    ≥1280px via tokens; layout flips at ≥800px. Reuses the Button atomic.
+   Root .zigzag is a plain full-width wrapper (no padding of its own —
+   see CLAUDE.md "Sections"); nest the reference template's .container
+   around .zigzag__inner for its 1540px max-width.
    ──────────────────────────────────────────────────────────────── */
 
 .zigzag {
   box-sizing: border-box;
   width: 100%;
-  padding-inline: var(--grid-page-padding);
 }
 
 .zigzag__inner {
-  max-width: var(--grid-max-width); /* 1540 */
-  margin-inline: auto;
   display: flex;
   flex-direction: column;          /* mobile: image on top, text below */
   min-height: 320px;

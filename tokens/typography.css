@@ -47,8 +47,8 @@
   --line-height-label-s:    16px;
 
   /* ── Font family ─────────────────────────────────────────── */
-  --family-heading: "Plus Jakarta Sans";
-  --family-body:    "Inter";
+  --family-heading: "Plus Jakarta Sans", "Inter", system-ui, sans-serif;
+  --family-body:    "Inter", system-ui, sans-serif;
 
   /* ── Font weight ─────────────────────────────────────────── */
   --weight-bold:      700;

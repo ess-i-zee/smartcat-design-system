@@ -1,0 +1,29 @@
+/* ── Document / Footnotes ─────────────────────────────────────
+   Figma: n/a (document tier is code-authored, no Figma source)
+   A closing citations/notes block — a top divider rule followed by a
+   small, tertiary-colored numbered list. Place at the end of the
+   section or document that the notes belong to, never as a standalone
+   page. Superscript reference markers in the running text (e.g. a
+   plain <sup>1</sup>) point back to these items.
+   ──────────────────────────────────────────────────────────── */
+
+.doc-footnotes {
+  margin: 0;
+  padding: 0;
+  padding-top: var(--spacing-4);
+  border-top: 1px solid var(--border-divider-default);
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+}
+
+.doc-footnotes__item {
+  display: flex;
+  gap: var(--spacing-2);
+  color: var(--content-static-tertiary);
+}
+
+.doc-footnotes__number {
+  flex: 0 0 auto;
+}

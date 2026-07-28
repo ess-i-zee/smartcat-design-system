@@ -1,0 +1,80 @@
+/* ── Document / Timeline ───────────────────────────────────────
+   Figma: n/a (document tier is code-authored, no Figma source)
+   A horizontal milestone/roadmap strip: a pill label above a dot on a
+   connecting line, with a boxed caption below. Each .doc-timeline__milestone
+   is an equal-width grid column, so the connecting line renders as one
+   continuous rule across the strip; the first/last dots trim it flush.
+   Use for a small number of milestones (roughly 3–5) — more than that,
+   prefer a plain list.
+   Elements:
+     .doc-timeline__pill    — the milestone's label (date, phase, version…)
+     .doc-timeline__dot     — sits on the connecting line
+     .doc-timeline__caption — boxed description below the dot
+   ──────────────────────────────────────────────────────────── */
+
+.doc-timeline {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+  gap: var(--spacing-4);
+}
+
+.doc-timeline__milestone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-3);
+  text-align: center;
+}
+
+.doc-timeline__pill {
+  margin: 0;
+  padding: var(--spacing-1) var(--spacing-3);
+  border-radius: var(--radius-full);
+  background: var(--background-static-brand-layer-1);
+  color: var(--content-static-brand);
+}
+
+.doc-timeline__dot-row {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.doc-timeline__dot-row::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 1px;
+  background: var(--border-divider-default);
+}
+
+.doc-timeline__milestone:first-child .doc-timeline__dot-row::before { left: 50%; }
+.doc-timeline__milestone:last-child .doc-timeline__dot-row::before { right: 50%; }
+
+.doc-timeline__dot {
+  position: relative;
+  flex: 0 0 auto;
+  width: 10px;
+  height: 10px;
+  border-radius: var(--radius-full);
+  background: var(--content-static-brand);
+}
+
+.doc-timeline__caption {
+  width: 100%;
+  box-sizing: border-box;
+  padding: var(--spacing-4);
+  border: 1px solid var(--border-divider-default);
+  border-radius: var(--radius-3);
+  background: var(--background-static-gray-layer-0);
+}
+
+.doc-timeline__caption-text {
+  margin: 0;
+  color: var(--content-static-secondary);
+}

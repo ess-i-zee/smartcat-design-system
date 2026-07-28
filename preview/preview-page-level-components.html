@@ -27,7 +27,7 @@
     body {
       font-family: var(--family-body);
       color: var(--content-static-primary);
-      background: var(--background-static-gray-layer-2);
+      background: var(--background-static-gray-layer-3);
       -webkit-font-smoothing: antialiased;
     }
 
@@ -73,6 +73,32 @@
     .dsp-nav a:hover { background: var(--background-interaction-hover); color: var(--content-static-primary); }
     .dsp-nav a.is-active { background: var(--background-interaction-selectedsubtle); color: var(--content-static-primary); font-weight: 600; }
 
+    /* ── Collapsible sidebar ─────────────────────────────── */
+    .dsp-nav__collapse {
+      appearance: none; border: 0; cursor: pointer; flex-shrink: 0;
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 28px; height: 28px; margin-left: auto;
+      border-radius: var(--radius-2);
+      background: transparent; color: var(--content-static-tertiary);
+    }
+    .dsp-nav__collapse:hover { background: var(--background-interaction-hover); color: var(--content-static-primary); }
+
+    .dsp-nav-fab {
+      display: none;
+      position: fixed; top: var(--spacing-5); left: var(--spacing-5); z-index: 40;
+      width: 40px; height: 40px; border-radius: var(--radius-full);
+      align-items: center; justify-content: center;
+      border: 1px solid var(--border-divider-default);
+      background: var(--background-static-gray-layer-0);
+      color: var(--content-static-secondary);
+      box-shadow: var(--shadow-elevation-s);
+      cursor: pointer;
+    }
+    .dsp-nav-fab:hover { color: var(--content-static-primary); }
+
+    html.dsp-nav-collapsed .dsp-nav { display: none; }
+    html.dsp-nav-collapsed .dsp-nav-fab { display: flex; }
+
     .dsp-main { flex: 1; min-width: 0; }
 
     .dsp-seg {
@@ -93,10 +119,10 @@
     }
 
     /* ── Content sections ───────────────────────────────── */
-    .dsp-content { padding: var(--spacing-8) var(--spacing-8) 160px; max-width: 1180px; }
+    .dsp-content { padding: var(--spacing-8) var(--spacing-8) 160px; }
 
     .dsp-section { margin-bottom: var(--spacing-12); scroll-margin-top: 80px; }
-    .dsp-section__head { margin-bottom: var(--spacing-6); }
+    .dsp-section__head { margin-bottom: var(--spacing-8); }
     .dsp-section__head h2 { font-family: var(--family-heading); font-size: 28px; font-weight: 700; margin: 0 0 6px; letter-spacing: -0.5px; }
     .dsp-section__head p  { margin: 0; color: var(--content-static-secondary); max-width: 680px; font-size: var(--size-small-text); line-height: var(--line-height-small-text); font-weight: var(--weight-regular); letter-spacing: var(--letter-spacing-small-text); }
 
@@ -246,51 +272,77 @@
     .dsp-effect-val  { font-size: 11px; color: var(--content-static-secondary); margin-top: 3px; }
 
     /* ── Component playground ───────────────────────────── */
-    .dsp-play {
-      display: grid; grid-template-columns: 1fr 300px; gap: 0;
+    /* Each page-level component section = 3 parts, all capped to the
+       design system's own .container (--grid-max-width): heading,
+       the live preview (a stylized "browser window" card), and a
+       properties+code row below it. */
+    .dsp-preview {
+      margin-bottom: var(--spacing-8);
+      background: var(--background-static-gray-layer-0);
       border: 1px solid var(--border-divider-default);
       border-radius: var(--radius-5);
+      box-shadow: var(--shadow-elevation-s);
       overflow: hidden;
-      background: var(--background-static-gray-layer-0);
+      transition: max-width .2s ease;
     }
-    .dsp-stage {
-      display: flex; align-items: center; justify-content: center;
-      min-height: 280px; padding: var(--spacing-9);
-      background:
-        radial-gradient(var(--background-static-alpha-layer-2) 1px, transparent 1px);
-      background-size: 18px 18px;
+    .dsp-preview__bar {
+      display: flex; align-items: center; gap: 6px;
+      padding: 10px 14px;
+      background: var(--background-static-gray-layer-2);
+      border-bottom: 1px solid var(--border-divider-default);
+    }
+    .dsp-preview__dot {
+      width: 10px; height: 10px; border-radius: 50%;
+      background: var(--background-static-alpha-layer-3);
+    }
+    .dsp-preview__body {
+      /* Fixed 64px top/bottom margin around the mocked page; left/right
+         insetting comes from the section's own responsive page-padding
+         inside the iframe, not from this card. */
+      padding-block: var(--spacing-11); /* 64px */
+    }
+    .dsp-props-code {
+      /* align-items is flex-start, not stretch: .dsp-controls must size to
+         its own row list (plus the shared 224px floor) with no influence
+         from .dsp-code's content — the height-sync script then reads that
+         true size and applies it to .dsp-code explicitly. Native flex
+         stretch can't do this alone: it would size both panels off the
+         taller of the two *content* heights, letting a long code snippet
+         inflate the properties panel too. */
+      display: flex; align-items: flex-start;
+      gap: var(--spacing-3);
+    }
+    @media (max-width: 880px) {
+      .dsp-props-code { flex-direction: column; }
     }
     .dsp-controls {
-      border-left: 1px solid var(--border-divider-default);
-      padding: var(--spacing-5);
-      background: var(--background-static-gray-layer-0);
-      display: flex; flex-direction: column; gap: var(--spacing-5);
+      flex: 0 0 420px; min-width: 0; min-height: 224px;
+      padding: var(--spacing-6);
+      /* Filled gray panel (matches the design mock: gray-40 in light,
+         a couple of steps darker than the layer-3 page background — the
+         same primitive-gray approach .dsp-code uses for the code panel). */
+      background: var(--color-non-semantic-gray-40);
+      border-radius: var(--radius-3);
+      /* No overflow:hidden here (unlike .dsp-code) — each .select's dropdown
+         is an absolutely-positioned overlay that must be free to extend past
+         this panel's own box when opened. */
+      display: flex; flex-direction: column;
+      gap: 18px;
     }
-    .dsp-field { display: flex; flex-direction: column; gap: var(--spacing-2); }
-    .dsp-field__label {
-      font-size: 11px; font-weight: 700; letter-spacing: 0;
-      color: var(--content-static-tertiary);
-    }
-    .dsp-field__hint { font-size: 11px; color: var(--content-static-tertiary); font-weight: 400; text-transform: none; letter-spacing: 0; }
-
-    .dsp-chips { display: flex; flex-wrap: wrap; gap: 6px; }
-    .dsp-chip {
-      appearance: none; cursor: pointer;
-      font-family: var(--family-body); font-size: 12px; font-weight: 600;
-      padding: 6px 10px; border-radius: var(--radius-2);
-      border: 1px solid var(--border-button-default);
-      background: var(--background-static-gray-layer-0);
-      color: var(--content-static-secondary);
-    }
-    .dsp-chip:hover { background: var(--background-interaction-hover); }
-    .dsp-chip.is-active {
-      background: var(--background-interaction-selectedstrong);
-      color: var(--content-static-inverted);
-      border-color: transparent;
+    [data-theme="dark"] .dsp-controls { background: var(--color-non-semantic-gray-70); }
+    @media (max-width: 880px) {
+      /* flex: 0 0 420px above is a width-basis for the row layout — once
+         .dsp-props-code stacks into a column, "420px" would apply to height
+         instead and pin the panel to a fixed height regardless of its
+         actual row count. Reset the basis so it hugs its own content here
+         too (still floored by the min-height: 224px above). Placed after
+         the base rule so it actually wins at this width. */
+      .dsp-controls { flex: 0 0 auto; }
     }
 
     .dsp-toggle { display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-4); }
-    .dsp-toggle__label { font-size: 13px; font-weight: 500; }
+    .dsp-toggle__label { font-size: var(--size-label-m); font-weight: var(--weight-regular); color: var(--content-static-primary); }
+    .dsp-toggle .select { width: 200px; flex-shrink: 0; }
     .dsp-switch { position: relative; width: 38px; height: 22px; flex-shrink: 0; }
     .dsp-switch input { position: absolute; opacity: 0; width: 100%; height: 100%; margin: 0; cursor: pointer; }
     .dsp-switch__track {
@@ -303,7 +355,7 @@
       background: var(--background-static-gray-layer-0); box-shadow: var(--shadow-elevation-s);
       transition: transform 120ms ease;
     }
-    .dsp-switch input:checked + .dsp-switch__track { background: var(--background-interaction-selectedbrand); }
+    .dsp-switch input:checked + .dsp-switch__track { background: var(--background-interaction-selectedstrong); }
     .dsp-switch input:checked + .dsp-switch__track::after { transform: translateX(16px); }
 
     .dsp-text-input, .dsp-select {
@@ -317,28 +369,36 @@
 
     /* ── Code snippet ───────────────────────────────────── */
     .dsp-code {
+      flex: 1 1 auto; min-width: 0; min-height: 224px;
       position: relative;
-      margin-top: var(--spacing-4);
-      background: var(--color-non-semantic-gray-100);
+      display: flex; flex-direction: column;
+      /* Flat gray code panel (matches the design mock: gray-40 in light,
+         gray-70 in dark — the same paired-panel gray as .dsp-controls). */
+      background: var(--color-non-semantic-gray-40);
       border-radius: var(--radius-3);
       overflow: hidden;
     }
+    [data-theme="dark"] .dsp-code { background: var(--color-non-semantic-gray-70); }
     .dsp-code pre {
       margin: 0; padding: var(--spacing-5);
-      overflow-x: auto;
+      flex: 1 1 auto; min-height: 0;
+      overflow: auto;
+      scrollbar-width: none;    /* Firefox */
+      -ms-overflow-style: none; /* legacy Edge */
       font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
       font-size: 12.5px; line-height: 1.6;
-      color: #e7e3f5;
+      color: var(--content-static-primary);
     }
+    .dsp-code pre::-webkit-scrollbar { display: none; } /* Chromium/Safari */
     .dsp-copy {
       position: absolute; top: 10px; right: 10px;
       appearance: none; cursor: pointer;
       font-family: var(--family-body); font-size: 11px; font-weight: 600;
       padding: 5px 10px; border-radius: var(--radius-2);
-      border: 1px solid rgba(255,255,255,0.18);
-      background: rgba(255,255,255,0.08); color: #fff;
+      border: 1px solid var(--border-button-default);
+      background: var(--background-static-gray-layer-0); color: var(--content-static-secondary);
     }
-    .dsp-copy:hover { background: rgba(255,255,255,0.16); }
+    .dsp-copy:hover { background: var(--background-interaction-hover); color: var(--content-static-primary); }
 
     /* ── Variant matrix ─────────────────────────────────── */
     .dsp-matrix { width: 100%; border-collapse: collapse; }
@@ -393,8 +453,7 @@
 
     @media (max-width: 880px) {
       .dsp-nav { display: none; }
-      .dsp-play { grid-template-columns: 1fr; }
-      .dsp-controls { border-left: 0; border-top: 1px solid var(--border-divider-default); }
+      .dsp-nav-fab { display: none !important; }
       .dsp-type-row { grid-template-columns: 1fr; }
       .dsp-type-meta { text-align: left; }
     }
@@ -413,32 +472,33 @@
       outline-offset: 2px;
     }
 
-    /* ── Page-level section frames (live responsive preview) ─── */
-    .dsp-play--stacked { grid-template-columns: 1fr; }
-    .dsp-play--stacked .dsp-controls {
-      border-left: 0;
-      border-top: 1px solid var(--border-divider-default);
-      flex-direction: row; flex-wrap: wrap;
-      gap: var(--spacing-6) var(--spacing-8); align-items: flex-start;
-    }
-    .dsp-stage--frame {
-      display: block; padding: 0; min-height: 0;
-      background: var(--background-static-gray-layer-1);
-    }
-    .dsp-frame__bar {
-      display: flex; justify-content: flex-end; align-items: center;
-      padding: var(--spacing-3) var(--spacing-4);
-      border-bottom: 1px solid var(--border-divider-default);
-    }
+    /* ── Page-level section frames (live responsive preview) ───
+       No background of its own — the component renders directly on
+       the page's own background, exactly as it would in a real page. */
     .dsp-frame {
       display: block; width: 100%; border: 0; height: 280px;
-      background: var(--background-static-gray-layer-0);
       margin-inline: auto; transition: width .2s ease;
     }
     .dsp-frame[data-viewport="mobile"] { width: 375px; }
+
+    /* Mobile breakpoint: shrink the whole stylised browser window (top bar +
+       traffic lights + body) down to the phone width and center it, so the
+       chrome actually frames the 375px mock instead of leaving it adrift in a
+       full-width card. Driven off the frame's own data-viewport via :has(),
+       so the viewport toggle needs no extra JS. */
+    .dsp-preview:has(.dsp-frame[data-viewport="mobile"]) {
+      max-width: 375px;
+      margin-inline: auto;
+    }
   </style>
 </head>
 <body>
+  <script>
+    if (localStorage.getItem('dsp-nav-collapsed') === '1') document.documentElement.classList.add('dsp-nav-collapsed');
+  </script>
+  <button class="dsp-nav-fab" id="dsp-nav-fab" type="button" title="Show sidebar" aria-label="Show sidebar">
+    <svg width="18" height="18" viewBox="0 0 16 16" fill="none"><path d="M6 3L11 8L6 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </button>
   <div class="dsp-shell">
 
     <!-- ░░ SIDEBAR ░░ -->
@@ -447,6 +507,9 @@
         <div>
           <div class="dsp-brand__name">Smartcat website design system</div>
         </div>
+        <button class="dsp-nav__collapse" id="dsp-nav-collapse-btn" type="button" title="Collapse sidebar" aria-label="Collapse sidebar">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8L10 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
       </div>
 
       <div class="dsp-nav__group">
@@ -499,31 +562,46 @@
 
         <!-- ═══════════ SECTION: HERO BLOCK ═══════════ -->
         <section class="dsp-section" id="hero-block">
-          <div class="dsp-section__head">
-            <h2>Hero block</h2>
-          </div>
-          <div class="dsp-play dsp-play--stacked">
-            <div class="dsp-stage dsp-stage--frame">
-              <div class="dsp-frame__bar">
-                <div class="dsp-chips" id="hero-block-viewport">
-                  <button class="dsp-chip is-active" data-value="desktop">Desktop + tablet</button>
-                  <button class="dsp-chip" data-value="mobile">Mobile</button>
-                </div>
-              </div>
-              <iframe class="dsp-frame" id="hero-block-frame" title="Hero block preview"></iframe>
+          <div class="container">
+            <div class="dsp-section__head">
+              <h2>Hero block</h2>
             </div>
-            <div class="dsp-controls">
-              <div class="dsp-field">
-                <span class="dsp-field__label">Type</span>
-                <div class="dsp-chips" id="hero-block-type">
-                  <button class="dsp-chip is-active" data-value="simple-center">Simple center</button>
-                  <button class="dsp-chip" data-value="simple-left">Simple left</button>
-                  <button class="dsp-chip" data-value="image-center">Image center</button>
-                  <button class="dsp-chip" data-value="image-right">Image right</button>
-                </div>
+            <div class="dsp-preview">
+              <div class="dsp-preview__bar">
+                <span class="dsp-preview__dot"></span>
+                <span class="dsp-preview__dot"></span>
+                <span class="dsp-preview__dot"></span>
               </div>
-              <div class="dsp-field">
-                <span class="dsp-field__label">Content</span>
+              <div class="dsp-preview__body">
+                <iframe class="dsp-frame" id="hero-block-frame" title="Hero block preview"></iframe>
+              </div>
+            </div>
+            <div class="dsp-props-code">
+              <div class="dsp-controls">
+                <div class="dsp-toggle">
+                  <span class="dsp-toggle__label">Breakpoint</span>
+                  <div class="select" data-size="m" id="hero-block-viewport">
+                    <span class="select__value">Desktop + tablet</span>
+                    <span class="select__chevron" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3.33337 6L8.00004 10.6667L12.6667 6" stroke="currentColor" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                    <div class="dropdown-list select__dropdown" data-size="m" hidden>
+                      <div class="dropdown-item" data-size="m" data-value="desktop" data-state="selected"><span class="dropdown-item__label">Desktop + tablet</span></div>
+                      <div class="dropdown-item" data-size="m" data-value="mobile"><span class="dropdown-item__label">Mobile</span></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="dsp-toggle">
+                  <span class="dsp-toggle__label">Type</span>
+                  <div class="select" data-size="m" id="hero-block-type">
+                    <span class="select__value">Simple center</span>
+                    <span class="select__chevron" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3.33337 6L8.00004 10.6667L12.6667 6" stroke="currentColor" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                    <div class="dropdown-list select__dropdown" data-size="m" hidden>
+                      <div class="dropdown-item" data-size="m" data-value="simple-center" data-state="selected"><span class="dropdown-item__label">Simple center</span></div>
+                      <div class="dropdown-item" data-size="m" data-value="simple-left"><span class="dropdown-item__label">Simple left</span></div>
+                      <div class="dropdown-item" data-size="m" data-value="image-center"><span class="dropdown-item__label">Image center</span></div>
+                      <div class="dropdown-item" data-size="m" data-value="image-right"><span class="dropdown-item__label">Image right</span></div>
+                    </div>
+                  </div>
+                </div>
                 <div class="dsp-toggle"><span class="dsp-toggle__label">Badges</span>
                   <label class="dsp-switch"><input type="checkbox" id="hero-block-badges"><span class="dsp-switch__track"></span></label></div>
                 <div class="dsp-toggle"><span class="dsp-toggle__label">Paragraph</span>
@@ -537,39 +615,54 @@
                 <div class="dsp-toggle"><span class="dsp-toggle__label">Play button (image-center)</span>
                   <label class="dsp-switch"><input type="checkbox" id="hero-block-play" checked><span class="dsp-switch__track"></span></label></div>
               </div>
+              <div class="dsp-code">
+                <button class="dsp-copy" data-copy="#hero-block-code">Copy</button>
+                <pre><code id="hero-block-code"></code></pre>
+              </div>
             </div>
-          </div>
-          <div class="dsp-code">
-            <button class="dsp-copy" data-copy="#hero-block-code">Copy</button>
-            <pre><code id="hero-block-code"></code></pre>
           </div>
         </section>
 
         <!-- ═══════════ SECTION: ZIGZAG ═══════════ -->
         <section class="dsp-section" id="zigzag">
-          <div class="dsp-section__head">
-            <h2>Zigzag</h2>
-          </div>
-          <div class="dsp-play dsp-play--stacked">
-            <div class="dsp-stage dsp-stage--frame">
-              <div class="dsp-frame__bar">
-                <div class="dsp-chips" id="zigzag-viewport">
-                  <button class="dsp-chip is-active" data-value="desktop">Desktop + tablet</button>
-                  <button class="dsp-chip" data-value="mobile">Mobile</button>
-                </div>
-              </div>
-              <iframe class="dsp-frame" id="zigzag-frame" title="Zigzag preview"></iframe>
+          <div class="container">
+            <div class="dsp-section__head">
+              <h2>Zigzag</h2>
             </div>
-            <div class="dsp-controls">
-              <div class="dsp-field">
-                <span class="dsp-field__label">Image position</span>
-                <div class="dsp-chips" id="zigzag-imgpos">
-                  <button class="dsp-chip is-active" data-value="left">Left</button>
-                  <button class="dsp-chip" data-value="right">Right</button>
-                </div>
+            <div class="dsp-preview">
+              <div class="dsp-preview__bar">
+                <span class="dsp-preview__dot"></span>
+                <span class="dsp-preview__dot"></span>
+                <span class="dsp-preview__dot"></span>
               </div>
-              <div class="dsp-field">
-                <span class="dsp-field__label">Content</span>
+              <div class="dsp-preview__body">
+                <iframe class="dsp-frame" id="zigzag-frame" title="Zigzag preview"></iframe>
+              </div>
+            </div>
+            <div class="dsp-props-code">
+              <div class="dsp-controls">
+                <div class="dsp-toggle">
+                  <span class="dsp-toggle__label">Breakpoint</span>
+                  <div class="select" data-size="m" id="zigzag-viewport">
+                    <span class="select__value">Desktop + tablet</span>
+                    <span class="select__chevron" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3.33337 6L8.00004 10.6667L12.6667 6" stroke="currentColor" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                    <div class="dropdown-list select__dropdown" data-size="m" hidden>
+                      <div class="dropdown-item" data-size="m" data-value="desktop" data-state="selected"><span class="dropdown-item__label">Desktop + tablet</span></div>
+                      <div class="dropdown-item" data-size="m" data-value="mobile"><span class="dropdown-item__label">Mobile</span></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="dsp-toggle">
+                  <span class="dsp-toggle__label">Image position</span>
+                  <div class="select" data-size="m" id="zigzag-imgpos">
+                    <span class="select__value">Left</span>
+                    <span class="select__chevron" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3.33337 6L8.00004 10.6667L12.6667 6" stroke="currentColor" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                    <div class="dropdown-list select__dropdown" data-size="m" hidden>
+                      <div class="dropdown-item" data-size="m" data-value="left" data-state="selected"><span class="dropdown-item__label">Left</span></div>
+                      <div class="dropdown-item" data-size="m" data-value="right"><span class="dropdown-item__label">Right</span></div>
+                    </div>
+                  </div>
+                </div>
                 <div class="dsp-toggle"><span class="dsp-toggle__label">Heading</span>
                   <label class="dsp-switch"><input type="checkbox" id="zigzag-heading" checked><span class="dsp-switch__track"></span></label></div>
                 <div class="dsp-toggle"><span class="dsp-toggle__label">Paragraph</span>
@@ -579,423 +672,628 @@
                 <div class="dsp-toggle"><span class="dsp-toggle__label">Secondary CTA</span>
                   <label class="dsp-switch"><input type="checkbox" id="zigzag-secondary" checked><span class="dsp-switch__track"></span></label></div>
               </div>
+              <div class="dsp-code">
+                <button class="dsp-copy" data-copy="#zigzag-code">Copy</button>
+                <pre><code id="zigzag-code"></code></pre>
+              </div>
             </div>
-          </div>
-          <div class="dsp-code">
-            <button class="dsp-copy" data-copy="#zigzag-code">Copy</button>
-            <pre><code id="zigzag-code"></code></pre>
           </div>
         </section>
 
         <!-- ═══════════ SECTION: COMPONENTS SPACING ═══════════ -->
         <section class="dsp-section" id="components-spacing">
-          <div class="dsp-section__head">
-            <h2>Components spacing</h2>
-          </div>
-          <div class="dsp-play dsp-play--stacked">
-            <div class="dsp-stage dsp-stage--frame">
-              <div class="dsp-frame__bar">
-                <div class="dsp-chips" id="components-spacing-viewport">
-                  <button class="dsp-chip is-active" data-value="desktop">Desktop + tablet</button>
-                  <button class="dsp-chip" data-value="mobile">Mobile</button>
-                </div>
-              </div>
-              <iframe class="dsp-frame" id="components-spacing-frame" title="Components spacing preview"></iframe>
+          <div class="container">
+            <div class="dsp-section__head">
+              <h2>Components spacing</h2>
             </div>
-            <div class="dsp-controls">
-              <div class="dsp-field">
-                <span class="dsp-field__label">Size</span>
-                <div class="dsp-chips" id="components-spacing-size">
-                  <button class="dsp-chip" data-value="1">1</button>
-                  <button class="dsp-chip" data-value="2">2</button>
-                  <button class="dsp-chip" data-value="3">3</button>
-                  <button class="dsp-chip" data-value="4">4</button>
-                  <button class="dsp-chip" data-value="5">5</button>
-                  <button class="dsp-chip is-active" data-value="6">6</button>
-                  <button class="dsp-chip" data-value="7">7</button>
-                  <button class="dsp-chip" data-value="8">8</button>
-                </div>
+            <div class="dsp-preview">
+              <div class="dsp-preview__bar">
+                <span class="dsp-preview__dot"></span>
+                <span class="dsp-preview__dot"></span>
+                <span class="dsp-preview__dot"></span>
+              </div>
+              <div class="dsp-preview__body">
+                <iframe class="dsp-frame" id="components-spacing-frame" title="Components spacing preview"></iframe>
               </div>
             </div>
-          </div>
-          <div class="dsp-code">
-            <button class="dsp-copy" data-copy="#components-spacing-code">Copy</button>
-            <pre><code id="components-spacing-code"></code></pre>
+            <div class="dsp-props-code">
+              <div class="dsp-controls">
+                <div class="dsp-toggle">
+                  <span class="dsp-toggle__label">Breakpoint</span>
+                  <div class="select" data-size="m" id="components-spacing-viewport">
+                    <span class="select__value">Desktop + tablet</span>
+                    <span class="select__chevron" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3.33337 6L8.00004 10.6667L12.6667 6" stroke="currentColor" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                    <div class="dropdown-list select__dropdown" data-size="m" hidden>
+                      <div class="dropdown-item" data-size="m" data-value="desktop" data-state="selected"><span class="dropdown-item__label">Desktop + tablet</span></div>
+                      <div class="dropdown-item" data-size="m" data-value="mobile"><span class="dropdown-item__label">Mobile</span></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="dsp-toggle">
+                  <span class="dsp-toggle__label">Size</span>
+                  <div class="select" data-size="m" id="components-spacing-size">
+                    <span class="select__value">6</span>
+                    <span class="select__chevron" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3.33337 6L8.00004 10.6667L12.6667 6" stroke="currentColor" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                    <div class="dropdown-list select__dropdown" data-size="m" hidden>
+                      <div class="dropdown-item" data-size="m" data-value="1"><span class="dropdown-item__label">1</span></div>
+                      <div class="dropdown-item" data-size="m" data-value="2"><span class="dropdown-item__label">2</span></div>
+                      <div class="dropdown-item" data-size="m" data-value="3"><span class="dropdown-item__label">3</span></div>
+                      <div class="dropdown-item" data-size="m" data-value="4"><span class="dropdown-item__label">4</span></div>
+                      <div class="dropdown-item" data-size="m" data-value="5"><span class="dropdown-item__label">5</span></div>
+                      <div class="dropdown-item" data-size="m" data-value="6" data-state="selected"><span class="dropdown-item__label">6</span></div>
+                      <div class="dropdown-item" data-size="m" data-value="7"><span class="dropdown-item__label">7</span></div>
+                      <div class="dropdown-item" data-size="m" data-value="8"><span class="dropdown-item__label">8</span></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="dsp-code">
+                <button class="dsp-copy" data-copy="#components-spacing-code">Copy</button>
+                <pre><code id="components-spacing-code"></code></pre>
+              </div>
+            </div>
           </div>
         </section>
 
         <!-- ═══════════ SECTION: HEADING ═══════════ -->
         <section class="dsp-section" id="heading">
-          <div class="dsp-section__head">
-            <h2>Heading</h2>
-          </div>
-          <div class="dsp-play dsp-play--stacked">
-            <div class="dsp-stage dsp-stage--frame">
-              <div class="dsp-frame__bar">
-                <div class="dsp-chips" id="heading-viewport">
-                  <button class="dsp-chip is-active" data-value="desktop">Desktop + tablet</button>
-                  <button class="dsp-chip" data-value="mobile">Mobile</button>
-                </div>
-              </div>
-              <iframe class="dsp-frame" id="heading-frame" title="Heading preview"></iframe>
+          <div class="container">
+            <div class="dsp-section__head">
+              <h2>Heading</h2>
             </div>
-            <div class="dsp-controls">
-              <div class="dsp-field">
-                <span class="dsp-field__label">Level</span>
-                <div class="dsp-chips" id="heading-level">
-                  <button class="dsp-chip is-active" data-value="h1">H1</button>
-                  <button class="dsp-chip" data-value="h2">H2</button>
-                  <button class="dsp-chip" data-value="h3">H3</button>
-                </div>
+            <div class="dsp-preview">
+              <div class="dsp-preview__bar">
+                <span class="dsp-preview__dot"></span>
+                <span class="dsp-preview__dot"></span>
+                <span class="dsp-preview__dot"></span>
               </div>
-              <div class="dsp-field">
-                <span class="dsp-field__label">Layout</span>
-                <div class="dsp-chips" id="heading-layout">
-                  <button class="dsp-chip is-active" data-value="stacked">Stacked</button>
-                  <button class="dsp-chip" data-value="split">Split</button>
-                </div>
+              <div class="dsp-preview__body">
+                <iframe class="dsp-frame" id="heading-frame" title="Heading preview"></iframe>
               </div>
-              <div class="dsp-field">
-                <span class="dsp-field__label">Content</span>
+            </div>
+            <div class="dsp-props-code">
+              <div class="dsp-controls">
+                <div class="dsp-toggle">
+                  <span class="dsp-toggle__label">Breakpoint</span>
+                  <div class="select" data-size="m" id="heading-viewport">
+                    <span class="select__value">Desktop + tablet</span>
+                    <span class="select__chevron" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3.33337 6L8.00004 10.6667L12.6667 6" stroke="currentColor" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                    <div class="dropdown-list select__dropdown" data-size="m" hidden>
+                      <div class="dropdown-item" data-size="m" data-value="desktop" data-state="selected"><span class="dropdown-item__label">Desktop + tablet</span></div>
+                      <div class="dropdown-item" data-size="m" data-value="mobile"><span class="dropdown-item__label">Mobile</span></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="dsp-toggle">
+                  <span class="dsp-toggle__label">Level</span>
+                  <div class="select" data-size="m" id="heading-level">
+                    <span class="select__value">H1</span>
+                    <span class="select__chevron" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3.33337 6L8.00004 10.6667L12.6667 6" stroke="currentColor" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                    <div class="dropdown-list select__dropdown" data-size="m" hidden>
+                      <div class="dropdown-item" data-size="m" data-value="h1" data-state="selected"><span class="dropdown-item__label">H1</span></div>
+                      <div class="dropdown-item" data-size="m" data-value="h2"><span class="dropdown-item__label">H2</span></div>
+                      <div class="dropdown-item" data-size="m" data-value="h3"><span class="dropdown-item__label">H3</span></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="dsp-toggle">
+                  <span class="dsp-toggle__label">Layout</span>
+                  <div class="select" data-size="m" id="heading-layout">
+                    <span class="select__value">Stacked</span>
+                    <span class="select__chevron" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3.33337 6L8.00004 10.6667L12.6667 6" stroke="currentColor" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                    <div class="dropdown-list select__dropdown" data-size="m" hidden>
+                      <div class="dropdown-item" data-size="m" data-value="stacked" data-state="selected"><span class="dropdown-item__label">Stacked</span></div>
+                      <div class="dropdown-item" data-size="m" data-value="split"><span class="dropdown-item__label">Split</span></div>
+                    </div>
+                  </div>
+                </div>
                 <div class="dsp-toggle"><span class="dsp-toggle__label">Secondary button</span>
                   <label class="dsp-switch"><input type="checkbox" id="heading-secondary" checked><span class="dsp-switch__track"></span></label></div>
               </div>
+              <div class="dsp-code">
+                <button class="dsp-copy" data-copy="#heading-code">Copy</button>
+                <pre><code id="heading-code"></code></pre>
+              </div>
             </div>
-          </div>
-
-          <div class="dsp-code">
-            <button class="dsp-copy" data-copy="#heading-code">Copy</button>
-            <pre><code id="heading-code"></code></pre>
           </div>
         </section>
 
         <!-- ═══════════ SECTION: TEXT BLOCK ═══════════ -->
         <section class="dsp-section" id="text-block">
-          <div class="dsp-section__head">
-            <h2>Text block</h2>
-          </div>
-          <div class="dsp-play dsp-play--stacked">
-            <div class="dsp-stage dsp-stage--frame">
-              <div class="dsp-frame__bar">
-                <div class="dsp-chips" id="text-block-viewport">
-                  <button class="dsp-chip is-active" data-value="desktop">Desktop + tablet</button>
-                  <button class="dsp-chip" data-value="mobile">Mobile</button>
-                </div>
-              </div>
-              <iframe class="dsp-frame" id="text-block-frame" title="Text block preview"></iframe>
+          <div class="container">
+            <div class="dsp-section__head">
+              <h2>Text block</h2>
             </div>
-            <div class="dsp-controls">
-              <div class="dsp-field">
-                <span class="dsp-field__label">Size</span>
-                <div class="dsp-chips" id="text-block-size">
-                  <button class="dsp-chip is-active" data-value="default">Default</button>
-                  <button class="dsp-chip" data-value="small">Small</button>
-                </div>
+            <div class="dsp-preview">
+              <div class="dsp-preview__bar">
+                <span class="dsp-preview__dot"></span>
+                <span class="dsp-preview__dot"></span>
+                <span class="dsp-preview__dot"></span>
+              </div>
+              <div class="dsp-preview__body">
+                <iframe class="dsp-frame" id="text-block-frame" title="Text block preview"></iframe>
               </div>
             </div>
-          </div>
-
-          <div class="dsp-code">
-            <button class="dsp-copy" data-copy="#text-block-code">Copy</button>
-            <pre><code id="text-block-code"></code></pre>
+            <div class="dsp-props-code">
+              <div class="dsp-controls">
+                <div class="dsp-toggle">
+                  <span class="dsp-toggle__label">Breakpoint</span>
+                  <div class="select" data-size="m" id="text-block-viewport">
+                    <span class="select__value">Desktop + tablet</span>
+                    <span class="select__chevron" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3.33337 6L8.00004 10.6667L12.6667 6" stroke="currentColor" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                    <div class="dropdown-list select__dropdown" data-size="m" hidden>
+                      <div class="dropdown-item" data-size="m" data-value="desktop" data-state="selected"><span class="dropdown-item__label">Desktop + tablet</span></div>
+                      <div class="dropdown-item" data-size="m" data-value="mobile"><span class="dropdown-item__label">Mobile</span></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="dsp-toggle">
+                  <span class="dsp-toggle__label">Size</span>
+                  <div class="select" data-size="m" id="text-block-size">
+                    <span class="select__value">Default</span>
+                    <span class="select__chevron" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3.33337 6L8.00004 10.6667L12.6667 6" stroke="currentColor" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                    <div class="dropdown-list select__dropdown" data-size="m" hidden>
+                      <div class="dropdown-item" data-size="m" data-value="default" data-state="selected"><span class="dropdown-item__label">Default</span></div>
+                      <div class="dropdown-item" data-size="m" data-value="small"><span class="dropdown-item__label">Small</span></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="dsp-code">
+                <button class="dsp-copy" data-copy="#text-block-code">Copy</button>
+                <pre><code id="text-block-code"></code></pre>
+              </div>
+            </div>
           </div>
         </section>
 
         <!-- ═══════════ SECTION: IMAGE ═══════════ -->
         <section class="dsp-section" id="image">
-          <div class="dsp-section__head">
-            <h2>Image</h2>
-          </div>
-          <div class="dsp-play dsp-play--stacked">
-            <div class="dsp-stage dsp-stage--frame">
-              <div class="dsp-frame__bar">
-                <div class="dsp-chips" id="image-viewport">
-                  <button class="dsp-chip is-active" data-value="desktop">Desktop + tablet</button>
-                  <button class="dsp-chip" data-value="mobile">Mobile</button>
-                </div>
-              </div>
-              <iframe class="dsp-frame" id="image-frame" title="Image preview"></iframe>
+          <div class="container">
+            <div class="dsp-section__head">
+              <h2>Image</h2>
             </div>
-            <div class="dsp-controls">
-              <div class="dsp-field">
-                <span class="dsp-field__label">Layout</span>
-                <div class="dsp-chips" id="image-layout">
-                  <button class="dsp-chip is-active" data-value="wide">Wide</button>
-                  <button class="dsp-chip" data-value="narrow">Narrow</button>
-                </div>
+            <div class="dsp-preview">
+              <div class="dsp-preview__bar">
+                <span class="dsp-preview__dot"></span>
+                <span class="dsp-preview__dot"></span>
+                <span class="dsp-preview__dot"></span>
+              </div>
+              <div class="dsp-preview__body">
+                <iframe class="dsp-frame" id="image-frame" title="Image preview"></iframe>
               </div>
             </div>
-          </div>
-
-          <div class="dsp-code">
-            <button class="dsp-copy" data-copy="#image-code">Copy</button>
-            <pre><code id="image-code"></code></pre>
+            <div class="dsp-props-code">
+              <div class="dsp-controls">
+                <div class="dsp-toggle">
+                  <span class="dsp-toggle__label">Breakpoint</span>
+                  <div class="select" data-size="m" id="image-viewport">
+                    <span class="select__value">Desktop + tablet</span>
+                    <span class="select__chevron" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3.33337 6L8.00004 10.6667L12.6667 6" stroke="currentColor" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                    <div class="dropdown-list select__dropdown" data-size="m" hidden>
+                      <div class="dropdown-item" data-size="m" data-value="desktop" data-state="selected"><span class="dropdown-item__label">Desktop + tablet</span></div>
+                      <div class="dropdown-item" data-size="m" data-value="mobile"><span class="dropdown-item__label">Mobile</span></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="dsp-toggle">
+                  <span class="dsp-toggle__label">Layout</span>
+                  <div class="select" data-size="m" id="image-layout">
+                    <span class="select__value">Wide</span>
+                    <span class="select__chevron" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3.33337 6L8.00004 10.6667L12.6667 6" stroke="currentColor" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                    <div class="dropdown-list select__dropdown" data-size="m" hidden>
+                      <div class="dropdown-item" data-size="m" data-value="wide" data-state="selected"><span class="dropdown-item__label">Wide</span></div>
+                      <div class="dropdown-item" data-size="m" data-value="narrow"><span class="dropdown-item__label">Narrow</span></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="dsp-code">
+                <button class="dsp-copy" data-copy="#image-code">Copy</button>
+                <pre><code id="image-code"></code></pre>
+              </div>
+            </div>
           </div>
         </section>
 
         <!-- ═══════════ SECTION: TESTIMONIAL ═══════════ -->
         <section class="dsp-section" id="testimonial">
-          <div class="dsp-section__head">
-            <h2>Testimonial</h2>
-          </div>
-          <div class="dsp-play dsp-play--stacked">
-            <div class="dsp-stage dsp-stage--frame">
-              <div class="dsp-frame__bar">
-                <div class="dsp-chips" id="testimonial-viewport">
-                  <button class="dsp-chip is-active" data-value="desktop">Desktop + tablet</button>
-                  <button class="dsp-chip" data-value="mobile">Mobile</button>
-                </div>
-              </div>
-              <iframe class="dsp-frame" id="testimonial-frame" title="Testimonial preview"></iframe>
+          <div class="container">
+            <div class="dsp-section__head">
+              <h2>Testimonial</h2>
             </div>
-            <div class="dsp-controls">
-              <div class="dsp-field">
-                <span class="dsp-field__label">Mode</span>
-                <div class="dsp-chips" id="testimonial-mode">
-                  <button class="dsp-chip is-active" data-value="multi">Multi</button>
-                  <button class="dsp-chip" data-value="single">Single</button>
-                </div>
+            <div class="dsp-preview">
+              <div class="dsp-preview__bar">
+                <span class="dsp-preview__dot"></span>
+                <span class="dsp-preview__dot"></span>
+                <span class="dsp-preview__dot"></span>
+              </div>
+              <div class="dsp-preview__body">
+                <iframe class="dsp-frame" id="testimonial-frame" title="Testimonial preview"></iframe>
               </div>
             </div>
-          </div>
-
-          <div class="dsp-code">
-            <button class="dsp-copy" data-copy="#testimonial-code">Copy</button>
-            <pre><code id="testimonial-code"></code></pre>
+            <div class="dsp-props-code">
+              <div class="dsp-controls">
+                <div class="dsp-toggle">
+                  <span class="dsp-toggle__label">Breakpoint</span>
+                  <div class="select" data-size="m" id="testimonial-viewport">
+                    <span class="select__value">Desktop + tablet</span>
+                    <span class="select__chevron" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3.33337 6L8.00004 10.6667L12.6667 6" stroke="currentColor" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                    <div class="dropdown-list select__dropdown" data-size="m" hidden>
+                      <div class="dropdown-item" data-size="m" data-value="desktop" data-state="selected"><span class="dropdown-item__label">Desktop + tablet</span></div>
+                      <div class="dropdown-item" data-size="m" data-value="mobile"><span class="dropdown-item__label">Mobile</span></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="dsp-toggle">
+                  <span class="dsp-toggle__label">Mode</span>
+                  <div class="select" data-size="m" id="testimonial-mode">
+                    <span class="select__value">Multi</span>
+                    <span class="select__chevron" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3.33337 6L8.00004 10.6667L12.6667 6" stroke="currentColor" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                    <div class="dropdown-list select__dropdown" data-size="m" hidden>
+                      <div class="dropdown-item" data-size="m" data-value="multi" data-state="selected"><span class="dropdown-item__label">Multi</span></div>
+                      <div class="dropdown-item" data-size="m" data-value="single"><span class="dropdown-item__label">Single</span></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="dsp-code">
+                <button class="dsp-copy" data-copy="#testimonial-code">Copy</button>
+                <pre><code id="testimonial-code"></code></pre>
+              </div>
+            </div>
           </div>
         </section>
 
         <!-- ═══════════ SECTION: CTA ═══════════ -->
         <section class="dsp-section" id="cta">
-          <div class="dsp-section__head">
-            <h2>CTA</h2>
-          </div>
-          <div class="dsp-play dsp-play--stacked">
-            <div class="dsp-stage dsp-stage--frame">
-              <div class="dsp-frame__bar">
-                <div class="dsp-chips" id="cta-viewport">
-                  <button class="dsp-chip is-active" data-value="desktop">Desktop + tablet</button>
-                  <button class="dsp-chip" data-value="mobile">Mobile</button>
-                </div>
-              </div>
-              <iframe class="dsp-frame" id="cta-frame" title="CTA preview"></iframe>
+          <div class="container">
+            <div class="dsp-section__head">
+              <h2>CTA</h2>
             </div>
-            <div class="dsp-controls">
-              <div class="dsp-field">
-                <span class="dsp-field__label">Type</span>
-                <div class="dsp-chips" id="cta-type">
-                  <button class="dsp-chip is-active" data-value="regular">Regular</button>
-                  <button class="dsp-chip" data-value="blank">Blank</button>
-                </div>
+            <div class="dsp-preview">
+              <div class="dsp-preview__bar">
+                <span class="dsp-preview__dot"></span>
+                <span class="dsp-preview__dot"></span>
+                <span class="dsp-preview__dot"></span>
               </div>
-              <div class="dsp-field">
-                <span class="dsp-field__label">Alignment</span>
-                <div class="dsp-chips" id="cta-alignment">
-                  <button class="dsp-chip is-active" data-value="default">Left</button>
-                  <button class="dsp-chip" data-value="center">Center</button>
-                </div>
+              <div class="dsp-preview__body">
+                <iframe class="dsp-frame" id="cta-frame" title="CTA preview"></iframe>
               </div>
-              <div class="dsp-field">
-                <span class="dsp-field__label">Content</span>
+            </div>
+            <div class="dsp-props-code">
+              <div class="dsp-controls">
+                <div class="dsp-toggle">
+                  <span class="dsp-toggle__label">Breakpoint</span>
+                  <div class="select" data-size="m" id="cta-viewport">
+                    <span class="select__value">Desktop + tablet</span>
+                    <span class="select__chevron" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3.33337 6L8.00004 10.6667L12.6667 6" stroke="currentColor" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                    <div class="dropdown-list select__dropdown" data-size="m" hidden>
+                      <div class="dropdown-item" data-size="m" data-value="desktop" data-state="selected"><span class="dropdown-item__label">Desktop + tablet</span></div>
+                      <div class="dropdown-item" data-size="m" data-value="mobile"><span class="dropdown-item__label">Mobile</span></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="dsp-toggle">
+                  <span class="dsp-toggle__label">Type</span>
+                  <div class="select" data-size="m" id="cta-type">
+                    <span class="select__value">Regular</span>
+                    <span class="select__chevron" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3.33337 6L8.00004 10.6667L12.6667 6" stroke="currentColor" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                    <div class="dropdown-list select__dropdown" data-size="m" hidden>
+                      <div class="dropdown-item" data-size="m" data-value="regular" data-state="selected"><span class="dropdown-item__label">Regular</span></div>
+                      <div class="dropdown-item" data-size="m" data-value="blank"><span class="dropdown-item__label">Blank</span></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="dsp-toggle">
+                  <span class="dsp-toggle__label">Alignment</span>
+                  <div class="select" data-size="m" id="cta-alignment">
+                    <span class="select__value">Left</span>
+                    <span class="select__chevron" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3.33337 6L8.00004 10.6667L12.6667 6" stroke="currentColor" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                    <div class="dropdown-list select__dropdown" data-size="m" hidden>
+                      <div class="dropdown-item" data-size="m" data-value="default" data-state="selected"><span class="dropdown-item__label">Left</span></div>
+                      <div class="dropdown-item" data-size="m" data-value="center"><span class="dropdown-item__label">Center</span></div>
+                    </div>
+                  </div>
+                </div>
                 <div class="dsp-toggle"><span class="dsp-toggle__label">Supporting paragraph</span>
                   <label class="dsp-switch"><input type="checkbox" id="cta-paragraph" checked><span class="dsp-switch__track"></span></label></div>
                 <div class="dsp-toggle"><span class="dsp-toggle__label">Secondary CTA</span>
                   <label class="dsp-switch"><input type="checkbox" id="cta-secondary" checked><span class="dsp-switch__track"></span></label></div>
               </div>
+              <div class="dsp-code">
+                <button class="dsp-copy" data-copy="#cta-code">Copy</button>
+                <pre><code id="cta-code"></code></pre>
+              </div>
             </div>
-          </div>
-          <div class="dsp-code">
-            <button class="dsp-copy" data-copy="#cta-code">Copy</button>
-            <pre><code id="cta-code"></code></pre>
           </div>
         </section>
 
         <!-- ═══════════ SECTION: NUMBERS ═══════════ -->
         <section class="dsp-section" id="numbers">
-          <div class="dsp-section__head">
-            <h2>Numbers</h2>
-          </div>
-          <div class="dsp-play dsp-play--stacked">
-            <div class="dsp-stage dsp-stage--frame">
-              <div class="dsp-frame__bar">
-                <div class="dsp-chips" id="numbers-viewport">
-                  <button class="dsp-chip is-active" data-value="desktop">Desktop + tablet</button>
-                  <button class="dsp-chip" data-value="mobile">Mobile</button>
-                </div>
-              </div>
-              <iframe class="dsp-frame" id="numbers-frame" title="Numbers preview"></iframe>
+          <div class="container">
+            <div class="dsp-section__head">
+              <h2>Numbers</h2>
             </div>
-            <div class="dsp-controls">
-              <div class="dsp-field">
-                <span class="dsp-field__label">Stats</span>
-                <div class="dsp-chips" id="numbers-stats">
-                  <button class="dsp-chip" data-value="2">2</button>
-                  <button class="dsp-chip is-active" data-value="3">3</button>
-                  <button class="dsp-chip" data-value="4">4</button>
-                </div>
+            <div class="dsp-preview">
+              <div class="dsp-preview__bar">
+                <span class="dsp-preview__dot"></span>
+                <span class="dsp-preview__dot"></span>
+                <span class="dsp-preview__dot"></span>
               </div>
-              <div class="dsp-field">
-                <span class="dsp-field__label">Content</span>
+              <div class="dsp-preview__body">
+                <iframe class="dsp-frame" id="numbers-frame" title="Numbers preview"></iframe>
+              </div>
+            </div>
+            <div class="dsp-props-code">
+              <div class="dsp-controls">
+                <div class="dsp-toggle">
+                  <span class="dsp-toggle__label">Breakpoint</span>
+                  <div class="select" data-size="m" id="numbers-viewport">
+                    <span class="select__value">Desktop + tablet</span>
+                    <span class="select__chevron" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3.33337 6L8.00004 10.6667L12.6667 6" stroke="currentColor" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                    <div class="dropdown-list select__dropdown" data-size="m" hidden>
+                      <div class="dropdown-item" data-size="m" data-value="desktop" data-state="selected"><span class="dropdown-item__label">Desktop + tablet</span></div>
+                      <div class="dropdown-item" data-size="m" data-value="mobile"><span class="dropdown-item__label">Mobile</span></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="dsp-toggle">
+                  <span class="dsp-toggle__label">Stats</span>
+                  <div class="select" data-size="m" id="numbers-stats">
+                    <span class="select__value">3</span>
+                    <span class="select__chevron" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3.33337 6L8.00004 10.6667L12.6667 6" stroke="currentColor" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                    <div class="dropdown-list select__dropdown" data-size="m" hidden>
+                      <div class="dropdown-item" data-size="m" data-value="2"><span class="dropdown-item__label">2</span></div>
+                      <div class="dropdown-item" data-size="m" data-value="3" data-state="selected"><span class="dropdown-item__label">3</span></div>
+                      <div class="dropdown-item" data-size="m" data-value="4"><span class="dropdown-item__label">4</span></div>
+                    </div>
+                  </div>
+                </div>
                 <div class="dsp-toggle"><span class="dsp-toggle__label">Case study footer</span>
                   <label class="dsp-switch"><input type="checkbox" id="numbers-cases"><span class="dsp-switch__track"></span></label></div>
               </div>
+              <div class="dsp-code">
+                <button class="dsp-copy" data-copy="#numbers-code">Copy</button>
+                <pre><code id="numbers-code"></code></pre>
+              </div>
             </div>
-          </div>
-          <div class="dsp-code">
-            <button class="dsp-copy" data-copy="#numbers-code">Copy</button>
-            <pre><code id="numbers-code"></code></pre>
           </div>
         </section>
 
         <!-- ═══════════ SECTION: CASE STUDY ═══════════ -->
         <section class="dsp-section" id="case-study">
-          <div class="dsp-section__head">
-            <h2>Case study</h2>
-          </div>
-          <div class="dsp-play dsp-play--stacked">
-            <div class="dsp-stage dsp-stage--frame">
-              <div class="dsp-frame__bar">
-                <div class="dsp-chips" id="case-study-viewport">
-                  <button class="dsp-chip is-active" data-value="desktop">Desktop + tablet</button>
-                  <button class="dsp-chip" data-value="mobile">Mobile</button>
-                </div>
-              </div>
-              <iframe class="dsp-frame" id="case-study-frame" title="Case study preview"></iframe>
+          <div class="container">
+            <div class="dsp-section__head">
+              <h2>Case study</h2>
             </div>
-            <div class="dsp-controls">
-              <div class="dsp-field">
-                <span class="dsp-field__label">Content</span>
+            <div class="dsp-preview">
+              <div class="dsp-preview__bar">
+                <span class="dsp-preview__dot"></span>
+                <span class="dsp-preview__dot"></span>
+                <span class="dsp-preview__dot"></span>
+              </div>
+              <div class="dsp-preview__body">
+                <iframe class="dsp-frame" id="case-study-frame" title="Case study preview"></iframe>
+              </div>
+            </div>
+            <div class="dsp-props-code">
+              <div class="dsp-controls">
+                <div class="dsp-toggle">
+                  <span class="dsp-toggle__label">Breakpoint</span>
+                  <div class="select" data-size="m" id="case-study-viewport">
+                    <span class="select__value">Desktop + tablet</span>
+                    <span class="select__chevron" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3.33337 6L8.00004 10.6667L12.6667 6" stroke="currentColor" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                    <div class="dropdown-list select__dropdown" data-size="m" hidden>
+                      <div class="dropdown-item" data-size="m" data-value="desktop" data-state="selected"><span class="dropdown-item__label">Desktop + tablet</span></div>
+                      <div class="dropdown-item" data-size="m" data-value="mobile"><span class="dropdown-item__label">Mobile</span></div>
+                    </div>
+                  </div>
+                </div>
                 <div class="dsp-toggle"><span class="dsp-toggle__label">Supporting paragraph</span>
                   <label class="dsp-switch"><input type="checkbox" id="case-study-paragraph" checked><span class="dsp-switch__track"></span></label></div>
                 <div class="dsp-toggle"><span class="dsp-toggle__label">Primary CTA</span>
                   <label class="dsp-switch"><input type="checkbox" id="case-study-cta" checked><span class="dsp-switch__track"></span></label></div>
               </div>
+              <div class="dsp-code">
+                <button class="dsp-copy" data-copy="#case-study-code">Copy</button>
+                <pre><code id="case-study-code"></code></pre>
+              </div>
             </div>
-          </div>
-          <div class="dsp-code">
-            <button class="dsp-copy" data-copy="#case-study-code">Copy</button>
-            <pre><code id="case-study-code"></code></pre>
           </div>
         </section>
 
         <!-- ═══════════ SECTION: CUSTOMER LOGOS ═══════════ -->
         <section class="dsp-section" id="customer-logos">
-          <div class="dsp-section__head">
-            <h2>Customer logos</h2>
-          </div>
-          <div class="dsp-play dsp-play--stacked">
-            <div class="dsp-stage dsp-stage--frame">
-              <div class="dsp-frame__bar">
-                <div class="dsp-chips" id="customer-logos-viewport">
-                  <button class="dsp-chip is-active" data-value="desktop">Desktop + tablet</button>
-                  <button class="dsp-chip" data-value="mobile">Mobile</button>
-                </div>
-              </div>
-              <iframe class="dsp-frame" id="customer-logos-frame" title="Customer logos preview"></iframe>
+          <div class="container">
+            <div class="dsp-section__head">
+              <h2>Customer logos</h2>
             </div>
-            <div class="dsp-controls">
-              <div class="dsp-field">
-                <span class="dsp-field__label">Type</span>
-                <div class="dsp-chips" id="customer-logos-type">
-                  <button class="dsp-chip is-active" data-value="carousel">Carousel</button>
-                  <button class="dsp-chip" data-value="1-line">1-line</button>
-                  <button class="dsp-chip" data-value="2-line">2-line</button>
-                </div>
+            <div class="dsp-preview">
+              <div class="dsp-preview__bar">
+                <span class="dsp-preview__dot"></span>
+                <span class="dsp-preview__dot"></span>
+                <span class="dsp-preview__dot"></span>
+              </div>
+              <div class="dsp-preview__body">
+                <iframe class="dsp-frame" id="customer-logos-frame" title="Customer logos preview"></iframe>
               </div>
             </div>
-          </div>
-          <div class="dsp-code">
-            <button class="dsp-copy" data-copy="#customer-logos-code">Copy</button>
-            <pre><code id="customer-logos-code"></code></pre>
+            <div class="dsp-props-code">
+              <div class="dsp-controls">
+                <div class="dsp-toggle">
+                  <span class="dsp-toggle__label">Breakpoint</span>
+                  <div class="select" data-size="m" id="customer-logos-viewport">
+                    <span class="select__value">Desktop + tablet</span>
+                    <span class="select__chevron" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3.33337 6L8.00004 10.6667L12.6667 6" stroke="currentColor" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                    <div class="dropdown-list select__dropdown" data-size="m" hidden>
+                      <div class="dropdown-item" data-size="m" data-value="desktop" data-state="selected"><span class="dropdown-item__label">Desktop + tablet</span></div>
+                      <div class="dropdown-item" data-size="m" data-value="mobile"><span class="dropdown-item__label">Mobile</span></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="dsp-toggle">
+                  <span class="dsp-toggle__label">Type</span>
+                  <div class="select" data-size="m" id="customer-logos-type">
+                    <span class="select__value">Carousel</span>
+                    <span class="select__chevron" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3.33337 6L8.00004 10.6667L12.6667 6" stroke="currentColor" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                    <div class="dropdown-list select__dropdown" data-size="m" hidden>
+                      <div class="dropdown-item" data-size="m" data-value="carousel" data-state="selected"><span class="dropdown-item__label">Carousel</span></div>
+                      <div class="dropdown-item" data-size="m" data-value="1-line"><span class="dropdown-item__label">1-line</span></div>
+                      <div class="dropdown-item" data-size="m" data-value="2-line"><span class="dropdown-item__label">2-line</span></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="dsp-code">
+                <button class="dsp-copy" data-copy="#customer-logos-code">Copy</button>
+                <pre><code id="customer-logos-code"></code></pre>
+              </div>
+            </div>
           </div>
         </section>
 
         <!-- ═══════════ SECTION: FAQ ═══════════ -->
         <section class="dsp-section" id="faq">
-          <div class="dsp-section__head">
-            <h2>FAQ</h2>
-          </div>
-          <div class="dsp-play dsp-play--stacked">
-            <div class="dsp-stage dsp-stage--frame">
-              <div class="dsp-frame__bar">
-                <div class="dsp-chips" id="faq-viewport">
-                  <button class="dsp-chip is-active" data-value="desktop">Desktop + tablet</button>
-                  <button class="dsp-chip" data-value="mobile">Mobile</button>
+          <div class="container">
+            <div class="dsp-section__head">
+              <h2>FAQ</h2>
+            </div>
+            <div class="dsp-preview">
+              <div class="dsp-preview__bar">
+                <span class="dsp-preview__dot"></span>
+                <span class="dsp-preview__dot"></span>
+                <span class="dsp-preview__dot"></span>
+              </div>
+              <div class="dsp-preview__body">
+                <iframe class="dsp-frame" id="faq-frame" title="FAQ preview"></iframe>
+              </div>
+            </div>
+            <div class="dsp-props-code">
+              <div class="dsp-controls">
+                <div class="dsp-toggle">
+                  <span class="dsp-toggle__label">Breakpoint</span>
+                  <div class="select" data-size="m" id="faq-viewport">
+                    <span class="select__value">Desktop + tablet</span>
+                    <span class="select__chevron" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3.33337 6L8.00004 10.6667L12.6667 6" stroke="currentColor" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                    <div class="dropdown-list select__dropdown" data-size="m" hidden>
+                      <div class="dropdown-item" data-size="m" data-value="desktop" data-state="selected"><span class="dropdown-item__label">Desktop + tablet</span></div>
+                      <div class="dropdown-item" data-size="m" data-value="mobile"><span class="dropdown-item__label">Mobile</span></div>
+                    </div>
+                  </div>
                 </div>
               </div>
-              <iframe class="dsp-frame" id="faq-frame" title="FAQ preview"></iframe>
+              <div class="dsp-code">
+                <button class="dsp-copy" data-copy="#faq-code">Copy</button>
+                <pre><code id="faq-code"></code></pre>
+              </div>
             </div>
-          </div>
-          <div class="dsp-code">
-            <button class="dsp-copy" data-copy="#faq-code">Copy</button>
-            <pre><code id="faq-code"></code></pre>
           </div>
         </section>
 
         <!-- ═══════════ SECTION: ACCORDION CAROUSEL ═══════════ -->
         <section class="dsp-section" id="accordion-carousel">
-          <div class="dsp-section__head">
-            <h2>Accordion carousel</h2>
-          </div>
-          <div class="dsp-play dsp-play--stacked">
-            <div class="dsp-stage dsp-stage--frame">
-              <div class="dsp-frame__bar">
-                <div class="dsp-chips" id="accordion-carousel-viewport">
-                  <button class="dsp-chip is-active" data-value="desktop">Desktop + tablet</button>
-                  <button class="dsp-chip" data-value="mobile">Mobile</button>
+          <div class="container">
+            <div class="dsp-section__head">
+              <h2>Accordion carousel</h2>
+            </div>
+            <div class="dsp-preview">
+              <div class="dsp-preview__bar">
+                <span class="dsp-preview__dot"></span>
+                <span class="dsp-preview__dot"></span>
+                <span class="dsp-preview__dot"></span>
+              </div>
+              <div class="dsp-preview__body">
+                <iframe class="dsp-frame" id="accordion-carousel-frame" title="Accordion carousel preview"></iframe>
+              </div>
+            </div>
+            <div class="dsp-props-code">
+              <div class="dsp-controls">
+                <div class="dsp-toggle">
+                  <span class="dsp-toggle__label">Breakpoint</span>
+                  <div class="select" data-size="m" id="accordion-carousel-viewport">
+                    <span class="select__value">Desktop + tablet</span>
+                    <span class="select__chevron" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3.33337 6L8.00004 10.6667L12.6667 6" stroke="currentColor" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                    <div class="dropdown-list select__dropdown" data-size="m" hidden>
+                      <div class="dropdown-item" data-size="m" data-value="desktop" data-state="selected"><span class="dropdown-item__label">Desktop + tablet</span></div>
+                      <div class="dropdown-item" data-size="m" data-value="mobile"><span class="dropdown-item__label">Mobile</span></div>
+                    </div>
+                  </div>
                 </div>
               </div>
-              <iframe class="dsp-frame" id="accordion-carousel-frame" title="Accordion carousel preview"></iframe>
+              <div class="dsp-code">
+                <button class="dsp-copy" data-copy="#accordion-carousel-code">Copy</button>
+                <pre><code id="accordion-carousel-code"></code></pre>
+              </div>
             </div>
-          </div>
-          <div class="dsp-code">
-            <button class="dsp-copy" data-copy="#accordion-carousel-code">Copy</button>
-            <pre><code id="accordion-carousel-code"></code></pre>
           </div>
         </section>
 
         <!-- ═══════════ SECTION: CARDS ═══════════ -->
         <section class="dsp-section" id="cards">
-          <div class="dsp-section__head">
-            <h2>Cards</h2>
-          </div>
-          <div class="dsp-play dsp-play--stacked">
-            <div class="dsp-stage dsp-stage--frame">
-              <div class="dsp-frame__bar">
-                <div class="dsp-chips" id="cards-viewport">
-                  <button class="dsp-chip is-active" data-value="desktop">Desktop + tablet</button>
-                  <button class="dsp-chip" data-value="mobile">Mobile</button>
-                </div>
-              </div>
-              <iframe class="dsp-frame" id="cards-frame" title="Cards preview"></iframe>
+          <div class="container">
+            <div class="dsp-section__head">
+              <h2>Cards</h2>
             </div>
-            <div class="dsp-controls">
-              <div class="dsp-field">
-                <span class="dsp-field__label">Number of cards</span>
-                <div class="dsp-chips" id="cards-count">
-                  <button class="dsp-chip" data-value="2">2</button>
-                  <button class="dsp-chip is-active" data-value="3">3</button>
-                  <button class="dsp-chip" data-value="4">4</button>
-                  <button class="dsp-chip" data-value="5-6">5-6</button>
-                </div>
+            <div class="dsp-preview">
+              <div class="dsp-preview__bar">
+                <span class="dsp-preview__dot"></span>
+                <span class="dsp-preview__dot"></span>
+                <span class="dsp-preview__dot"></span>
               </div>
-              <div class="dsp-field">
-                <span class="dsp-field__label">Image position</span>
-                <div class="dsp-chips" id="cards-imgpos">
-                  <button class="dsp-chip is-active" data-value="top">Top</button>
-                  <button class="dsp-chip" data-value="bottom">Bottom</button>
-                </div>
+              <div class="dsp-preview__body">
+                <iframe class="dsp-frame" id="cards-frame" title="Cards preview"></iframe>
               </div>
-              <div class="dsp-field">
-                <span class="dsp-field__label">Media</span>
-                <div class="dsp-chips" id="cards-media">
-                  <button class="dsp-chip is-active" data-value="big-image">Big image</button>
-                  <button class="dsp-chip" data-value="small-image">Small image</button>
-                  <button class="dsp-chip" data-value="icon">Icon</button>
+            </div>
+            <div class="dsp-props-code">
+              <div class="dsp-controls">
+                <div class="dsp-toggle">
+                  <span class="dsp-toggle__label">Breakpoint</span>
+                  <div class="select" data-size="m" id="cards-viewport">
+                    <span class="select__value">Desktop + tablet</span>
+                    <span class="select__chevron" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3.33337 6L8.00004 10.6667L12.6667 6" stroke="currentColor" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                    <div class="dropdown-list select__dropdown" data-size="m" hidden>
+                      <div class="dropdown-item" data-size="m" data-value="desktop" data-state="selected"><span class="dropdown-item__label">Desktop + tablet</span></div>
+                      <div class="dropdown-item" data-size="m" data-value="mobile"><span class="dropdown-item__label">Mobile</span></div>
+                    </div>
+                  </div>
                 </div>
-              </div>
-              <div class="dsp-field">
-                <span class="dsp-field__label">Content</span>
+                <div class="dsp-toggle">
+                  <span class="dsp-toggle__label">Number of cards</span>
+                  <div class="select" data-size="m" id="cards-count">
+                    <span class="select__value">3</span>
+                    <span class="select__chevron" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3.33337 6L8.00004 10.6667L12.6667 6" stroke="currentColor" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                    <div class="dropdown-list select__dropdown" data-size="m" hidden>
+                      <div class="dropdown-item" data-size="m" data-value="2"><span class="dropdown-item__label">2</span></div>
+                      <div class="dropdown-item" data-size="m" data-value="3" data-state="selected"><span class="dropdown-item__label">3</span></div>
+                      <div class="dropdown-item" data-size="m" data-value="4"><span class="dropdown-item__label">4</span></div>
+                      <div class="dropdown-item" data-size="m" data-value="5-6"><span class="dropdown-item__label">5-6</span></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="dsp-toggle">
+                  <span class="dsp-toggle__label">Image position</span>
+                  <div class="select" data-size="m" id="cards-imgpos">
+                    <span class="select__value">Top</span>
+                    <span class="select__chevron" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3.33337 6L8.00004 10.6667L12.6667 6" stroke="currentColor" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                    <div class="dropdown-list select__dropdown" data-size="m" hidden>
+                      <div class="dropdown-item" data-size="m" data-value="top" data-state="selected"><span class="dropdown-item__label">Top</span></div>
+                      <div class="dropdown-item" data-size="m" data-value="bottom"><span class="dropdown-item__label">Bottom</span></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="dsp-toggle">
+                  <span class="dsp-toggle__label">Media</span>
+                  <div class="select" data-size="m" id="cards-media">
+                    <span class="select__value">Big image</span>
+                    <span class="select__chevron" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3.33337 6L8.00004 10.6667L12.6667 6" stroke="currentColor" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                    <div class="dropdown-list select__dropdown" data-size="m" hidden>
+                      <div class="dropdown-item" data-size="m" data-value="big-image" data-state="selected"><span class="dropdown-item__label">Big image</span></div>
+                      <div class="dropdown-item" data-size="m" data-value="small-image"><span class="dropdown-item__label">Small image</span></div>
+                      <div class="dropdown-item" data-size="m" data-value="icon"><span class="dropdown-item__label">Icon</span></div>
+                    </div>
+                  </div>
+                </div>
                 <div class="dsp-toggle"><span class="dsp-toggle__label">Image</span>
                   <label class="dsp-switch"><input type="checkbox" id="cards-image" checked><span class="dsp-switch__track"></span></label></div>
                 <div class="dsp-toggle"><span class="dsp-toggle__label">Number</span>
@@ -1009,11 +1307,11 @@
                 <div class="dsp-toggle"><span class="dsp-toggle__label">Secondary CTA</span>
                   <label class="dsp-switch"><input type="checkbox" id="cards-secondary" checked><span class="dsp-switch__track"></span></label></div>
               </div>
+              <div class="dsp-code">
+                <button class="dsp-copy" data-copy="#cards-code">Copy</button>
+                <pre><code id="cards-code"></code></pre>
+              </div>
             </div>
-          </div>
-          <div class="dsp-code">
-            <button class="dsp-copy" data-copy="#cards-code">Copy</button>
-            <pre><code id="cards-code"></code></pre>
           </div>
         </section>
 
@@ -1042,9 +1340,9 @@
       return getComputedStyle(_resolveEl).width || '—';
     }
 
-    /* paths as they appear from a page in pages/ (matches the
-       reference templates that use ../components/…) */
-    const ICON_PATH = (size, name) => `../components/atomic/icon/svg/${size}x${size}/${name}.svg`;
+    /* paths as they appear from a page in examples/pages/ (matches the
+       reference templates that use ../../components/…) */
+    const ICON_PATH = (size, name) => `../../components/atomic/icon/svg/${size}x${size}/${name}.svg`;
     /* paths that actually resolve from THIS file at the project root */
     const ICON_PATH_LOCAL = (size, name) => `../components/atomic/icon/svg/${size}x${size}/${name}.svg`;
 
@@ -1536,12 +1834,28 @@
     }
 
     /* ---------- COPY BUTTONS ---------- */
+    function legacyCopy(text) {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.cssText = 'position:fixed;top:-1000px;opacity:0';
+      document.body.appendChild(ta);
+      ta.select();
+      try { document.execCommand('copy'); } catch (e) { /* ignore */ }
+      document.body.removeChild(ta);
+    }
+    function copyText(text) {
+      if (navigator.clipboard?.writeText) {
+        return navigator.clipboard.writeText(text).catch(() => legacyCopy(text));
+      }
+      legacyCopy(text);
+      return Promise.resolve();
+    }
     $$('.dsp-copy').forEach(btn => {
       btn.addEventListener('click', () => {
         const text = $(btn.dataset.copy).textContent;
-        navigator.clipboard?.writeText(text).then(() => {
-          const old = btn.textContent; btn.textContent = 'Copied ✓';
-          setTimeout(() => btn.textContent = old, 1200);
+        copyText(text).then(() => {
+          const old = btn.textContent; btn.textContent = 'Copied';
+          setTimeout(() => btn.textContent = old, 3000);
         });
       });
     });
@@ -2222,37 +2536,71 @@
       + '<link rel="preconnect" href="https://fonts.googleapis.com">'
       + '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>'
       + '<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Plus+Jakarta+Sans:wght@400;700&display=swap" rel="stylesheet">'
-      + '<style>html,body{margin:0;padding:0;background:transparent}body{padding-block:var(--spacing-8)}</style>'
-      + '</head><body>' + body + (scripts || '') + '</body></html>';
+      + '<style>html,body{margin:0;padding:0;background:transparent}</style>'
+      /* Mock .section-band: components no longer carry their own page padding
+         (see CLAUDE.md "Sections"), so wrap the preview in one to show the
+         real page-padding inset without any extra background tint of its
+         own — default layer-0 matches the white "browser window" card
+         (.dsp-preview) that frames this iframe, so no seam is visible. */
+      + '</head><body><div class="section-band">' + body + (scripts || '') + '</div></body></html>';
 
     function sizeFrame(frame) {
       try {
         const d = frame.contentDocument;
-        if (d && d.body) frame.style.height = Math.max(d.body.scrollHeight, d.documentElement.scrollHeight) + 'px';
+        if (!d || !d.body) return;
+        /* Collapse to 0 before measuring: a frame that was previously taller
+           can't otherwise shrink, because documentElement.scrollHeight never
+           reports smaller than the frame's own current viewport height. With
+           the frame collapsed, body.scrollHeight is the exact content height,
+           which keeps the 64px top/bottom margins around the mock symmetric. */
+        frame.style.height = '0';
+        frame.style.height = d.body.scrollHeight + 'px';
       } catch (e) { /* ignore */ }
     }
     function paintFrame(frame, body, scripts) {
       frame.onload = () => { sizeFrame(frame); setTimeout(() => sizeFrame(frame), 400); };
       frame.srcdoc = FRAME_DOC(body, scripts);
     }
+    /* Select-based replacement for the old chip groups: open/close + item
+       selection, mirroring components/atomic/select/select.js scoped to a
+       single instance, then hands the picked value to the caller. */
+    function bindSelect(select, onPick) {
+      const dropdown = select.querySelector('.select__dropdown');
+      const valueEl  = select.querySelector('.select__value');
+      if (!dropdown) return;
+
+      function close() { delete select.dataset.open; dropdown.hidden = true; }
+      function open()  { select.dataset.open = ''; dropdown.hidden = false; }
+
+      select.addEventListener('click', () => {
+        select.hasAttribute('data-open') ? close() : open();
+      });
+      document.addEventListener('click', e => {
+        if (!select.contains(e.target)) close();
+      });
+      dropdown.querySelectorAll('.dropdown-item').forEach(item => {
+        item.addEventListener('click', e => {
+          e.stopPropagation();
+          dropdown.querySelectorAll('.dropdown-item').forEach(i => delete i.dataset.state);
+          item.dataset.state = 'selected';
+          if (valueEl) valueEl.textContent = item.querySelector('.dropdown-item__label')?.textContent ?? '';
+          close();
+          onPick(item.dataset.value);
+        });
+      });
+    }
     function wireViewport(mountSel, frameSel) {
       const mount = $(mountSel), frame = $(frameSel);
       if (!mount || !frame) return;
       frame.dataset.viewport = 'desktop';
-      mount.addEventListener('click', e => {
-        const chip = e.target.closest('.dsp-chip'); if (!chip) return;
-        $$('.dsp-chip', mount).forEach(c => c.classList.toggle('is-active', c === chip));
-        frame.dataset.viewport = chip.dataset.value;
+      bindSelect(mount, value => {
+        frame.dataset.viewport = value;
         setTimeout(() => sizeFrame(frame), 360);
       });
     }
     function wireChips(mountSel, onPick) {
       const mount = $(mountSel); if (!mount) return;
-      mount.addEventListener('click', e => {
-        const chip = e.target.closest('.dsp-chip'); if (!chip) return;
-        $$('.dsp-chip', mount).forEach(c => c.classList.toggle('is-active', c === chip));
-        onPick(chip.dataset.value);
-      });
+      bindSelect(mount, onPick);
     }
 
     /* ----- Heading ----- */
@@ -2269,6 +2617,7 @@
         + '      </div>';
       if (s.layout === 'split') {
         return '<div class="heading"' + levelAttr + ' data-paragraph>\n'
+          + '  <div class="container">\n'
           + '  <div class="heading__inner">\n'
           + '    ' + title + '\n'
           + '    <div class="heading__body">\n'
@@ -2276,12 +2625,15 @@
           + '      ' + actions + '\n'
           + '    </div>\n'
           + '  </div>\n'
+          + '  </div>\n'
           + '</div>';
       }
       return '<div class="heading"' + levelAttr + '>\n'
+        + '  <div class="container">\n'
         + '  <div class="heading__inner">\n'
         + '    ' + title + '\n'
         + '    ' + actions + '\n'
+        + '  </div>\n'
         + '  </div>\n'
         + '</div>';
     }
@@ -2318,7 +2670,9 @@
     const textBlockState = { size: 'default' };
     function buildTextBlock(s) {
       return '<div class="text-block" data-size="' + s.size + '">\n'
+        + '  <div class="container">\n'
         + '  <p class="text-block__text">Commodo tempor aliquam in egestas orci. Iaculis felis felis a blandit augue tortor nunc ultrices ut. Turpis libero faucibus tristique facilisis nec risus. Nulla nam sapien amet nunc in ipsum.</p>\n'
+        + '  </div>\n'
         + '</div>';
     }
     function renderTextBlock() {
@@ -2333,10 +2687,12 @@
     const imageState = { layout: 'wide' };
     function buildImage(s) {
       return '<div class="image" data-layout="' + s.layout + '">\n'
+        + '  <div class="container">\n'
         + '  <div class="image__inner">\n'
         + '    <div class="image__frame">\n'
         + '      <span class="image__placeholder" aria-hidden="true">' + IMAGE_SVG + '</span>\n'
         + '    </div>\n'
+        + '  </div>\n'
         + '  </div>\n'
         + '</div>';
     }
@@ -2386,13 +2742,19 @@
     const testimonialState = { mode: 'multi' };
     function buildTestimonial(s) {
       if (s.mode === 'single') {
-        return '<section class="testimonial" data-mode="single">\n'
+        return '<div class="container">\n'
+          + '<section class="testimonial" data-mode="single">\n'
+          + '  <div class="testimonial__inner">\n'
           + '  <div class="testimonial__track">\n'
           + T_SLIDE(Q1, false) + '\n'
           + '  </div>\n'
-          + '</section>';
+          + '  </div>\n'
+          + '</section>\n'
+          + '</div>';
       }
-      return '<section class="testimonial" data-mode="multi" aria-roledescription="carousel" aria-label="Customer testimonials">\n'
+      return '<div class="container">\n'
+        + '<section class="testimonial" data-mode="multi" aria-roledescription="carousel" aria-label="Customer testimonials">\n'
+        + '  <div class="testimonial__inner">\n'
         + '  <div class="testimonial__track">\n'
         + T_SLIDE(Q1, true) + '\n'
         + T_SLIDE(Q2, false) + '\n'
@@ -2411,7 +2773,9 @@
         + '      <span class="btn-icon__icon" aria-hidden="true">' + T_NAV_NEXT + '</span>\n'
         + '    </button>\n'
         + '  </div>\n'
-        + '</section>';
+        + '  </div>\n'
+        + '</section>\n'
+        + '</div>';
     }
     function renderTestimonial() {
       const frame = $('#testimonial-frame'); if (!frame) return;
@@ -2459,7 +2823,7 @@
         body = '    ' + actions;
       }
       const attrs = 'class="cta" data-type="' + s.type + '" data-alignment="' + s.alignment + '"' + (s.paragraph ? ' data-paragraph' : '');
-      return '<div ' + attrs + '>\n  <div class="cta__inner">\n    <h1 class="cta__heading">Sit nec duis odio non proin aliquet</h1>\n' + body + '\n  </div>\n</div>';
+      return '<div ' + attrs + '>\n  <div class="container">\n  <div class="cta__inner">\n    <h1 class="cta__heading">Sit nec duis odio non proin aliquet</h1>\n' + body + '\n  </div>\n  </div>\n</div>';
     }
     function renderCta() {
       const f = $('#cta-frame'); if (!f) return;
@@ -2491,7 +2855,7 @@
     function buildNumbers(s) {
       const items = [];
       for (let i = 0; i < s.stats; i++) items.push(numbersItem(s));
-      return '<div class="numbers" data-stats="' + s.stats + '"' + (s.cases ? ' data-case-studies="true"' : '') + '>\n  <div class="numbers__inner">\n' + items.join('\n') + '\n  </div>\n</div>';
+      return '<div class="numbers" data-stats="' + s.stats + '"' + (s.cases ? ' data-case-studies="true"' : '') + '>\n  <div class="container">\n  <div class="numbers__inner">\n' + items.join('\n') + '\n  </div>\n  </div>\n</div>';
     }
     function renderNumbers() {
       const f = $('#numbers-frame'); if (!f) return;
@@ -2512,6 +2876,7 @@
       const cta = s.cta
         ? '\n      <button class="btn" data-type="primary" data-size="l"><span class="btn__label">Primary CTA</span></button>' : '';
       return '<div class="case-study">\n'
+        + '  <div class="container">\n'
         + '  <div class="case-study__inner">\n'
         + '    <div class="case-study__content">\n'
         + '      <div class="case-study__figure">\n'
@@ -2529,6 +2894,7 @@
         + '      </div>\n'
         + '      <span class="case-study__logo">Logo</span>\n'
         + '    </div>\n'
+        + '  </div>\n'
         + '  </div>\n'
         + '</div>';
     }
@@ -2557,6 +2923,7 @@
       else if (s.type === '1-line') { header = '<p class="customer-logos__header">Trusted by:</p>'; n = 8; }
       else { header = '<p class="customer-logos__header"><span class="customer-logos__brand">25% of the Fortune 500</span> trust Smartcat to translate their high-quality multilingual content.</p>'; n = 10; }
       return '<div class="customer-logos" data-type="' + s.type + '">\n'
+        + '  <div class="container">\n'
         + '  <div class="customer-logos__inner">\n'
         + '    ' + header + '\n'
         + '    <div class="customer-logos__viewport">\n'
@@ -2564,6 +2931,7 @@
         + logoItems(n, dup) + '\n'
         + '      </div>\n'
         + '    </div>\n'
+        + '  </div>\n'
         + '  </div>\n'
         + '</div>';
     }
@@ -2586,8 +2954,8 @@
     }
     const FAQ_QS = ['Faucibus non enim id eget varius eget faucibus?', 'Sit quam sed urna aliquet.', 'Pellentesque pellentesque ornare consequat est nunc sem ipsum faucibus.', 'Volutpat dui sit aliquam gravida.', 'Iaculis facilisis pellentesque odio eget eu ac imperdiet.'];
     function buildFaq() {
-      return '<div class="faq">\n  <div class="faq__inner">\n    <h2 class="faq__title">Frequently Asked Questions</h2>\n    <div class="faq__list">\n'
-        + FAQ_QS.map(faqItem).join('\n') + '\n    </div>\n  </div>\n</div>';
+      return '<div class="faq">\n  <div class="container">\n  <div class="faq__inner">\n    <h2 class="faq__title">Frequently Asked Questions</h2>\n    <div class="faq__list">\n'
+        + FAQ_QS.map(faqItem).join('\n') + '\n    </div>\n  </div>\n  </div>\n</div>';
     }
     function renderFaq() {
       const f = $('#faq-frame'); if (!f) return;
@@ -2612,11 +2980,11 @@
         medias.push('      <div class="accordion-carousel__media-item"' + (active ? ' data-active' : '') + '>' + AC_MEDIA_SVG + '</div>');
         dots.push('        <button class="accordion-carousel__dot" type="button"' + (active ? ' data-state="selected"' : '') + ' aria-label="Go to item ' + (i + 1) + '"></button>');
       }
-      return '<div class="accordion-carousel">\n  <div class="accordion-carousel__inner">\n'
+      return '<div class="accordion-carousel">\n  <div class="container">\n  <div class="accordion-carousel__inner">\n'
         + '    <div class="accordion-carousel__items">\n' + items.join('\n') + '\n    </div>\n'
         + '    <div class="accordion-carousel__media">\n' + medias.join('\n') + '\n    </div>\n'
         + '    <div class="accordion-carousel__pagination">\n      <div class="accordion-carousel__dots">\n' + dots.join('\n') + '\n      </div>\n    </div>\n'
-        + '  </div>\n</div>';
+        + '  </div>\n  </div>\n</div>';
     }
     const AC_JS = '<scr' + 'ipt>(function(){'
       + 'var root=document.querySelector(".accordion-carousel");if(!root)return;'
@@ -2675,8 +3043,8 @@
       const cards = [];
       for (let i = 1; i <= n; i++) cards.push(cardsCardHtml(s, i));
       return '<div class="cards" data-cards="' + s.count + '" data-media="' + s.media + '" data-image-position="' + s.imgpos + '">\n'
-        + '  <div class="cards__inner">\n    <div class="cards__grid">\n'
-        + cards.join('\n') + '\n    </div>\n  </div>\n</div>';
+        + '  <div class="container">\n  <div class="cards__inner">\n    <div class="cards__grid">\n'
+        + cards.join('\n') + '\n    </div>\n  </div>\n  </div>\n</div>';
     }
     function renderCards() {
       const f = $('#cards-frame'); if (!f) return;
@@ -2726,11 +3094,12 @@
 
       if (s.type === 'simple-left') {
         return '<section class="hero-block" data-type="simple-left">\n'
+          + '  <div class="container">\n'
           + '  <div class="hero-block__content">\n'
           + '    <div class="hero-block__text">' + badges + title + '</div>\n'
           + (para ? '    ' + para + '\n' : '')
           + (buttons ? '    ' + buttons + '\n' : '')
-          + '  </div>\n</section>';
+          + '  </div>\n  </div>\n</section>';
       }
       if (s.type === 'image-right') {
         return '<section class="hero-block" data-type="image-right">\n'
@@ -2740,14 +3109,17 @@
           + '  <div class="hero-block__media-col"><div class="hero-block__image">' + HERO_IMG_SVG + '</div></div>\n'
           + '</section>';
       }
-      // simple-center & image-center share one shape
+      // simple-center & image-center share one shape. Note: .hero-block__media
+      // stays OUTSIDE .container, matching the real component (the banner isn't
+      // capped to the 1540px content width).
       const media = s.type === 'image-center'
         ? '\n  <div class="hero-block__media"><div class="hero-block__image">' + HERO_IMG_SVG + '</div>' + (s.play ? HERO_PLAY_BTN : '') + '</div>'
         : '';
       return '<section class="hero-block" data-type="' + s.type + '">\n'
+        + '  <div class="container">\n'
         + '  <div class="hero-block__content">\n'
         + '    <div class="hero-block__text">' + badges + title + para + '</div>' + (buttons ? '\n    ' + buttons : '') + '\n'
-        + '  </div>' + media + '\n</section>';
+        + '  </div>\n  </div>' + media + '\n</section>';
     }
     function renderHeroBlock() {
       const f = $('#hero-block-frame'); if (!f) return;
@@ -2780,10 +3152,11 @@
         content.push('      <div class="zigzag__actions">\n' + btns + '\n      </div>');
       }
       return '<div class="zigzag" data-image-position="' + s.imgpos + '">\n'
+        + '  <div class="container">\n'
         + '  <div class="zigzag__inner">\n'
         + '    <div class="zigzag__image">' + ZIGZAG_IMG_SVG + '</div>\n'
         + '    <div class="zigzag__content">\n' + content.join('\n') + '\n    </div>\n'
-        + '  </div>\n</div>';
+        + '  </div>\n  </div>\n</div>';
     }
     function renderZigzag() {
       const f = $('#zigzag-frame'); if (!f) return;
@@ -2798,6 +3171,42 @@
     $('#zigzag-secondary')?.addEventListener('change', e => { zigzagState.secondary = e.target.checked; renderZigzag(); });
     wireViewport('#zigzag-viewport', '#zigzag-frame');
     renderZigzag();
+
+    /* ---------- PANEL HEIGHT SYNC ---------- */
+    /* The code panel's height must never depend on how much code it holds —
+       it's always either the properties panel's own height, or the shared
+       224px floor when the properties panel is at that floor. This holds at
+       every viewport width, stacked or side-by-side alike, so there's no
+       breakpoint branch here. Plain flexbox align-items:stretch can't do
+       this on its own: .dsp-code's own auto height is influenced by its
+       <pre> child's content (a flex:1 item can't be capped by a parent
+       whose height isn't yet resolved), so a long code snippet would
+       inflate the whole row (or, in the stacked mobile layout, inflate
+       .dsp-code alone to its full line count). Measuring .dsp-controls
+       (which itself just hugs its own row list, floored by CSS min-height)
+       and applying that as an explicit height on .dsp-code breaks the
+       circularity in both layouts. */
+    function syncPanelHeights() {
+      $$('.dsp-props-code').forEach(row => {
+        const controls = row.querySelector('.dsp-controls');
+        const code = row.querySelector('.dsp-code');
+        if (!controls || !code) return;
+        code.style.height = '';
+        code.style.height = Math.max(224, controls.getBoundingClientRect().height) + 'px';
+      });
+    }
+    syncPanelHeights();
+    window.addEventListener('resize', syncPanelHeights);
+
+    /* ---------- SIDEBAR COLLAPSE ---------- */
+    $('#dsp-nav-collapse-btn')?.addEventListener('click', () => {
+      document.documentElement.classList.add('dsp-nav-collapsed');
+      localStorage.setItem('dsp-nav-collapsed', '1');
+    });
+    $('#dsp-nav-fab')?.addEventListener('click', () => {
+      document.documentElement.classList.remove('dsp-nav-collapsed');
+      localStorage.setItem('dsp-nav-collapsed', '0');
+    });
 
   })();
   </script>
