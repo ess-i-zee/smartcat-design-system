@@ -69,7 +69,7 @@ Never mixed within one component instance: a cards row is all-icons or all-scree
 
 ## 5. Known deviations in existing pages
 
-`examples/pages/content-operations-enterprise-ai.html` predates these rules and deviates in three ways
+`output/pages/content-operations-enterprise-ai.html` predates these rules and deviates in three ways
 (acceptable as-is; align if the page is next revised):
 - Its closing CTA sits on a neutral `data-layer="1"` band instead of a saturated (brand/dark) band.
 - Section headings use `data-level="h2"` instead of the observed largest-scale (`data-level="h1"` visual on semantic `<h2>`).

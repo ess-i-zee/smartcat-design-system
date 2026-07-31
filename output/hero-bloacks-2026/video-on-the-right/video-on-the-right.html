@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Hero block — Centered — Smartcat</title>
+  <title>Hero block — Video on the right — Smartcat</title>
 
-  <link rel="stylesheet" href="../../../../main.css">
-  <link rel="stylesheet" href="centered.css">
+  <link rel="stylesheet" href="../../../main.css">
+  <link rel="stylesheet" href="video-on-the-right.css">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -14,30 +14,27 @@
 </head>
 <body>
 
-<!-- ═══ Hero · Centered ═════════════════════════════════════════════
+<!-- ═══ Hero · Video on the right ══════════════════════════════════
      The hero is an ordinary page-level component: the .section-band
-     supplies its background and its side padding (16 mobile / 32 tablet
-     / 80 desktop, from --grid-page-padding). Here the band uses
-     data-layer="brand-gradient" — flat gray through the upper part of
-     the hero, ramping to brand purple behind the closing image. That
-     gradient must span the full viewport width, which is exactly what a
-     band background does, so it belongs on the band rather than on the
-     image block inside the container. See NOTE 2 in the stylesheet.
-
+     supplies its background (data-layer="2") and its side padding
+     (16 mobile / 32 tablet / 80 desktop, from --grid-page-padding).
      One component = one Section here. No Components spacing inside the
      band — the hero's own vertical padding comes from the Figma frames.
-
-     Single centered column, so no grid: text content, then the ticker,
-     then the wide product image that closes the hero.
      ════════════════════════════════════════════════════════════════ -->
-<div class="section-band" data-layer="brand-gradient">
-<section class="hero-2026" data-variant="centered">
+<div class="section-band" data-layer="2">
+<section class="hero-2026" data-variant="video-on-the-right">
   <div class="container">
-  <div class="hero-2026__stack">
+  <div class="hero-2026__grid">
 
-    <!-- ── Text content ────────────────────────────────────────── -->
+    <!-- ── Text content (own grid cell) ────────────────────────── -->
     <div class="hero-2026__content">
+      <div class="hero-2026__body">
 
+        <!-- Badges. Two icon treatments live side by side and are swapped
+             by CSS at 1280px: the 16px line icon shows below desktop, the
+             32px certification seal at desktop. The trailing word
+             "organization" is toggled the same way. Only the visible one
+             is exposed to assistive tech (the other is display:none). -->
         <div class="hero-2026__badges">
           <div class="hero-2026__badge">
             <span class="hero-2026__badge-icon" aria-hidden="true">
@@ -68,13 +65,16 @@
           </div>
         </div>
 
-        <h1 class="hero-2026__title">Start localization workflow before you even sign up</h1>
+        <h1 class="hero-2026__title">One training video, spoken in 280 languages, in minutes.</h1>
 
-        <p class="hero-2026__paragraph">Smartcat brings AI translation, human linguists, and your brand terminology into one calm, enterprise workflow — for documents, websites, video, courses, and software.</p>
+        <p class="hero-2026__paragraph">An AI agent crew translates, voices, lip-syncs and ships your training to every LMS — without rebuilding a single module.</p>
 
         <!-- Buttons. Like the badges above, two treatments sit side by side
              and are swapped by CSS at 1280px: the size-M button shows below
-             desktop, the size-L button at desktop. -->
+             desktop, the size-L button at desktop. Button size is a variant
+             swap in Figma (M vs L), not a responsive token, so it can't be
+             expressed by one element. Only the visible one is exposed to
+             assistive tech (the other is display:none). -->
         <div class="hero-2026__buttons">
           <div class="hero-2026__button-group">
             <button class="btn hero-2026__btn-compact" data-type="primary" data-size="m"><span class="btn__label">Book a demo</span></button>
@@ -88,9 +88,21 @@
           </div>
         </div>
 
+      </div>
     </div>
 
-    <!-- ── Logo ticker ─────────────────────────────────────────── -->
+    <!-- ── Video (own grid cell) ─────────────────────────────────
+         The Figma "Hero video" frame is exported whole at @2x and used as
+         a single flat image — it stands in for the embedded video player
+         that will occupy this slot in production. The progress bar,
+         timecode and control icons visible in it are part of that export,
+         NOT live UI, so there is deliberately no player markup here.
+         ──────────────────────────────────────────────────────────── -->
+    <div class="hero-2026__media">
+      <img class="hero-2026__video" src="assets/hero-video.png" alt="Two colleagues reviewing training material on a laptop — video player preview">
+    </div>
+
+    <!-- ── Logo ticker (own grid cell) ─────────────────────────── -->
     <div class="hero-2026__trust">
       <p class="hero-2026__trust-text">Trusted by 1,000+ enterprise brands to power global content</p>
       <div class="hero-2026__logos">
@@ -111,14 +123,6 @@
           <img src="assets/logo-7.svg" alt="" aria-hidden="true">
         </div>
       </div>
-    </div>
-
-    <!-- ── Centered product image ──────────────────────────────────
-         Closes the hero flush with its own bottom edge; only the top
-         corners are rounded so it reads as continuing past the fold.
-         ──────────────────────────────────────────────────────────── -->
-    <div class="hero-2026__media">
-      <img class="hero-2026__image" src="assets/hero-centered.png" alt="Smartcat workspace showing a personal AI agent ready to start a translation task">
     </div>
 
   </div>

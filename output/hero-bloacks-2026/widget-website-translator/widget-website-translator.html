@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Hero block — Book a demo widget — Smartcat</title>
+  <title>Hero block — Website translator widget — Smartcat</title>
 
-  <link rel="stylesheet" href="../../../../main.css">
-  <link rel="stylesheet" href="widget-book-a-demo.css">
+  <link rel="stylesheet" href="../../../main.css">
+  <link rel="stylesheet" href="widget-website-translator.css">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -14,7 +14,7 @@
 </head>
 <body>
 
-<!-- ═══ Hero · Widget or form — Book a demo ══════════════════
+<!-- ═══ Hero · Widget or form — Website translator ══════════════════
      The hero is an ordinary page-level component: the .section-band
      supplies its background (data-layer="2") and its side padding
      (16 mobile / 32 tablet / 80 desktop, from --grid-page-padding).
@@ -22,7 +22,7 @@
      band — the hero's own vertical padding comes from the Figma frames.
      ════════════════════════════════════════════════════════════════ -->
 <div class="section-band" data-layer="2">
-<section class="hero-2026" data-variant="widget-book-a-demo">
+<section class="hero-2026" data-variant="widget-website-translator">
   <div class="container">
   <div class="hero-2026__grid">
 
@@ -65,9 +65,9 @@
           </div>
         </div>
 
-        <h1 class="hero-2026__title">Expert-trained AI Coworkers for translation, localization, and market adaptation</h1>
+        <h1 class="hero-2026__title">Translate your website in minutes</h1>
 
-        <p class="hero-2026__paragraph">Smartcat is the AI-powered translation platform where expert-enabled AI translation agents create, translate, and automate content in 280+ languages. Book a demo and meet your team of AI agents.</p>
+        <p class="hero-2026__paragraph">Generate a live translated preview, estimate localization effort, and launch multilingual pages without changing your codebase.</p>
 
         <!-- Buttons. Like the badges above, two treatments sit side by side
              and are swapped by CSS at 1280px: the size-M button shows below
@@ -94,132 +94,89 @@
          below 800px a matching ::before floods the left too. See NOTE 4
          in the stylesheet.
 
-         The field set and the footer appear twice — a size-M pair for
-         below desktop and a size-L pair for desktop — because button and
+         Fields and the submit button appear twice — a size-M set for
+         below desktop and a size-L set for desktop — because button and
          input sizes are Figma variants, not responsive tokens. Only the
-         visible set is in the accessibility tree, so the duplicated ids
-         and labels never collide for assistive tech.
+         visible set is in the accessibility tree.
          ──────────────────────────────────────────────────────────── -->
     <div class="hero-2026__media">
       <div class="hero-2026__panel">
         <form class="hero-2026__form" action="#" method="post" novalidate>
 
           <div class="hero-2026__form-head">
-            <h2 class="hero-2026__form-title">Book your free personalized demo</h2>
-            <p class="hero-2026__form-caption">See the AI translation platform in action on your use case.</p>
+            <h2 class="hero-2026__form-title">Website translator</h2>
+            <span class="badge" data-style="filled" data-size="m">
+              <span class="badge__label">Live preview</span>
+            </span>
           </div>
 
+          <!-- Fields — size M (below 1280) -->
           <div class="hero-2026__form-fields hero-2026__scale-compact">
-
-            <div class="hero-2026__form-row">
-              <div class="input-group">
-                <label class="input-group__label" for="first-name-m">
-                  First name
-                  <span class="input-group__suffix" aria-hidden="true">*</span>
-                </label>
-                <div class="text-field" data-size="m">
-                  <input type="text" id="first-name-m" class="text-field__native" name="first-name" autocomplete="given-name" required>
-                </div>
-              </div>
-              <div class="input-group">
-                <label class="input-group__label" for="last-name-m">
-                  Last name
-                  <span class="input-group__suffix" aria-hidden="true">*</span>
-                </label>
-                <div class="text-field" data-size="m">
-                  <input type="text" id="last-name-m" class="text-field__native" name="last-name" autocomplete="family-name" required>
-                </div>
-              </div>
-            </div>
-
-            <div class="input-group">
-              <label class="input-group__label" for="email-m">
-                Business email
-                <span class="input-group__suffix" aria-hidden="true">*</span>
-              </label>
-              <div class="text-field" data-size="m">
-                <input type="email" id="email-m" class="text-field__native" name="email" autocomplete="email" required>
-              </div>
-            </div>
-
-            <div class="input-group">
-              <!-- Select has no native control: the label is id'd and the
-                   .select points at it with aria-labelledby. -->
-              <span class="input-group__label" id="country-label-m">
-                Country
-                <span class="input-group__suffix" aria-hidden="true">*</span>
+            <div class="text-field" data-size="m">
+              <span class="text-field__leading-icon" aria-hidden="true">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14.6666 7.99992C14.6666 9.70607 14.0157 11.4122 12.714 12.714C10.1105 15.3175 5.88937 15.3175 3.28587 12.714C1.98413 11.4122 1.33325 9.70607 1.33325 7.99992M14.6666 7.99992C14.6666 6.29377 14.0157 4.58762 12.714 3.28587C10.1105 0.682378 5.88937 0.682378 3.28587 3.28587C1.98413 4.58762 1.33325 6.29377 1.33325 7.99992M14.6666 7.99992H1.33325M9.88554 12.714C8.84414 15.3175 7.1557 15.3175 6.1143 12.714C5.5936 11.4122 5.33325 9.70607 5.33325 7.99992C5.33325 6.29377 5.5936 4.58762 6.1143 3.28587C7.1557 0.682378 8.84414 0.682378 9.88554 3.28587C10.4062 4.58762 10.6666 6.29377 10.6666 7.99992C10.6666 9.70607 10.4062 11.4122 9.88554 12.714Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/></svg>
               </span>
-              <div class="select" data-size="m" aria-labelledby="country-label-m">
-                <span class="select__placeholder">Please select your country</span>
-                <span class="select__value" hidden></span>
-                <span class="select__chevron" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3.33337 6L8.00004 10.6667L12.6667 6" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-              </div>
+              <input type="url" class="text-field__native" name="url" placeholder="Your website URL" aria-label="Your website URL">
             </div>
-
+            <div class="select" data-size="m">
+              <span class="select__leading-icon" aria-hidden="true">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6.9999 13.6667L7.92208 11.487M14.3332 13.6667L13.4111 11.487L11.0071 5.80503C10.8798 5.5041 10.4533 5.5041 10.326 5.80503L7.92208 11.487M7.92208 11.487H13.4111M1.33325 10.0001C5.73325 8.33341 7.33325 6.00008 7.33325 3.33341M8.33326 10.0001C5.05742 8.75923 3.66693 7.17576 2.99993 5.33341C2.92379 5.12312 2.86143 4.9098 2.81209 4.69366M1.33325 3.00008H4.99992M4.99992 3.00008H8.66659M4.99992 3.00008V1.66675" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+              <span class="select__placeholder">Select target language</span>
+              <span class="select__value" hidden></span>
+              <span class="select__chevron" aria-hidden="true">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3.33337 6L8.00004 10.6667L12.6667 6" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+            </div>
           </div>
 
+          <!-- Fields — size L (desktop) -->
           <div class="hero-2026__form-fields hero-2026__scale-full">
-
-            <div class="hero-2026__form-row">
-              <div class="input-group">
-                <label class="input-group__label" for="first-name-l">
-                  First name
-                  <span class="input-group__suffix" aria-hidden="true">*</span>
-                </label>
-                <div class="text-field" data-size="l">
-                  <input type="text" id="first-name-l" class="text-field__native" name="first-name" autocomplete="given-name" required>
-                </div>
-              </div>
-              <div class="input-group">
-                <label class="input-group__label" for="last-name-l">
-                  Last name
-                  <span class="input-group__suffix" aria-hidden="true">*</span>
-                </label>
-                <div class="text-field" data-size="l">
-                  <input type="text" id="last-name-l" class="text-field__native" name="last-name" autocomplete="family-name" required>
-                </div>
-              </div>
-            </div>
-
-            <div class="input-group">
-              <label class="input-group__label" for="email-l">
-                Business email
-                <span class="input-group__suffix" aria-hidden="true">*</span>
-              </label>
-              <div class="text-field" data-size="l">
-                <input type="email" id="email-l" class="text-field__native" name="email" autocomplete="email" required>
-              </div>
-            </div>
-
-            <div class="input-group">
-              <!-- Select has no native control: the label is id'd and the
-                   .select points at it with aria-labelledby. -->
-              <span class="input-group__label" id="country-label-l">
-                Country
-                <span class="input-group__suffix" aria-hidden="true">*</span>
+            <div class="text-field" data-size="l">
+              <span class="text-field__leading-icon" aria-hidden="true">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14.6666 7.99992C14.6666 9.70607 14.0157 11.4122 12.714 12.714C10.1105 15.3175 5.88937 15.3175 3.28587 12.714C1.98413 11.4122 1.33325 9.70607 1.33325 7.99992M14.6666 7.99992C14.6666 6.29377 14.0157 4.58762 12.714 3.28587C10.1105 0.682378 5.88937 0.682378 3.28587 3.28587C1.98413 4.58762 1.33325 6.29377 1.33325 7.99992M14.6666 7.99992H1.33325M9.88554 12.714C8.84414 15.3175 7.1557 15.3175 6.1143 12.714C5.5936 11.4122 5.33325 9.70607 5.33325 7.99992C5.33325 6.29377 5.5936 4.58762 6.1143 3.28587C7.1557 0.682378 8.84414 0.682378 9.88554 3.28587C10.4062 4.58762 10.6666 6.29377 10.6666 7.99992C10.6666 9.70607 10.4062 11.4122 9.88554 12.714Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/></svg>
               </span>
-              <div class="select" data-size="l" aria-labelledby="country-label-l">
-                <span class="select__placeholder">Please select your country</span>
-                <span class="select__value" hidden></span>
-                <span class="select__chevron" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3.33337 6L8.00004 10.6667L12.6667 6" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-              </div>
+              <input type="url" class="text-field__native" name="url-l" placeholder="Your website URL" aria-label="Your website URL">
             </div>
-
+            <div class="select" data-size="l">
+              <span class="select__leading-icon" aria-hidden="true">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6.9999 13.6667L7.92208 11.487M14.3332 13.6667L13.4111 11.487L11.0071 5.80503C10.8798 5.5041 10.4533 5.5041 10.326 5.80503L7.92208 11.487M7.92208 11.487H13.4111M1.33325 10.0001C5.73325 8.33341 7.33325 6.00008 7.33325 3.33341M8.33326 10.0001C5.05742 8.75923 3.66693 7.17576 2.99993 5.33341C2.92379 5.12312 2.86143 4.9098 2.81209 4.69366M1.33325 3.00008H4.99992M4.99992 3.00008H8.66659M4.99992 3.00008V1.66675" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+              <span class="select__placeholder">Select target language</span>
+              <span class="select__value" hidden></span>
+              <span class="select__chevron" aria-hidden="true">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3.33337 6L8.00004 10.6667L12.6667 6" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+            </div>
           </div>
 
-          <div class="hero-2026__form-footer hero-2026__scale-compact">
-            <button class="btn" type="submit" data-type="secondary" data-size="m">
-              <span class="btn__label">Book a demo</span>
-              <span class="btn__icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M11.8518 16.6666L18.3333 9.99992L11.8518 3.33325M18.3333 9.99992L1.66663 9.99991" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          <div class="hero-2026__form-suggestions">
+            <span class="hero-2026__form-try">Try:</span>
+            <button class="badge" type="button" data-style="bordered" data-size="m" data-interactive>
+              <span class="badge__label">shopify.com → Japanese</span>
             </button>
-            <p class="hero-2026__form-legal">By clicking “Book a demo” you acknowledge that you have read and understood, and agree to Smartcat <a class="link" data-variant="default" href="#">Privacy Policy</a> and <a class="link" data-variant="default" href="#">Consent Notice</a>.</p>
+            <button class="badge" type="button" data-style="bordered" data-size="m" data-interactive>
+              <span class="badge__label">brinks.com → French</span>
+            </button>
           </div>
 
-          <div class="hero-2026__form-footer hero-2026__scale-full">
-            <p class="hero-2026__form-legal">By clicking “Book a demo” you acknowledge that you have read and understood, and agree to Smartcat <a class="link" data-variant="default" href="#">Privacy Policy</a> and <a class="link" data-variant="default" href="#">Consent Notice</a>.</p>
+          <!-- Submit — size M (below 1280) -->
+          <div class="hero-2026__form-action hero-2026__scale-compact">
+            <button class="btn" type="submit" data-type="secondary" data-size="m">
+              <span class="btn__label">Translate</span>
+              <span class="btn__icon" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M11.8518 16.6666L18.3333 9.99992L11.8518 3.33325M18.3333 9.99992L1.66663 9.99991" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+            </button>
+          </div>
+
+          <!-- Submit — size L (desktop) -->
+          <div class="hero-2026__form-action hero-2026__scale-full">
             <button class="btn" type="submit" data-type="secondary" data-size="l">
-              <span class="btn__label">Book a demo</span>
-              <span class="btn__icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M11.8518 16.6666L18.3333 9.99992L11.8518 3.33325M18.3333 9.99992L1.66663 9.99991" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              <span class="btn__label">Translate</span>
+              <span class="btn__icon" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M11.8518 16.6666L18.3333 9.99992L11.8518 3.33325M18.3333 9.99992L1.66663 9.99991" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
             </button>
           </div>
 

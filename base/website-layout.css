@@ -87,7 +87,7 @@
    The 55% hold point is a general-purpose default. Where a specific
    hero's Figma anchors the ramp to one of its own blocks rather than to
    the whole section, the exact stop will differ — see the NOTE in
-   examples/pages/hero-bloacks-2026/centered/centered.css. */
+   output/hero-bloacks-2026/centered/centered.css. */
 .section-band[data-layer="brand-gradient"] {
   background: linear-gradient(
     to bottom,
