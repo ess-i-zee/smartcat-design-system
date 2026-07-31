@@ -49,6 +49,12 @@
   min-width: 0;
   appearance: none;
   -webkit-appearance: none;
+  /* The UA default on <input> is padding: 1px 2px, which appearance:none
+     does NOT clear — left in, it makes every text field 2px taller and
+     insets the text 2px, so the container no longer matches its Figma
+     frame. Reset it the same way .dropdown-search__input already does. */
+  margin: 0;
+  padding: 0;
   border: none;
   outline: none;
   background: transparent;

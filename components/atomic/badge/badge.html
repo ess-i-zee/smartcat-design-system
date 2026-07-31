@@ -1,0 +1,58 @@
+<!--
+  Badge — reference template
+  Figma: Components / Atomic / Badge (node-id=3503-5269)
+
+  Configure with (data attributes on .badge):
+    data-size="l|m"                            — size; default is l
+    data-style="bordered|filled|blank|text"    — style; default is bordered
+    data-interactive                           — enables hover/active/focus
+
+  Element presence (include or omit, never display:none):
+    .badge__leading-icon — leadingIcon=true (16×16 inline svg from
+                           components/atomic/icon/svg/16x16/)
+    .badge__clear        — deletable=true
+
+  Use a <span> for a static badge and a <button> (or <a>) for an
+  interactive one, so it is focusable and announced correctly.
+-->
+
+<!-- ── Bordered, L, static (the default) ─────────────────────── -->
+<span class="badge">
+  <span class="badge__label">Label</span>
+</span>
+
+<!-- ── Bordered, L, interactive, with leading icon ───────────── -->
+<button class="badge" type="button" data-style="bordered" data-size="l" data-interactive>
+  <span class="badge__leading-icon" aria-hidden="true">
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14.6666 7.99992C14.6666 9.70607 14.0157 11.4122 12.714 12.714C10.1105 15.3175 5.88937 15.3175 3.28587 12.714C1.98413 11.4122 1.33325 9.70607 1.33325 7.99992M14.6666 7.99992C14.6666 6.29377 14.0157 4.58762 12.714 3.28587C10.1105 0.682378 5.88937 0.682378 3.28587 3.28587C1.98413 4.58762 1.33325 6.29377 1.33325 7.99992M14.6666 7.99992H1.33325M9.88554 12.714C8.84414 15.3175 7.1557 15.3175 6.1143 12.714C5.5936 11.4122 5.33325 9.70607 5.33325 7.99992C5.33325 6.29377 5.5936 4.58762 6.1143 3.28587C7.1557 0.682378 8.84414 0.682378 9.88554 3.28587C10.4062 4.58762 10.6666 6.29377 10.6666 7.99992C10.6666 9.70607 10.4062 11.4122 9.88554 12.714Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </span>
+  <span class="badge__label">Label</span>
+</button>
+
+<!-- ── Filled, M, static ─────────────────────────────────────── -->
+<span class="badge" data-style="filled" data-size="m">
+  <span class="badge__label">Label</span>
+</span>
+
+<!-- ── Filled, M, interactive ────────────────────────────────── -->
+<button class="badge" type="button" data-style="filled" data-size="m" data-interactive>
+  <span class="badge__label">Label</span>
+</button>
+
+<!-- ── Blank, L, interactive ─────────────────────────────────── -->
+<button class="badge" type="button" data-style="blank" data-size="l" data-interactive>
+  <span class="badge__label">Label</span>
+</button>
+
+<!-- ── Text, M, interactive ──────────────────────────────────── -->
+<button class="badge" type="button" data-style="text" data-size="m" data-interactive>
+  <span class="badge__label">Label</span>
+</button>
+
+<!-- ── Bordered, L, deletable ────────────────────────────────── -->
+<span class="badge" data-style="bordered" data-size="l">
+  <span class="badge__label">Label</span>
+  <button class="badge__clear" type="button" aria-label="Remove">
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M11.3127 3.9797C11.5079 3.78449 11.8245 3.7846 12.0197 3.9797C12.215 4.17496 12.215 4.49147 12.0197 4.68673L8.70626 7.99923L12.0197 11.3127C12.215 11.508 12.215 11.8245 12.0197 12.0197C11.8245 12.215 11.508 12.215 11.3127 12.0197L7.99923 8.70626L4.68673 12.0197C4.49147 12.215 4.17496 12.215 3.9797 12.0197C3.7846 11.8245 3.78449 11.5079 3.9797 11.3127L7.2922 7.99923L3.9797 4.68673C3.78444 4.49147 3.78444 4.17496 3.9797 3.9797C4.17496 3.78444 4.49147 3.78444 4.68673 3.9797L7.99923 7.2922L11.3127 3.9797Z" fill="currentColor" fill-opacity="0.94"/></svg>
+  </button>
+</span>

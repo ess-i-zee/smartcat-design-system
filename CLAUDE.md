@@ -38,6 +38,8 @@ Grouping into Sections makes long pages easier to digest. Compose every page as 
 
 **Note — hero-block is self-sufficient.** The hero-block page-level component is a complete, self-contained Section on its own with its own background — and, since nothing else wraps it, it's also the one page-level component that owns its own side padding directly (`padding-inline: var(--grid-page-padding)`, the same token every `.section-band` uses). Do not wrap it in a `.section-band`, do not group it with other page-level components — place it directly as the page's opening row.
 
+**Note — the 2026 heroes are NOT self-sufficient.** The hero variants in `examples/pages/hero-bloacks-2026/` are the exception to the exception: they are ordinary page-level components that carry neither a background nor side padding, and each is wrapped in its own `.section-band` (`data-layer="2"`) as a single-component Section. They take no Components spacing inside the band — their vertical rhythm is specified per region by the Figma frames. Build any new 2026 hero variant this way; leave the older `hero-block` component self-sufficient as described above.
+
 **Three ways to visually separate one Section from the next:**
 1. **Background-layer contrast (default).** Adjacent Sections use different `--background-static-gray-layer-*` steps, set with `data-layer="0".."3"` on the band (e.g. layer-0 next to layer-1). Identical in light and dark mode.
 2. **Light/dark theme contrast.** One Section in light mode, the next in dark, or vice versa. Alternating light and dark Sections is **highly preferable** for a well-structured page — it breaks a long page into clearly digestible chunks the eye can scan. Reach for this as a primary technique, not a rare accent.
@@ -48,7 +50,7 @@ Grouping into Sections makes long pages easier to digest. Compose every page as 
 - **Fixed assignments:** FAQ Sections are always light. Social-proof Sections (review walls, rating sliders) are dark. Runs of feature zigzags lean dark. The **page-closing CTA is always saturated** — brand purple or a dark band — while mid-page CTAs stay neutral/light.
 - Heroes are dark or light with roughly equal frequency; a canonical page arc is: hero → benefits (often dark) → proof numbers (light or brand band) → features (alternating) → social proof (dark) → resources (light) → FAQ (light) → final CTA (saturated).
 
-**How to give a Section its background, padding, and optionally a dark theme.** Wrap the Section's components in a `.section-band` (see "Breakpoints & layout grid" below) — a full-bleed wrapper that carries BOTH the background AND the responsive side padding (`--grid-page-padding`) for every component inside it. This is the *only* place side padding is ever applied — components themselves never carry `padding-inline` (the one exception is hero-block, see above). Padding on `.section-band` doesn't clip its background: CSS paints the background under the padding by default, so the band still reads as genuinely full-bleed edge-to-edge even though its content is inset. Set the background layer with `data-layer="0".."3"` (omit for the layer-0 default). Add `data-theme="dark"` to flip the band to dark; the layer background and all child content tokens switch automatically. Put the Section's top and bottom **size-8** Components spacing *inside* the band so the padding sits on the band's own background — a boundary between two bands therefore shows a size-8 on each side, one on each background. Never use a one-off class or inline style for this — `.section-band` plus `data-layer`/`data-theme` is the only mechanism.
+**How to give a Section its background, padding, and optionally a dark theme.** Wrap the Section's components in a `.section-band` (see "Breakpoints & layout grid" below) — a full-bleed wrapper that carries BOTH the background AND the responsive side padding (`--grid-page-padding`) for every component inside it. This is the *only* place side padding is ever applied — components themselves never carry `padding-inline` (the one exception is hero-block, see above). Padding on `.section-band` doesn't clip its background: CSS paints the background under the padding by default, so the band still reads as genuinely full-bleed edge-to-edge even though its content is inset. Set the background layer with `data-layer="0".."3"` (omit for the layer-0 default), or `data-layer="brand-gradient"` for a **hero-only** gray→brand-purple ramp (see "Section backgrounds beyond the gray layers" below). Add `data-theme="dark"` to flip the band to dark; the layer background and all child content tokens switch automatically. Put the Section's top and bottom **size-8** Components spacing *inside* the band so the padding sits on the band's own background — a boundary between two bands therefore shows a size-8 on each side, one on each background. Never use a one-off class or inline style for this — `.section-band` plus `data-layer`/`data-theme` is the only mechanism.
 
 ```html
 <!-- default Section (layer-0) -->
@@ -189,6 +191,7 @@ The live palette maps exactly onto our tokens — gray layers 0–3 in light mod
 - **Brand-tint band** (light brand-layer-1, ≈purple-10) — soft accent behind a video or a light hero.
 - **Alpha tint** (`--background-static-alpha-layer-1`) — card fills on case-study/numbers when a white card is too stark.
 - **Radial brand gradients** — hero backgrounds only. **Linear gradients on cards** — a single featured card only.
+- **`.section-band[data-layer="brand-gradient"]`** — the sanctioned way to give a hero a vertical gray→brand-purple ramp: flat `gray-layer-2` through the upper part of the band, saturated `brand-inverted` at the bottom edge, so a full-bleed hero visual can sit in a purple wash. **Hero sections only** — never an ordinary content Section. Because it lives on the band it spans the full viewport width automatically, which is why a hero's own gradient belongs here and not on a component inside the `.container`. In use by `examples/pages/hero-bloacks-2026/centered/`.
 - Any other accent hue (e.g. the blue CTA on the government page) is a deliberate vertical-specific override — never introduce one without an explicit request.
 
 ### Heading component levels
@@ -247,8 +250,8 @@ This system has **two** breakpoints — components and tokens switch at differen
 
 | Boundary | Width | What switches |
 |----------|-------|---------------|
-| Mobile ↔ tablet | **`@media (min-width: 800px)`** | grid columns (4 → 12); page-level component version |
-| Tablet ↔ desktop | **`@media (min-width: 1280px)`** | responsive tokens (`tokens/sizes.css`, `tokens/typography.css`); grid page/column padding |
+| Mobile ↔ tablet | **`@media (min-width: 800px)`** | grid columns (4 → 12); grid page padding (16 → 32); page-level component version |
+| Tablet ↔ desktop | **`@media (min-width: 1280px)`** | responsive tokens (`tokens/sizes.css`, `tokens/typography.css`); grid page padding (32 → 80); grid column padding |
 
 So tablet (800–1279px) uses the **desktop+tablet layout** but the **mobile/base token values**.
 
@@ -263,13 +266,15 @@ So tablet (800–1279px) uses the **desktop+tablet layout** but the **mobile/bas
 |---|---|---|---|
 | Columns | 4 | 12 | 12 |
 | Gutter | 8px | 8px | 8px |
-| Page padding | 16px | 16px | 80px |
+| Page padding | 16px | **32px** | 80px |
 | Column padding (inside each cell) | 16px | 16px | 24px |
 | Max content width | — | — | 1540px |
 
+**Page padding is the one grid parameter that changes at BOTH breakpoints** (16 → 32 → 80), matching the three Figma variables `Dimension/Page padding/Mobile|Tablet|Desktop`. Every other parameter changes at only one of them. Never hand-roll a tablet side padding — always take it from `--grid-page-padding`.
+
 **Page nesting:** Page (viewport) → `.section-band` (full-bleed row that carries BOTH the Section's background via `data-layer`/`data-theme` AND the responsive page padding — this is the only place page padding is applied) → the Section's page-level components, each of which wraps its own content in a `.container` (max-width 1540px, centered) purely for its own max-width — never its own page padding → `.grid` (column grid, where a component uses one internally) → `.grid > *` individual components (column padding inside each, gutters between). Use `data-grid-span="1".."12"` on grid children to set their column span (full-width/stacked below 800px, the given span at ≥800px).
 
-The lone exception is hero-block: since it is never wrapped in a `.section-band` (it forms its own self-sufficient Section), it owns its own page padding directly, using the same `--grid-page-padding` token. See "Sections (page composition)" above.
+The lone exception is `components/page-level/hero-block`: since it is never wrapped in a `.section-band` (it forms its own self-sufficient Section), it owns its own page padding directly, using the same `--grid-page-padding` token — so it still picks up the tablet step automatically. See "Sections (page composition)" above. This exception does **not** extend to the 2026 hero exploration in `examples/pages/hero-bloacks-2026/`, which are deliberately ordinary components inside a band.
 
 ---
 
@@ -382,8 +387,8 @@ These numbers come from measuring the actual Smartcat Google Slides template (ex
 | Column gutter | **8px** | matches web's `--grid-gutter` |
 | Slide title position | flush at the page-padding origin — 48px from top, 48px from left | — |
 | Slide title scale | **H1 desktop** (`data-level="h1"` on `heading`) | `--size-h1` / `--line-height-h1` (desktop, 48px/58px) |
-| Section-heading / single-statement divider slides | **Display** scale (a whole slide that's just one big headline, no body content) | `--size-display` (desktop, 72px) |
-| Big stat figures (a numbers-style slide) | **Display** scale | `--size-display` (desktop, 72px) |
+| Section-heading / single-statement divider slides | **Display** scale (a whole slide that's just one big headline, no body content) | `--size-display` (desktop, 64px) |
+| Big stat figures (a numbers-style slide) | **Display** scale | `--size-display` (desktop, 64px) |
 | Heading → content gap | **80px**, applied uniformly regardless of slide type | Components-spacing size-6 (desktop value) |
 
 Every slide is built inside a `.deck-slide` wrapper (fixed 1280×720px box, applies the page padding above). What goes inside it is composed from tokens and atomic components — see "Composing a slide" below.

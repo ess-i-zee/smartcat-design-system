@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Hero block — Video on the right — Smartcat</title>
+  <title>Hero block — Image on the right — Smartcat</title>
 
   <link rel="stylesheet" href="../../../../main.css">
-  <link rel="stylesheet" href="video-on-the-right.css">
+  <link rel="stylesheet" href="image-on-the-right.css">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -14,7 +14,7 @@
 </head>
 <body>
 
-<!-- ═══ Hero · Video on the right ══════════════════════════════════
+<!-- ═══ Hero · Image on the right ══════════════════════════════════
      The hero is an ordinary page-level component: the .section-band
      supplies its background (data-layer="2") and its side padding
      (16 mobile / 32 tablet / 80 desktop, from --grid-page-padding).
@@ -22,7 +22,7 @@
      band — the hero's own vertical padding comes from the Figma frames.
      ════════════════════════════════════════════════════════════════ -->
 <div class="section-band" data-layer="2">
-<section class="hero-2026" data-variant="video-on-the-right">
+<section class="hero-2026" data-variant="image-on-the-right">
   <div class="container">
   <div class="hero-2026__grid">
 
@@ -65,9 +65,9 @@
           </div>
         </div>
 
-        <h1 class="hero-2026__title">One training video, spoken in 280 languages, in minutes.</h1>
+        <h1 class="hero-2026__title">Start localization workflow before you even sign up</h1>
 
-        <p class="hero-2026__paragraph">An AI agent crew translates, voices, lip-syncs and ships your training to every LMS — without rebuilding a single module.</p>
+        <p class="hero-2026__paragraph">Smartcat brings AI translation, human linguists, and your brand terminology into one calm, enterprise workflow — for documents, websites, video, courses, and software.</p>
 
         <!-- Buttons. Like the badges above, two treatments sit side by side
              and are swapped by CSS at 1280px: the size-M button shows below
@@ -91,15 +91,9 @@
       </div>
     </div>
 
-    <!-- ── Video (own grid cell) ─────────────────────────────────
-         The Figma "Hero video" frame is exported whole at @2x and used as
-         a single flat image — it stands in for the embedded video player
-         that will occupy this slot in production. The progress bar,
-         timecode and control icons visible in it are part of that export,
-         NOT live UI, so there is deliberately no player markup here.
-         ──────────────────────────────────────────────────────────── -->
+    <!-- ── Image (own grid cell) ───────────────────────────────── -->
     <div class="hero-2026__media">
-      <img class="hero-2026__video" src="assets/hero-video.png" alt="Two colleagues reviewing training material on a laptop — video player preview">
+      <img class="hero-2026__image" src="assets/hero-image.png" alt="Smartcat workspace showing translation progress and account settings">
     </div>
 
     <!-- ── Logo ticker (own grid cell) ─────────────────────────── -->

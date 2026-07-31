@@ -1,0 +1,205 @@
+/* ── Badge ───────────────────────────────────────────────────────
+   Figma: Components / Atomic / Badge (node-id=3503-5269)
+   Visual variant properties (data attributes on .badge):
+     data-size  : l (default) | m
+     data-style : bordered (default) | filled | blank | text
+     data-interactive : present — enables hover/active states
+                        (Figma "interactive=true"). Omit for a static,
+                        read-only badge; a static badge never reacts to
+                        the pointer.
+   Element presence (include or omit, never display:none):
+     .badge__leading-icon — leadingIcon=true (16×16 inline svg)
+     .badge__clear        — deletable=true
+   CSS-driven states (only when data-interactive is present):
+     :hover / :active     — interaction background / content colors
+     :focus-visible       — purple focus ring
+   Notes:
+     - Render an interactive badge as a <button> (or <a>) so it is
+       focusable and announced correctly; a static one is a <span>.
+     - The border is an inset box-shadow, not a real border, so every
+       style shares the exact same height — same technique the Button
+       atomic uses for its outlined type. Figma strokes don't affect
+       auto-layout size either, so this matches the design 1:1.
+     - Figma draws the focused state as a 4px border, which would shift
+       layout. We use the shared 2px outline + 2px offset ring instead,
+       identical to .btn:focus-visible.
+     - The filled style layers the interaction color OVER its alpha
+       fill via background-image, since both are translucent tokens and
+       the fill must stay visible underneath.
+     - Heights: L = 36px (20 line-height + 2×8), M = 28px (20 + 2×4),
+       matching the Input chip atomic.
+   ──────────────────────────────────────────────────────────── */
+
+/* ── Container ───────────────────────────────────────────────── */
+
+.badge {
+  /* reset (no global reset.css for interactive elements yet) */
+  appearance: none;
+  -webkit-appearance: none;
+  margin: 0;
+  border: 0;
+  text-decoration: none;
+
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  box-sizing: border-box;
+  white-space: nowrap;
+  border-radius: var(--radius-full);
+  font-family: var(--family-body);
+  font-weight: var(--weight-regular);
+  background: var(--background-interaction-default);
+  color: var(--content-static-secondary);
+
+  transition-property: background, color, box-shadow;
+  transition-duration: 120ms;
+  transition-timing-function: ease;
+}
+
+.badge[data-interactive] {
+  cursor: pointer;
+  user-select: none;
+}
+
+/* ── Size variants ───────────────────────────────────────────── */
+
+.badge[data-size="l"],
+.badge:not([data-size]) {
+  gap: var(--spacing-2);
+  padding: var(--spacing-3) var(--spacing-5);
+  font-size: var(--size-label-l);
+  line-height: var(--line-height-label-l);
+  letter-spacing: var(--letter-spacing-label-l);
+}
+
+.badge[data-size="m"] {
+  gap: var(--spacing-2);
+  padding: var(--spacing-2) var(--spacing-4);
+  font-size: var(--size-label-m);
+  line-height: var(--line-height-label-m);
+  letter-spacing: var(--letter-spacing-label-m);
+}
+
+/* ── Style: bordered (default) ───────────────────────────────── */
+
+.badge[data-style="bordered"],
+.badge:not([data-style]) {
+  box-shadow: inset 0 0 0 1px var(--border-interaction-default);
+}
+
+.badge[data-style="bordered"][data-interactive]:hover,
+.badge:not([data-style])[data-interactive]:hover {
+  background: var(--background-interaction-hover);
+  box-shadow: inset 0 0 0 1px var(--border-interaction-hover);
+}
+
+.badge[data-style="bordered"][data-interactive]:active,
+.badge:not([data-style])[data-interactive]:active {
+  background: var(--background-interaction-active);
+  box-shadow: inset 0 0 0 1px var(--border-interaction-active);
+}
+
+/* ── Style: filled ───────────────────────────────────────────── */
+
+.badge[data-style="filled"] {
+  background: var(--background-static-alpha-layer-2);
+  color: var(--content-static-primary);
+  overflow: hidden;
+}
+
+.badge[data-style="filled"][data-interactive]:hover {
+  background-image: linear-gradient(var(--background-interaction-hover), var(--background-interaction-hover));
+}
+
+.badge[data-style="filled"][data-interactive]:active {
+  background-image: linear-gradient(var(--background-interaction-active), var(--background-interaction-active));
+}
+
+/* ── Style: blank ────────────────────────────────────────────── */
+
+.badge[data-style="blank"] {
+  background: var(--background-interaction-default);
+}
+
+.badge[data-style="blank"][data-interactive]:hover {
+  background: var(--background-interaction-hover);
+}
+
+.badge[data-style="blank"][data-interactive]:active {
+  background: var(--background-interaction-active);
+}
+
+/* ── Style: text ─────────────────────────────────────────────── */
+/* No padding, no fill, no border — a bare label with its own gap. */
+
+.badge[data-style="text"] {
+  padding: 0;
+  gap: var(--spacing-3);
+  background: none;
+  box-shadow: none;
+}
+
+.badge[data-style="text"][data-interactive] {
+  color: var(--content-interaction-default);
+}
+
+.badge[data-style="text"][data-interactive]:hover {
+  color: var(--content-interaction-hover);
+}
+
+.badge[data-style="text"][data-interactive]:active {
+  color: var(--content-interaction-active);
+}
+
+/* ── Focus ring (matches .btn) ───────────────────────────────── */
+
+.badge[data-interactive]:focus-visible {
+  outline: 2px solid var(--border-focus-default);
+  outline-offset: 2px;
+}
+
+/* ── Leading icon ────────────────────────────────────────────── */
+/* Inherits color from the badge via stroke="currentColor". */
+
+.badge__leading-icon {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  width: 16px;
+  height: 16px;
+}
+
+.badge__leading-icon svg { display: block; }
+
+/* ── Label ───────────────────────────────────────────────────── */
+
+.badge__label {
+  color: inherit;
+}
+
+/* ── Clear button (same spec as node-id=5138-6913) ──────────── */
+
+.badge__clear {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  padding: 2px;
+  box-sizing: border-box;
+  border: none;
+  border-radius: 2px;
+  background: var(--background-interaction-default);
+  cursor: pointer;
+  color: inherit;
+  transition: background 120ms ease;
+}
+
+.badge__clear:hover  { background: var(--background-interaction-hover);  }
+.badge__clear:active { background: var(--background-interaction-active); }
+
+.badge__clear:focus-visible {
+  outline: 2px solid var(--border-focus-default);
+  outline-offset: 1px;
+}

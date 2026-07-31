@@ -19,7 +19,7 @@
 :root {
 
   /* ── Font size ───────────────────────────────────────────── */
-  --size-display:    56px;
+  --size-display:    44px;
   --size-h1:         32px;
   --size-h2:         24px;
   --size-h3:         18px;
@@ -33,7 +33,7 @@
   --size-label-s:    10px;
 
   /* ── Line height ─────────────────────────────────────────── */
-  --line-height-display:    64px;
+  --line-height-display:    52px;
   --line-height-h1:         40px;
   --line-height-h2:         32px;
   --line-height-h3:         28px;
@@ -76,7 +76,7 @@
   :root {
 
     /* ── Font size ───────────────────────────────────────────── */
-    --size-display:    72px;
+    --size-display:    64px;
     --size-h1:         48px;
     --size-h2:         32px;
     --size-h3:         24px;
@@ -87,7 +87,7 @@
     --size-caption:    14px;
 
     /* ── Line height ─────────────────────────────────────────── */
-    --line-height-display:    80px;
+    --line-height-display:    72px;
     --line-height-h1:         58px;
     --line-height-h2:         40px;
     --line-height-h3:         32px;

@@ -1,0 +1,358 @@
+/* ── Hero 2026 · Centered ─────────────────────────────────────────
+   Figma: 🌐 Smartcat website design system / Centered
+          (section node-id=14178-5489)
+     · Hero section / Desktop        1707 wide (content 1540)
+     · Hero section / Tablet max     1280 wide
+     · Hero section / Tablet avarage 1024 wide
+     · Hero section / Tablet min      800 wide
+     · Hero section / Mobile          390 wide
+   Exploratory hero-block variant (hero-bloacks-2026 collection).
+
+   NOT a design-system component yet — this stylesheet is scoped to the
+   example page and lives beside it, so nothing in the shared system is
+   touched. It references design tokens only, semantic wherever one exists.
+
+   Layout: an ORDINARY page-level component — no side padding of its own;
+   that comes from the enclosing .section-band, which here uses
+   data-layer="brand-gradient" (see NOTE 2). Wrap it in a band as its own
+   single-component Section. Vertical rhythm stays internal (the Figma
+   frames specify it per region), so the band needs no Components spacing.
+
+   Unlike the other four 2026 heroes this one is NOT a two-column grid —
+   it's a single centered column: text content, then the logo ticker,
+   then a wide centered product image. So there is no grid re-arrangement
+   at all; only widths, paddings and type scale change per breakpoint.
+   Reuses the Button atomic.
+
+   NOTE 1 — four centered max-widths, not one. Figma caps each block
+   differently inside the container, and three of the four caps step up
+   at desktop: heading 720 → 960, paragraph 480 → 560, ticker 720 → 960;
+   the closing image is 1216 at every width. They are separate caps, not
+   a shared content column. At mobile (358 container) every cap is wider
+   than the container, so all four blocks simply run full width.
+
+   NOTE 2 — the background gradient. Figma ramps flat gray-layer-2 to
+   brand-inverted (#731ef2) at the very bottom of the hero. Measured
+   against the frames, the ramp is anchored to the IMAGE BLOCK, not the
+   section: it starts ~17% into that block and reaches full purple at the
+   block's bottom edge (desktop: gray until y≈730 of 1367, ramp over the
+   last 637px; tablet min: gray until y≈533 of 910, ramp over the last
+   377px). Because the image block is a different share of the hero at
+   each breakpoint (25% mobile → 54% tablet max), that is NOT a single
+   percentage of the band.
+   This file uses the shared .section-band[data-layer="brand-gradient"]
+   default (gray held to 55%), which lands within a few percent at
+   desktop and tablet max but starts the ramp higher than designed on
+   mobile, where the image block is only a quarter of the hero. The
+   gradient is only visible in the margins beside the image, so the cost
+   is small — but if exactness matters, the ramp needs to be sized from
+   the image block rather than the band.
+
+   NOTE 3 — the vertical rhythm inside the text column is NOT a flex
+   gap. Figma gives each block its own top padding (heading -6,
+   paragraph -6, buttons -7). Modelled the same way here.
+
+   NOTE 4 — two bottom paddings step through THREE distinct values, so
+   each needs a different token per breakpoint rather than one token
+   shifting:
+     · text content  mobile 40 (-9) · tablet 48 (-10) · desktop 56 (-9)
+       — the ≥800 block switches to -10 and ≥1280 switches back to -9.
+     · logo ticker   mobile 40 (-9) · tablet 48 (-10) · desktop 64 (-10)
+       — here the ≥800 switch to -10 already yields the desktop value,
+       so the ≥1280 block leaves it alone.
+
+   NOTE 6 — the heading is the Display type style, not H1 (Figma:
+   44/52/-2 below 1280, 64/72/-2.8 at desktop). The paragraph is Small
+   text, not Paragraph (14/22 below 1280, 16/26 at desktop).
+
+   NOTE 7 — the CTA buttons never stretch. Figma sizes both groups to
+   their label at every width (mobile included) and centers the pair, so
+   there is no fill-the-container mobile treatment; only the button size
+   variant (M → L) and the desktop captions change.
+
+   NOTE 5 — the image's top corner radius is a raw 16px in Figma, not
+   bound to a variable. Using --radius-card-regular keeps the
+   tokens-only rule, which renders 12px below 1280 and 16px at desktop;
+   Figma would show 16 everywhere. Flagged rather than hardcoded.
+   ──────────────────────────────────────────────────────────────── */
+
+.hero-2026 {
+  box-sizing: border-box;
+  width: 100%;
+}
+
+/* Single centered column — no grid at any breakpoint. */
+.hero-2026__stack {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+/* ── Text content ────────────────────────────────────────────────── */
+/* The bottom padding takes a different token at each of the three
+   widths — see NOTE 4. */
+.hero-2026__content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  padding-block: var(--spacing-between-elements-10) var(--spacing-between-elements-9);
+}
+
+/* ── Trust badges (GDPR / ISO / SOC 2) ───────────────────────────── */
+/* Centered here, unlike the left-aligned two-column heroes. Two
+   treatments, swapped at 1280px: 16px line icon + short label below
+   desktop, 32px certification seal + the trailing "organization" at
+   desktop. Only the visible form is rendered, so the other leaves the
+   accessibility tree too. The row wraps (Figma: flex-wrap +
+   align-content:flex-start). */
+.hero-2026__badges {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  align-content: flex-start;
+  justify-content: center;
+  gap: var(--spacing-between-elements-6);
+  width: 100%;
+}
+.hero-2026__badge {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  max-width: 136px;
+  gap: var(--spacing-between-elements-2);
+}
+.hero-2026__badge-icon {
+  display: flex;
+  flex-shrink: 0;
+  color: var(--content-static-secondary);
+}
+.hero-2026__badge-icon svg { display: block; }
+/* Seals aren't uniformly wide (GDPR 32, ISO 28, SOC 2 31) — height is
+   pinned and width follows, matching the Figma frames. */
+.hero-2026__badge-seal {
+  display: none;
+  flex-shrink: 0;
+  height: 32px;
+  width: auto;
+}
+.hero-2026__badge-text {
+  margin: 0;
+  white-space: nowrap;
+  color: var(--content-static-secondary);
+  font-family: var(--family-body);
+  font-weight: var(--weight-regular);
+  font-size: var(--size-label-s);
+  line-height: var(--line-height-label-s);
+  letter-spacing: var(--letter-spacing-label-s);
+}
+.hero-2026__badge-suffix { display: none; }
+
+/* ── Heading + paragraph ─────────────────────────────────────────── */
+/* Both centered with their own max-width, each stepping up at desktop
+   — see NOTE 1. Type styles are Display and Small text — see NOTE 6. */
+.hero-2026__title {
+  margin: 0;
+  width: 100%;
+  max-width: 720px;
+  padding-top: var(--spacing-between-elements-6);
+  text-align: center;
+  font-family: var(--family-heading);
+  font-weight: var(--weight-bold);
+  color: var(--content-static-primary);
+  font-size: var(--size-display);
+  line-height: var(--line-height-display);
+  letter-spacing: var(--letter-spacing-display);
+}
+.hero-2026__paragraph {
+  margin: 0;
+  width: 100%;
+  max-width: 480px;
+  padding-top: var(--spacing-between-elements-6);
+  text-align: center;
+  color: var(--content-static-secondary);
+  font-family: var(--family-body);
+  font-weight: var(--weight-regular);
+  font-size: var(--size-small-text);
+  line-height: var(--line-height-small-text);
+  letter-spacing: var(--letter-spacing-small-text);
+}
+
+/* ── CTA buttons ─────────────────────────────────────────────────
+   Both groups hug their label and the pair is centered at every width,
+   mobile included — see NOTE 7. Only two treatments:
+     < 1280  size M, no captions
+     ≥ 1280  size L, 200px min-width, captions beneath
+   ──────────────────────────────────────────────────────────────── */
+.hero-2026__buttons {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding-top: var(--spacing-between-elements-7);
+  gap: var(--spacing-between-buttons-horzontal);
+}
+.hero-2026__button-group {
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-between-elements-3);
+}
+/* Button scale is a size VARIANT swap in Figma, not a responsive token,
+   so both live in the markup and one is display:none — the same
+   mechanism as the badge icon/seal swap above. */
+.hero-2026__btn-full { display: none; }
+
+.hero-2026__button-caption {
+  display: none;
+  margin: 0;
+  color: var(--content-static-secondary);
+  font-family: var(--family-body);
+  font-weight: var(--weight-regular);
+  font-size: var(--size-label-s);
+  line-height: var(--line-height-label-s);
+  letter-spacing: var(--letter-spacing-label-s);
+  text-align: center;
+}
+
+/* ── Trust logos strip (logo ticker) ─────────────────────────────── */
+/* Capped like the heading (720 → 960 at desktop) and centered — see
+   NOTE 1. Its bottom padding steps through three values — see NOTE 4.
+   Below 800px it stacks, with the label centered above the strip. */
+.hero-2026__trust {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  max-width: 720px;
+  margin-inline: auto;
+  gap: var(--spacing-between-elements-6);
+  padding-block: var(--spacing-between-elements-7) var(--spacing-between-elements-9);
+  border-top: 0.5px solid var(--border-divider-default);
+}
+.hero-2026__trust-text {
+  margin: 0;
+  text-align: center;
+  color: var(--content-static-secondary);
+  font-family: var(--family-body);
+  font-weight: var(--weight-regular);
+  font-size: var(--size-label-s);
+  line-height: var(--line-height-label-s);
+  letter-spacing: var(--letter-spacing-label-s);
+}
+/* Ticker: overflow-clipped viewport with a left/right fade mask; the
+   track holds the logo set twice and animates a -50% translate so the
+   loop seam is invisible. Figma clips the strip with a static mask
+   rectangle — the scroll is a deliberate motion addition. */
+.hero-2026__logos {
+  position: relative;
+  min-width: 0;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(to right, transparent, black var(--spacing-12), black calc(100% - var(--spacing-12)), transparent);
+  mask-image: linear-gradient(to right, transparent, black var(--spacing-12), black calc(100% - var(--spacing-12)), transparent);
+}
+.hero-2026__logos-track {
+  display: flex;
+  align-items: center;
+  height: 32px;
+  gap: var(--spacing-between-elements-8);
+  width: max-content;
+  animation: hero-2026-ticker 30s linear infinite;
+}
+.hero-2026__logos-track img {
+  max-height: 32px;
+  width: auto;
+  flex-shrink: 0;
+  display: block;
+}
+@keyframes hero-2026-ticker {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-2026__logos-track { animation: none; }
+}
+
+/* ── Centered product image ──────────────────────────────────────── */
+/* Closes the hero flush with its own bottom edge — only the TOP corners
+   are rounded, so the visual reads as continuing past the fold. Capped
+   at 1216 and centered; below that width it fills the container. */
+.hero-2026__media {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  width: 100%;
+}
+.hero-2026__image {
+  display: block;
+  width: 100%;
+  max-width: 1216px;
+  height: auto;
+  margin-inline: auto;
+  aspect-ratio: 1206 / 757;
+  object-fit: cover;
+  border-start-start-radius: var(--radius-card-regular);
+  border-start-end-radius: var(--radius-card-regular);
+}
+
+/* ── Tablet + desktop (≥800px) ───────────────────────────────────── */
+@media (min-width: 800px) {
+  /* 48 here, between the mobile 40 and the desktop 56 — see NOTE 4. */
+  .hero-2026__content {
+    padding-bottom: var(--spacing-between-elements-10);
+  }
+
+  /* Ticker becomes a row with the label as a fixed side column; its
+     bottom padding switches token here and keeps it at desktop. */
+  .hero-2026__trust {
+    flex-direction: row;
+    align-items: center;
+    gap: var(--spacing-between-elements-7);
+    padding-right: var(--spacing-between-elements-9);
+    padding-bottom: var(--spacing-between-elements-10);
+  }
+  .hero-2026__trust-text {
+    flex-shrink: 0;
+    width: 177px;
+    max-width: 224px;
+    text-align: left;
+  }
+  .hero-2026__logos { flex: 1 1 auto; }
+}
+
+/* ── Desktop (≥1280px) ───────────────────────────────────────────── */
+@media (min-width: 1280px) {
+  /* Restated because tablet's bottom padding is the larger token — see
+     NOTE 4. (The ticker's is NOT restated: -10 already resolves to the
+     64 it needs here.) */
+  .hero-2026__content {
+    padding-bottom: var(--spacing-between-elements-9);
+  }
+
+  /* Three of the four caps step up here — see NOTE 1. */
+  .hero-2026__title     { max-width: 960px; }
+  .hero-2026__paragraph { max-width: 560px; }
+  .hero-2026__trust     { max-width: 960px; }
+
+  /* Badges switch to the full treatment. */
+  .hero-2026__badge {
+    flex: 1 0 0;
+    min-width: 0;
+    max-width: 136px;
+    gap: var(--spacing-between-elements-4);
+  }
+  .hero-2026__badge-icon   { display: none; }
+  .hero-2026__badge-seal   { display: block; }
+  .hero-2026__badge-suffix { display: inline; }
+  .hero-2026__badge-text   { white-space: normal; }
+
+  /* CTAs step up to size L and reveal their captions. */
+  .hero-2026__btn-compact       { display: none; }
+  .hero-2026__btn-full          { display: inline-flex; }
+  .hero-2026__button-group .btn { min-width: 200px; }
+  .hero-2026__button-caption    { display: block; }
+}

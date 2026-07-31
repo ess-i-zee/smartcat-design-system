@@ -3,11 +3,16 @@
    Source: "Default website system" / Layout grid spec.
 
    Two-breakpoint model:
-     mobile  (< 800px)        → 4 columns,  16px page & column padding
-     tablet  (800–1279px)     → 12 columns, 16px page & column padding
+     mobile  (< 800px)        → 4 columns,  16px page / 16px column padding
+     tablet  (800–1279px)     → 12 columns, 32px page / 16px column padding
      desktop (≥ 1280px)       → 12 columns, 80px page / 24px column padding
-   Columns flip at the 800px (section) breakpoint; paddings & max-width
-   flip at the 1280px (token) breakpoint — see tokens/sizes.css.
+   Columns AND page padding flip at the 800px (section) breakpoint; page
+   padding flips again — along with column padding and max-width — at the
+   1280px (token) breakpoint. See tokens/sizes.css.
+
+   Page padding therefore has three steps (16 / 32 / 80), matching the
+   three Figma variables Dimension/Page padding/Mobile|Tablet|Desktop.
+   It is the one grid parameter that changes at BOTH breakpoints.
 
    Nesting model (A → B → C → D):
      A. Page              — the browser viewport
@@ -33,9 +38,13 @@
   --grid-max-width:      1540px;
 }
 
-/* Tablet + desktop: 12 columns (section breakpoint) */
+/* Tablet + desktop: 12 columns (section breakpoint) + the tablet page-padding
+   step. Figma: Dimension/Page padding/Tablet = 32. */
 @media (min-width: 800px) {
-  :root { --grid-columns: 12; }
+  :root {
+    --grid-columns:      12;
+    --grid-page-padding: 32px;
+  }
 }
 
 /* Desktop only: wider page & column padding (token breakpoint) */
@@ -69,6 +78,24 @@
 .section-band[data-layer="1"] { background: var(--background-static-gray-layer-1); }
 .section-band[data-layer="2"] { background: var(--background-static-gray-layer-2); }
 .section-band[data-layer="3"] { background: var(--background-static-gray-layer-3); }
+
+/* Brand gradient — HERO BACKGROUNDS ONLY. CLAUDE.md sanctions brand
+   gradients for heroes and nowhere else; do not reach for this on an
+   ordinary content Section. Holds flat gray-layer-2 through the upper
+   part of the band, then ramps to saturated brand purple at the bottom
+   edge, so a full-bleed hero visual can sit in a purple wash.
+   The 55% hold point is a general-purpose default. Where a specific
+   hero's Figma anchors the ramp to one of its own blocks rather than to
+   the whole section, the exact stop will differ — see the NOTE in
+   examples/pages/hero-bloacks-2026/centered/centered.css. */
+.section-band[data-layer="brand-gradient"] {
+  background: linear-gradient(
+    to bottom,
+    var(--background-static-gray-layer-2) 0,
+    var(--background-static-gray-layer-2) 55%,
+    var(--background-static-brand-inverted) 100%
+  );
+}
 
 /* ── C. Component container ───────────────────────────────────── */
 /* Every page-level component wraps its own content in a .container to

@@ -1,6 +1,6 @@
-/* ── Hero 2026 · Video on the right ───────────────────────────────
-   Figma: 🌐 Smartcat website design system / Media - Video
-          (section node-id=14166-5507)
+/* ── Hero 2026 · Image on the right ───────────────────────────────
+   Figma: 🌐 Smartcat website design system / Media - Image
+          (section node-id=14166-5494)
      · Hero section / Desktop        1707 wide (content 1540)
      · Hero section / Tablet max     1280 wide
      · Hero section / Tablet avarage 1024 wide
@@ -21,7 +21,7 @@
    Vertical rhythm stays internal (the Figma frames specify it per
    region), so the band needs no Components spacing around it.
 
-   Three grid regions — text content, video, logo ticker — re-arranged at
+   Three grid regions — text content, image, logo ticker — re-arranged at
    each breakpoint (see .hero-2026__grid below). Reuses the Button atomic.
 
    NOTE 1 — this file carries a ≥1280px media query, which the two-
@@ -36,20 +36,6 @@
    paragraph -6, buttons -7), which is why the paragraph→buttons gap is
    larger than the others at every width (24/32 vs 16/24). Modelled the
    same way here, so no breakpoint-specific top-up is needed.
-
-   NOTE 3 — the video cell's padding uses DIFFERENT tokens per
-   breakpoint because Figma uses a different "Hero add-on / Video"
-   variant at each: mobile -9 block / no inline; tablet -8 on both
-   axes; desktop -10 block / -9 inline. They are not one token shifting,
-   so the ≥1280 block restates them.
-
-   NOTE 4 — the video is a single flat image, not marked-up player
-   chrome. The Figma "Hero video" frame (progress bar, timecode and
-   control icons included) is exported whole at @2x to
-   assets/hero-video.png, standing in for the embedded video player that
-   will occupy this slot in production. The player's own controls are
-   therefore baked into the image and are NOT live UI — that is why
-   there are no .btn-icon instances or progress-bar elements here.
    ──────────────────────────────────────────────────────────────── */
 
 .hero-2026 {
@@ -59,15 +45,15 @@
 }
 
 /* ── Grid: three regions, re-arranged per breakpoint ─────────────
-   mobile  (<800)      1 column × 3 rows — text, video, ticker stacked
+   mobile  (<800)      1 column × 3 rows — text, image, ticker stacked
                        top to bottom (DOM order = visual order).
-   tablet  (800–1279)  2 columns — text | video on row 1; ticker spans
+   tablet  (800–1279)  2 columns — text | image on row 1; ticker spans
                        both columns on row 2.
    desktop (≥1280)     2 columns — text (row 1) and ticker (row 2) in
-                       column 1; video spans both rows in column 2.
+                       column 1; image spans both rows in column 2.
    No column gap in any arrangement: the two columns meet at the 50%
    split and the visual breathing room comes from the text column's
-   right padding plus the video cell's left padding and divider.
+   right padding plus the image cell's left padding.
    ──────────────────────────────────────────────────────────────── */
 .hero-2026__grid {
   display: grid;
@@ -76,7 +62,7 @@
 }
 
 /* ── Text content ────────────────────────────────────────────────── */
-/* Mobile takes top padding only — the gap below comes from the video
+/* Mobile takes top padding only — the gap below comes from the image
    cell's own padding-block. The bottom padding arrives at ≥800px, where
    the ticker moves out from under the text. */
 .hero-2026__content {
@@ -98,15 +84,11 @@
              trailing "organization", badges share the row equally
              and wrap to two lines inside a 136px cap.
    Only ever one icon and one label form is rendered; the other is
-   display:none, so it leaves the accessibility tree too.
-   The row wraps (Figma: flex-wrap + align-content:flex-start) — at
-   800px the three compact badges genuinely need a second line, and the
-   Tablet min frame shows exactly that. */
+   display:none, so it leaves the accessibility tree too. */
 .hero-2026__badges {
   display: flex;
   flex-wrap: wrap;
   align-items: flex-start;
-  align-content: flex-start;
   gap: var(--spacing-between-elements-6);
 }
 .hero-2026__badge {
@@ -274,32 +256,30 @@
   }
 }
 
-/* ── Video panel ─────────────────────────────────────────────────── */
-/* On mobile the video runs edge to edge of the hero's content box with a
-   symmetric -9 padding-block and no divider. From 800px up it gains the
-   hairline column divider and a left inset from the split — see NOTE 3
-   above on why the padding tokens differ per breakpoint. Top-aligned:
-   at desktop the cell spans both grid rows and is much taller than the
-   16:9 video, which stays at the top per Figma. */
+/* ── Image panel ─────────────────────────────────────────────────── */
+/* Unlike the video variant this cell carries no hairline divider. On
+   mobile the image runs edge to edge of the hero's content box and the
+   cell supplies a symmetric -9 padding-block; from 800px up it gains a
+   -6 left inset from the column split (and -6 top/bottom instead), so
+   the artwork — which has its own generous internal padding — sits
+   close to the split. Top-aligned: at the narrow end of tablet the
+   image is shorter than its cell and stays at the top per Figma. */
 .hero-2026__media {
   display: flex;
   flex-direction: column;
   padding-block: var(--spacing-between-elements-9);
 }
-/* The embedded video player's slot — see NOTE 4. The radius is applied
-   here (not relied on from the export) because the real player element
-   will have square corners of its own. */
-.hero-2026__video {
+.hero-2026__image {
   display: block;
   width: 100%;
   height: auto;
-  aspect-ratio: 160 / 90;
+  aspect-ratio: 500 / 400;
   object-fit: cover;
   border-radius: var(--radius-card-regular);
 }
 
 /* ── Tablet + desktop (≥800px) ───────────────────────────────────── */
-/* Two columns. Text and video share row 1; the ticker moves onto its
+/* Two columns. Text and image share row 1; the ticker moves onto its
    own row 2 spanning the full width. */
 @media (min-width: 800px) {
   .hero-2026__grid {
@@ -309,18 +289,16 @@
   .hero-2026__content {
     grid-column: 1;
     grid-row: 1;
-    min-height: 360px;
     padding-right: var(--spacing-between-elements-9);
     padding-bottom: var(--spacing-between-elements-11);
   }
 
-  /* Video column: hairline divider + symmetric -8 inset from the split */
+  /* Image column: no divider, symmetric -6 inset from the split */
   .hero-2026__media {
     grid-column: 2;
     grid-row: 1;
-    padding-block: var(--spacing-between-elements-8);
-    padding-left: var(--spacing-between-elements-8);
-    border-left: 0.5px solid var(--border-divider-default);
+    padding-block: var(--spacing-between-elements-6);
+    padding-left: var(--spacing-between-elements-6);
   }
 
   /* Ticker spans both columns; label becomes a fixed side column. */
@@ -343,12 +321,12 @@
 }
 
 /* ── Desktop (≥1280px) ───────────────────────────────────────────── */
-/* The ticker tucks under the text in column 1, and the video grows to
+/* The ticker tucks under the text in column 1, and the image grows to
    span both rows in column 2 — see NOTE 1 in the file header on why
    this component needs a third breakpoint. */
 @media (min-width: 1280px) {
   /* Floor from Figma, so the text column can't collapse shorter than
-     the video needs when the copy is unusually short. */
+     the image needs when the copy is unusually short. */
   .hero-2026__content { min-height: 480px; }
 
   .hero-2026__trust {
@@ -356,11 +334,8 @@
     grid-row: 2;
   }
 
-  /* Desktop uses its own add-on variant's padding — see NOTE 3. */
   .hero-2026__media {
     grid-row: 1 / span 2;
-    padding-block: var(--spacing-between-elements-10);
-    padding-left: var(--spacing-between-elements-9);
   }
 
   /* Badges switch to the full treatment: seal replaces the line icon,

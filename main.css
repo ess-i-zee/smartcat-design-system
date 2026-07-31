@@ -22,6 +22,7 @@
 
 /* ── Components / Atomic ─────────────────────────────────────── */
 @import url('components/atomic/avatar/avatar.css');
+@import url('components/atomic/badge/badge.css');
 @import url('components/atomic/button/button.css');
 @import url('components/atomic/btn-icon/btn-icon.css');
 @import url('components/atomic/btn-play/btn-play.css');

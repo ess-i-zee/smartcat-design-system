@@ -96,9 +96,9 @@
   /* ── Radius ──────────────────────────────────────────────── */
   --radius-button:           var(--radius-2);
   --radius-button-container: var(--radius-3);
-  --radius-card-regular:     var(--radius-5);
+  --radius-card-regular:     var(--radius-4);  /* 12px → 16px at ≥1280 */
   --radius-card-contained:   var(--radius-3);
-  --radius-panel:            var(--radius-5);
+  --radius-panel:            var(--radius-4);  /* 12px → 16px at ≥1280 */
 }
 
 /* ── Desktop overrides (≥ 1280px) ────────────────────────────── */
@@ -141,5 +141,9 @@
 
     /* ── Dimensions ──────────────────────────────────────── */
     --dimension-max-text-width: var(--dimension-desktop-max-text-width);
+
+    /* ── Radius ──────────────────────────────────────────── */
+    --radius-card-regular: var(--radius-5);
+    --radius-panel:        var(--radius-5);
   }
 }

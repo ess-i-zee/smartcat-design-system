@@ -50,6 +50,11 @@
   width: 100%;
   box-sizing: border-box;
   appearance: none;
+  /* Same UA-default reset as .text-field__native / .dropdown-search__input
+     — <textarea> ships with its own padding, which appearance:none does
+     not clear. */
+  margin: 0;
+  padding: 0;
   border: none;
   outline: none;
   background: transparent;
