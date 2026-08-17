@@ -27,9 +27,11 @@
    NOTE 1 — this file carries a ≥1280px media query, which the two-
    breakpoint model in CLAUDE.md normally forbids for page-level
    components (layout switches only at 800px; tokens shift at 1280px).
-   The Figma source specifies three genuinely different grid
-   arrangements, so the third layout can't be expressed by token
-   shifts alone. Flagged rather than silently bent.
+   The grid arrangement itself does switch only at 800px, but the Figma
+   desktop frame respecifies the treatment inside the regions (badge
+   seals vs. line icons, size-L vs. size-M CTAs, captions), the video
+   cell's padding (NOTE 3) and the ticker's right inset, none of which
+   follow from a token shift. Flagged rather than silently bent.
 
    NOTE 2 — the vertical rhythm inside the text column is NOT a flex
    gap. Figma gives each block its own top padding (heading -6,
@@ -63,8 +65,10 @@
                        top to bottom (DOM order = visual order).
    tablet  (800–1279)  2 columns — text | video on row 1; ticker spans
                        both columns on row 2.
-   desktop (≥1280)     2 columns — text (row 1) and ticker (row 2) in
-                       column 1; video spans both rows in column 2.
+   desktop (≥1280)     same arrangement as tablet — the video stays in
+                       row 1 only and the ticker keeps the full-width
+                       row 2 beneath both columns, so the vertical
+                       divider stops at the ticker's own hairline.
    No column gap in any arrangement: the two columns meet at the 50%
    split and the visual breathing room comes from the text column's
    right padding plus the video cell's left padding and divider.
@@ -343,22 +347,24 @@
 }
 
 /* ── Desktop (≥1280px) ───────────────────────────────────────────── */
-/* The ticker tucks under the text in column 1, and the video grows to
-   span both rows in column 2 — see NOTE 1 in the file header on why
-   this component needs a third breakpoint. */
+/* The grid keeps the ≥800 arrangement untouched — see NOTE 1 in the
+   file header on why this component still needs a third breakpoint. */
 @media (min-width: 1280px) {
   /* Floor from Figma, so the text column can't collapse shorter than
      the video needs when the copy is unusually short. */
   .hero-2026__content { min-height: 480px; }
 
+  /* The logo strip runs flush to the content edge here: Figma's Logos
+     frame spans 209 → 1540 of the 1540 content width, where every
+     tablet frame keeps a 40px inset. The shared ≥800 rule can't cover
+     both, because the token it uses (-9) is exactly that 40px at
+     tablet but steps to 56px at desktop — so desktop zeroes it. */
   .hero-2026__trust {
-    grid-column: 1;
-    grid-row: 2;
+    padding-right: 0;
   }
 
   /* Desktop uses its own add-on variant's padding — see NOTE 3. */
   .hero-2026__media {
-    grid-row: 1 / span 2;
     padding-block: var(--spacing-between-elements-10);
     padding-left: var(--spacing-between-elements-9);
   }

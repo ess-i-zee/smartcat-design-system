@@ -23,10 +23,12 @@
    Reuses the Button, Badge, Text field and Select atomics.
 
    NOTE 1 — a ≥1280px media query, which the two-breakpoint model in
-   CLAUDE.md normally forbids for page-level components. The Figma
-   source specifies three genuinely different grid arrangements (and,
-   here, a third column ratio), so it can't be expressed by token shifts
-   alone. Flagged rather than silently bent.
+   CLAUDE.md normally forbids for page-level components. The grid
+   arrangement itself switches only at 800px, but desktop still changes
+   the column ratio (to 3:2), the treatment inside the regions (badge
+   seals, size-L CTAs and fields, captions) and the ticker's right
+   inset — none of which follow from a token shift. Flagged rather
+   than silently bent.
 
    NOTE 2 — column ratio. Unlike the image/video variants' even 50/50
    split, this hero is 50/50 at tablet but 3:2 at desktop (924/616 of
@@ -82,9 +84,9 @@
    mobile  (<800)      1 column × 3 rows — text, panel, ticker stacked.
    tablet  (800–1279)  2 even columns — text | panel on row 1; ticker
                        spans both columns on row 2.
-   desktop (≥1280)     2 columns at 3:2 — text (row 1) and ticker
-                       (row 2) in column 1; panel spans both rows in
-                       column 2.
+   desktop (≥1280)     same arrangement as tablet, but the columns go
+                       3:2 — the panel stays in row 1 only and the
+                       ticker keeps the full-width row 2 beneath both.
    No column gap: the columns meet at the split and the breathing room
    comes from the text column's right padding plus the panel's own
    left padding.
@@ -443,16 +445,16 @@
     padding-right: var(--spacing-between-elements-11);
   }
 
+  /* The logo strip runs flush to the content edge here: Figma's Logos
+     frame spans 209 → 1540 of the 1540 content width, where every
+     tablet frame keeps a 40px inset. The shared ≥800 rule can't cover
+     both, because the token it uses (-9) is exactly that 40px at
+     tablet but steps to 56px at desktop — so desktop zeroes it. */
   .hero-2026__trust {
-    grid-column: 1;
-    grid-row: 2;
+    padding-right: 0;
   }
 
-  .hero-2026__media {
-    grid-row: 1 / span 2;
-  }
-
-  /* Panel stretches over both rows and takes the desktop insets. */
+  /* Panel fills its row and takes the desktop insets. */
   .hero-2026__panel {
     flex: 1 1 auto;
     min-height: 0;
