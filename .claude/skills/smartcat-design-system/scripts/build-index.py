@@ -12,7 +12,6 @@ Run from the repo root:
 from __future__ import annotations
 
 import re
-import subprocess
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[4]
@@ -176,14 +175,6 @@ def first_line_purpose(p: Path) -> str:
     return re.sub(r"\s+", " ", " ".join(prose))[:150].replace("|", "\\|")
 
 
-def git(*args: str) -> str:
-    try:
-        return subprocess.run(["git", *args], cwd=ROOT, capture_output=True,
-                              text=True, check=True).stdout.strip()
-    except Exception:
-        return "unknown"
-
-
 def main() -> None:
     out: list[str] = []
     add = out.append
@@ -203,9 +194,10 @@ def main() -> None:
     total += sum(p.stat().st_size for p in ROOT.glob("docs/*.md"))
     total += (ROOT / "CLAUDE.md").stat().st_size
 
-    add(f"Commit `{git('rev-parse', '--short', 'HEAD')}` · "
-        f"{git('log', '-1', '--format=%cs')} · "
-        f"full corpus ≈ {approx_tokens(total):,} tokens — **never read it all.**")
+    # Deliberately no commit SHA here: a stamp written before the commit that
+    # contains it is always one behind. sync.sh reports the real DS_COMMIT.
+    add(f"Full corpus ≈ {approx_tokens(total):,} tokens — **never read it all.** "
+        f"`sync.sh` reports the commit you are actually on.")
     add("")
 
     add("## Reading order")
