@@ -2,14 +2,16 @@
 
 ## Output formats
 
-This design system serves four output formats:
+This design system serves five output formats:
 
 - **Web-based interfaces** — landing pages and other web UI. Everything in this document, from "Component tiers" through "Component file structure," is scoped to this format, including the two-breakpoint responsive model in "Breakpoints & layout grid."
 - **Presentation decks** — slide decks built with this design system. See "Presentation decks" near the end of this document. Decks reuse the same color, typography, radius, and spacing tokens as web — only the layout treatment differs (a fixed slide canvas instead of a responsive page).
-- **One-pagers** — fixed-width, variable-height documents (PDF/web factsheets, sales one-pagers). See "One-pagers" near the end of this document. One-pagers also reuse the same tokens as web and decks, on their own fixed-width canvas, but — unlike decks — never reuse or reshape web page-level components: they compose exclusively from their own dedicated component tier (`components/onepager/`).
+- **One-pagers** — fixed-width, variable-height documents (PDF/web factsheets, sales one-pagers). See "One-pagers" near the end of this document. One-pagers also reuse the same tokens as web and decks, on their own fixed-width canvas, they can reuse or reshape web atomic components but never use web page-level components. One-pagers compose from their own dedicated component tier (`components/onepager/`) and atomic web components, if there's a need to create something missing in the dedicated component tier (`components/onepager/`).
 - **Documents** — fixed-width, fixed-height, genuinely paginated documents (help articles, workflow guides, reference manuals — printed/exported to PDF as multiple physical pages). See "Documents" near the end of this document. Documents reuse the same tokens as the other three formats, on their own fixed-size page canvas, and — like one-pagers — never reuse or reshape web page-level components: they compose exclusively from their own dedicated component tier (`components/document/`).
 
-Where "Presentation decks," "One-pagers," or "Documents" doesn't override a rule, the general guidance above still applies (icon usage, text casing, tokens-only CSS, etc.) — component content patterns are web-specific; decks, one-pagers, and documents each carry their own content-treatment reasoning in their respective sections/brain docs. Only layout/responsiveness and component reuse are format-specific.
+- **Social assets** — fixed-size single graphics exported as images for social feeds, or dropped into a web page (campaign posts, link cards, blog headers). See "Social assets" near the end of this document. Social assets reuse the same tokens as the other four formats on their own fixed canvas, and follow the deck model rather than the one-pager/document model: they compose freely from tokens and atomic components, with no dedicated component tier of their own.
+
+Where "Presentation decks," "One-pagers," "Documents," or "Social assets" doesn't override a rule, the general guidance above still applies (icon usage, text casing, tokens-only CSS, etc.) — component content patterns are web-specific; decks, one-pagers, documents, and social assets each carry their own content-treatment reasoning in their respective sections/brain docs. Only layout/responsiveness and component reuse are format-specific.
 
 ## Component tiers
 
@@ -215,6 +217,55 @@ Use sentence case for labels, tabs, and most UI copy. Use title case sparingly �
 **Do not use bold for inline emphasis.** Do not use `<b>`, `<strong>`, or markdown bold (`**word**`) to highlight individual words inside a sentence. If a word needs to stand out, restructure the sentence or use a different typographic level entirely.
 
 **Do not use eyebrow text.** The eyebrow style (`.text-eyebrow`) has been removed from the design system. Do not add it back, do not create ad-hoc eyebrow-style text (small, bold, wide-tracked labels placed above a heading). If a component needs a label above a heading, use a regular paragraph or subtitle instead.
+
+### Punctuation, quotes & dashes
+
+These apply to **rendered copy in every format** — web, decks, one-pagers, documents. They are correctness rules, not style preferences: the wrong character is a typographic error. They do **not** apply to code — see "Where straight characters stay" below.
+
+**Use curly quotes and curly apostrophes. Never straight ones.**
+
+| Use | Character | HTML entity | Never |
+|---|---|---|---|
+| Opening double quote | `“` U+201C | `&ldquo;` | `"` |
+| Closing double quote | `”` U+201D | `&rdquo;` | `"` |
+| Opening single / nested quote | `‘` U+2018 | `&lsquo;` | `'` |
+| Closing single / nested quote | `’` U+2019 | `&rsquo;` | `'` |
+| Apostrophe — contractions, possessives | `’` U+2019 | `&rsquo;` | `'` |
+
+The apostrophe is the **same character as the closing single quote**: `it’s`, `don’t`, `the markets’ own versions`. A straight apostrophe is never correct in prose. Nest quotes double-outside, single-inside: `“He said ‘no’ twice.”`
+
+Either literal UTF-8 characters or the named entities are fine in HTML — pick one and stay consistent within a file. Entities are the safer choice for content that may be copied between tools.
+
+**Em dash: always spaced on both sides.** `approved — but weeks of rebuilding still stand between`. Never set it closed up (`approved—but`), and never substitute a double hyphen (`--`). At most one or two per sentence; more than that means the sentence wants restructuring, not more dashes.
+
+**Pick the right dash — three characters, three jobs.**
+
+| Character | Name | Job | Spacing | Examples |
+|---|---|---|---|---|
+| `-` U+002D | Hyphen | Joins a compound word or modifier | Closed up | `market-ready`, `best-fit accounts`, `version-control`, `Global-to-Local`, `re-review`, `10+ markets/languages` |
+| `–` U+2013 | En dash | A range (it reads as "to"), or a compound where one side is already multi-word | Closed up | `1–2 weeks`, `2024–2026`, `Q1–Q3`, `New York–London` |
+| `—` U+2014 | Em dash | A parenthetical break or interruption in a sentence | **Spaced** | `the design is done — but the page is not live` |
+
+Misuses to catch, all of which appear in real source copy:
+
+- Hyphen doing an em dash's job: `design - but weeks` → `design — but weeks`
+- Hyphen in a numeric range: `1-2 weeks` → `1–2 weeks`
+- Em dash in a range: `1—2 weeks` → `1–2 weeks`
+- En dash as a parenthetical break: `approved – but` → `approved — but`
+- Unspaced em dash: `cost—faster launches` → `cost — faster launches`
+- A minus sign (`−` U+2212), bullet (`•`), or middle dot (`·`) pressed into service as a dash. The middle dot is legitimate only as a list separator inside a run-on line (e.g. `.op-checklist__note`), never as a dash.
+
+**Where straight characters stay.** HTML attributes (`class="btn"`), CSS values (`font-family: "Inter"`), `<code>` spans and code samples, file paths, and URLs all keep straight quotes and plain hyphens. Curly quotes break code, so never "upgrade" them there. These rules govern the copy a reader reads, not the markup they don't.
+
+**Auditing a file.** There is no build step, so check by hand. These four patterns catch nearly every real violation:
+
+```bash
+grep -nE "[A-Za-z]'[A-Za-z]|[0-9]-[0-9]| - |[^ ]—|—[^ ]" path/to/file.html
+```
+
+Straight double quotes need an eye rather than a pattern, since attributes legitimately use them: search for `"` and confirm each one is inside a tag, not inside copy.
+
+**Rebuilding source content.** When copy comes from a PDF, doc, or transcript, the source will often use straight quotes and hyphen-as-dash. Fixing those on the way in is required, not optional — it is the one class of change always allowed to content that is otherwise reproduced verbatim (see "Content fidelity" under Documents).
 
 ---
 
@@ -429,7 +480,7 @@ Rules specific to building one-pagers (fixed-width documents — sales/product f
 
 - Every one-pager is a **fixed 1280px-wide, auto-height canvas** (`.op-page`, `base/onepagers-layout.css`). Width never changes; height grows with content. A one-pager that stops at its shortest still keeps a **1656px minimum height** — the exact US-Letter (8.5:11) proportion at this width — so a short one-pager still prints/exports at a familiar document ratio. Taller documents are normal and expected.
 - Colors, typography, radius, and spacing tokens are the same variables used on web and decks (`tokens/*.css`) — one-pagers introduce no new tokens.
-- **Never reuse or reshape web page-level components for a one-pager — not even as a starting point.** This is the opposite of the deck rule. One-pagers compose exclusively from their own dedicated tier, `components/onepager/*` (hero, logo-strip, comparison, benefit-cards, steps, quote, impact-tiles, stat-band, rating-tiles, platform-pillars, cta-band, footer), plus raw tokens and the type-style utility classes (`.text-h1`, etc. from `base/type-styles.css`). If a new layout idea is genuinely needed and none of the existing onepager components fit, design a new one in this same tier — don't drop in `hero-block`, `cards`, `numbers`, `testimonial`, or any other web component.
+- **Never reuse or reshape web page-level components for a one-pager — not even as a starting point.** This is the opposite of the deck rule. One-pagers compose exclusively from their own dedicated tier, `components/onepager/*` (hero, lead, logo-strip, comparison, callout, flow, numbered-cards, checklist, signals, roster, benefit-cards, steps, quote, impact-tiles, stat-band, rating-tiles, platform-pillars, cta-band, footer), plus raw tokens and the type-style utility classes (`.text-h1`, etc. from `base/type-styles.css`). If a new layout idea is genuinely needed and none of the existing onepager components fit, design a new one in this same tier — don't drop in `hero-block`, `cards`, `numbers`, `testimonial`, or any other web component.
 - **Real interactive UI is allowed here — unlike decks.** A one-pager is opened and read as a document, not presented live, so `.btn` (and real links) are correct for CTAs. Every reference one-pager uses a real button for "Schedule a demo."
 
 ### One-pager layout grid
@@ -441,6 +492,7 @@ Rules specific to building one-pagers (fixed-width documents — sales/product f
 | Band side padding (all bands) | **48px** | `--spacing-9` (same value validated for the deck canvas) |
 | Band vertical padding (default) | **96px** top/bottom | `--spacing-13` |
 | Band vertical padding (compact) | **48px** top/bottom — `data-padding="compact"` | `--spacing-9` |
+| Compact as a document-wide choice | every content band on an internal reference sheet | see the brain doc's "Internal reference sheet" archetype |
 | Heading → content gap within a band | **40px** | `--spacing-8` (`.op-band` is itself a flex column with this gap) |
 
 Every band is a `.op-band` — a full-bleed row that supplies both background (`data-layer` × `data-theme`, mirroring the deck canvas's two composable axes) and the fixed 48px side padding. This is the *only* place side padding is ever applied; onepager components never carry their own side padding. Two components are self-sufficient and carry their own solid brand-purple background directly, exactly like hero-block on web: `.op-hero` (opens every one-pager) and `.op-cta-band` (closes most of them) — never wrap either in `.op-band`. `.op-footer` is also self-sufficient (a fixed near-black bar) and always closes the document.
@@ -449,7 +501,18 @@ Every band is a `.op-band` — a full-bleed row that supplies both background (`
 
 Section headings inside a band are composed directly from type-style classes, paired with the `.op-heading`/`.op-heading-intro` color utilities (`base/onepagers-layout.css`) rather than a dedicated heading component: `<h2 class="text-h1 op-heading">Title</h2>`.
 
-The shared `.grid`/`[data-grid-span]` system (`base/website-layout.css`) is available inside a band for freeform multi-column composition, scoped the same way the deck canvas scopes it (`--grid-column-padding: 0` so grid content sits flush to the band's own 48px padding).
+The shared `.grid`/`[data-grid-span]` system (`base/website-layout.css`) is available inside a band for freeform multi-column composition, scoped the same way the deck canvas scopes it (`--grid-column-padding: 0` so grid content sits flush to the band's own 48px padding). For a plain **pair of columns**, use `.op-columns` (`base/onepagers-layout.css`) instead — `--grid-gutter` is 8px, a page-grid gutter meant to separate cards, and two columns of dense body copy set 8px apart read as one ragged column. `.op-columns` supplies a real 48px column gap, takes `data-split="even"` (default) or `"wide-narrow"` (first column ~1.4×, for a narrative paired with a supporting `.op-callout`), and wraps each multi-block column in `.op-columns__col`.
+
+**Match a card component's fill to its band's layer.** Onepager card components carry a fixed fill and no border, so the band underneath has to differ from it or the cards vanish:
+
+| Component | Card fill | Put it on |
+|---|---|---|
+| `.op-benefit-cards` | layer-1 | a **layer-0** band |
+| `.op-numbered-cards`, `.op-checklist[data-marker="number"]` | layer-0 + shadow | a **layer-1 or higher** band |
+| `.op-flow` | layer-0 + shadow, highlight panel brand | any light band |
+| `.op-signals` | pink tint | any band |
+
+Because adjacent bands must also contrast with each other, this constrains the whole sequence: a document alternating benefit-cards and numbered-cards bands necessarily alternates layer-0 / layer-1, which is the rhythm to aim for anyway. Two further pairings to avoid: never put `.op-flow` (or anything else that repoints `--content-static-*` to inverted for a brand-purple surface) inside a `data-theme="dark"` band — in dark mode `--content-static-inverted` is near-black, so the purple panel would render black text; and never combine `data-layer="brand"` with `data-theme="dark"`, for the same reason.
 
 **How to decide what belongs in each band — and the catalog of recurring one-pager sections, document archetypes, and their composition recipes — lives in `docs/onepagers-design-brain.md`.** Consult it before building a one-pager; extend it as new reference one-pagers are provided.
 
@@ -461,13 +524,13 @@ Rules specific to building documents (fixed-size, genuinely paginated PDFs — i
 
 ### Content fidelity
 
-Text content for every page except the cover must match the original source (the PDF, doc, or transcript being rebuilt) exactly — copy it verbatim, never paraphrase, summarize, condense, or invent replacement copy. The cover page (title, accent word, audience line, subtitle, TOC labels) is the one place original wording is expected, since the source material rarely has a cover-page-shaped opening to draw from. Only deviate from verbatim source content elsewhere when the user explicitly asks for it (e.g. "adjust the content," "use this text but feel free to change it where needed for the design") — absent that instruction, default to keeping the original content intact.
+Text content for every page except the cover must match the original source (the PDF, doc, or transcript being rebuilt) exactly — copy it *wording*-for-wording, never paraphrase, summarize, condense, or invent replacement copy. "Verbatim" governs the words, not the characters: casing and punctuation still follow "Text casing" and "Punctuation, quotes & dashes" above, so a source's all-caps heading, straight quotes, inline bold, and hyphen-as-dash are all corrected on the way in. That is the only class of change allowed without asking. The cover page (title, accent word, audience line, subtitle, TOC labels) is the one place original wording is expected, since the source material rarely has a cover-page-shaped opening to draw from. Only deviate from verbatim source content elsewhere when the user explicitly asks for it (e.g. "adjust the content," "use this text but feel free to change it where needed for the design") — absent that instruction, default to keeping the original content intact.
 
 ### Fixed width AND height, genuinely paginated — not reused web/onepager components
 
 - A document is the one format that is **truly paginated**: it prints/exports as a sequence of discrete physical pages, each repeating a running header and footer — unlike a one-pager (single scrolling canvas) or a deck (independent slides with no running header/footer). Every physical page is a `.doc-page` (`base/document-layout.css`): a **fixed 1290×1670px canvas** (≈ US-Letter 8.5:11 proportion at this width). Both width and height are fixed — content is authored to fit within one page's content area, not left to grow it.
 - Colors, typography, radius, and spacing tokens are the same variables used on web, decks, and one-pagers (`tokens/*.css`) — documents introduce no new tokens.
-- **Never reuse or reshape web or onepager components for a document — not even as a starting point.** Documents compose exclusively from their own dedicated tier, `components/document/*` (doc-hero, doc-meta, doc-steps, doc-callout, doc-screenshot, doc-divider, doc-pullquote, doc-footnotes, doc-chapter-opener, doc-timeline), plus raw tokens and the type-style utility classes (`.text-h1`, etc. from `base/type-styles.css`). If a new content shape is genuinely needed and none of the existing document components fit, design a new one in this same tier.
+- **Never reuse or reshape web or onepager components for a document — not even as a starting point.** Documents compose exclusively from their own dedicated tier, `components/document/*` (doc-hero, doc-meta, doc-steps, doc-callout, doc-screenshot, doc-divider, doc-pullquote, doc-footnotes, doc-chapter-opener, doc-timeline, doc-table), plus raw tokens and the type-style utility classes (`.text-h1`, etc. from `base/type-styles.css`). If a new content shape is genuinely needed and none of the existing document components fit, design a new one in this same tier.
 - **Screenshots are kept as-is, but always framed in a container.** A document's whole point is often to document a real product UI — never redraw or mock up a screenshot from scratch; embed the original image (including any pre-existing callout arrows/highlights) inside `.doc-screenshot`, which always wraps it in the `.doc-screenshot__container` (tinted background, padding, centers the image) — see "Image containers" below.
 - **Real interactive UI is allowed here — unlike decks.** A document is read like a printed manual, not presented live.
 - **Body-text color.** Flowing prose/step copy (`.doc-steps__text`, `.doc-heading-intro`, `.doc-callout__item-text`) is `content-static-secondary`, not primary — it should read a shade lighter than headings. Short data/label text (`.doc-meta__value`, pills, `.doc-callout__term`) stays `content-static-primary` — those aren't prose.
@@ -536,6 +599,16 @@ When a Section's content (a step list, a long paragraph, a run of screenshots) d
 
 `.doc-timeline` (`components/document/doc-timeline`) is a horizontal milestone/roadmap strip — equal-width `.doc-timeline__milestone` columns (CSS grid), each a pill label (`.doc-timeline__pill`) above a dot (`.doc-timeline__dot`) sitting on a continuous connecting line, with a boxed `.doc-timeline__caption` below. Use it for a small number of milestones (roughly 3–5); beyond that, a plain list reads better.
 
+### Tables
+
+`.doc-table` (`components/document/doc-table`) is a comparison / reference table — a row-label column plus two or more value columns, hairline-ruled with no fill. It is authored as a real `<table>` (a document is printed and read like a manual, so the semantic element and its header cells are correct), and it sits at **960px**, matching `.doc-divider`, because a 3-column table doesn't fit the 800px text column. `data-columns="3"` narrows the row-label column for a third value column.
+
+Reach for it only when the content is genuinely tabular. A bulleted set of tips is `.doc-callout`; an ordered procedure is `.doc-steps`.
+
+### Titled steps
+
+`.doc-steps__step` may open its body with a `.doc-steps__heading` (H4 scale, `content-static-primary`) above `.doc-steps__text` — for a step that names itself before explaining itself (a titled practice or option). Omit it for a bare instruction; the heading carries the badge-alignment padding itself, so a titled step still optically centers against its number.
+
 ### Document layout grid
 
 | Rule | Value | Token |
@@ -564,6 +637,8 @@ When a Section's content (a step list, a long paragraph, a run of screenshots) d
 | Pull-quote left border + inset | 1px rule, **24px** text inset | `--spacing-6` |
 | Chapter-opener summary card gap below title | **96px** | `--spacing-13` |
 | Timeline dot size | **10×10px** | — |
+| Table width | **960px**, centered (matches the divider) | — |
+| Table row-label column | **160px** (**140px** at `data-columns="3"`) | — |
 
 
 
@@ -572,6 +647,64 @@ Every page is a `.doc-page` containing, in order: `.doc-header` (self-sufficient
 **Pagination is authored, not automatic.** Because height is fixed, decide page breaks by hand: a `.doc-page` never contains more than its content area can hold (~1490px at the default padding). Never split a `.doc-steps__step` or a `.doc-screenshot` across two pages — move the whole block to the next page instead. `base/document-layout.css` sets `break-after: page` on every `.doc-page` (removed on the last) so printing/exporting the HTML produces one physical PDF page per `.doc-page`, with `@page { size: 1290px 1670px; margin: 0 }` under `@media print`.
 
 Section headings inside the content area are composed directly from type-style classes, paired with the `.doc-heading`/`.doc-heading-intro` color utilities (`base/document-layout.css`), the same mechanism as the one-pager tier's `.op-heading`: `<h2 class="text-h2 doc-heading">Title</h2>`.
+
+## Social assets
+
+Rules specific to building social assets (fixed-size single graphics exported as images — campaign posts, link cards, blog headers) with this design system. Anything not overridden here follows the general rules above — icons, text casing, punctuation, tokens-only CSS, and Figma property mapping all still apply.
+
+### Fixed canvas, three formats — composed freely, no component tier
+
+- Every asset is one `.social-canvas` (`base/social-layout.css`) at a fixed native export size, chosen with `data-format`:
+
+  | `data-format` | Size | Placement |
+  |---|---|---|
+  | `square` | **1080×1080** | Instagram / LinkedIn feed post |
+  | `portrait` | **1080×1350** | Instagram / LinkedIn 4:5 feed post |
+  | `wide` | **1200×675** | LinkedIn / X link card, blog header |
+
+  Author at these sizes — never at a scaled-down proxy. Export at 1x or 2x as the placement needs.
+- Colors, typography, radius, and spacing tokens are the same variables used everywhere else (`tokens/*.css`) — social assets introduce no new tokens.
+- **Social assets follow the deck model, not the one-pager/document model.** There is no `components/social/*` tier and you must not create one. Compose each asset from raw tokens, the type-style utilities (`base/type-styles.css`), and **atomic components** (`.btn`, `.badge`, icons, text fields) — reshaping an atomic's internal layout for the canvas is fine, changing its tokens is not.
+- **Never reuse web page-level components, or onepager/document components, on a social canvas.** A 1080px canvas is not a page row; `hero-block`, `cards`, `numbers`, `.op-*` and `.doc-*` all assume a width and a rhythm this canvas doesn't have.
+- **Campaign shapes live with the campaign.** A social asset almost always needs some composition CSS (a card grid, a stat row, a two-up comparison). Put it in a single campaign stylesheet next to the assets — `output/social/<campaign>/<campaign>.css` — with every class namespaced to the campaign and every value a token. Do not push campaign shapes up into `base/social-layout.css`; that file owns the canvas and its furniture, nothing else. This mirrors `output/hero-blocks-2026/centered/centered.css`.
+- **One asset per file.** Each `.html` holds exactly one `.social-canvas`, so a full-page screenshot is the finished asset with nothing to crop. Add an `index.html` contact sheet linking them when a campaign runs to more than a handful.
+- **Assets are static.** They become flat images, so nothing is interactive: no JS, no hover states to design for, no real links. A `.btn` on a social canvas is a picture of a button — render it as a `<span class="btn">`, never a `<button>` or `<a>`, so it is never focusable or announced as an interactive control.
+
+### Social canvas grid
+
+| Rule | Value | Token |
+|---|---|---|
+| Canvas padding — `square` / `portrait` | **64px** | `--spacing-11` |
+| Canvas padding — `wide` | **48px** | `--spacing-9` (the deck canvas value) |
+| Region gap — `square` / `portrait` | **64px** minimum | `--spacing-11` |
+| Region gap — `wide` | **40px** minimum | `--spacing-8` |
+| Region gap — `data-rhythm="tight"` | **40px** minimum | `--spacing-8` |
+| Column grid inside the canvas | 12 columns, 8px gutter, no column padding | `--grid-gutter` |
+| Logo height | **28px** | — |
+
+Padding differs by format deliberately: `square` and `portrait` are read on a phone at thumbnail size and need the wider margin to survive platform cropping, while `wide` is a landscape 16:9 canvas read on a desktop and takes the deck's measured 48px.
+
+The canvas is a flex column of three optional regions — `.social-canvas__topbar` (pinned top), `.social-canvas__body` (`flex: 1`, absorbs the slack), `.social-canvas__footer` (pinned bottom). The canvas gap is therefore a *minimum* separation, not a fixed one. Use `data-rhythm="tight"` when the body is a dense grid that needs the height back.
+
+**The desktop typography tier is pinned on `.social-canvas`.** The deck, one-pager and document canvases are 1280–1290px wide, so any window showing one is already past the 1280px token breakpoint; a 1080px social canvas is not, and would otherwise pick up the mobile type scale and shrink every headline by a third. Never rely on the ambient viewport for type size here.
+
+### Backgrounds
+
+Same two composable axes as the deck canvas and the one-pager band — `data-layer` picks the surface, `data-theme="dark"` flips the token set underneath it:
+
+- **`data-layer="0".."3"`** — the gray steps, in either theme. The everyday background.
+- **`data-layer="brand"`** — solid saturated purple, self-contained with `--content-static-inverted`. Never combine with `data-theme="dark"` (same reason documented in `base/deck-layout.css`).
+- **`data-layer="brand-gradient"`** — a soft purple bloom over the base surface; both stops are tokens, so it reads as a pale lavender wash in light mode and a deep purple glow on near-black in dark. This is the campaign's showcase background — the opener, the offer, the closing card. Not a default, and never on more than a few assets in a set.
+
+**Alternate light and dark across a campaign set**, the same way Sections alternate on a web page: a run of assets that are all light reads as one undifferentiated block in a feed. Decide the theme per asset by the role it plays — the problem/tension assets go dark, the product and offer assets go light.
+
+### Content treatment
+
+- **Headline accent.** A social headline usually turns on one word or phrase. Wrap it in `.social-canvas__accent` to set it in brand purple — the same deliberate display accent as `.doc-hero__title-accent` on a document cover. This is a title treatment, not prose emphasis, so it is not covered by the "no bold inline emphasis" rule. Never use a gradient fill on text: the system sanctions brand gradients as backgrounds only.
+- **Headline scale.** Display for the one-line statement assets, H1 for a headline that shares the canvas with real content. Both are pinned to their desktop values on the canvas.
+- **Sign-off.** Close an asset with `.social-canvas__footer` — the real Smartcat wordmark (`images/smartcat-logo-black.svg` on light, `-white.svg` on dark and brand) opposite a one-line `.social-canvas__note`. Keep the note to a short sentence; it is the asset's caption, not a paragraph.
+- **All-caps and eyebrows are banned here too.** Social source material is full of both — set-tinted category labels, table column headers, and small tracked-out lines above a headline. Convert every one of them to sentence case, and rebuild an eyebrow as an ordinary label or paragraph. See "Text casing" above.
+- **Product UI is redrawn from atomics, not screenshotted.** Unlike a document — which embeds the real screenshot — a social asset showing product UI is an illustration of the product, sized and simplified for a thumbnail. Build it from `.badge`, `.btn`, `.text-field` and tokens, and keep it to the few elements that carry the point.
 
 ---
 
