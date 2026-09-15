@@ -22,12 +22,13 @@ with nothing to re-upload.
 
 ## Step 1 — sync
 
-Run `scripts/sync.sh` from **this skill's own directory** — which is
-`.claude/skills/smartcat-design-system/` when the skill is installed in the
-design-system project, and wherever the skill was installed otherwise:
+Run `scripts/sync.sh` from **this skill's own directory**. Where that is depends
+on how the skill was installed: `skills/smartcat-design-system/` inside the
+design-system repo itself, `~/.claude/skills/smartcat-design-system/` when
+installed for every local project, or the skill's own directory on claude.ai.
 
 ```bash
-eval "$(bash .claude/skills/smartcat-design-system/scripts/sync.sh)"
+eval "$(bash skills/smartcat-design-system/scripts/sync.sh)"
 ```
 
 Run it from any working directory. It prints four shell-quoted lines, so `eval`
@@ -143,5 +144,5 @@ could reach GitHub".
 file. After adding or changing a component, regenerate and commit it:
 
 ```bash
-python .claude/skills/smartcat-design-system/scripts/build-index.py
+python skills/smartcat-design-system/scripts/build-index.py
 ```
