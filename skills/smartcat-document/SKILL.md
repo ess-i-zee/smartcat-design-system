@@ -2,9 +2,9 @@
 name: smartcat-document
 description: >-
   Build a Smartcat-branded multi-page document — a genuinely paginated
-  1290×1670px guide that prints or exports to PDF as discrete pages with a
-  running header and footer. Use for help articles, workflow and how-to guides,
-  onboarding material, reference manuals, playbooks, SOPs and internal
+  1290×1670px guide with a running header and footer — and deliver it as a
+  downloadable PDF on Google Drive. Use for help articles, workflow and how-to
+  guides, onboarding material, reference manuals, playbooks, SOPs and internal
   handbooks — anything that runs to several pages and is read like a manual.
   Also use when rebuilding an existing PDF, doc or transcript in Smartcat style.
   Not for one-pagers (single variable-height canvas), decks or social graphics;
@@ -188,9 +188,58 @@ order, and that the TOC page numbers on the cover point at the right pages.
 
 Screenshot the cover and one content page to share.
 
-## Step 8 — report
+## Step 8 — export to PDF and deliver via Google Drive
+
+The deliverable is a downloadable PDF on Google Drive, not the local HTML file
+— the HTML in `output/documents/` is the source, this step is what actually
+ships. Do this after step 7 passes clean, never before.
+
+**1. Render.** The document's own `@media print { @page { size: 1290px
+1670px } }` (in `base/document-layout.css`) already makes headless Chrome
+produce exactly the right thing — one physical PDF page per `.doc-page`, at
+the exact design size, with no extra flags or overrides needed. Confirmed
+empirically: a 9-`.doc-page` file exported as a 9-page PDF, each page
+1290×1670px converted to points.
+
+```bash
+bash scripts/export-pdf.sh "http://localhost:8912/output/documents/<name>/<name>.html" "<name>.pdf"
+```
+
+(Run from this skill's own directory, same as the loader's `sync.sh`. Set
+`SMARTCAT_CHROME` if Chrome isn't in one of the script's default locations.)
+
+**2. Confirm it rendered correctly** before uploading anything: the PDF's page
+count should equal the number of `.doc-page` elements, and roughly match the
+expected file size (a few hundred KB is typical; a 0-byte or missing file
+means the script failed, not that the document is empty).
+
+**3. Upload it to Google Drive.** Find whichever Drive-capable tool or
+connector is available in this session (a Drive MCP connector, if one is
+configured) — do not assume a specific tool name, since it varies by
+installation. Base64-encode the PDF and create the file with:
+- `contentMimeType: application/pdf`
+- `disableConversionToGoogleType: true` — **without this, Drive silently
+  converts the PDF into a Google Doc**, which is not the deliverable asked
+  for. Confirmed empirically: omitting it changes the stored file's type.
+
+**If no Drive connector is available in this session**, say so plainly and
+hand over the local PDF instead — do not silently skip the upload without
+telling the user, and do not treat "no connector" as a reason to fail the
+whole build.
+
+**Large files.** Base64 inflates size by about a third, and a document with
+several full-resolution screenshots can run into the low tens of MB. If the
+upload call fails or is clearly impractical at that size, say so rather than
+retrying blindly — this is a real, observed ceiling (a 365KB PDF already
+produces close to 500KB of base64 text), not a hypothetical edge case.
+
+The upload response includes the file's Drive link — that link is the
+deliverable to hand back, not a description of the file.
+
+## Step 9 — report
 
 Give the design-system commit, the page count, and confirm the content is
 verbatim from the source with only casing and punctuation corrected. Flag any
 page where you had to move content to make it fit, and anything the source left
-ambiguous.
+ambiguous. Give the Drive link, and say plainly if step 8 fell back to a local
+file instead.

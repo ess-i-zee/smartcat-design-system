@@ -2,11 +2,12 @@
 name: smartcat-onepager
 description: >-
   Build a Smartcat-branded one-pager — a fixed 1280px-wide, variable-height
-  document for reading or printing. Use whenever someone wants a one-pager,
-  solution brief, product or sales factsheet, battlecard, cheat sheet, leave-
-  behind, or "a single page about X" for a customer or an internal team. Also use
-  it for the brief/cheat-sheet pairs that accompany a launch. Not for slide decks,
-  paginated multi-page guides or social graphics; those have their own skills.
+  document — and deliver it as a downloadable PDF on Google Drive. Use whenever
+  someone wants a one-pager, solution brief, product or sales factsheet,
+  battlecard, cheat sheet, leave-behind, or "a single page about X" for a
+  customer or an internal team. Also use it for the brief/cheat-sheet pairs
+  that accompany a launch. Not for slide decks, paginated multi-page guides or
+  social graphics; those have their own skills.
 ---
 
 # Smartcat one-pager
@@ -178,7 +179,64 @@ past a stat card.
 the whole document. Scroll and capture in sections, or render the full page with
 headless Chrome and downscale.
 
-## Step 8 — report
+## Step 8 — export to PDF and deliver via Google Drive
+
+The deliverable is a downloadable PDF on Google Drive, not the local HTML file
+— the HTML in `output/onepagers/` is the source, this step is what actually
+ships. Do this after step 7 passes clean, never before.
+
+**1. Measure the real height first.** A one-pager's height is variable, and
+there is no way to know it without measuring — in `javascript_tool`:
+
+```js
+document.querySelector('.op-page').getBoundingClientRect().height
+```
+
+**2. Render, passing that height explicitly.** A one-pager does NOT get its
+own `@page` size the way a document does — `main.css` imports every `base/*`
+file into one global stylesheet, and CSS's `@page` at-rule cannot be scoped to
+a class selector, so `base/document-layout.css`'s `@page { size: 1290px
+1670px }` leaks into anything else that links `main.css`. Printed with no
+override, a one-pager silently comes out paginated at the DOCUMENT format's
+page size, not its own — confirmed empirically, not a hypothetical. The export
+script works around this by printing a disposable copy of the file with a
+page-specific override injected, not by touching the source HTML:
+
+```bash
+export SMARTCAT_STATIC_ROOT="$DS_ROOT"
+bash scripts/export-pdf.sh "http://localhost:8912/output/onepagers/<name>.html" <height-from-step-1> "<name>.pdf"
+```
+
+Confirmed empirically: this produces exactly one page, at exactly 1280px by
+the given height, regardless of what `main.css` declares.
+
+**3. Confirm it rendered correctly** before uploading: exactly one page, and a
+size roughly matching the measured height (a few hundred KB is typical for a
+file this size; 0 bytes or missing means the script failed).
+
+**4. Upload it to Google Drive.** Find whichever Drive-capable tool or
+connector is available in this session — do not assume a specific tool name,
+since it varies by installation. Base64-encode the PDF and create the file
+with:
+- `contentMimeType: application/pdf`
+- `disableConversionToGoogleType: true` — **without this, Drive silently
+  converts the PDF into a Google Doc**, which is not the deliverable asked
+  for. Confirmed empirically: omitting it changes the stored file's type.
+
+**If no Drive connector is available in this session**, say so plainly and
+hand over the local PDF instead — do not silently skip the upload, and do not
+treat "no connector" as a reason to fail the whole build.
+
+**Large files.** Base64 inflates size by about a third. If the upload call
+fails or is clearly impractical at the file's size, say so rather than
+retrying blindly — this is a real, observed ceiling (a 312KB PDF already
+produces well over 400KB of base64 text), not a hypothetical edge case.
+
+The upload response includes the file's Drive link — that link is the
+deliverable to hand back, not a description of the file.
+
+## Step 9 — report
 
 Give the design-system commit, the archetype used, and the band sequence with
-layers. Flag any component you had to add to the tier.
+layers. Flag any component you had to add to the tier. Give the Drive link,
+and say plainly if step 8 fell back to a local file instead.
