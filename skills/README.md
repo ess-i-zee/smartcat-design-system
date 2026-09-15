@@ -5,7 +5,14 @@ and versioned here, then installed or uploaded from here.
 
 | Skill | What it does |
 |---|---|
-| `smartcat-design-system/` | Loads the current design system — tokens, rules, component specs — so other skills don't carry their own copy. |
+| `smartcat-design-system/` | **The loader.** Fetches the current design system — tokens, rules, component specs — so the others don't carry their own copy. |
+| `smartcat-deck/` | Presentation decks — a sequence of fixed 1280×720 slides. |
+| `smartcat-onepager/` | One-pagers — a fixed 1280px-wide, variable-height document. |
+| `smartcat-document/` | Multi-page documents — genuinely paginated 1290×1670 pages. |
+
+The three format skills each delegate to the loader for the rules and hold only
+what is specific to their format: the decision procedure, the geometry, the
+failure modes and how to verify them. No skill for web pages yet.
 
 ## Why they live here and not in `.claude/skills/`
 
@@ -23,8 +30,11 @@ Copy it into your user skills directory to make it available in every project on
 this machine:
 
 ```bash
-cp -r skills/smartcat-design-system ~/.claude/skills/
+cp -r skills/smartcat-design-system ~/.claude/skills/   # one
+cp -r skills/*/ ~/.claude/skills/                       # all of them
 ```
+
+The format skills need the loader installed too — they delegate to it.
 
 Re-copy after changing the skill itself. You do **not** need to re-copy when the
 design system changes — that is the whole point of the loader: it fetches the
