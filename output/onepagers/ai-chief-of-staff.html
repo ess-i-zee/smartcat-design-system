@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Chief of Staff — One-pager — Smartcat</title>
+
+  <link rel="stylesheet" href="../../main.css">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Plus+Jakarta+Sans:wght@400;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* Preview chrome only — centers the fixed-width canvas. Not part
+       of the design system. */
+    body {
+      margin: 0;
+      background: var(--background-static-gray-layer-3);
+      display: flex;
+      justify-content: center;
+      padding: var(--spacing-9) 0;
+    }
+  </style>
+</head>
+<body>
+
+<div class="op-page">
+
+  <!-- ═══ Hero (self-sufficient) ═══════════════════════════════
+       Stacked layout: there is no single screen to show — the pitch is
+       the routing model itself, not one product surface. -->
+  <header class="op-hero" data-layout="stacked">
+    <div class="op-hero__topbar">
+      <div class="op-hero__brand">
+        <img class="op-hero__logo" src="../../images/smartcat-logo-white.svg" alt="Smartcat">
+        <p class="op-hero__tagline">AI Chief of Staff</p>
+      </div>
+      <button class="btn" data-type="secondary" data-size="m" type="button">
+        <span class="btn__label">Book a demo</span>
+      </button>
+    </div>
+    <div class="op-hero__row">
+      <div class="op-hero__content">
+        <h1 class="op-hero__headline">Stop Dispatching.<br>Start Delegating.</h1>
+        <p class="op-hero__paragraph">Instead of managing a stack of AI coworkers, just tell your Chief of Staff what you need &mdash; and it&rsquo;s off and running. One interface that routes every task to the right coworker and remembers how you work.</p>
+      </div>
+    </div>
+  </header>
+
+  <!-- ═══ What it does — three independent value props ═════════
+       Benefit cards, not comparison: the page argues three parallel
+       capabilities, with no opposing pole to set them against.
+       Card fill is layer-1, so the band must be layer-0. -->
+  <div class="op-band" data-layer="0">
+    <h2 class="text-h1 op-heading">What Does the AI Chief of Staff Do?</h2>
+    <div class="op-benefit-cards" data-cards="3">
+
+      <div class="op-benefit-cards__card">
+        <span class="op-benefit-cards__icon" aria-hidden="true">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 5C13 5 11.0659 18 19 18H21M21 6H19C16.5599 6 15.2677 7.2296 14 8.93247M2 19C6.05661 19 8.38639 17.232 10.1092 15M19.5 15L22.5 18L19.5 21M19.5 3L22.5 6L19.5 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+        <h3 class="op-benefit-cards__heading">One place to direct all your work</h3>
+        <p class="op-benefit-cards__paragraph">Tell it what you need, or hand it a task. Your AI Chief of Staff determines which coworker &mdash; or coworkers &mdash; should act, and coordinates them behind the scenes. You never have to learn the org chart of coworkers or track which one handles what.</p>
+      </div>
+
+      <div class="op-benefit-cards__card">
+        <span class="op-benefit-cards__icon" aria-hidden="true">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21.0002 7.5C21.0002 7.5 19.4529 5.96653 18.7359 5.25089C17.0109 3.52932 14.6299 2.46484 12.0002 2.46484C6.73412 2.46484 2.46509 6.73388 2.46509 12C2.46509 17.2661 6.73412 21.5352 12.0002 21.5352C17.0987 21.5352 21.2625 17.5337 21.5225 12.5M12.0001 6.5V12L15.0001 15M22.0001 4V8.76758H17.2325" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+        <h3 class="op-benefit-cards__heading">It gets better every time you use it</h3>
+        <p class="op-benefit-cards__paragraph">You&rsquo;re not starting from scratch every session. Your AI Chief of Staff learns your role and preferences as you work together, so each session builds on the last. The time that used to go into re-explaining yourself goes straight into the work.</p>
+      </div>
+
+      <div class="op-benefit-cards__card">
+        <span class="op-benefit-cards__icon" aria-hidden="true">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M17 8.41284C17.7803 8.41284 18.4128 7.78029 18.4128 7C18.4128 6.21971 17.7803 5.58716 17 5.58716C16.2197 5.58716 15.5872 6.21971 15.5872 7C15.5872 7.78029 16.2197 8.41284 17 8.41284Z" fill="currentColor"/><path d="M11.4993 17.4898L11.8691 21.5582C11.8884 21.7698 11.9811 21.9679 12.1313 22.1181C12.4551 22.4419 12.9694 22.4739 13.3308 22.1927L15.422 20.5663C15.9726 20.138 16.2947 19.4795 16.2947 18.7819L16.2947 14.43C16.2947 13.8304 16.5329 13.2554 16.9568 12.8315L19.8767 9.9116C20.1484 9.63995 20.3463 9.30355 20.4518 8.93416L21.5789 4.98953C21.7705 4.31874 21.5834 3.59678 21.0901 3.10348L20.8963 2.9096C20.403 2.41631 19.681 2.22923 19.0102 2.42088L15.0656 3.54792C14.6962 3.65346 14.3598 3.8514 14.0881 4.12305L11.1683 7.04293C10.7443 7.46687 10.1693 7.70504 9.56978 7.70504L5.21785 7.70504C4.52025 7.70504 3.86173 8.02711 3.43344 8.57776L1.807 10.6689C1.52586 11.0304 1.55788 11.5446 1.88168 11.8684C2.03187 12.0186 2.22998 12.1114 2.44152 12.1306L6.50995 12.5005M11.4022 12.5974L5.00827 18.9913" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+        <h3 class="op-benefit-cards__heading">Put it to work today</h3>
+        <p class="op-benefit-cards__paragraph">There&rsquo;s no separate setup step. Tell it what you need, or drop in a file, and it sets up the workspace itself &mdash; shortening the distance from &ldquo;I have a task&rdquo; to &ldquo;the right coworker is on it.&rdquo;</p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ═══ How it works — a counted, ordered sequence ════════════
+       Numbered cards rather than steps: the count and order carry the
+       message, and there is no per-stage screenshot to show.
+       Card fill is layer-0, so the band must be layer-1 or higher. -->
+  <div class="op-band" data-layer="1">
+    <h2 class="text-h1 op-heading">How It Works</h2>
+    <div class="op-numbered-cards" data-cards="4">
+
+      <div class="op-numbered-cards__card">
+        <span class="op-numbered-cards__number">1</span>
+        <h3 class="op-numbered-cards__heading">Tell it what you need</h3>
+        <p class="op-numbered-cards__paragraph">Drop in a file or describe a task in plain language.</p>
+      </div>
+
+      <div class="op-numbered-cards__card">
+        <span class="op-numbered-cards__number">2</span>
+        <h3 class="op-numbered-cards__heading">It sets up the workspace</h3>
+        <p class="op-numbered-cards__paragraph">Using your own institutional knowledge and standards.</p>
+      </div>
+
+      <div class="op-numbered-cards__card">
+        <span class="op-numbered-cards__number">3</span>
+        <h3 class="op-numbered-cards__heading">It puts the right coworker to work</h3>
+        <p class="op-numbered-cards__paragraph">Content Creator, Translator, Content Update, or Reviewer/QA.</p>
+      </div>
+
+      <div class="op-numbered-cards__card">
+        <span class="op-numbered-cards__number">4</span>
+        <h3 class="op-numbered-cards__heading">You review and approve</h3>
+        <p class="op-numbered-cards__paragraph">Nothing ships without your sign-off.</p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ═══ The coworkers it coordinates ═════════════════════════
+       Benefit cards again, not numbered: reordering the four would
+       change nothing, so they are a set, not a sequence. -->
+  <div class="op-band" data-layer="0">
+    <h2 class="text-h1 op-heading">The Coworkers It Coordinates</h2>
+    <p class="text-paragraph-reg op-heading-intro">At launch it routes work to four specialized coworkers &mdash; or to several at once, when a task spans more than one.</p>
+    <div class="op-benefit-cards" data-cards="4">
+
+      <div class="op-benefit-cards__card">
+        <span class="op-benefit-cards__icon" aria-hidden="true">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M10.5 20.5L11.8832 17.2304M21.5 20.5L20.1167 17.2304L16.5108 8.70742C16.3198 8.25603 15.6801 8.25603 15.4891 8.70743L11.8832 17.2304M11.8832 17.2304H20.1167M2 15C8.6 12.5 11 9 11 5M12.5 15C7.58625 13.1387 5.50052 10.7635 4.50002 8C4.38581 7.68455 4.29226 7.36457 4.21826 7.04037M2 4.5H7.5M7.5 4.5H13M7.5 4.5V2.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+        <h3 class="op-benefit-cards__heading">Content Translator</h3>
+        <p class="op-benefit-cards__paragraph">Translate and localize any content into 280+ languages, on brand.</p>
+      </div>
+
+      <div class="op-benefit-cards__card">
+        <span class="op-benefit-cards__icon" aria-hidden="true">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3.00005 7.5C3.00005 7.5 4.54736 5.96653 5.26442 5.25089C6.98941 3.52932 9.37042 2.46484 12 2.46484C17.2662 2.46484 21.5352 6.73388 21.5352 12C21.5352 17.2661 17.2662 21.5352 12 21.5352C6.90164 21.5352 2.73782 17.5337 2.47778 12.5M12 6.5V12L15 15M2.00024 4V8.76758H6.76782" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+        <h3 class="op-benefit-cards__heading">Content Update</h3>
+        <p class="op-benefit-cards__paragraph">Find what changed and re-translate only what moved.</p>
+      </div>
+
+      <div class="op-benefit-cards__card">
+        <span class="op-benefit-cards__icon" aria-hidden="true">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M22.4349 11.8351C22.4791 11.9417 22.4791 12.0582 22.4349 12.1649C21.9966 13.2218 19.2683 19 11.9999 19C4.7315 19 2.00314 13.2218 1.56491 12.1649C1.52068 12.0583 1.52068 11.9418 1.56491 11.8351C2.00314 10.7782 4.7315 5 11.9999 5C19.2683 5 21.9966 10.7782 22.4349 11.8351Z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M15.5442 12C15.5442 13.9575 13.9574 15.5443 11.9999 15.5443C10.0424 15.5443 8.45558 13.9575 8.45558 12C8.45558 10.0425 10.0424 8.45569 11.9999 8.45569C13.9574 8.45569 15.5442 10.0425 15.5442 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </span>
+        <h3 class="op-benefit-cards__heading">Reviewer</h3>
+        <p class="op-benefit-cards__paragraph">Pre-review every translation for fluency, tone, and brand fit.</p>
+      </div>
+
+      <div class="op-benefit-cards__card">
+        <span class="op-benefit-cards__icon" aria-hidden="true">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M17 15.5V22.191C17 22.5627 16.6088 22.8044 16.2764 22.6382L12.2236 20.6118C12.0828 20.5414 11.9172 20.5414 11.7764 20.6118L7.72361 22.6382C7.39116 22.8044 7 22.5627 7 22.191V15.5M12 7.5V9.5M12 9.5H14M12 9.5V11.5M12 9.5H10M19.5 9.5C19.5 13.6421 16.1421 17 12 17C7.85786 17 4.5 13.6421 4.5 9.5C4.5 5.35786 7.85786 2 12 2C16.1421 2 19.5 5.35786 19.5 9.5Z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </span>
+        <h3 class="op-benefit-cards__heading">Quality Assurance</h3>
+        <p class="op-benefit-cards__paragraph">Catch terminology, formatting, and accuracy errors before you ship.</p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ═══ Proof moment (brand purple) ══════════════════════════ -->
+  <div class="op-band" data-layer="brand">
+    <h2 class="text-h1 op-heading">Trusted by Fortune 1000 Brands to Close the Adaptation Gap</h2>
+    <div class="op-stat-band" data-stats="4">
+      <div class="op-stat-band__stat">
+        <p class="op-stat-band__value">20%</p>
+        <p class="op-stat-band__label">Of the Fortune 100 trust Smartcat with their global content.</p>
+      </div>
+      <div class="op-stat-band__stat">
+        <p class="op-stat-band__value">50%</p>
+        <p class="op-stat-band__label">More productivity at Expondo, with outsourcing costs cut by half.</p>
+      </div>
+      <div class="op-stat-band__stat">
+        <p class="op-stat-band__value">400%</p>
+        <p class="op-stat-band__label">Faster translation turnaround at Smith &amp; Nephew, at 70% lower cost.</p>
+      </div>
+      <div class="op-stat-band__stat">
+        <p class="op-stat-band__value">70%</p>
+        <p class="op-stat-band__label">Saved on global content costs by Stanley Black &amp; Decker.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ Integrations + security, paired in one band ══════════
+       Two lists that each need naming but neither of which fills a
+       band alone: .op-columns, headings dropped to .text-h3 so both
+       can sit side by side. -->
+  <div class="op-band" data-layer="0">
+    <div class="op-columns" data-split="wide-narrow">
+
+      <div class="op-columns__col">
+        <h2 class="text-h3 op-heading">Orchestrate Work Inside the Tools You Already Use</h2>
+        <div class="op-checklist" data-marker="caret" data-columns="2">
+          <ul class="op-checklist__list">
+            <li class="op-checklist__item">
+              <span class="op-checklist__marker" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8.75 6.66675L12.0833 10.0001L8.75 13.3334" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+              <p class="op-checklist__text">Google Drive</p>
+            </li>
+            <li class="op-checklist__item">
+              <span class="op-checklist__marker" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8.75 6.66675L12.0833 10.0001L8.75 13.3334" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+              <p class="op-checklist__text">Adobe Experience Manager</p>
+            </li>
+            <li class="op-checklist__item">
+              <span class="op-checklist__marker" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8.75 6.66675L12.0833 10.0001L8.75 13.3334" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+              <p class="op-checklist__text">Contentful</p>
+            </li>
+            <li class="op-checklist__item">
+              <span class="op-checklist__marker" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8.75 6.66675L12.0833 10.0001L8.75 13.3334" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+              <p class="op-checklist__text">Figma</p>
+            </li>
+            <li class="op-checklist__item">
+              <span class="op-checklist__marker" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8.75 6.66675L12.0833 10.0001L8.75 13.3334" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+              <p class="op-checklist__text">Google Docs</p>
+            </li>
+            <li class="op-checklist__item">
+              <span class="op-checklist__marker" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8.75 6.66675L12.0833 10.0001L8.75 13.3334" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+              <p class="op-checklist__text">Zendesk</p>
+            </li>
+            <li class="op-checklist__item">
+              <span class="op-checklist__marker" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8.75 6.66675L12.0833 10.0001L8.75 13.3334" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+              <p class="op-checklist__text">Sitecore</p>
+            </li>
+            <li class="op-checklist__item">
+              <span class="op-checklist__marker" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8.75 6.66675L12.0833 10.0001L8.75 13.3334" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+              <p class="op-checklist__text">Salesforce Service Cloud</p>
+            </li>
+            <li class="op-checklist__item">
+              <span class="op-checklist__marker" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8.75 6.66675L12.0833 10.0001L8.75 13.3334" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+              <p class="op-checklist__text">Drupal</p>
+            </li>
+            <li class="op-checklist__item">
+              <span class="op-checklist__marker" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8.75 6.66675L12.0833 10.0001L8.75 13.3334" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+              <p class="op-checklist__text">WordPress</p>
+            </li>
+            <li class="op-checklist__item">
+              <span class="op-checklist__marker" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8.75 6.66675L12.0833 10.0001L8.75 13.3334" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+              <p class="op-checklist__text">Salesforce Commerce Cloud</p>
+            </li>
+            <li class="op-checklist__item">
+              <span class="op-checklist__marker" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8.75 6.66675L12.0833 10.0001L8.75 13.3334" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+              <p class="op-checklist__text">Salsify</p>
+            </li>
+            <li class="op-checklist__item">
+              <span class="op-checklist__marker" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8.75 6.66675L12.0833 10.0001L8.75 13.3334" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+              <p class="op-checklist__text">ServiceNow</p>
+            </li>
+            <li class="op-checklist__item">
+              <span class="op-checklist__marker" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8.75 6.66675L12.0833 10.0001L8.75 13.3334" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+              <p class="op-checklist__text">Google Sheets</p>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="op-columns__col">
+        <h2 class="text-h3 op-heading">Scale Safely With AI</h2>
+        <div class="op-checklist" data-marker="caret">
+          <ul class="op-checklist__list">
+            <li class="op-checklist__item">
+              <span class="op-checklist__marker" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8.75 6.66675L12.0833 10.0001L8.75 13.3334" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+              <p class="op-checklist__text">Role-based access controls</p>
+            </li>
+            <li class="op-checklist__item">
+              <span class="op-checklist__marker" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8.75 6.66675L12.0833 10.0001L8.75 13.3334" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+              <p class="op-checklist__text">SSO and identity management</p>
+            </li>
+            <li class="op-checklist__item">
+              <span class="op-checklist__marker" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8.75 6.66675L12.0833 10.0001L8.75 13.3334" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+              <p class="op-checklist__text">SOC 2 compliant infrastructure</p>
+            </li>
+            <li class="op-checklist__item">
+              <span class="op-checklist__marker" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8.75 6.66675L12.0833 10.0001L8.75 13.3334" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+              <p class="op-checklist__text">AI interaction oversight</p>
+            </li>
+            <li class="op-checklist__item">
+              <span class="op-checklist__marker" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8.75 6.66675L12.0833 10.0001L8.75 13.3334" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+              <p class="op-checklist__text">Audit trails and transparency</p>
+            </li>
+            <li class="op-checklist__item">
+              <span class="op-checklist__marker" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8.75 6.66675L12.0833 10.0001L8.75 13.3334" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+              <p class="op-checklist__text">Data encryption at rest and in transit</p>
+            </li>
+          </ul>
+          <p class="op-checklist__note">Your content is never used to train public models.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ═══ Platform pillars (brand tint, fixed copy) ════════════ -->
+  <div class="op-band" data-layer="brand-tint">
+    <h2 class="text-h1 op-heading">Powered by Smartcat&rsquo;s AI Enterprise Platform</h2>
+    <div class="op-platform-pillars">
+
+      <div class="op-platform-pillars__pillar">
+        <span class="op-platform-pillars__icon" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M10 1.6665L12.5 7.4998L18.3334 9.99984L12.5 12.4998L10 18.3332L7.5 12.4998L1.66669 9.99984L7.5 7.4998L10 1.6665Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+        </span>
+        <h3 class="op-platform-pillars__title">Intelligence Fabric</h3>
+        <p class="op-platform-pillars__text">Learns from SME edits and enterprise standards, continuously improving quality over time.</p>
+      </div>
+
+      <div class="op-platform-pillars__pillar">
+        <span class="op-platform-pillars__icon" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6.66667 3.33325L3.33334 6.66659L6.66667 9.99992M13.3333 10.0001L16.6667 13.3334L13.3333 16.6667M11.6667 3.33325L8.33334 16.6666" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+        <h3 class="op-platform-pillars__title">Agents &amp; Orchestration</h3>
+        <p class="op-platform-pillars__text">Automates complex content workflows and intelligently routes content across teams.</p>
+      </div>
+
+      <div class="op-platform-pillars__pillar">
+        <span class="op-platform-pillars__icon" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M13.3334 17.5V15.8333C13.3334 14.9493 12.9822 14.1014 12.357 13.4763C11.7319 12.8512 10.884 12.5 10.0001 12.5H4.16675C3.28269 12.5 2.43485 12.8512 1.80972 13.4763C1.1846 14.1014 0.833414 14.9493 0.833414 15.8333V17.5M17.5001 17.5V15.8333C17.4996 15.0948 17.2537 14.3773 16.8004 13.7936C16.3472 13.2099 15.7123 12.793 15.0001 12.6083M12.0834 2.60833C12.7975 2.79192 13.4342 3.20892 13.8888 3.79359C14.3434 4.37826 14.5899 5.09736 14.5899 5.8375C14.5899 6.57764 14.3434 7.29674 13.8888 7.88141C13.4342 8.46608 12.7975 8.88308 12.0834 9.06667M9.16675 5.83333C9.16675 7.67428 7.67436 9.16667 5.83341 9.16667C3.99246 9.16667 2.50008 7.67428 2.50008 5.83333C2.50008 3.99238 3.99246 2.5 5.83341 2.5C7.67436 2.5 9.16675 3.99238 9.16675 5.83333Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+        <h3 class="op-platform-pillars__title">Expert Collaboration</h3>
+        <p class="op-platform-pillars__text">Combines AI speed with human judgment to ensure quality without slowing down launches.</p>
+      </div>
+
+      <div class="op-platform-pillars__pillar">
+        <span class="op-platform-pillars__icon" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2.5 15.8333L7.08333 11.25L10.4167 14.5833L17.5 7.5M17.5 7.5H12.5M17.5 7.5V12.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+        <h3 class="op-platform-pillars__title">Smartcat AI Visibility &amp; Control</h3>
+        <p class="op-platform-pillars__text">Provides end-to-end visibility across projects, languages, and stakeholders.</p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ═══ CTA band (self-sufficient) ═══════════════════════════ -->
+  <div class="op-cta-band">
+    <h2 class="op-cta-band__heading">Just Say What You Need.</h2>
+    <p class="op-cta-band__paragraph">Your AI Chief of Staff takes it from there. Book a demo and see it put your first task in motion.</p>
+    <button class="btn" data-type="secondary" data-size="l" type="button">
+      <span class="btn__label">Book a demo</span>
+    </button>
+  </div>
+
+  <!-- ═══ Footer (self-sufficient) ═════════════════════════════ -->
+  <footer class="op-footer">
+    <img class="op-footer__logo" src="../../images/smartcat-logo-white.svg" alt="Smartcat">
+    <p class="op-footer__url">www.smartcat.com</p>
+  </footer>
+
+</div>
+
+</body>
+</html>
