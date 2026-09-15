@@ -1,0 +1,246 @@
+/* =============================================================
+   SOCIAL LAYOUT — fixed-canvas grid for social-media assets
+   See CLAUDE.md "Social assets" → "Social canvas grid".
+
+   A social asset is a single fixed-size graphic exported as an image
+   for Instagram / LinkedIn / X or dropped into a web page. It is the
+   fourth fixed canvas in the system, alongside the deck slide, the
+   one-pager and the document page, and it follows the DECK model:
+   the canvas lives here, and everything inside it is composed freely
+   from tokens and atomic components. There is deliberately no
+   components/social/* tier — every asset is a one-off composition,
+   and recurring shapes belong to the campaign that needs them (e.g.
+   output/social/<campaign>/<campaign>.css), not to the system.
+
+   Nesting model:
+     .social-canvas           — the fixed canvas: size from data-format,
+                                background from data-layer × data-theme,
+                                and the only place padding is applied.
+                                A flex column of three optional regions.
+     .social-canvas__topbar   — pinned top: logo, optional badge.
+     .social-canvas__body     — flex:1, absorbs the slack between them.
+     .social-canvas__footer   — pinned bottom: logo + one-line note.
+
+   Three formats, matching the native export sizes of the placements
+   they are made for:
+     square   1080×1080  — Instagram / LinkedIn feed post
+     portrait 1080×1350  — Instagram / LinkedIn 4:5 feed post
+     wide     1200×675   — LinkedIn / X link card, blog header
+
+   Padding differs by format on purpose. square and portrait are read
+   on a phone at thumbnail size and need the wider 64px margin so the
+   composition survives platform cropping; wide is a landscape 16:9
+   canvas read on a desktop, so it takes the same 48px the deck slide
+   was measured at.
+
+   The desktop typography tier is pinned on the canvas rather than left
+   to the ambient viewport. The other fixed canvases are 1280–1290px
+   wide, so a window showing one is already past the 1280px token
+   breakpoint; a 1080px social canvas is not, and would otherwise pick
+   up the mobile type scale and shrink every headline by a third.
+   ============================================================= */
+
+.social-canvas {
+  /* Scope the shared grid system (base/website-layout.css) to a fixed
+     12-column, no-column-padding grid — same technique as .deck-slide
+     and .op-page — so a `.grid` row sits flush to the canvas padding. */
+  --grid-columns: 12;
+  --grid-gutter: 8px;
+  --grid-page-padding: 0;
+  --grid-column-padding: 0;
+
+  /* Desktop typography tier, pinned. Mirrors the @media (min-width:1280px)
+     block in tokens/typography.css — only the tokens that actually differ
+     from the mobile/tablet base are restated. */
+  --size-display:    64px;
+  --size-h1:         48px;
+  --size-h2:         32px;
+  --size-h3:         24px;
+  --size-h4:         18px;
+  --size-h5:         16px;
+  --size-paragraph:  18px;
+  --size-small-text: 16px;
+  --size-caption:    14px;
+
+  --line-height-display:    72px;
+  --line-height-h1:         58px;
+  --line-height-h2:         40px;
+  --line-height-h3:         32px;
+  --line-height-h5:         22px;
+  --line-height-paragraph:  30px;
+  --line-height-small-text: 26px;
+  --line-height-caption:    20px;
+
+  --letter-spacing-display: -2.8px;
+  --letter-spacing-h1:      -0.96px;
+  --letter-spacing-h2:      -0.64px;
+  --letter-spacing-h3:      -0.24px;
+  --letter-spacing-h4:       0px;
+
+  box-sizing: border-box;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--background-static-gray-layer-0);
+  color: var(--content-static-primary);
+  font-family: var(--family-body);
+}
+
+/* ── Formats ─────────────────────────────────────────────────── */
+
+.social-canvas[data-format="square"] {
+  width: 1080px;
+  height: 1080px;
+  padding: var(--spacing-11);      /* 64px */
+  gap: var(--spacing-11);          /* 64px — minimum region separation */
+}
+
+.social-canvas[data-format="portrait"] {
+  width: 1080px;
+  height: 1350px;
+  padding: var(--spacing-11);      /* 64px */
+  gap: var(--spacing-11);          /* 64px */
+}
+
+.social-canvas[data-format="wide"] {
+  width: 1200px;
+  height: 675px;
+  padding: var(--spacing-9);       /* 48px — the deck canvas value */
+  gap: var(--spacing-8);           /* 40px */
+}
+
+/* Tighter region rhythm — for a canvas whose body is a dense grid that
+   needs the height back (e.g. a full-bleed card wall). Documented
+   property, not a per-asset override. */
+.social-canvas[data-rhythm="tight"] { gap: var(--spacing-8); }   /* 40px */
+
+/* [data-grid-span] in base/website-layout.css only applies its span above
+   an 800px VIEWPORT — and a viewport is exactly what a fixed canvas must
+   not depend on, the same reason the type scale is pinned above. Restate
+   the spans unconditionally inside the canvas so a `.grid` row holds its
+   columns no matter how narrow the window showing it happens to be. */
+.social-canvas [data-grid-span="1"]  { grid-column: span 1;  }
+.social-canvas [data-grid-span="2"]  { grid-column: span 2;  }
+.social-canvas [data-grid-span="3"]  { grid-column: span 3;  }
+.social-canvas [data-grid-span="4"]  { grid-column: span 4;  }
+.social-canvas [data-grid-span="5"]  { grid-column: span 5;  }
+.social-canvas [data-grid-span="6"]  { grid-column: span 6;  }
+.social-canvas [data-grid-span="7"]  { grid-column: span 7;  }
+.social-canvas [data-grid-span="8"]  { grid-column: span 8;  }
+.social-canvas [data-grid-span="9"]  { grid-column: span 9;  }
+.social-canvas [data-grid-span="10"] { grid-column: span 10; }
+.social-canvas [data-grid-span="11"] { grid-column: span 11; }
+.social-canvas [data-grid-span="12"] { grid-column: span 12; }
+
+/* ── Background layers ───────────────────────────────────────── */
+/* Same two composable axes as the deck canvas and the one-pager band:
+   data-layer picks the surface, data-theme="dark" flips the whole
+   token set underneath it. */
+
+.social-canvas[data-layer="0"] { background: var(--background-static-gray-layer-0); }
+.social-canvas[data-layer="1"] { background: var(--background-static-gray-layer-1); }
+.social-canvas[data-layer="2"] { background: var(--background-static-gray-layer-2); }
+.social-canvas[data-layer="3"] { background: var(--background-static-gray-layer-3); }
+
+/* Brand — solid saturated purple. Every `*-inverted` background token is
+   a SELF-CONTAINED, theme-aware pair with `--content-static-inverted`,
+   so primary/secondary are repointed at it here rather than flipping the
+   theme. Never combine with data-theme="dark" — see the same note in
+   base/deck-layout.css for why that produces white-on-pale. */
+.social-canvas[data-layer="brand"] {
+  background: var(--background-static-brand-inverted);
+  --content-static-primary:   var(--content-static-inverted);
+  --content-static-secondary: var(--content-static-inverted);
+}
+
+/* Brand gradient — a soft purple bloom over the base surface. This is the
+   social equivalent of the web `.section-band[data-layer="brand-gradient"]`
+   hero ramp, and carries the same restraint: it is the campaign's
+   showcase background, not a default.
+
+   The bloom picks a DIFFERENT step of the brand ramp per theme, on
+   purpose. Against a near-white ground the pale layer-3 step is the
+   faintest tint that still reads as purple at all; against near-black
+   that same step glares, so dark takes the deeper layer-1 step instead.
+   Both are brand tokens — only which step is chosen changes.
+
+   Each bloom carries a mid-stop at partial opacity rather than running
+   straight from the color to `transparent`. A two-stop color→transparent
+   ramp fades out far too fast and leaves a visible edge where it lands;
+   the mid-stop spreads the falloff across the whole radius. */
+.social-canvas[data-layer="brand-gradient"] {
+  --social-bloom: var(--background-static-brand-layer-3);
+  background:
+    radial-gradient(110% 70% at 8% -12%,
+      var(--social-bloom) 0%,
+      color-mix(in srgb, var(--social-bloom) 55%, transparent) 38%,
+      color-mix(in srgb, var(--social-bloom) 18%, transparent) 66%,
+      transparent 100%),
+    radial-gradient(90% 55% at 104% 108%,
+      var(--social-bloom) 0%,
+      color-mix(in srgb, var(--social-bloom) 45%, transparent) 40%,
+      transparent 100%),
+    var(--background-static-gray-layer-1);
+}
+
+.social-canvas[data-layer="brand-gradient"][data-theme="dark"] {
+  --social-bloom: var(--background-static-brand-layer-1);
+}
+
+/* ── Regions ─────────────────────────────────────────────────── */
+/* All three are optional. The body carries flex:1 so the topbar pins to
+   the top edge and the footer to the bottom, with the canvas gap acting
+   as a minimum separation rather than a fixed one. */
+
+.social-canvas__topbar {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-6);
+}
+
+.social-canvas__body {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.social-canvas__footer {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-6);
+}
+
+/* ── Furniture ───────────────────────────────────────────────── */
+
+/* The Smartcat wordmark. Always one of the two real assets in images/ —
+   black on a light canvas, white on a dark or brand one. Never text,
+   never with anything added to it. */
+.social-canvas__logo {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+}
+
+.social-canvas__logo img {
+  display: block;
+  height: 28px;
+  width: auto;
+}
+
+/* The one-line note that sits opposite the logo in the footer — the
+   campaign's sign-off line. */
+.social-canvas__note {
+  color: var(--content-static-secondary);
+}
+
+/* A brand-colored word or phrase inside a Display/H1 headline. Same
+   deliberate display accent as .doc-hero__title-accent on the document
+   cover — this is a title treatment, not prose emphasis, so it does not
+   fall under the "no bold inline emphasis" rule. */
+.social-canvas__accent { color: var(--content-static-brand); }

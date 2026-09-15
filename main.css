@@ -19,6 +19,7 @@
 @import url('base/deck-layout.css');
 @import url('base/onepagers-layout.css');
 @import url('base/document-layout.css');
+@import url('base/social-layout.css');
 
 /* ── Components / Atomic ─────────────────────────────────────── */
 @import url('components/atomic/avatar/avatar.css');
