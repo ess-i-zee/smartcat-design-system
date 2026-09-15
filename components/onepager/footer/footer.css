@@ -1,12 +1,45 @@
 /* ── One-pager / Footer ────────────────────────────────────────
-   Closes every one-pager — a slim, fixed near-black bar (logo + URL).
-   Self-sufficient, no theme dependency: assumes the .op-page root is
-   in its default light mode, the only case one-pagers are built for
-   (see CLAUDE.md "One-pagers"). No semantic token exists for an
-   always-near-black bar (background-static-gray-inverted flips to
-   white in dark mode), so the background is the one deliberate
-   primitive reference in the onepager tier — flagged here rather than
-   silently treated as a normal semantic token.
+   Closes every one-pager — a fixed near-black bar. Self-sufficient, no
+   theme dependency: assumes the .op-page root is in its default light
+   mode, the only case one-pagers are built for (see CLAUDE.md
+   "One-pagers"). No semantic token exists for an always-near-black bar
+   (background-static-gray-inverted flips to white in dark mode), so the
+   background is the one deliberate primitive reference in the onepager
+   tier — flagged here rather than silently treated as a normal semantic
+   token. .op-hero[data-theme="dark"] references the same primitive so a
+   dark masthead and this bar match exactly.
+
+   Properties (data attributes):
+     data-layout on .op-footer : default | statement | ask
+       default   — a slim bar: logo left, URL right. Nothing to say
+                   beyond the sign-off, because the document already
+                   closed on an .op-cta-band.
+       statement — the document's own closing claim left, contact and
+                   trust line right. For a document with no CTA band:
+                   the footer has to do the closing work itself.
+       ask       — a labelled question, for an internal document that
+                   ends on the one thing the reader should go and do.
+     Both statement and ask grow the bar's vertical padding, since a
+     slim bar cannot hold multiple lines legibly.
+
+   Elements (presence):
+     .op-footer__logo          — default layout
+     .op-footer__url           — default and statement layouts
+     .op-footer__statement     — the closing claim (statement layout);
+                                 wrap the final phrase in
+                                 .op-footer__statement-accent to render
+                                 it in brand purple
+     .op-footer__note          — small trust/qualifier line under the URL
+     .op-footer__label         — names the ask (ask layout); a real
+                                 heading, not an eyebrow
+     .op-footer__ask           — the question itself
+     .op-footer__follow-up     — optional line under the question
+
+   Note: --content-static-* tokens are NOT usable here — the bar is
+   always near-black while the page around it is in light mode, so
+   ambient --content-static-primary would be near-black too. Content
+   colors therefore use --content-static-inverted (white in light
+   mode), the same approach .op-hero takes against its brand ground.
    ──────────────────────────────────────────────────────────── */
 
 .op-footer {
@@ -16,6 +49,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: var(--spacing-9);
   background: var(--color-non-semantic-gray-100);
 }
 
@@ -32,4 +66,109 @@
   opacity: 0.7;
   font-size: var(--size-caption);
   line-height: var(--line-height-caption);
+}
+
+/* ── Statement layout ───────────────────────────────────────────
+   The closing claim carries the weight, so it sits at H3 scale on the
+   left; the URL block right-aligns beside it as sign-off, not as the
+   point. */
+
+.op-footer[data-layout="statement"] {
+  padding-block: var(--spacing-9);
+  align-items: flex-end;
+}
+
+.op-footer__statement {
+  margin: 0;
+  max-width: 860px;
+  font-family: var(--family-heading);
+  font-weight: var(--weight-bold);
+  color: var(--content-static-inverted);
+  font-size: var(--size-h3);
+  line-height: var(--line-height-h3);
+  letter-spacing: var(--letter-spacing-h3);
+}
+
+.op-footer__statement-accent { color: var(--content-static-brand); }
+
+.op-footer[data-layout="statement"] .op-footer__meta,
+.op-footer[data-layout="ask"] .op-footer__meta {
+  flex-shrink: 0;
+  /* Capped so the trust line wraps instead of holding one long line and
+     squeezing the statement — the statement is the point of this
+     layout, the meta block is the sign-off. */
+  max-width: 340px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--spacing-2);
+  text-align: right;
+}
+
+.op-footer[data-layout="statement"] .op-footer__url {
+  opacity: 1;
+  font-family: var(--family-heading);
+  font-weight: var(--weight-bold);
+  font-size: var(--size-h5);
+  line-height: var(--line-height-h5);
+}
+
+.op-footer__note {
+  margin: 0;
+  font-family: var(--family-body);
+  font-weight: var(--weight-regular);
+  color: var(--content-static-inverted);
+  opacity: 0.6;
+  font-size: var(--size-caption);
+  line-height: var(--line-height-caption);
+}
+
+/* ── Ask layout ─────────────────────────────────────────────────
+   A narrow label column beside the question, so the label reads as a
+   margin note on the ask rather than a heading above it. */
+
+.op-footer[data-layout="ask"] {
+  padding-block: var(--spacing-9);
+  align-items: flex-start;
+  gap: var(--spacing-8);
+}
+
+.op-footer__label {
+  flex: 0 0 160px;
+  margin: 0;
+  font-family: var(--family-heading);
+  font-weight: var(--weight-bold);
+  color: var(--content-static-brand);
+  font-size: var(--size-h5);
+  line-height: var(--line-height-h5);
+  letter-spacing: var(--letter-spacing-h5);
+}
+
+.op-footer__ask-body {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+}
+
+.op-footer__ask {
+  margin: 0;
+  font-family: var(--family-heading);
+  font-weight: var(--weight-bold);
+  font-style: italic;
+  color: var(--content-static-inverted);
+  font-size: var(--size-h3);
+  line-height: var(--line-height-h3);
+  letter-spacing: var(--letter-spacing-h3);
+}
+
+.op-footer__follow-up {
+  margin: 0;
+  font-family: var(--family-body);
+  font-weight: var(--weight-regular);
+  color: var(--content-static-inverted);
+  opacity: 0.7;
+  font-size: var(--size-small-text);
+  line-height: var(--line-height-small-text);
 }

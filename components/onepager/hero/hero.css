@@ -1,22 +1,64 @@
 /* ── One-pager / Hero ─────────────────────────────────────────
-   Opens every one-pager. Self-sufficient — carries its own solid
-   brand-purple background directly and is never wrapped in .op-band
-   (same rule as hero-block on web). See CLAUDE.md "One-pagers".
+   Opens every one-pager. Self-sufficient — carries its own background
+   directly and is never wrapped in .op-band (same rule as hero-block
+   on web). See CLAUDE.md "One-pagers".
+
+   Properties (data attributes):
+     data-layout on .op-hero : split (default) | stacked | bar
+       split   — headline + paragraph beside a product screenshot. The
+                 product pitch: the reader should see the thing.
+       stacked — headline + paragraph across the full width, no
+                 screenshot, at H1 rather than Display scale. For a
+                 document whose argument is the subject (a solution
+                 brief); a full-width Display headline would dwarf the
+                 dense sections beneath it.
+       bar     — a slim masthead: title and meta pill on one line, no
+                 paragraph and no .op-hero__row at all. For an internal
+                 reference sheet that needs identifying, not selling.
+                 The title sits at H2, not H1: it has to share one line
+                 with the pill, and a document title is not competing
+                 for attention the way a pitch headline is.
+     data-theme="dark" on .op-hero : swaps the brand-purple ground for
+       the same near-black the footer uses, so an internal document
+       reads as internal at a glance. Pair it with data-layout="bar".
+
    Elements (presence):
-     .op-hero__topbar   — logo + primary CTA button (reuse .btn)
-     .op-hero__row      — content column + media column
-     .op-hero__content  — headline + paragraph
-     .op-hero__media    — .op-media-wrapped screenshot, optional .op-hero__tag
-                          floating annotations (content toggle, 0-2 typical)
+     .op-hero__topbar        — the thin top row. In split/stacked it
+                               holds the brand lockup and optional meta
+                               pill; in bar layout it IS the hero and
+                               holds the headline + pill instead.
+     .op-hero__brand         — logo, optionally + .op-hero__tagline
+     .op-hero__tagline       — the product tagline set beside the logo.
+                               Only the tagline is text: the wordmark is
+                               always the real asset (CLAUDE.md "Logo").
+     .op-hero__label         — meta pill ("Solution brief",
+                               "Internal only"); mirrors .doc-hero__tag
+     .op-hero__title-accent  — wrap a fragment of the headline to render
+                               it in brand purple (a display-title
+                               accent, not prose emphasis)
+     .op-hero__row           — content column + media column; omit
+                               entirely in bar layout
+     .op-hero__content       — headline + paragraph
+     .op-hero__media         — .op-media-wrapped screenshot, optional
+                               .op-hero__tag floating annotations (0-2
+                               typical); split layout only
+
    Notes:
-     - Headline is set in <br> line breaks by the author, one short
-       phrase per line, styled as a stylistic device — see the deck
-       DNA precedent ("Deck heading.") which this one-pager DNA shares.
+     - Headline line breaks are authored with <br>, one short phrase
+       per line, as a stylistic device — see the deck DNA precedent
+       which this one-pager DNA shares.
+     - Headline/paragraph/tagline take --content-static-inverted, which
+       is white against the default brand ground. Under
+       data-theme="dark" the ambient tokens flip, so those three switch
+       to --content-static-primary (white in dark mode) instead. The
+       tokens are NOT repointed wholesale on .op-hero, because
+       .op-hero__tag is a genuine white surface that must keep the
+       ambient values — see its note below.
      - .op-hero__tag mimics a small floating UI annotation over the
        screenshot (e.g. "Translation review") — a real white surface,
-       NOT tinted by the hero's brand background, so it intentionally
-       uses ambient (untouched) content tokens rather than the
-       inverted ones used by the headline/paragraph.
+       NOT tinted by the hero background, so it intentionally uses
+       ambient (untouched) content tokens rather than the inverted ones
+       used by the headline/paragraph.
    ──────────────────────────────────────────────────────────── */
 
 .op-hero {
@@ -29,6 +71,15 @@
   background: var(--background-static-brand-inverted);
 }
 
+.op-hero[data-theme="dark"] {
+  /* No semantic token exists for an always-near-black surface
+     (background-static-gray-inverted flips to white in dark mode), so
+     this is the same deliberate primitive reference .op-footer makes,
+     and for the same reason — the two must match exactly, since a
+     document with a dark masthead always closes on a dark footer. */
+  background: var(--color-non-semantic-gray-100);
+}
+
 .op-hero__topbar {
   display: flex;
   align-items: center;
@@ -36,10 +87,48 @@
   gap: var(--spacing-6);
 }
 
+.op-hero__brand {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-4);
+}
+
 .op-hero__logo {
   height: 24px;
   width: auto;
 }
+
+.op-hero__tagline {
+  margin: 0;
+  font-family: var(--family-body);
+  font-weight: var(--weight-regular);
+  color: var(--content-static-inverted);
+  opacity: 0.75;
+  font-size: var(--size-small-text);
+  line-height: var(--line-height-small-text);
+}
+
+.op-hero[data-theme="dark"] .op-hero__tagline { color: var(--content-static-primary); }
+
+.op-hero__label {
+  flex-shrink: 0;
+  margin: 0;
+  padding: var(--spacing-2) var(--spacing-4);
+  border-radius: var(--radius-full);
+  background: var(--background-static-alpha-layer-2);
+  color: var(--content-static-inverted);
+  font-family: var(--family-body);
+  font-weight: var(--weight-semi-bold);
+  font-size: var(--size-caption);
+  line-height: var(--line-height-caption);
+}
+
+/* Only the text color flips. The default alpha-layer-2 fill is a faint
+   WHITE translucency in dark mode, so it already reads correctly over
+   near-black — whereas background-static-brand-inverted resolves to a
+   LIGHT purple in dark mode, which would put white text on a pale pill
+   and make the label disappear. */
+.op-hero[data-theme="dark"] .op-hero__label { color: var(--content-static-primary); }
 
 .op-hero__row {
   display: flex;
@@ -65,6 +154,10 @@
   letter-spacing: var(--letter-spacing-display);
 }
 
+.op-hero[data-theme="dark"] .op-hero__headline { color: var(--content-static-primary); }
+
+.op-hero__title-accent { color: var(--content-static-brand); }
+
 .op-hero__paragraph {
   margin: 0;
   max-width: 480px;
@@ -75,6 +168,8 @@
   font-size: var(--size-paragraph);
   line-height: var(--line-height-paragraph);
 }
+
+.op-hero[data-theme="dark"] .op-hero__paragraph { color: var(--content-static-primary); }
 
 .op-hero__media {
   flex: 1;
@@ -96,4 +191,36 @@
   font-weight: var(--weight-semi-bold);
   font-size: var(--size-caption);
   line-height: var(--line-height-caption);
+}
+
+/* ── Stacked layout ─────────────────────────────────────────────
+   One full-width column: no media, headline dropped to H1 so it can
+   run the full 1184px without overwhelming the sections below. */
+
+.op-hero[data-layout="stacked"] { gap: var(--spacing-8); }
+
+.op-hero[data-layout="stacked"] .op-hero__content {
+  flex: 1 1 auto;
+  gap: var(--spacing-5);
+}
+
+.op-hero[data-layout="stacked"] .op-hero__headline {
+  font-size: var(--size-h1);
+  line-height: var(--line-height-h1);
+  letter-spacing: var(--letter-spacing-h1);
+}
+
+.op-hero[data-layout="stacked"] .op-hero__paragraph { max-width: 1000px; }
+
+/* ── Bar layout ─────────────────────────────────────────────────
+   The topbar is the whole hero: title left, meta pill right. */
+
+.op-hero[data-layout="bar"] {
+  padding: var(--spacing-8) var(--spacing-9);
+}
+
+.op-hero[data-layout="bar"] .op-hero__headline {
+  font-size: var(--size-h2);
+  line-height: var(--line-height-h2);
+  letter-spacing: var(--letter-spacing-h2);
 }

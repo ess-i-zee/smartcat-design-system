@@ -4,12 +4,20 @@
    tint is the common choice; a dark band works too, see
    docs/onepagers-design-brain.md for the decorative-dark variant).
    Properties (data attributes):
-     data-layout on .op-quote : standalone (default, centered) | with-stats
+     data-layout on .op-quote : standalone (default, centered)
+                                 | with-stats | with-response
    Elements:
-     .op-quote__stats — content toggle: only present in the with-stats
-                         layout, a stack of big proof numbers beside
-                         the quote (reuses the same value/label pattern
-                         as op-stat-band, at a smaller scale)
+     .op-quote__stats    — content toggle: only present in the
+                            with-stats layout, a stack of big proof
+                            numbers beside the quote (reuses the same
+                            value/label pattern as op-stat-band, at a
+                            smaller scale)
+     .op-quote__response — content toggle: only present in the
+                            with-response layout, Smartcat answering
+                            the quote in its own voice
+     .op-quote__author   — omit it in the with-response layout: that
+                            layout quotes a pain every buyer recognises,
+                            so naming one customer would narrow it
    ──────────────────────────────────────────────────────────── */
 
 .op-quote {
@@ -116,4 +124,55 @@
   color: var(--content-static-secondary);
   font-size: var(--size-caption);
   line-height: var(--line-height-caption);
+}
+
+/* ── with-response layout ────────────────────────────────────────
+   A quote the reader is meant to recognise in themselves, answered
+   directly beside it. Unlike the other two layouts this one is
+   deliberately UNattributed (see the .op-quote__author note above) —
+   the point is "you have heard this too", not "this customer said it".
+   The quote keeps a brand rule down its left edge so it still reads as
+   quoted speech without the dropped quote-mark glyph.
+
+   Sizing: the quote drops from H2 to H3 because it now shares the row
+   with a response instead of owning a centred band. */
+
+.op-quote[data-layout="with-response"] {
+  flex-direction: row;
+  align-items: center;
+  max-width: none;
+  margin-inline: 0;
+  text-align: left;
+  gap: var(--spacing-9);
+}
+
+.op-quote[data-layout="with-response"] .op-quote__body {
+  flex: 0 0 55%;
+  min-width: 0;
+  padding-left: var(--spacing-6);
+  border-left: 3px solid var(--content-static-brand);
+}
+
+.op-quote[data-layout="with-response"] .op-quote__text {
+  font-style: italic;
+  font-size: var(--size-h3);
+  line-height: var(--line-height-h3);
+  letter-spacing: var(--letter-spacing-h3);
+}
+
+.op-quote__response {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+}
+
+.op-quote__response-text {
+  margin: 0;
+  font-family: var(--family-body);
+  font-weight: var(--weight-regular);
+  color: var(--content-static-secondary);
+  font-size: var(--size-paragraph);
+  line-height: var(--line-height-paragraph);
 }

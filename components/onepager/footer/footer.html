@@ -1,8 +1,35 @@
 <!--
   One-pager / Footer — reference template
   Self-sufficient — place directly as the document's closing element.
+
+  Default layout — a slim sign-off, for a document that already closed
+  on an .op-cta-band:
 -->
 <footer class="op-footer">
   <img class="op-footer__logo" src="../../../images/smartcat-logo-white.svg" alt="Smartcat">
   <p class="op-footer__url">www.smartcat.com</p>
+</footer>
+
+<!--
+  Statement layout — the footer does the closing work itself. Use when
+  the document has no CTA band.
+-->
+<footer class="op-footer" data-layout="statement">
+  <p class="op-footer__statement">Lower production cost. Faster launches. Better governance. <span class="op-footer__statement-accent">More scalable global content operations.</span></p>
+  <div class="op-footer__meta">
+    <p class="op-footer__url">smartcat.com</p>
+    <p class="op-footer__note">Trusted by 1,000+ enterprise brands, including 25% of the Fortune 500</p>
+  </div>
+</footer>
+
+<!--
+  Ask layout — an internal document closing on the one question the
+  reader should go and ask.
+-->
+<footer class="op-footer" data-layout="ask">
+  <h2 class="op-footer__label">The question every rep should ask</h2>
+  <div class="op-footer__ask-body">
+    <p class="op-footer__ask">&ldquo;Once the global creative is approved in Figma, what work still has to happen before every market can actually use it?&rdquo;</p>
+    <p class="op-footer__follow-up">Then keep asking: &ldquo;Which parts of that process are still manual?&rdquo; — that&rsquo;s where the opportunity is.</p>
+  </div>
 </footer>

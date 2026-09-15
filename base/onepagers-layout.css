@@ -93,6 +93,52 @@
   --content-static-secondary: var(--content-static-inverted);
 }
 
+/* ── Buttons on a brand-purple surface ───────────────────────────
+   A saturated brand-purple ground is a DARK surface, but it is not a
+   data-theme="dark" context — and must not be made one, because
+   --background-static-brand-inverted resolves to a LIGHT purple in
+   dark mode (see the warning on data-layer="brand" above). An .op-band
+   with data-theme="dark" needs none of this: that attribute matches
+   tokens/colors.css's own [data-theme="dark"] block, so every nested
+   atomic already reads dark-mode values. The three brand-purple
+   surfaces are the only place the pairing breaks — a nested
+   .btn[data-type="secondary"] there keeps its LIGHT-mode fill (a
+   translucent dark gray) and near-black label, i.e. a light-mode
+   button sitting on a dark ground.
+
+   Repointed ON THE BUTTON, not on the surface, and deliberately so:
+   .op-hero__tag is a WHITE pill that also reads
+   --content-static-primary, so flipping that token surface-wide would
+   render those tag labels white-on-white. Custom properties inherit,
+   so declaring them here reaches the button and nothing else.
+
+   Values mirror tokens/colors.css's [data-theme="dark"] block exactly
+   — this re-declares semantic tokens (the semantic layer's own job,
+   the same move data-layer="brand" makes above), it does not style
+   anything with a primitive.
+
+   Excluded: .op-hero[data-theme="dark"], the near-black internal
+   masthead — a genuine dark context that already gets these values. */
+
+.op-band[data-layer="brand"] .btn,
+.op-hero:not([data-theme="dark"]) .btn,
+.op-cta-band .btn {
+  --content-static-primary: var(--content-static-inverted);
+
+  --background-button-primary-default:   var(--color-non-semantic-white-alpha-100);
+  --background-button-primary-hover:     var(--color-non-semantic-white-alpha-70);
+  --background-button-primary-active:    var(--color-non-semantic-white-alpha-50);
+  --background-button-secondary-default: var(--color-non-semantic-white-alpha-20);
+  --background-button-secondary-hover:   var(--color-non-semantic-white-alpha-30);
+  --background-button-secondary-active:  var(--color-non-semantic-white-alpha-40);
+  --background-button-ghost-hover:       var(--color-non-semantic-white-alpha-20);
+  --background-button-ghost-active:      var(--color-non-semantic-white-alpha-30);
+
+  --border-button-default: var(--color-non-semantic-white-alpha-20);
+  --border-button-hover:   var(--color-non-semantic-white-alpha-20);
+  --border-button-active:  var(--color-non-semantic-white-alpha-20);
+}
+
 /* ── Shared section heading ──────────────────────────────────────
    Onepager sections compose their heading directly from the type-style
    utility classes (.text-h1 etc., see base/type-styles.css) rather than
@@ -116,6 +162,95 @@
   margin: 0;
   max-width: var(--dimension-desktop-max-text-width);
   color: var(--content-static-secondary);
+}
+
+/* ── Shared column-pair utility ───────────────────────
+   Two side-by-side columns within one band.
+
+   The shared .grid system is scoped and available inside a band (see
+   .op-page above) and remains the right tool when columns must line up
+   with a 12-column rhythm. It is the WRONG tool for a simple pair of
+   text columns: --grid-gutter is 8px, a page-grid gutter meant to
+   separate cards, and two columns of dense body copy set 8px apart
+   read as one ragged column. This utility supplies a real 48px column
+   gap instead, and needs no span bookkeeping to sit flush at both band
+   edges.
+
+   Properties (data attributes):
+     data-split on .op-columns : even (default) | wide-narrow
+       wide-narrow gives the first column ~1.4x the second, for a
+       narrative paired with a supporting .op-callout.
+
+   Elements:
+     .op-columns__col — a column that stacks several blocks vertically
+                        (a heading over a list over a call-out). Omit it
+                        when the column is a single component, which
+                        already handles its own internal layout. */
+
+.op-columns {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-9);
+}
+
+.op-columns > * {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+.op-columns[data-split="wide-narrow"] > :first-child { flex: 1.4 1 0; }
+
+.op-columns__col {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-6);
+}
+
+/* ── Shared prose utility ────────────────────────────────────────
+   The body-copy sibling of .op-heading / .op-heading-intro, for a
+   flowing narrative paragraph that is NOT a heading's supporting
+   intro line — e.g. the multi-paragraph problem narrative that sits
+   beside a supporting .op-callout. Same reason for existing: the
+   .text-* utility classes carry font metrics only, no color.
+   Usage: <p class="text-paragraph-reg op-prose">…</p> */
+
+.op-prose {
+  margin: 0;
+  color: var(--content-static-secondary);
+}
+
+/* ── Shared chain utility ────────────────────────────────────────
+   The recurring "A → B → C" / "A × B × C" typographic device: a run
+   of short terms joined by a brand-purple separator glyph, used by
+   both .op-callout (the workflow / complexity line) and .op-flow
+   (the middle panel's process chain). Shared here rather than
+   duplicated in both components.
+
+   The separator is a real character supplied by the author (→, ×, ·)
+   inside .op-chain__sep, marked aria-hidden so a screen reader reads
+   the terms as a plain sequence.
+   Usage: <p class="op-chain">
+            <span>Figma</span>
+            <span class="op-chain__sep" aria-hidden="true">&#8594;</span>
+            <span>handoff</span>
+          </p> */
+
+.op-chain {
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--spacing-2) var(--spacing-3);
+  font-family: var(--family-body);
+  font-weight: var(--weight-semi-bold);
+  color: var(--content-static-primary);
+  font-size: var(--size-small-text);
+  line-height: var(--line-height-small-text);
+}
+
+.op-chain__sep {
+  color: var(--content-static-brand);
+  font-weight: var(--weight-regular);
 }
 
 /* ── Shared media utility ────────────────────────────────────────

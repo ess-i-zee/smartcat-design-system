@@ -1,0 +1,114 @@
+/* ── One-pager / Checklist ────────────────────────────────────
+   A scannable list of short, single-idea lines — the shape that
+   carries most of an internal sales cheat sheet: what to listen for,
+   questions to ask, the criteria a qualified opportunity has to meet.
+   One component covers both readings via data-marker:
+     caret  — an open bullet list; the items are prompts to read
+              through, order is not meaningful.
+     number — counted criteria; each item gets a numbered badge and its
+              own card surface, so "at least 4 of 6" is countable at a
+              glance.
+   Properties (data attributes):
+     data-marker  on .op-checklist : caret (default) | number
+     data-columns on .op-checklist : 1 (default) | 2
+       — 2 lays the items out row-wise (1,2 / 3,4 / …), matching how
+         the source documents pair them.
+   Elements (presence):
+     .op-checklist__marker — a 20px caret icon, or the item's numeral
+     .op-checklist__note   — optional closing note under the list
+                              (e.g. "Best-fit accounts: …"), for
+                              qualifying detail that isn't itself an item
+   Notes:
+     - Only the number marker gets a card surface: a caret list reads
+       as prose and boxing every line would fight the density the
+       format wants.
+   ──────────────────────────────────────────────────────────── */
+
+.op-checklist {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-6);
+}
+
+.op-checklist__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--spacing-4);
+}
+
+.op-checklist[data-columns="2"] .op-checklist__list {
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-4) var(--spacing-5);
+}
+
+.op-checklist__item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-4);
+}
+
+.op-checklist__marker {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--content-static-brand);
+}
+
+.op-checklist__marker svg { width: 20px; height: 20px; }
+
+.op-checklist__text {
+  margin: 0;
+  font-family: var(--family-body);
+  font-weight: var(--weight-regular);
+  color: var(--content-static-secondary);
+  font-size: var(--size-small-text);
+  line-height: var(--line-height-small-text);
+}
+
+/* Secondary, not tertiary: this note carries real qualifying detail a
+   rep is expected to read (the best-fit account profile), so it has to
+   be legible body copy set quieter than the items — not a disclaimer.
+   Tertiary at caption size on a gray band is effectively unreadable. */
+.op-checklist__note {
+  margin: 0;
+  font-family: var(--family-body);
+  font-weight: var(--weight-regular);
+  color: var(--content-static-secondary);
+  font-size: var(--size-small-text);
+  line-height: var(--line-height-small-text);
+}
+
+/* ── Number marker ───────────────────────────────────────────────
+   Counted criteria: a numbered badge on its own card surface. The
+   item becomes the card, so alignment shifts to centre — every line
+   here is short enough to sit on one or two lines. */
+
+.op-checklist[data-marker="number"] .op-checklist__item {
+  box-sizing: border-box;
+  align-items: center;
+  padding: var(--spacing-5) var(--spacing-6);
+  border-radius: var(--radius-4);
+  background: var(--background-static-gray-layer-0);
+  box-shadow: var(--shadow-elevation-s);
+}
+
+.op-checklist[data-marker="number"] .op-checklist__marker {
+  width: 24px;
+  height: 24px;
+  border-radius: var(--radius-full);
+  background: var(--background-static-brand-inverted);
+  color: var(--content-static-inverted);
+  font-family: var(--family-heading);
+  font-weight: var(--weight-bold);
+  font-size: var(--size-caption);
+  line-height: 1;
+}
+
+.op-checklist[data-marker="number"] .op-checklist__text {
+  font-weight: var(--weight-semi-bold);
+  color: var(--content-static-primary);
+}

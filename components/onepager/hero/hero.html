@@ -1,15 +1,17 @@
 <!--
   One-pager / Hero — reference template
-  Self-sufficient — place directly as the document's opening element,
-  never inside .op-band. See onepager/hero/hero.css.
+  Self-sufficient — place directly as the opening element of the
+  document, never inside .op-band. See onepager/hero/hero.css.
 
-  .op-hero__tag is a content toggle: include 0, 1, or 2 floating
-  annotation pills over the screenshot, omit entirely if the screenshot
-  doesn't need one.
+  Split layout (default) — the product pitch, headline beside a
+  screenshot. .op-hero__tag is a content toggle: include 0, 1, or 2
+  floating annotation pills over the screenshot.
 -->
 <header class="op-hero">
   <div class="op-hero__topbar">
-    <img class="op-hero__logo" src="../../../images/smartcat-logo-white.svg" alt="Smartcat">
+    <div class="op-hero__brand">
+      <img class="op-hero__logo" src="../../../images/smartcat-logo-white.svg" alt="Smartcat">
+    </div>
     <button class="btn" data-type="secondary" data-size="m" type="button">
       <span class="btn__label">Schedule a demo</span>
     </button>
@@ -17,7 +19,7 @@
   <div class="op-hero__row">
     <div class="op-hero__content">
       <h1 class="op-hero__headline">Review Less.<br>Catch More.<br>Improve Every Time.</h1>
-      <p class="op-hero__paragraph">Smartcat's Reviewer Agent pre-reviews translated content before it reaches your team, flagging only what requires human judgment.</p>
+      <p class="op-hero__paragraph">Smartcat&rsquo;s Reviewer Agent pre-reviews translated content before it reaches your team, flagging only what requires human judgment.</p>
     </div>
     <div class="op-hero__media">
       <div class="op-media">
@@ -26,5 +28,37 @@
       <span class="op-hero__tag" style="top: 12%; right: 8%;">Translation</span>
       <span class="op-hero__tag" style="top: 26%; right: 20%;">Translation review</span>
     </div>
+  </div>
+</header>
+
+<!--
+  Stacked layout — a solution brief: full-width headline at H1 scale,
+  no screenshot. The topbar carries the brand lockup (real logo asset +
+  tagline text) and a meta pill instead of a CTA.
+-->
+<header class="op-hero" data-layout="stacked">
+  <div class="op-hero__topbar">
+    <div class="op-hero__brand">
+      <img class="op-hero__logo" src="../../../images/smartcat-logo-white.svg" alt="Smartcat">
+      <p class="op-hero__tagline">The AI platform for global content</p>
+    </div>
+    <p class="op-hero__label">Solution brief</p>
+  </div>
+  <div class="op-hero__row">
+    <div class="op-hero__content">
+      <h1 class="op-hero__headline">From Figma to Every Market. Automatically.</h1>
+      <p class="op-hero__paragraph">Your global creative is approved — but weeks of manual rebuilding, localization, and review still stand between the design and your markets.</p>
+    </div>
+  </div>
+</header>
+
+<!--
+  Bar layout, dark — an internal reference sheet. The topbar is the
+  whole hero; there is no .op-hero__row at all.
+-->
+<header class="op-hero" data-layout="bar" data-theme="dark">
+  <div class="op-hero__topbar">
+    <h1 class="op-hero__headline">Figma-to-Activation <span class="op-hero__title-accent">— Sales Cheat Sheet</span></h1>
+    <p class="op-hero__label">Internal only</p>
   </div>
 </header>

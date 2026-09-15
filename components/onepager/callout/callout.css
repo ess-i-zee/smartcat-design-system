@@ -1,0 +1,51 @@
+/* ── One-pager / Callout ──────────────────────────────────────
+   A supporting brand-tint card that sits BESIDE a narrative column,
+   not on its own: it carries the one compressed fact the prose is
+   arguing around — the status-quo workflow chain, or the complexity
+   formula. Never a standalone band; always the minor column of a
+   two-column band (compose with .grid + data-grid-span inside
+   .op-band, per docs/onepagers-design-brain.md).
+   Elements (presence):
+     .op-callout__title  — the card's own heading (always present)
+     .op-chain           — optional chain/formula line (shared base
+                            utility, see base/onepagers-layout.css)
+     .op-callout__note   — optional closing note, separated by a dashed
+                            rule; the dash is what marks it as an aside
+                            to the chain above rather than a second
+                            statement of equal weight
+   Notes:
+     - Brand-tint as a CARD fill (not a band background) is already
+       established by .op-comparison__column[data-variant="solution"];
+       the brand-tint BAND stays reserved for .op-platform-pillars.
+   ──────────────────────────────────────────────────────────── */
+
+.op-callout {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-5);
+  padding: var(--spacing-7);
+  border-radius: var(--radius-5);
+  background: var(--background-static-brand-layer-1);
+}
+
+.op-callout__title {
+  margin: 0;
+  font-family: var(--family-heading);
+  font-weight: var(--weight-bold);
+  color: var(--content-static-primary);
+  font-size: var(--size-h4);
+  line-height: var(--line-height-h4);
+  letter-spacing: var(--letter-spacing-h4);
+}
+
+.op-callout__note {
+  margin: 0;
+  padding-top: var(--spacing-5);
+  border-top: 1px dashed var(--border-divider-default);
+  font-family: var(--family-body);
+  font-weight: var(--weight-regular);
+  color: var(--content-static-secondary);
+  font-size: var(--size-small-text);
+  line-height: var(--line-height-small-text);
+}

@@ -1,0 +1,100 @@
+/* ── One-pager / Flow ─────────────────────────────────────────
+   A left-to-right "input → process → output" diagram: three panels
+   joined by arrow connectors, with the middle (process) panel
+   highlighted as the one that carries the product's actual work.
+   Use it when the argument is genuinely a pipeline whose MIDDLE is
+   the point — the surrounding panels only name what goes in and what
+   comes out. For a sequential list of things the product does with no
+   input/output framing, use .op-numbered-cards; for a mechanics
+   walkthrough with screenshots, use .op-steps.
+   Properties (data attributes):
+     data-variant on .op-flow__panel : plain (default) | highlight
+   Elements (presence):
+     .op-flow__panel-title — the panel's heading
+     .op-chain             — optional process chain (shared base
+                              utility); belongs to the highlight panel
+     .op-flow__panel-text  — the panel's body copy
+     .op-flow__connector   — a 20px arrow icon between two panels;
+                              decorative, always aria-hidden
+   Notes:
+     - Panels stretch to equal height (align-items: stretch) so the
+       connectors stay on the shared vertical centre line regardless
+       of how much copy each panel holds.
+     - The highlight panel fills with background-static-brand-inverted
+       and repoints --content-static-primary/secondary to inverted, the
+       same self-contained pairing .op-band[data-layer="brand"] uses.
+       For exactly that reason it inherits the same restriction: do NOT
+       place this component in a data-theme="dark" band. In dark mode
+       --content-static-inverted is near-black, so the highlight panel
+       would render black text on brand purple. Put Flow on a light
+       band and let the purple panel supply the contrast — which is
+       also how the source documents draw it.
+   ──────────────────────────────────────────────────────────── */
+
+.op-flow {
+  display: flex;
+  align-items: stretch;
+  gap: var(--spacing-5);
+}
+
+.op-flow__panel {
+  flex: 1 1 0;
+  min-width: 0;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+  padding: var(--spacing-7);
+  border-radius: var(--radius-5);
+  /* Layer-0 (white) plus a shadow rather than an alpha tint: the side
+     panels have to read as distinct surfaces, and an alpha tint over a
+     gray band is nearly invisible. The shadow is what lets the
+     component sit on a layer-0 band too. */
+  background: var(--background-static-gray-layer-0);
+  box-shadow: var(--shadow-elevation-s);
+}
+
+.op-flow__panel[data-variant="highlight"] {
+  flex: 1.25 1 0;
+  background: var(--background-static-brand-inverted);
+  box-shadow: none;
+  --content-static-primary: var(--content-static-inverted);
+  --content-static-secondary: var(--content-static-inverted);
+  /* --content-static-brand has to be repointed too, or an .op-chain
+     inside this panel loses its separators entirely: the chain glyphs
+     read the brand token, and brand purple on brand purple is
+     invisible. Inverted keeps them visible; the opacity below is what
+     still marks them as separators rather than terms, since both are
+     now white and only the terms carry semi-bold weight. */
+  --content-static-brand: var(--content-static-inverted);
+}
+
+.op-flow__panel[data-variant="highlight"] .op-chain__sep { opacity: 0.6; }
+
+.op-flow__panel-title {
+  margin: 0;
+  font-family: var(--family-heading);
+  font-weight: var(--weight-bold);
+  color: var(--content-static-primary);
+  font-size: var(--size-h4);
+  line-height: var(--line-height-h4);
+  letter-spacing: var(--letter-spacing-h4);
+}
+
+.op-flow__panel-text {
+  margin: 0;
+  font-family: var(--family-body);
+  font-weight: var(--weight-regular);
+  color: var(--content-static-secondary);
+  font-size: var(--size-small-text);
+  line-height: var(--line-height-small-text);
+}
+
+.op-flow__connector {
+  flex-shrink: 0;
+  align-self: center;
+  display: flex;
+  color: var(--content-static-brand);
+}
+
+.op-flow__connector svg { width: 20px; height: 20px; }

@@ -1,0 +1,96 @@
+/* ── One-pager / Numbered cards ───────────────────────────────
+   An ENUMERATED set as a single row of cards, each led by a numbered
+   badge and topped by a brand accent rule. Reach for it when the
+   items are counted — a 5-stage "how it works", the "four problems we
+   solve" — where the number itself is part of the message.
+   How it differs from its neighbours:
+     .op-benefit-cards  — parallel, UNcounted value props (icon, no
+                          number); if reordering the items would change
+                          nothing, use that instead.
+     .op-steps          — the same sequence told at length, one row per
+                          step with a screenshot each, always dark.
+                          Use Steps when each stage needs a visual;
+                          Numbered cards when the whole sequence has to
+                          fit one scannable row.
+   Properties (data attributes):
+     data-cards on .op-numbered-cards : 3 | 4 | 5
+       — 5 tightens padding and gap, since five cards across the
+         1184px content width leave little room inside each.
+   Notes:
+     - The card fill is layer-0, so place this component on a band of
+       data-layer="1" or higher. On a layer-0 band the cards would have
+       the same fill as the band and only the shadow would separate
+       them, which is not enough at this card size.
+     - The brand top rule is a ::before block using a BACKGROUND token
+       as a background, rather than a border-color (no brand border
+       token exists) — see the same reasoning in .op-signals.
+   ──────────────────────────────────────────────────────────── */
+
+.op-numbered-cards {
+  display: flex;
+  gap: var(--spacing-6);
+}
+
+.op-numbered-cards[data-cards="5"] { gap: var(--spacing-5); }
+
+.op-numbered-cards__card {
+  position: relative;
+  flex: 1 1 0;
+  min-width: 0;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+  padding: var(--spacing-7);
+  border-radius: var(--radius-5);
+  overflow: hidden;
+  background: var(--background-static-gray-layer-0);
+  box-shadow: var(--shadow-elevation-s);
+}
+
+.op-numbered-cards[data-cards="5"] .op-numbered-cards__card {
+  padding: var(--spacing-6);
+}
+
+.op-numbered-cards__card::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 3px;
+  background: var(--background-static-brand-inverted);
+}
+
+.op-numbered-cards__number {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-full);
+  background: var(--background-static-brand-inverted);
+  color: var(--content-static-inverted);
+  font-family: var(--family-heading);
+  font-weight: var(--weight-bold);
+  font-size: var(--size-caption);
+  line-height: var(--line-height-caption);
+}
+
+.op-numbered-cards__heading {
+  margin: 0;
+  font-family: var(--family-heading);
+  font-weight: var(--weight-bold);
+  color: var(--content-static-primary);
+  font-size: var(--size-h4);
+  line-height: var(--line-height-h4);
+  letter-spacing: var(--letter-spacing-h4);
+}
+
+.op-numbered-cards__paragraph {
+  margin: 0;
+  font-family: var(--family-body);
+  font-weight: var(--weight-regular);
+  color: var(--content-static-secondary);
+  font-size: var(--size-small-text);
+  line-height: var(--line-height-small-text);
+}

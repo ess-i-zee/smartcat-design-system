@@ -4,10 +4,21 @@
    onepagers-design-brain.md, "Comparison vs. Benefit cards"). Sits
    inside .op-band, directly beneath a plain section heading.
    Properties (data attributes):
-     data-cards on .op-benefit-cards : 2 | 3 | 4
+     data-cards on .op-benefit-cards : 2 | 3 | 4 | 5
+       — 5 tightens the gap, padding and icon tile: five cards across
+         the 1184px content width leave ~224px each, and the default
+         32px padding would swallow most of that. Reach for 5 only when
+         the props genuinely are five parallel one-liners; anything that
+         needs a real paragraph per item wants 3 or 4.
    Elements:
      .op-benefit-cards__icon — 24px design-system icon in a brand-tint
-                               circular tile
+                               circular tile (40px tile at 5-up)
+   Band requirement:
+     The card fill is layer-1, so place this component on a layer-0
+     band. On a layer-1 band the cards share the band's own fill and
+     vanish — the component carries no shadow or border to fall back
+     on. (.op-numbered-cards is the mirror case: layer-0 fill, so it
+     needs a layer-1+ band.)
    ──────────────────────────────────────────────────────────── */
 
 .op-benefit-cards {
@@ -58,4 +69,25 @@
   color: var(--content-static-secondary);
   font-size: var(--size-small-text);
   line-height: var(--line-height-small-text);
+}
+
+/* ── 5-up row ────────────────────────────────────────────────────
+   Same anatomy, compressed: the cards keep their icon and hierarchy,
+   they just stop being able to afford the default breathing room. */
+
+.op-benefit-cards[data-cards="5"] { gap: var(--spacing-5); }
+
+.op-benefit-cards[data-cards="5"] .op-benefit-cards__card {
+  gap: var(--spacing-4);
+  padding: var(--spacing-6);
+}
+
+.op-benefit-cards[data-cards="5"] .op-benefit-cards__icon {
+  width: 40px;
+  height: 40px;
+}
+
+.op-benefit-cards[data-cards="5"] .op-benefit-cards__icon svg {
+  width: 20px;
+  height: 20px;
 }

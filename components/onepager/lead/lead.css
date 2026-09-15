@@ -1,0 +1,57 @@
+/* ── One-pager / Lead ─────────────────────────────────────────
+   The document's opening statement — the single paragraph that says
+   what this whole page is arguing, placed immediately under the hero
+   before any section gets its own heading. Typically sits in a
+   brand-tint band with data-padding="compact", so it reads as an
+   extension of the hero rather than the first content section.
+   Elements (presence):
+     .op-lead__label     — a real heading naming the statement ("The
+                            pitch"); a semantic <h2>, NOT an eyebrow
+                            (see CLAUDE.md "Text casing")
+     .op-lead__text      — the statement itself, paragraph scale
+     .op-lead__emphasis  — optional closing line carrying the one
+                            takeaway, brand-purple. This is how the
+                            tier handles source copy that used inline
+                            bold: promote the phrase to its own line at
+                            its own weight instead of bolding it mid-
+                            sentence (CLAUDE.md forbids inline bold).
+   ──────────────────────────────────────────────────────────── */
+
+.op-lead {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+}
+
+.op-lead__label {
+  margin: 0;
+  font-family: var(--family-heading);
+  font-weight: var(--weight-bold);
+  color: var(--content-static-brand);
+  font-size: var(--size-h3);
+  line-height: var(--line-height-h3);
+  letter-spacing: var(--letter-spacing-h3);
+}
+
+/* Both lines cap their measure: the band is 1184px wide, and 18px copy
+   run edge to edge is ~110 characters a line — well past a comfortable
+   reading measure, however dense the format wants to be. */
+.op-lead__text {
+  margin: 0;
+  max-width: 900px;
+  font-family: var(--family-body);
+  font-weight: var(--weight-regular);
+  color: var(--content-static-primary);
+  font-size: var(--size-paragraph);
+  line-height: var(--line-height-paragraph);
+}
+
+.op-lead__emphasis {
+  margin: 0;
+  max-width: 900px;
+  font-family: var(--family-body);
+  font-weight: var(--weight-semi-bold);
+  color: var(--content-static-brand);
+  font-size: var(--size-paragraph);
+  line-height: var(--line-height-paragraph);
+}

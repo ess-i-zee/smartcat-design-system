@@ -1,0 +1,79 @@
+/* ── One-pager / Signals ──────────────────────────────────────
+   Verbatim things a customer says, quoted as evidence rather than as
+   testimony. Distinct from .op-quote in both purpose and attribution:
+   a Quote is one named customer vouching for Smartcat; a Signal is an
+   anonymous line a rep should recognise in a discovery call ("We
+   manage it in spreadsheets."). Signals are therefore never attributed
+   and never centred — they are a dense, scannable set.
+   Properties (data attributes):
+     data-columns on .op-signals      : 1 (default) | 2
+     data-variant on .op-signals__item : labeled (default) | pill
+       labeled — a left-ruled box under its own heading, for the two or
+                 three signals that carry the most weight.
+       pill    — a compact tinted row with no heading, for a longer
+                 list where the lines speak for themselves.
+   Elements (presence):
+     .op-signals__label — the item's heading; required on labeled,
+                           omitted on pill
+   Notes:
+     - Pink is the tier's "overheard in the field" tint, deliberately
+       distinct from the brand-purple used everywhere Smartcat is
+       speaking in its own voice. It carries no positive/negative
+       meaning — see the comparison component's note on why this tier
+       avoids semantic red/green.
+     - The left rule uses --content-static-pink as a border color
+       because the palette has no pink border token; same pragmatic
+       choice already made in .doc-callout's checkbox marker.
+   ──────────────────────────────────────────────────────────── */
+
+.op-signals {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--spacing-4);
+}
+
+.op-signals[data-columns="2"] {
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-4) var(--spacing-5);
+}
+
+.op-signals__item {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+  padding: var(--spacing-5) var(--spacing-6);
+  border-left: 3px solid var(--content-static-pink);
+  border-radius: 0 var(--radius-4) var(--radius-4) 0;
+  background: var(--background-static-pink-layer-1);
+}
+
+.op-signals__label {
+  margin: 0;
+  font-family: var(--family-heading);
+  font-weight: var(--weight-bold);
+  color: var(--content-static-pink);
+  font-size: var(--size-h5);
+  line-height: var(--line-height-h5);
+  letter-spacing: var(--letter-spacing-h5);
+}
+
+.op-signals__text {
+  margin: 0;
+  font-family: var(--family-body);
+  font-weight: var(--weight-regular);
+  font-style: italic;
+  color: var(--content-static-primary);
+  font-size: var(--size-small-text);
+  line-height: var(--line-height-small-text);
+}
+
+/* ── Pill variant ────────────────────────────────────────────────
+   No heading, no left rule — a plain tinted row, so a list of ten
+   reads as one block rather than ten separate call-outs. */
+
+.op-signals__item[data-variant="pill"] {
+  padding: var(--spacing-4) var(--spacing-5);
+  border-left: 0;
+  border-radius: var(--radius-4);
+}

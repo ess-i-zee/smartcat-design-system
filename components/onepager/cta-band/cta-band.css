@@ -6,12 +6,13 @@
      - Unlike decks (no interactive UI), one-pagers are viewed as
        documents, so a real .btn is correct here — see CLAUDE.md
        "One-pagers".
-     - The button uses data-type="secondary" as-is. The reference
-       one-pagers render a near-white pill here, but no semantic
-       "button on brand" token pair exists yet (only content text has
-       a sanctioned inverted pairing) — flag this to the design team
-       if an exact match is needed rather than inventing a one-off
-       non-semantic override.
+     - The button uses data-type="secondary" as-is, and renders as the
+       near-white pill the reference one-pagers show. That pairing is
+       NOT automatic: a brand-purple ground is a dark surface but not a
+       data-theme="dark" context, so the button token group is
+       repointed to its dark-mode values in base/onepagers-layout.css
+       ("Buttons on a brand-purple surface") — see the note there
+       before changing this component's background.
    ──────────────────────────────────────────────────────────── */
 
 .op-cta-band {

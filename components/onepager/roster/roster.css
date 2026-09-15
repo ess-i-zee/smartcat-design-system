@@ -1,0 +1,52 @@
+/* ── One-pager / Roster ──────────────────────────────────────
+   Who to talk to, grouped by function: a definition list pairing a
+   function name with the titles inside it. Use it wherever the content
+   is genuinely label-and-members — buying committee, stakeholder map,
+   channel owners — and NOT for value props (.op-benefit-cards) or
+   counted criteria (.op-checklist).
+   Properties (data attributes):
+     data-columns on .op-roster : 1 | 2 (default)
+   Structure:
+     A real <dl>, with each pair wrapped in a <div class="op-roster__group">
+     (valid in HTML5 and required to keep a dt+dd pair together in the
+     grid). Using <dt> for the function name is what lets the label sit
+     at its own typographic level WITHOUT inline bold, which CLAUDE.md
+     forbids.
+   Notes:
+     - Groups flow down columns, not across rows (column-count), so
+       each function's titles stay next to it and the two columns
+       balance to roughly equal height.
+   ──────────────────────────────────────────────────────────── */
+
+.op-roster {
+  margin: 0;
+  column-count: 2;
+  column-gap: var(--spacing-9);
+}
+
+.op-roster[data-columns="1"] { column-count: 1; }
+
+.op-roster__group {
+  break-inside: avoid;
+  margin-bottom: var(--spacing-5);
+}
+
+.op-roster__group:last-child { margin-bottom: 0; }
+
+.op-roster__label {
+  margin: 0;
+  font-family: var(--family-body);
+  font-weight: var(--weight-semi-bold);
+  color: var(--content-static-brand);
+  font-size: var(--size-small-text);
+  line-height: var(--line-height-small-text);
+}
+
+.op-roster__value {
+  margin: 0;
+  font-family: var(--family-body);
+  font-weight: var(--weight-regular);
+  color: var(--content-static-secondary);
+  font-size: var(--size-small-text);
+  line-height: var(--line-height-small-text);
+}
