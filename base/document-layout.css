@@ -83,8 +83,19 @@
 }
 
 /* Default content measure — a centered reading column, narrower than
-   the full content width, for every text-bearing block. */
-.doc-content > * {
+   the full content width, for every text-bearing block.
+
+   Deliberately qualified with .doc-page for the extra specificity (0,2,0):
+   most block roots reset their browser-default margins with the `margin: 0`
+   SHORTHAND, which also zeroes margin-inline. At a plain `.doc-content > *`
+   (0,1,0) those resets tie on specificity and win on source order — every
+   one of them lands flush against the content-box's left edge while the
+   blocks that don't reset margins stay centered, so the column's left edge
+   goes ragged. The extra class settles the cascade here, in the one rule
+   that owns the measure, instead of depending on each component avoiding
+   the shorthand. The max-width overrides below are (0,2,0) too and still
+   win on source order, as intended. */
+.doc-page .doc-content > * {
   width: 100%;
   max-width: 800px;
   margin-inline: auto;
@@ -94,6 +105,13 @@
    still centered and still inside the page's normal content padding
    (never full-bleed past it). */
 .doc-content > .doc-divider {
+  max-width: 960px;
+}
+
+/* A comparison/reference table needs more measure than the 800px text
+   column — a row-label column plus two value columns doesn't fit it.
+   Same 960px as .doc-divider, still centered inside the page padding. */
+.doc-content > .doc-table {
   max-width: 960px;
 }
 

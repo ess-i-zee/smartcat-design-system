@@ -4,6 +4,10 @@
    short instruction paragraph, and may carry its own screenshot below
    the text (full width, wrap it in .doc-screenshot).
    Elements:
+     .doc-steps__heading — include for a step that names itself before
+                           its explanation (a titled practice or option,
+                           rather than a bare instruction); place it
+                           above .doc-steps__text inside .doc-steps__body
      .doc-steps__media — include for a step with its own screenshot
    Step-list properties (data attributes, on .doc-steps):
      data-marker : number (default) | icon — icon replaces the solid
@@ -56,6 +60,23 @@
   display: flex;
   flex-direction: column;
   gap: var(--spacing-4);
+}
+
+/* Optional step title. Carries the badge-alignment padding itself so
+   that a titled step still optically centers against its number; the
+   .doc-steps__text below it then sits flush. */
+.doc-steps__heading {
+  margin: 0;
+  padding-top: 2px;
+  font-family: var(--family-body);
+  font-weight: var(--weight-semi-bold);
+  font-size: var(--size-h4);
+  line-height: var(--line-height-h4);
+  color: var(--content-static-primary);
+}
+
+.doc-steps__heading + .doc-steps__text {
+  padding-top: 0;
 }
 
 .doc-steps__text {

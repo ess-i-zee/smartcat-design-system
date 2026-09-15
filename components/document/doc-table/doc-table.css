@@ -1,0 +1,90 @@
+/* ── Document / Table ─────────────────────────────────────────
+   Figma: n/a (document tier is code-authored, no Figma source)
+   A comparison / reference table — a row-label column followed by two
+   or more value columns, ruled with hairline dividers and no fill.
+   Use it for genuinely tabular reference content (a side-by-side
+   comparison, a parameter list); a bulleted set of tips is .doc-callout
+   and an ordered procedure is .doc-steps.
+
+   Authored as a real <table> — a document is printed and read like a
+   manual, so the semantic element (and its header cells) is correct.
+
+   Elements:
+     .doc-table__corner   — the empty top-left cell above the row labels;
+                            include whenever the table has row labels
+     .doc-table__col-head — a value column's header cell
+     .doc-table__row-head — a row's label cell (leftmost column)
+     .doc-table__cell     — a value cell
+   Table properties (data attributes):
+     data-columns : 2 (default) | 3 — number of VALUE columns, excluding
+                    the row-label column; sets the label column's width
+   Width: 960px, matching .doc-divider — set in base/document-layout.css,
+   since a 3-column table doesn't fit the 800px text column.
+   ──────────────────────────────────────────────────────────── */
+
+.doc-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+  font-family: var(--family-body);
+}
+
+/* Row-label column — fixed, so the value columns divide the remainder
+   evenly on their own. */
+.doc-table__corner,
+.doc-table__row-head {
+  width: 160px;
+}
+
+.doc-table[data-columns="3"] .doc-table__corner,
+.doc-table[data-columns="3"] .doc-table__row-head {
+  width: 140px;
+}
+
+.doc-table__corner,
+.doc-table__col-head {
+  padding: 0 var(--spacing-5) var(--spacing-4);
+  border-bottom: 1px solid var(--border-divider-default);
+}
+
+.doc-table__col-head {
+  text-align: left;
+  vertical-align: bottom;
+  font-weight: var(--weight-semi-bold);
+  font-size: var(--size-small-text);
+  line-height: var(--line-height-small-text);
+  color: var(--content-static-primary);
+}
+
+.doc-table__row-head,
+.doc-table__cell {
+  padding: var(--spacing-4) var(--spacing-5);
+  text-align: left;
+  vertical-align: top;
+  border-bottom: 1px solid var(--border-divider-default);
+  font-size: var(--size-small-text);
+  line-height: var(--line-height-small-text);
+}
+
+/* A structural row label, not inline emphasis — same reasoning as
+   .doc-callout__term. */
+.doc-table__row-head {
+  font-weight: var(--weight-semi-bold);
+  color: var(--content-static-primary);
+}
+
+.doc-table__cell {
+  font-weight: var(--weight-regular);
+  color: var(--content-static-secondary);
+}
+
+/* The label column carries no rule of its own — the row rules read as
+   continuous across the whole table. */
+.doc-table__corner {
+  border-bottom-color: transparent;
+}
+
+.doc-table tbody tr:last-child .doc-table__row-head,
+.doc-table tbody tr:last-child .doc-table__cell {
+  border-bottom: none;
+}
