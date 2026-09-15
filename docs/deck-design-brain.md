@@ -19,7 +19,7 @@ These are what make a slide read as Smartcat. Hold them constant no matter what 
 - **Whitespace is deliberate.** Most content slides fill only ~60–70% of the canvas. The title sits alone at the top with a large gap (the fixed 80px heading→content gap) before content, and content rarely runs to the bottom edge. Do not fill empty space just because it's there — restraint is the look.
 - **Color.**
   - Neutrals: near-black `#13101C` text / off-white + gray surfaces in light mode; white text / near-black surfaces in dark mode. Always via `--content-*` and `--background-static-gray-layer-*` tokens.
-  - **Brand gradient** (the signature accent): white → pink `#DA00FE` → purple `#731EF2` → indigo, left-to-right. Used for hero moments — section-divider backgrounds, the testimonial/comparison "hero" panel, chart fills, decorative objects. Not for ordinary content.
+  - **Brand gradient** (the signature accent): white → pink `#DA00FE` → purple `#731EF2` → indigo, left-to-right, always as a **flat linear fill with a sharp edge**. Used for hero moments — section-divider backgrounds, the testimonial/comparison "hero" panel, chart fills. Not for ordinary content, and **never a blurred radial blob, orb, or glow** — that generic "AI-marketing" mesh-gradient look is explicitly banned (see CLAUDE.md → "Section backgrounds beyond the gray layers"). A decorative accent, if one is wanted, is a flat brand-purple shape with a hard edge — not a soft gradient glow.
   - **Brand purple** `#731EF2` for single-color brand emphasis — stat figures, chart primaries, active/"our" elements, number badges. For text and figures the token is **`--content-static-brand`** (not a background token).
   - **Semantic green/red** (`--...-positive` / `--...-negative`) **only for genuinely positive/negative meaning** — highlights vs lowlights, Gantt done vs pending, thumbs up/down. Never decoratively.
 - **Surfaces (panels/cards).** Rounded corners, generous internal padding. On **light** backgrounds → solid gray layer-1 panels. On **dark** backgrounds → translucent frosted alpha panels (`--background-static-alpha-*`), not solid blocks. One featured panel per comparison may use the brand gradient fill.
@@ -40,12 +40,11 @@ Theme and background are **two independent, composable axes** (set on `.deck-sli
 |---|---|---|
 | Solid white | light, layer-0 | The majority of regular light slides. |
 | Solid gray | light, layer-1 | Light slides that need to differ from their neighbours; light-mode section titles. |
-| Mesh gradient (soft pastel) | *(asset, not yet built)* | Section titles / occasional emphasis in light mode. Intense — never every slide. |
-| Dark gradient | dark | Regular dark slides; can also carry a light-mode section title. |
+| Dark gradient (flat brand-gradient wash, sharp-edged) | dark | Regular dark slides; can also carry a light-mode section title. |
 | Solid black | dark, layer-0 | Regular dark slides; strong section titles. |
 | **Brand / inverted background** | `data-layer="brand"` (no theme flip — see note) | Hero moments only: section dividers, the closing "thank you", at most 1–2 per deck. |
 
-Rule of thumb: **content slides** lean solid (white / gray / black); **gradients are reserved for dividers and the open/close.**
+Rule of thumb: **content slides** lean solid (white / gray / black); **gradients are reserved for dividers and the open/close** — and even there, a gradient is always a flat wash, never a soft blob/orb/glow (see Design DNA → Color). There is no "mesh gradient" asset in this system — do not improvise one with a CSS radial gradient or a blurred shape; that is exactly the banned pattern.
 
 **Note on brand/inverted backgrounds.** `background-static-brand-inverted` (and every other `*-inverted` background token) is a self-contained pair with `--content-static-inverted` — it already contrasts correctly in whichever theme is ambient (dark purple + white text in light mode; pale purple + near-black text in dark mode). Do **not** add `data-theme="dark"` to "get" white text — that flips the background to the pale dark-mode value while independently flipping content to white, which is illegible. `base/deck-layout.css` handles this correctly by repointing `--content-static-primary`/`secondary` to `--content-static-inverted` on `data-layer="brand"`; when hand-building a slide outside that mechanism (e.g. authoring raw shapes), use the inverted background with the inverted content color directly, in one theme, with no flip.
 
@@ -56,7 +55,7 @@ Rule of thumb: **content slides** lean solid (white / gray / black); **gradients
 Each role: *when to reach for it*, and *how to compose it* from tokens + atomic/existing pieces. These are starting points — combine and reshape as the content demands.
 
 ### Openers & dividers
-- **Cover.** Headline bottom-left (Display/H1 scale), logo top-left, optional decorative brand-gradient object bleeding off the right edge. Background: dark, or brand gradient. Build from `heading` + a positioned decorative asset.
+- **Cover.** Headline bottom-left (Display/H1 scale), logo top-left. Background: dark, brand purple (`data-layer="brand"`), or the flat brand-gradient wash — never a soft gradient blob/orb (see Design DNA → Color). Build from `heading` alone; no decorative object is needed, and restraint is the look here too.
 - **Section divider.** One big title **top-left** (Display scale), full-bleed background, no body. This is where you flip theme/background for chapter rhythm — solid gray, dark, or brand gradient. Build from `heading` alone.
 - **One big statement.** A single sentence at large scale, vertically centered or top-left, nothing else. Build from `heading` (title-only) or `text-block`.
 

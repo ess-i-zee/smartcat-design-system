@@ -17,15 +17,31 @@ read as a document, not presented.
 
 ## Step 1 — load the design system
 
-Use the **smartcat-design-system** skill first. Then read, and nothing else:
+Use the **smartcat-design-system** skill first. Then read, in this order:
 
 - `INDEX.md` — the component manifest
+- **the shared rules** — icons, logo, page assembly, text casing, punctuation,
+  section-background rules, CSS conventions. **Read this every time; it is not
+  optional.** The eyebrow-text ban and the gradient-blob ban both live here, not
+  in the "One-pagers" section below — skipping straight to the format section
+  misses them.
 - `CLAUDE.md` → the "One-pagers" section
 - `docs/onepagers-design-brain.md` — the section catalog and archetypes
 
 ```bash
+sed -n '/^## Icons/,/^## Component file structure/p' "$DS_ROOT/CLAUDE.md" | sed '$d'
 sed -n '/^## One-pagers/,/^## Documents/p' "$DS_ROOT/CLAUDE.md"
 ```
+
+Two of those shared rules are easy to reintroduce by accident when filling a
+band with a category tag or a showcase panel:
+
+- **No eyebrow text** — no small, bold, all-caps, wide-tracked label above or
+  beside a heading (e.g. a "best for X" tag over `.op-hero__headline`). Use a
+  regular line of body text instead.
+- **No gradient blobs, orbs, or glows** — no soft blurred circle, especially
+  bleeding off a corner. `.op-band[data-layer="brand-tint"]` and the sanctioned
+  gradients are flat washes with a sharp edge, never a glow.
 
 ## Step 2 — pick the archetype, then plan the bands
 
@@ -127,6 +143,36 @@ const p = document.querySelector('.op-page');
 Width must be exactly 1280, height at least 1656, `horizontalSpill` false and
 `clipped` zero. Read the `bands` array and confirm adjacent values differ — two
 identical layers in a row means the section boundary is invisible.
+
+**That `clipped` check has a blind spot: it only catches overflow on an element
+that also clips it (`overflow !== 'visible'`).** A stat figure or long word that
+spills past its own card *without* being clipped — the number simply renders
+past the card's edge, plainly visible — passes that check clean while looking
+broken. Run this too:
+
+```js
+[...document.querySelectorAll('.op-page *')].filter(el =>
+  el.children.length === 0 && el.textContent.trim() &&
+  (() => {
+    const r = el.getBoundingClientRect(), c = el.parentElement.getBoundingClientRect();
+    return r.right > c.right + 1 || r.bottom > c.bottom + 1;
+  })()
+).map(el => ({ tag: el.tagName, class: el.className, text: el.textContent.trim().slice(0, 40) }))
+```
+
+An empty array is a pass. This is the check that catches a big number spilling
+past a stat card.
+
+**When something overflows or spills, fix it in this order:**
+
+1. **Shorten the content first.** Abbreviate a number — `500,000` → `500K`,
+   `$1,200,000` → `$1.2M` — keeping the currency symbol and at most one decimal.
+   Cut words from a long label rather than shrinking them.
+2. **If still tight, step down one type-scale token**, never an arbitrary px
+   value below the scale.
+3. **If the content is right but the card is too small, resize it** — a wider
+   `data-grid-span`, or fewer items in the row.
+4. **Never** shrink below the token scale, and never leave it spilling.
 
 **The browser pane crops a tall canvas**, so a single screenshot will not show
 the whole document. Scroll and capture in sections, or render the full page with

@@ -203,20 +203,32 @@ def main() -> None:
     add("## Reading order")
     add("")
     add("1. This file.")
-    add("2. The rules for the ONE output format in play (see the table below) — not all five.")
-    add("3. `tokens/` only when you need a specific token value; the format rules name the ones that matter.")
-    add("4. The 3–5 component files the task actually calls for.")
+    add("2. **The shared rules — every time, not just the first time.** Icon usage, the "
+        "logo, page-assembly principles, text casing, punctuation, section-background "
+        "rules, CSS conventions:")
+    add("   ```bash")
+    add("   sed -n '/^## Icons/,/^## Component file structure/p' \"$DS_ROOT/CLAUDE.md\" | sed '$d'")
+    add("   ```")
+    add("   This is where the eyebrow-text ban and the gradient-blob ban live — NOT in any "
+        "format's own section. A build has shipped an eyebrow label and a decorative "
+        "gradient blob because this step was skipped in favor of jumping straight to "
+        "step 3. Skipping this step is the single most common way this system's rules "
+        "get violated.")
+    add("3. The rules for the ONE output format in play (see the table below) — not all five.")
+    add("4. `tokens/` only when you need a specific token value; the format rules name the ones that matter.")
+    add("5. The 3–5 component files the task actually calls for.")
     add("")
 
     # ---- Format rules -----------------------------------------------------
     add("## Output formats — read the rules for the one you are building")
     add("")
-    add("Every format shares the same tokens. Only layout and component reuse differ.")
+    add("Every format shares the same tokens, and the same shared-rules read from step 2 "
+        "above. Only layout and component reuse differ per format:")
     add("")
-    add("| Format | Canvas | Rules to read | Component source | ~tok |")
+    add("| Format | Canvas | Format-specific read (in addition to the shared rules) | Component source | ~tok |")
     add("|---|---|---|---|---|")
     fmt_rows = [
-        ("Web page", "responsive, 2 breakpoints", "`CLAUDE.md` → sections up to “Component file structure”",
+        ("Web page", "responsive, 2 breakpoints", "`CLAUDE.md` → “Component tiers” + “Page assembly rules” (both *before* “Icons”, so not covered by the shared read)",
          "`components/page-level/` + `components/atomic/`", ROOT / "CLAUDE.md"),
         ("Deck", "1280×720 fixed", "`CLAUDE.md` → “Presentation decks” + `docs/deck-design-brain.md`",
          "compose freely from atomics; reshape page-level as a starting point",
@@ -232,9 +244,10 @@ def main() -> None:
         tok = approx_tokens(sized.stat().st_size) if sized.exists() else 0
         add(f"| {label} | {canvas} | {rules} | {source} | {tok:,} |")
     add("")
-    add("`CLAUDE.md` is ~19k tokens covering all five formats. Read the section you need, "
-        "not the file — the shared rules (icons, logo, casing, punctuation, tokens-only CSS) "
-        "sit above “Presentation decks”.")
+    add("`CLAUDE.md` is ~19k tokens covering all five formats. The shared-rules read "
+        "(step 2) is ~6k tokens; each format-specific read above is 1–2k more — together "
+        "still well under half the file, which is the point of reading sections instead "
+        "of `cat`-ing it whole.")
     add("")
 
     # ---- Tokens & base ----------------------------------------------------

@@ -20,15 +20,30 @@ fit a page, never left to grow it.
 
 ## Step 1 — load the design system
 
-Use the **smartcat-design-system** skill first. Then read, and nothing else:
+Use the **smartcat-design-system** skill first. Then read, in this order:
 
 - `INDEX.md` — the component manifest
+- **the shared rules** — icons, logo, page assembly, text casing, punctuation,
+  section-background rules, CSS conventions. **Read this every time; it is not
+  optional.** The eyebrow-text ban and the gradient-blob ban both live here, not
+  in the "Documents" section below.
 - `CLAUDE.md` → the "Documents" section
 - `docs/document-design-brain.md` — the content-role catalog
 
 ```bash
+sed -n '/^## Icons/,/^## Component file structure/p' "$DS_ROOT/CLAUDE.md" | sed '$d'
 sed -n '/^## Documents/,/^## Social assets/p' "$DS_ROOT/CLAUDE.md"
 ```
+
+Two of those shared rules are worth restating, since a document cover is the one
+page in this format built from scratch rather than from source content:
+
+- **No eyebrow text** — no small, bold, all-caps, wide-tracked label above a
+  heading. `.doc-hero__tag` and `.doc-header__tag` are pills with a border, not
+  this pattern — don't add a second, tracked-out label on top of one.
+- **No gradient blobs, orbs, or glows** — no soft blurred circle anywhere on the
+  cover or a chapter opener. Every gradient in this system is a flat wash with a
+  sharp edge.
 
 ## Step 2 — content fidelity comes before design
 
@@ -138,6 +153,35 @@ Then in `javascript_tool`:
 An empty array is a pass. Any page with `overflow > 0` is spilling into nothing —
 move a block to the next page and re-check. Do **not** fix it by shrinking type,
 tightening spacing below the tokens, or cropping an image.
+
+**That check catches a page running too tall; it won't catch a value spilling
+sideways past its own box** — a wide figure in a `.doc-table` cell, a long
+`.doc-meta__value`, a stat that's too wide for its column. Run this too:
+
+```js
+[...document.querySelectorAll('.doc-content *')].filter(el =>
+  el.children.length === 0 && el.textContent.trim() &&
+  (() => {
+    const r = el.getBoundingClientRect(), c = el.parentElement.getBoundingClientRect();
+    return r.right > c.right + 1 || r.bottom > c.bottom + 1;
+  })()
+).map(el => ({ tag: el.tagName, class: el.className, text: el.textContent.trim().slice(0, 40) }))
+```
+
+An empty array is a pass.
+
+**When something overflows or spills, fix it in this order:**
+
+1. **Shorten the content first** — but remember content fidelity (step 2): for
+   prose copied from the source, cutting words is not allowed. Abbreviating a
+   *number* (`500,000` → `500K`) is a formatting choice, not a wording change, so
+   it stays permitted even in verbatim content — keep the currency symbol and at
+   most one decimal.
+2. **If still tight, step down one type-scale token**, never an arbitrary px
+   value below the scale.
+3. **If the content is right but the column or card is too small, resize it** —
+   a wider `data-columns` split, or move the block to its own page for more room.
+4. **Never** shrink below the token scale, and never leave it spilling.
 
 Also confirm the footer page numbers run consecutively and match the real page
 order, and that the TOC page numbers on the cover point at the right pages.

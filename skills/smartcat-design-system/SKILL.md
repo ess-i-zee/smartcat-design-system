@@ -67,22 +67,43 @@ you can pick the right files without opening sixty of them.
 **The full corpus is ~116k tokens. Never read it whole.** Not `components/`, not
 all of `tokens/`, not all of `CLAUDE.md`.
 
-## Step 3 — read the rules for the ONE format in play
+## Step 3 — read the shared rules, THEN the ONE format in play
 
-`INDEX.md` has the table. In short:
+**Two reads, every time — not one.** `CLAUDE.md` has a shared prelude ("Icons"
+through "CSS conventions": icon usage, the logo, page-assembly principles, text
+casing, punctuation, section-background rules, CSS conventions) that every format
+section explicitly depends on — each format section opens by saying "anything not
+overridden here follows the general rules above." Reading only your format's
+section skips the sentence that bans eyebrow text, the dash and quote rules, and
+the ban on decorative gradient blobs — all real rules that a build has shipped
+without, because this step was skipped. Read both, always:
 
-| Building | Read |
+```bash
+# 1. Shared rules — read this one EVERY time, regardless of format
+sed -n '/^## Icons/,/^## Component file structure/p' "$DS_ROOT/CLAUDE.md" | sed '$d'
+
+# 2. Then your format's own section
+sed -n '/^## One-pagers/,/^## Documents/p' "$DS_ROOT/CLAUDE.md"
+```
+
+The shared read is ~6k tokens — cheap next to what it prevents. The `sed '$d'`
+drops the trailing "## Component file structure" heading the range picks up
+(that section is about documenting a *new* component, not building *from*
+existing ones — skip it when composing).
+
+`INDEX.md` has the per-format table for step 2's range:
+
+| Building | Format-specific read |
 |---|---|
-| Web page | `CLAUDE.md` up to "Component file structure" |
+| Web page | `CLAUDE.md` → "Output formats" through "Component file structure" (i.e. the shared read above already covers most of it — a web build additionally wants "Component tiers" and "Page assembly rules", both *before* "Icons") |
 | Deck | `CLAUDE.md` → "Presentation decks" + `docs/deck-design-brain.md` |
 | One-pager | `CLAUDE.md` → "One-pagers" + `docs/onepagers-design-brain.md` |
 | Document | `CLAUDE.md` → "Documents" + `docs/document-design-brain.md` |
 | Social | `CLAUDE.md` → "Social assets" + `base/social-layout.css` |
 
-`CLAUDE.md` is ~19k tokens covering all five. Read the section, not the file —
-`sed -n '/^## One-pagers/,/^## Documents/p'` beats `cat`. The shared rules (icons,
-logo, casing, punctuation, tokens-only CSS) sit *above* "Presentation decks" and
-apply to every format.
+`CLAUDE.md` is ~19k tokens covering all five formats — the two targeted reads
+above stay well under half that, which is the point of reading sections instead
+of `cat`-ing the file.
 
 ## Step 4 — read only the components you will actually use
 
@@ -121,6 +142,13 @@ grep -n "background-static-brand" "$DS_ROOT/tokens/colors.css"
 - **Punctuation is a correctness rule**, not a preference: curly quotes and
   apostrophes, spaced em dashes, en dashes for ranges. See `CLAUDE.md` →
   "Punctuation, quotes & dashes".
+- **No eyebrow text, anywhere.** Small, bold, wide-tracked, all-caps labels
+  placed above or beside a heading are banned system-wide. Use a regular
+  paragraph or subtitle instead.
+- **No gradient blobs, orbs, or glows, anywhere.** A blurred soft-edged circular
+  gradient shape — especially bleeding off a corner — is a generic AI-marketing
+  cliché, not a Smartcat pattern. Every sanctioned gradient is a flat wash with a
+  sharp edge. See `CLAUDE.md` → "Section backgrounds beyond the gray layers".
 
 ## When there is no shell
 
