@@ -1,193 +1,223 @@
 ---
 name: smartcat-deck
 description: >-
-  Build a Smartcat-branded presentation deck as HTML — a sequence of fixed
-  1280×720 slides composed from the design system. Use whenever someone wants a
-  Smartcat deck, slides, a presentation, a pitch, a QBR or a customer-facing
-  walkthrough: "make a deck", "turn this into slides", "build a presentation for
-  X", "put this in Smartcat style as a deck". Reach for it especially when the
-  deck should be visually designed — stats, comparisons, timelines, diagrams —
-  rather than plain bullets. Not for one-pagers, printed documents or social
-  graphics; those have their own skills.
+  Build a Smartcat-branded presentation deck and deliver it as an editable
+  Google Slides file. Use whenever someone wants a Smartcat deck, slides, a
+  presentation, a pitch, a QBR or a customer-facing walkthrough: "make a
+  deck", "turn this into slides", "build a presentation for X", "put this in
+  Smartcat style as a deck". Covers a core set of slide types — cover,
+  section divider, heading+paragraph, bullets, N-cards, stats, quote,
+  closing — built as native, editable shapes; anything outside that set
+  (charts, gantt, timelines, flow diagrams, comparison matrices) is not yet
+  portable to Slides and should be flagged rather than attempted. Not for
+  one-pagers, printed documents or social graphics; those have their own
+  skills.
 ---
 
 # Smartcat deck
 
-A deck is a sequence of **fixed 1280×720px slides**. No responsive behavior, no
-media queries, no breakpoints — the canvas never changes size.
+A deck is a sequence of **fixed 1280×720px slides**, delivered as an
+**editable Google Slides file** — real shapes and text a person can open and
+change, not a picture of a slide. That requirement is why this skill builds
+with `python-pptx` and uploads for Drive to convert, rather than rendering
+HTML: Slides has no way to import arbitrary CSS as editable objects, so the
+deck is authored as native shapes from the start.
+
+**Scope, by explicit decision (2026-09-15): a core set of slide roles only.**
+`scripts/deck_pptx.py` covers cover, section divider, heading+paragraph,
+bullet list, N-cards, stats, quote, and closing. `docs/deck-design-brain.md`'s
+full recipe catalog also includes charts, gantt charts, timelines, flow/graph
+diagrams and comparison matrices — none of those are built here yet. If a
+plan calls for one, say so plainly rather than approximating it with the
+wrong shape.
 
 ## Step 1 — load the design system
 
-Use the **smartcat-design-system** skill first. It syncs the repo and gives you
-`DS_ROOT`. Then read, in this order:
+Use the **smartcat-design-system** skill first. It syncs the repo and gives
+you `DS_ROOT`. Then read, in this order:
 
 - `INDEX.md` — the component manifest
 - **the shared rules** — icons, logo, page assembly, text casing, punctuation,
-  section-background rules, CSS conventions. **Read this every time; it is not
-  optional.** It's where the eyebrow-text ban and the gradient-blob ban live —
-  a deck has shipped with both, in a build that skipped straight to the
-  "Presentation decks" section below and never saw them.
+  section-background rules, CSS conventions. **Read this every time; it is
+  not optional.** It's where the eyebrow-text ban and the gradient-blob ban
+  live — a deck has shipped with both, in a build that skipped straight to
+  the format section below and never saw them.
 - `CLAUDE.md` → the "Presentation decks" section
 - `docs/deck-design-brain.md` — how to decide what each slide should be
+  (still the right reasoning layer — it governs *what* a slide is, which is
+  independent of *how* it gets rendered)
 
 ```bash
 sed -n '/^## Icons/,/^## Component file structure/p' "$DS_ROOT/CLAUDE.md" | sed '$d'
 sed -n '/^## Presentation decks/,/^## One-pagers/p' "$DS_ROOT/CLAUDE.md"
 ```
 
-Do not read the one-pager, document or social sections. Do not read
-`components/` wholesale.
-
-Two rules worth restating here because a deck's freedom to invent layouts makes
-them easy to reinvent by accident:
+Two rules worth restating here because a deck's freedom to invent layouts
+makes them easy to reinvent by accident:
 
 - **No eyebrow text.** No small, bold, all-caps, wide-tracked label above or
-  beside a slide title or a heading inside a panel — not as a category tag, not
-  as a "best for X" callout. Use a regular line of body text instead.
-- **No gradient blobs, orbs, or glows.** No soft-edged blurred circle, especially
-  bleeding off a slide corner as a "spotlight" or decorative cover object. Every
-  brand gradient on a slide is a flat wash with a sharp edge — see the deck
-  brain's Design DNA → Color for the sanctioned forms.
+  beside a slide title or a heading inside a panel.
+- **No gradient blobs, orbs, or glows.** No soft-edged blurred circle,
+  especially bleeding off a slide corner as a decorative cover object. Every
+  brand gradient in `deck_pptx.py` is a flat fill with a sharp edge — see the
+  deck brain's Design DNA → Color for the sanctioned forms.
 
-## Step 2 — plan the deck before writing any HTML
+## Step 2 — plan the deck before building any slide
 
-Work out the full slide list first — one line per slide, each naming its **role**
-(cover, agenda, section divider, stat, comparison, process, quote, closing) and
-its theme. Section D of the deck brain is the decision procedure; section C is the
-role catalog with composition recipes.
+Work out the full slide list first — one line per slide, each naming its
+**role** (cover, agenda, section divider, stat, comparison, process, quote,
+closing) and its theme. Section D of the deck brain is the decision
+procedure; section C is the role catalog.
 
 Then check the arc:
 
 - **Light sandwich.** Content slides light; cover, section dividers and the
-  closing slide dark or brand-purple. A deck that is all one treatment reads flat.
+  closing slide dark or brand-purple. A deck that is all one treatment reads
+  flat.
 - **One idea per slide.** If a slide needs two headlines, it is two slides.
 - **A divider every 3–5 content slides** on anything longer than ~10 slides.
 
-Show the user the slide list before building if the deck is longer than about six
-slides — restructuring costs nothing at this stage and a lot later.
+Show the user the slide list before building if the deck is longer than
+about six slides — restructuring costs nothing at this stage and a lot
+later.
 
-## Step 3 — compose each slide
+## Step 3 — check every planned slide against the covered role set
 
-**A slide is not "one page-level component in a box."** Build from **tokens and
-atomic components** upward and be inventive above that level. There is no
-`components/deck/*` tier — do not create one.
+Before writing any code, match each line in the slide list to one of
+`deck_pptx.py`'s eight functions (`add_cover`, `add_section_divider`,
+`add_heading_paragraph`, `add_bullet_list`, `add_cards`, `add_stats`,
+`add_quote`, `add_closing`).
 
-You may freely:
-- combine components vertically *and* horizontally
-- mix pieces — an icon card beside a number card, a stat figure beside a quote
-- reshape a web page-level component's internal layout for the slide (turn a
-  stacked card horizontal, put the icon left and text right)
+**If a slide doesn't fit one of these**, don't force it into the nearest
+available shape (e.g. faking a timeline out of N-cards misrepresents the
+content). Instead:
+- Recast the slide as a covered role if the content genuinely supports it
+  (a simple 3-step process often IS a bullet list or 3 cards), or
+- Tell the user this slide role isn't built yet and ask whether to simplify
+  it, add it to the deck manually in Slides afterward, or extend
+  `deck_pptx.py` with a new builder function following the existing pattern
+  (tokens in, a shape-placement function out).
 
-Keep every color, type size, spacing and radius a token. That is what keeps an
-invented layout on-brand.
+## Step 4 — build each slide
 
-Mechanically, inside `.deck-slide` put a `.grid` row below the title and place
-items with `data-grid-span="1".."12"`. The grid is locked to 12 columns with an
-8px gutter and no column padding, so content sits flush to the slide's 48px
-padding, aligned with the title. Stack multiple `.grid` rows to compose
-vertically.
+Import the module and call one function per slide:
 
-```html
-<div class="deck-slide">
-  <div class="heading">…</div>
-  <div class="grid">
-    <div class="…" data-grid-span="6">…</div>
-    <div class="…" data-grid-span="6">…</div>
-  </div>
-</div>
+```python
+import sys
+sys.path.insert(0, "<path to this skill's scripts/ folder>")
+import deck_pptx as dp
+
+prs = dp.new_deck()
+dp.add_cover(prs, "Smartcat platform overview", "Q4 2026 · Customer walkthrough", theme="dark")
+dp.add_stats(prs, "The numbers", [
+    {"value": "70%", "label": "Faster review"},
+    {"value": "280+", "label": "Languages supported"},
+    {"value": "$1.2M", "label": "Saved annually"},
+], theme="light")
+# ... one call per planned slide ...
+prs.save("<deck-name>.pptx")
 ```
 
-### Fixed geometry — do not improvise these
+`scripts/build_example.py` is a full worked example exercising every core
+role — copy its structure, not its content.
 
-| Rule | Value |
-|---|---|
-| Canvas | 1280×720, fixed |
-| Padding, all four sides | 48px (`--spacing-9`) |
-| Content width | 1184px |
-| Slide title | `data-level="h1"`, flush at the padding origin |
-| Divider / single-statement slide | Display scale |
-| Big stat figures | Display scale |
-| Heading → content gap | 80px, every slide type |
+**Every value, color, and size in `deck_pptx.py` already comes from the
+design tokens** (resolved snapshots from `tokens/*.css`, documented at the
+top of the module) — this is what keeps a generated deck on-brand without
+re-deriving colors by hand. Do not pass raw hex or point sizes into a
+builder call; if a slide genuinely needs something the module doesn't
+expose, extend the module (a new keyword on an existing function, or a new
+function following the same pattern), not a one-off override at the call
+site.
 
-### Buttons are pictures here
+**Keep stat values and labels short.** `add_stats` does not re-check for
+overflow the way the old HTML path's verify step did — a value like
+`"$1,200,000"` will visually run past its panel edge with no warning.
+Abbreviate before calling it: `$1,200,000` → `$1.2M`, `500,000` → `500K`.
 
-A deck is presented, not clicked. Render a CTA as `<span class="btn">`, never
-`<button>` or `<a>` — this is the opposite of the one-pager rule.
+## Step 5 — verify
 
-## Step 4 — write the file
+There is no local tool in this environment to render a `.pptx` to an image,
+so verification here is programmatic, not visual — plan to spot-check the
+real look once it lands in Slides (step 6).
 
-`output/decks/<deck-name>/<deck-name>.html`, one file for the whole deck. Follow
-the house boilerplate: `<html lang="en" data-theme="light">`, a link to
-`main.css` at the right relative depth, the Inter + Plus Jakarta Sans font link,
-and a "Preview chrome only" `<style>` block that centers the canvas and stacks
-slides with a gap. Copy the head of an existing one-pager or document in
-`output/` and adjust the depth.
+**1. Check for shape-bounds overflow:**
 
-Comment each slide with a banner so the file stays navigable:
-
-```html
-<!-- ═══ SLIDE 4 — Why it matters (dark) ═══════════════════════ -->
+```python
+problems = dp.check_overflow(prs)
 ```
 
-## Step 5 — verify every slide fits
+An empty list is a pass. This catches a shape placed or sized past the
+slide edges — it does **not** catch text overflowing its own text box
+(pptx can autosize or clip that silently); that is exactly why stat/label
+length matters more here than in the HTML skills.
 
-Overflow is the one failure mode that matters: a fixed 720px canvas silently
-clips or spills. Start the preview server and measure — never eyeball it, and
-never ask the user to check.
+**2. Sanity-check the actual content**, not just the geometry — re-open the
+saved file and print what's really in it, since a wrong keyword argument
+fails silently rather than raising:
 
-```
-preview_start  { name: "static" }
-navigate       http://localhost:8912/output/decks/<name>/<name>.html
-```
-
-**Check the whole slide first**, in `javascript_tool`:
-
-```js
-[...document.querySelectorAll('.deck-slide')].map((s, i) => ({
-  slide: i + 1,
-  w: s.offsetWidth, h: s.offsetHeight,
-  overflows: s.scrollHeight > s.offsetHeight || s.scrollWidth > s.offsetWidth,
-  spill: s.scrollHeight - s.offsetHeight
-})).filter(r => r.overflows || r.w !== 1280 || r.h !== 720)
+```python
+from pptx import Presentation
+prs2 = Presentation("<deck-name>.pptx")
+for i, slide in enumerate(prs2.slides):
+    print(f"slide {i+1}: bg=#{slide.background.fill.fore_color.rgb}")
+    for shp in slide.shapes:
+        if shp.has_text_frame:
+            print("   ", shp.text_frame.text[:60])
 ```
 
-**Then check individual elements** — a stat figure or a long word can spill past
-its own card without ever making the *slide* taller than 720px, since the slack
-is absorbed elsewhere. The check above misses this; this one does not:
+Read the printed text back and confirm it matches the plan — this is also
+where you'd catch punctuation-rule violations (straight quotes, hyphen-
+as-dash) before they ship, same as any other format.
 
-```js
-[...document.querySelectorAll('.deck-slide *')].filter(el =>
-  el.children.length === 0 && el.textContent.trim() &&
-  (() => {
-    const r = el.getBoundingClientRect(), p = el.parentElement.getBoundingClientRect();
-    return r.right > p.right + 1 || r.bottom > p.bottom + 1;
-  })()
-).map(el => ({ tag: el.tagName, class: el.className, text: el.textContent.trim().slice(0, 40) }))
-```
+**If you print text with special characters (curly quotes, em dashes) to a
+Windows terminal for a manual check, set `PYTHONUTF8=1` first** — without it
+the console can mangle the display even though the file itself is correct.
+Confirmed empirically this session: a middle dot and an em dash both printed
+as `�` under the default console encoding, while the saved `.pptx` had the
+right characters the whole time. Don't "fix" a mis-rendered console readout
+by touching the file.
 
-Both must return an empty array. This is exactly the check that catches a
-6-digit stat figure spilling past its card edge — the failure mode looks fine at
-the slide level and wrong only at the element level.
+## Step 6 — upload and convert to Google Slides
 
-**When something overflows, fix it in this order — never by eyeballing a smaller
-raw font-size:**
+**1. Save the `.pptx` locally**, then find whichever Drive-capable tool or
+connector is available in this session — do not assume a specific tool
+name, since it varies by installation.
 
-1. **Shorten the content first.** A number is the easiest case: abbreviate —
-   `500,000` → `500K`, `$1,200,000` → `$1.2M`. Keep the currency symbol, one
-   decimal place at most. For a long label or headline, cut words rather than
-   shrink them.
-2. **If it's still tight, step down one type-scale token** — e.g. Display → H1
-   for a stat figure. Never an arbitrary px value below the token scale.
-3. **If the content is right but the box is too small, resize the layout** —
-   widen the `data-grid-span`, or put fewer stats in the row.
-4. **If nothing above fits, split it into two slides.** A deck has no "next
-   page" to flow onto — restructuring is the deck's version of that.
-5. **Never** shrink the canvas, and never leave it clipped silently.
+**2. Base64-encode the file and upload it with NO `disableConversionToGoogleType`
+flag** (or explicitly `false`) — this is the opposite of the PDF skills'
+rule, and it's the whole point here:
 
-Screenshot two or three representative slides and share them. Check console
-messages for missing assets while you are there.
+- `contentMimeType: application/vnd.openxmlformats-officedocument.presentationml.presentation`
+- leave `disableConversionToGoogleType` unset — Drive's default behavior
+  converts a supported upload into its native Google format, which for a
+  `.pptx` is an editable Google Slides file. This is documented tool
+  behavior, not a guess.
 
-## Step 6 — report
+**3. Confirm the result is actually Slides**, not a stored PowerPoint file —
+the response's `mimeType` should read `application/vnd.google-apps.presentation`.
+If it still says a PowerPoint MIME type, the conversion didn't happen; check
+that `disableConversionToGoogleType` was truly omitted.
 
-Say which commit of the design system you built against (from the loader), how
-many slides, and the theme arc. Flag anything you had to cut to make a slide fit.
+**If no Drive connector is available in this session**, say so plainly and
+hand over the local `.pptx` instead — do not silently skip the upload, and
+`.pptx` still opens in Slides via manual upload, so it is not a dead end.
+
+**A `.pptx`'s base64 form is large even for a short deck** — the format
+carries theme/layout XML overhead regardless of slide count (an 8-slide deck
+in testing was ~37KB as a file, ~49KB base64). If moving the file through
+your own context to construct the upload call is impractical, read it in
+manageable chunks or use whatever direct file-upload path your environment
+offers instead of round-tripping the whole payload through chat.
+
+The upload response includes the file's Drive link — that link is the
+deliverable to hand back.
+
+## Step 7 — report
+
+Say which commit of the design system you built against, how many slides,
+the theme arc, and the Drive/Slides link. Flag any slide role you had to
+recast or leave out because it isn't in the covered set yet, and anything
+you couldn't visually confirm (since there's no local render — say plainly
+that you're relying on the programmatic checks plus the Drive conversion
+having reported the right MIME type, not an eyeballed screenshot).
