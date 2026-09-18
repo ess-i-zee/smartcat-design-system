@@ -14,7 +14,20 @@ import deck_pptx as dp
 def build(out_path: str):
     prs = dp.new_deck()
 
-    dp.add_cover(prs, "Smartcat platform overview", "Q4 2026 · Customer walkthrough", theme="dark")
+    # Client business-case cover — logo lockup (Smartcat + client
+    # placeholder, since we don't have Acme's real logo file), title in the
+    # lower-middle band, and the bottom two-column prepared-by/for metadata
+    # (deck-design-brain.md "Cover" — the other two metadata styles are
+    # "top_right" and "footer"; see add_cover's docstring).
+    dp.add_cover(
+        prs, "Your global translation operating model",
+        client_name="Acme Corp",
+        metadata={
+            "style": "bottom_columns",
+            "prepared_by": ["Smartcat Account Team", "Alex Rivera · Priya Nandakumar"],
+            "prepared_for": ["Soumen Das, VP Marketing Excellence", "Covadonga Fernández, Procurement"],
+        },
+    )
     dp.add_section_divider(prs, "Why it matters.", theme="dark")
     dp.add_heading_paragraph(
         prs, "The problem today",
@@ -22,15 +35,21 @@ def build(out_path: str):
         "Teams either slow down launches or ship content nobody checked.",
         theme="light",
     )
-    dp.add_bullet_list(prs, "What changes", [
-        "AI pre-reviews every translation before a human sees it",
-        "Only genuinely uncertain segments reach a reviewer",
-        "Review time drops without lowering the bar",
-    ], theme="light")
-    dp.add_cards(prs, "How it works", [
-        {"heading": "Ingest", "paragraph": "Content arrives from any connected source — CMS, file, or API."},
-        {"heading": "Review", "paragraph": "The agent flags only what a human should look at."},
-        {"heading": "Ship", "paragraph": "Approved content publishes automatically."},
+    dp.add_flow_chain(
+        prs, "How it works",
+        [
+            {"icon": "upload-to-cloud", "label": "Tell it what you need", "caption": "Plain language, no setup."},
+            {"icon": "workspace", "label": "It sets up the workspace", "caption": "Configured automatically."},
+            {"icon": "integration", "label": "It routes the work", "caption": "To the right coworker or tool."},
+            {"icon": "check-in-circle", "label": "You review and approve", "caption": "Nothing ships unchecked."},
+        ],
+        theme="light",  # default style="cards" — icon-bearing cards connected by arrows
+    )
+    dp.add_cards(prs, "Built for enterprise trust", [
+        {"icon": "security", "heading": "SOC 2 compliant", "paragraph": "Infrastructure audited annually against SOC 2 Type II controls."},
+        {"icon": "lock-closed", "heading": "Role-based access", "paragraph": "Every workspace enforces least-privilege permissions."},
+        {"icon": "key", "heading": "SSO & identity", "paragraph": "Integrates with your existing identity provider."},
+        {"icon": "check-in-circle", "heading": "Audit trails", "paragraph": "Every AI interaction is logged and reviewable."},
     ], theme="light")
     dp.add_stats(prs, "The numbers", [
         {"value": "70%", "label": "Faster review"},
@@ -44,12 +63,30 @@ def build(out_path: str):
                            "review, not translation itself.",
               "bullets": ["Manual spot-checks on every language", "No visibility into reviewer backlog"]},
         right={"kind": "cards", "items": [
-            {"heading": "Review", "paragraph": "62% of team time."},
-            {"heading": "Translate", "paragraph": "23% of team time."},
-            {"heading": "Ship", "paragraph": "15% of team time."},
+            {"icon": "clock", "heading": "Review", "paragraph": "62% of team time."},
+            {"icon": "translation", "heading": "Translate", "paragraph": "23% of team time."},
+            {"icon": "rocket", "heading": "Ship", "paragraph": "15% of team time."},
         ]},
         ratio=(5, 7), theme="light",
     )
+
+    # Grouped tiles + placeholders — categorized tool list as labeled tiles
+    # instead of a nested bullet list; missing logos get a labeled
+    # placeholder instead of being dropped (deck-design-brain.md Design DNA).
+    tools_slide = dp.add_heading_paragraph(
+        prs, "Learns your workflow. Fits your stack.",
+        "Your AI Chief of Staff learns your role and preferences as you work "
+        "together, so each session builds on the last.",
+        theme="light",
+    )
+    right_x = dp.PAGE_PADDING_PX + (dp.SLIDE_W_PX - 2 * dp.PAGE_PADDING_PX) // 2 + 24
+    tile_top = dp.PAGE_PADDING_PX + dp.HEADING_GAP_PX
+    tile_w, tile_h, tile_gap = 150, 90, 8
+    for i, tool in enumerate(["Adobe AEM", "Contentful", "Sitecore", "WordPress", "Google Drive", "Figma"]):
+        col, row = i % 3, i // 3
+        left = right_x + col * (tile_w + tile_gap)
+        top = tile_top + row * (tile_h + tile_gap)
+        dp.add_placeholder(tools_slide, left, top, tile_w, tile_h, f"Logo: {tool}", theme="light")
     dp.add_table(
         prs, "Plan comparison", ["Plan", "Languages", "Reviewers", "Price"],
         [["Starter", "10", "2", "$400/mo"], ["Growth", "50", "8", "$1,200/mo"],
@@ -59,12 +96,27 @@ def build(out_path: str):
     dp.add_flow_chain(
         prs, "Compliance checkpoints",
         ["Draft", "Legal review", "Redline", "Sign-off", "Archive"],
-        theme="light",
+        theme="light", style="pills",  # compact form, paired with the detail row it indexes into
         detail_cards=[
-            {"heading": "Data residency", "paragraph": "EU content never leaves the region."},
-            {"heading": "Audit trail", "paragraph": "Every edit is timestamped and attributed."},
-            {"heading": "Access control", "paragraph": "Role-based, reviewed quarterly."},
+            {"icon": "globe", "heading": "Data residency", "paragraph": "EU content never leaves the region."},
+            {"icon": "document-1", "heading": "Audit trail", "paragraph": "Every edit is timestamped and attributed."},
+            {"icon": "lock-closed", "heading": "Access control", "paragraph": "Role-based, reviewed quarterly."},
         ],
+    )
+    # Quote-with-embedded-stats split — the quote's own wording names two
+    # metrics ("50%" twice), so they're pulled into stat cards beside it
+    # instead of standing alone as prose (deck-design-brain.md "Testimonial").
+    dp.add_split(
+        prs, "What Expondo says",
+        left={"kind": "quote",
+              "text": "We’ve been able to increase our productivity by 50% while "
+                      "reducing our outsourcing costs by 50%.",
+              "attribution": "Expondo"},
+        right={"kind": "stats", "items": [
+            {"value": "50%", "label": "Productivity increase", "desc": "Boosted operational efficiency across teams."},
+            {"value": "50%", "label": "Cost reduction", "desc": "Direct savings on external outsourcing expenses."},
+        ]},
+        ratio=(6, 6), theme="light",
     )
     dp.add_quote(
         prs,

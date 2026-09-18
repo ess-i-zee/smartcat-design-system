@@ -24,17 +24,43 @@ with `python-pptx` and uploads for Drive to convert, rather than rendering
 HTML: Slides has no way to import arbitrary CSS as editable objects, so the
 deck is authored as native shapes from the start.
 
-**Scope, by explicit decision (2026-09-15, extended 2026-09-18): a defined
-set of slide roles, not the full catalog.** `scripts/deck_pptx.py` covers
-cover, section divider, heading+paragraph, bullet list, N-cards, stats,
+**Scope, by explicit decision (2026-09-15, extended 2026-09-18 twice — see
+docs/deck-design-brain.md section E's changelog for the second pass's full
+writeup): a defined set of slide roles, not the full catalog.**
+`scripts/deck_pptx.py` covers cover, section divider, heading+paragraph,
+bullet list (a supporting element inside another slide, never a whole slide
+alone — see Step 2), N-cards (`add_cards` — icon- or number-badge-anchored,
+height follows content, row centers when it leaves extra room), stats,
 quote, closing, an **asymmetric split** (`add_split` — two panels at an
 uneven ratio, e.g. narrative + card grid, or a highlighted stat + a table),
 a **table** (`add_table` — native, editable cells, with an optional
 highlighted key column and/or bold total row), and a **flow chain**
-(`add_flow_chain` — pill nodes joined by straight arrow connectors, with an
-optional supporting card row stacked underneath). All eleven compose from
-the same tokens as everything else — no new colors, sizes, or canvas
-geometry were introduced to build them.
+(`add_flow_chain` — icon-bearing cards connected by arrows by default
+(`style="cards"`), or a compact pill-node chain (`style="pills"`) paired
+with a supporting `detail_cards` row underneath). All compose from the same
+tokens as everything else — no new colors, sizes, or canvas geometry were
+introduced to build them.
+
+**Icons render as native pptx vector shapes, not raster pictures.**
+`draw_icon()` parses a curated subset of the design system's icon SVGs
+(`scripts/deck_icons.py`) into real custom-geometry shapes — genuinely
+editable in Slides, matching this module's whole premise. Every card anchor
+(`add_cards`, the split `cards` panel, flow-chain nodes) takes an optional
+`icon` key from that curated set; omit it for an automatic numbered circle
+badge. `deck_icons.py` documents how to add another icon to the set.
+**`add_placeholder()`** renders a labeled placeholder (dashed panel + the
+`placeholder` icon + a caption naming the asset) for a missing customer
+logo, screenshot, or icon tile — call it from inside another slide's layout
+code wherever a real asset belongs but isn't available yet.
+
+**The Smartcat wordmark is the one visual embedded as a picture, not a
+native shape** — `draw_logo()` places `assets/smartcat-logo-{white,black}.png`,
+rendered once from the real SVG via an actual browser (two of the
+wordmark's letterforms need `fill-rule="evenodd"` to render their counters
+correctly, which pptx's custom-geometry has no per-path equivalent for —
+reconstructing it as a vector shape risked silently filling those counters
+in solid, a real correctness problem for a brand asset). `add_cover()` calls
+it automatically; nothing else needs to.
 
 Still not covered, because it doesn't reduce to rectangles, straight
 connectors, and native table cells: charts (donut/bar), Gantt charts,
@@ -89,6 +115,9 @@ Then check the arc:
   closing slide dark or brand-purple. A deck that is all one treatment reads
   flat.
 - **One idea per slide.** If a slide needs two headlines, it is two slides.
+- **Does every slide earn its canvas?** A title + one short sentence with
+  nothing else is not a slide — fold it into a neighbor under one shared
+  idea. See deck-design-brain.md's decision procedure, step 1.
 - **A divider every 3–5 content slides** on anything longer than ~10 slides.
 
 Show the user the slide list before building if the deck is longer than
@@ -98,7 +127,7 @@ later.
 ## Step 3 — check every planned slide against the covered role set
 
 Before writing any code, match each line in the slide list to one of
-`deck_pptx.py`'s eleven functions (`add_cover`, `add_section_divider`,
+`deck_pptx.py`'s slide-role functions (`add_cover`, `add_section_divider`,
 `add_heading_paragraph`, `add_bullet_list`, `add_cards`, `add_stats`,
 `add_split`, `add_table`, `add_flow_chain`, `add_quote`, `add_closing`).
 Reach for `add_split`/`add_table`/`add_flow_chain` deliberately, the same way
@@ -107,6 +136,13 @@ either. A run of slides that are all "heading + a row of cards" reads as
 flat even when each individual slide is fine; an asymmetric split or a table
 in the mix is often the more honest shape for the content anyway (a
 narrative next to supporting detail is rarely two equal halves).
+
+**`add_bullet_list` is not a whole-slide default.** Reach for it only as a
+short supporting list you place alongside other content (e.g. inside an
+`add_split` text panel) — a genuinely enumerable, parallel set of 3+ items
+is always `add_cards` instead, per deck-design-brain.md's "Enumerated
+content." If a planned slide is just a title and a short list of several
+peer items, recast it as cards before building it.
 
 **If a slide doesn't fit one of these**, don't force it into the nearest
 available shape (e.g. faking a timeline out of N-cards misrepresents the
@@ -128,7 +164,7 @@ sys.path.insert(0, "<path to this skill's scripts/ folder>")
 import deck_pptx as dp
 
 prs = dp.new_deck()
-dp.add_cover(prs, "Smartcat platform overview", "Q4 2026 · Customer walkthrough", theme="dark")
+dp.add_cover(prs, "Smartcat platform overview", "Q4 2026 · Customer walkthrough")
 dp.add_stats(prs, "The numbers", [
     {"value": "70%", "label": "Faster review"},
     {"value": "280+", "label": "Languages supported"},
