@@ -5,13 +5,14 @@ description: >-
   Google Slides file. Use whenever someone wants a Smartcat deck, slides, a
   presentation, a pitch, a QBR or a customer-facing walkthrough: "make a
   deck", "turn this into slides", "build a presentation for X", "put this in
-  Smartcat style as a deck". Covers a core set of slide types — cover,
-  section divider, heading+paragraph, bullets, N-cards, stats, quote,
-  closing — built as native, editable shapes; anything outside that set
-  (charts, gantt, timelines, flow diagrams, comparison matrices) is not yet
-  portable to Slides and should be flagged rather than attempted. Not for
-  one-pagers, printed documents or social graphics; those have their own
-  skills.
+  Smartcat style as a deck". Covers cover, section divider, heading+
+  paragraph, bullets, N-cards, stats, quote, closing, an asymmetric two-panel
+  split, a data table, and a straight-line flow chain — all built as native,
+  editable shapes. Anything outside that set (charts, gantt, timelines with
+  alternating milestones, organic/branching flow diagrams, comparison
+  matrices with chevrons) is not yet portable to Slides and should be
+  flagged rather than attempted. Not for one-pagers, printed documents or
+  social graphics; those have their own skills.
 ---
 
 # Smartcat deck
@@ -23,13 +24,26 @@ with `python-pptx` and uploads for Drive to convert, rather than rendering
 HTML: Slides has no way to import arbitrary CSS as editable objects, so the
 deck is authored as native shapes from the start.
 
-**Scope, by explicit decision (2026-09-15): a core set of slide roles only.**
-`scripts/deck_pptx.py` covers cover, section divider, heading+paragraph,
-bullet list, N-cards, stats, quote, and closing. `docs/deck-design-brain.md`'s
-full recipe catalog also includes charts, gantt charts, timelines, flow/graph
-diagrams and comparison matrices — none of those are built here yet. If a
-plan calls for one, say so plainly rather than approximating it with the
-wrong shape.
+**Scope, by explicit decision (2026-09-15, extended 2026-09-18): a defined
+set of slide roles, not the full catalog.** `scripts/deck_pptx.py` covers
+cover, section divider, heading+paragraph, bullet list, N-cards, stats,
+quote, closing, an **asymmetric split** (`add_split` — two panels at an
+uneven ratio, e.g. narrative + card grid, or a highlighted stat + a table),
+a **table** (`add_table` — native, editable cells, with an optional
+highlighted key column and/or bold total row), and a **flow chain**
+(`add_flow_chain` — pill nodes joined by straight arrow connectors, with an
+optional supporting card row stacked underneath). All eleven compose from
+the same tokens as everything else — no new colors, sizes, or canvas
+geometry were introduced to build them.
+
+Still not covered, because it doesn't reduce to rectangles, straight
+connectors, and native table cells: charts (donut/bar), Gantt charts,
+timelines with alternating above/below milestones, comparison v1/v2 and
+alignment-matrix layouts (brand-gradient hero panels + chevrons), and any
+flow/graph diagram with curved or branching connectors rather than a single
+straight chain. `docs/deck-design-brain.md`'s full recipe catalog documents
+all of these — if a plan calls for one, say so plainly rather than
+approximating it with the wrong shape.
 
 ## Step 1 — load the design system
 
@@ -84,9 +98,15 @@ later.
 ## Step 3 — check every planned slide against the covered role set
 
 Before writing any code, match each line in the slide list to one of
-`deck_pptx.py`'s eight functions (`add_cover`, `add_section_divider`,
+`deck_pptx.py`'s eleven functions (`add_cover`, `add_section_divider`,
 `add_heading_paragraph`, `add_bullet_list`, `add_cards`, `add_stats`,
-`add_quote`, `add_closing`).
+`add_split`, `add_table`, `add_flow_chain`, `add_quote`, `add_closing`).
+Reach for `add_split`/`add_table`/`add_flow_chain` deliberately, the same way
+you'd reach for `add_cards` — not by default, but not as a last resort
+either. A run of slides that are all "heading + a row of cards" reads as
+flat even when each individual slide is fine; an asymmetric split or a table
+in the mix is often the more honest shape for the content anyway (a
+narrative next to supporting detail is rarely two equal halves).
 
 **If a slide doesn't fit one of these**, don't force it into the nearest
 available shape (e.g. faking a timeline out of N-cards misrepresents the
@@ -137,9 +157,22 @@ Abbreviate before calling it: `$1,200,000` → `$1.2M`, `500,000` → `500K`.
 
 ## Step 5 — verify
 
-There is no local tool in this environment to render a `.pptx` to an image,
-so verification here is programmatic, not visual — plan to spot-check the
-real look once it lands in Slides (step 6).
+**Check whether this environment can render a `.pptx` to an image before
+assuming it can't** — `which libreoffice soffice` and `which pdftoppm`.
+When both are present:
+
+```bash
+soffice --headless --convert-to pdf --outdir <dir> <deck-name>.pptx
+pdftoppm -png -r 110 <dir>/<deck-name>.pdf <dir>/slide
+```
+
+(`--convert-to png` only exports slide 1 — always go through `pdf` +
+`pdftoppm` for a real per-slide set.) Look at every slide this produces,
+the same way you would review a screenshot of an HTML deck — this is what
+actually catches a cramped table, an arrow with an invisible arrowhead, or a
+split ratio that reads wrong, none of which `check_overflow` can see. Only
+when neither tool is available does verification fall back to programmatic-
+only, with a real spot-check once the deck lands in Slides (step 6).
 
 **1. Check for shape-bounds overflow:**
 

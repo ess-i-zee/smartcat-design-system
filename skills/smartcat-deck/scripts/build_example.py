@@ -37,6 +37,35 @@ def build(out_path: str):
         {"value": "280+", "label": "Languages supported"},
         {"value": "$1.2M", "label": "Saved annually"},
     ], theme="dark")
+    dp.add_split(
+        prs, "Where the time goes",
+        left={"kind": "text",
+              "paragraph": "Most localization teams spend the bulk of their week on "
+                           "review, not translation itself.",
+              "bullets": ["Manual spot-checks on every language", "No visibility into reviewer backlog"]},
+        right={"kind": "cards", "items": [
+            {"heading": "Review", "paragraph": "62% of team time."},
+            {"heading": "Translate", "paragraph": "23% of team time."},
+            {"heading": "Ship", "paragraph": "15% of team time."},
+        ]},
+        ratio=(5, 7), theme="light",
+    )
+    dp.add_table(
+        prs, "Plan comparison", ["Plan", "Languages", "Reviewers", "Price"],
+        [["Starter", "10", "2", "$400/mo"], ["Growth", "50", "8", "$1,200/mo"],
+         ["Total (enterprise)", "280+", "Unlimited", "$4,800/mo"]],
+        theme="light", highlight_last_row=True, highlight_first_col=True,
+    )
+    dp.add_flow_chain(
+        prs, "Compliance checkpoints",
+        ["Draft", "Legal review", "Redline", "Sign-off", "Archive"],
+        theme="light",
+        detail_cards=[
+            {"heading": "Data residency", "paragraph": "EU content never leaves the region."},
+            {"heading": "Audit trail", "paragraph": "Every edit is timestamped and attributed."},
+            {"heading": "Access control", "paragraph": "Role-based, reviewed quarterly."},
+        ],
+    )
     dp.add_quote(
         prs,
         "We don’t remove humans from the process. We reposition them "
