@@ -54,6 +54,11 @@ cached copy. Keep working, but say so when you report back.
 **If it exits non-zero:** there is no local copy at all — use
 `reference/no-shell.md`.
 
+This sync covers rules only — `tokens/`, `base/`, `docs/`, `components/`, plus
+`images/` for the logo. It deliberately does **not** include `references/`
+(finished example screenshots and PDFs, ~120MB) — that is a separate, on-demand
+pull, see Step 5.
+
 ## Step 2 — read the index, not the system
 
 ```bash
@@ -126,6 +131,41 @@ Token values: `tokens/colors.css`, `sizes.css`, `typography.css`, `globals.css`,
 grep -n "background-static-brand" "$DS_ROOT/tokens/colors.css"
 ```
 
+## Step 5 — pull a reference example, only when it helps
+
+`references/` holds finished output, not rules: screenshots of shipped decks,
+PDFs of shipped one-pagers and documents, and a keyed illustration reference.
+Step 1 never fetches it — at ~120MB it would turn every sync into a slow one,
+for builds that mostly never look at it. Pull one folder or file on demand
+instead, only when seeing a finished example is actually useful (the user asks
+what "done" looks like, or you want to sanity-check a layout against a real
+one) — never as a routine step before every build:
+
+```bash
+eval "$(bash skills/smartcat-design-system/scripts/sync.sh --references decks/light)"
+```
+
+This adds two lines to sync's output: `DS_REFERENCE` (where it landed) and
+`DS_REFERENCE_STATUS` (`already present`, `pulled`, or `not found`). It is
+incremental and cheap — only the blobs under that one path are fetched, so
+asking for a second path later doesn't re-fetch the first.
+
+INDEX.md's "Reference examples" table lists every pullable path with its file
+count, size, and a few example filenames, so you can pick one without fetching
+anything first:
+
+| Building | Pull | What's there |
+|---|---|---|
+| Deck | `decks/light` or `decks/dark` | real shipped slides, one JPG per layout (agenda, timeline, stat-cards, …) |
+| One-pager | `one-pagers` | 8 PDFs of shipped one-pagers and sales cheat sheets |
+| Document | `documents` | 3 PDFs of shipped multi-page documents |
+| Illustration | `illustration` | one PNG showing the house illustration style |
+| Mockup | — | don't pull this here — `smartcat-mockup` already lists and fetches `references/mockups/` itself, one folder level per question |
+
+If someone asks to see an example before anything's been built, this is the
+answer: pull the matching folder and show it, rather than describing the rules
+in prose.
+
 ## Rules that hold no matter what you are building
 
 - **Tokens only.** Never a raw hex, px, or font value in component CSS. Semantic
@@ -152,8 +192,8 @@ grep -n "background-static-brand" "$DS_ROOT/tokens/colors.css"
 
 ## When there is no shell
 
-Read `reference/no-shell.md` — the same system over `raw.githubusercontent.com`,
-one file per fetch.
+Read `reference/no-shell.md` — the same system, including reference examples,
+over `raw.githubusercontent.com`, one file per fetch.
 
 ## Report back
 
@@ -161,6 +201,11 @@ When you hand off, say which commit you built against and what you loaded:
 
 > Design system `19ebbe9` (2026-09-15) · one-pager rules + flow, numbered-cards,
 > cta-band.
+
+Mention a reference pull too, if you made one:
+
+> Design system `19ebbe9` (2026-09-15) · deck rules + agenda, timeline · pulled
+> `references/decks/light` for comparison.
 
 If the sync was stale or fell back to raw URLs, say that too — it is the
 difference between "these are the rules" and "these were the rules last time I

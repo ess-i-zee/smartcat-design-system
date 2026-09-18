@@ -152,6 +152,47 @@ def flat_files(rel_dir: str, exts=(".css", ".md")) -> list[dict]:
     return rows
 
 
+def describe_references() -> list[dict]:
+    """Summarize references/ leaf folders (finished examples), without reading
+    or listing any binary content — just counts, size, and filenames, so
+    INDEX.md can point at a path without anything having to be fetched first.
+
+    mockups/ is deliberately excluded: it already has its own dedicated
+    listing and fetch flow inside the smartcat-mockup skill (folder-per-
+    question, direct raw-URL construction), so indexing it again here would
+    just be a second, competing way to find the same tree.
+    """
+    refs_dir = ROOT / "references"
+    if not refs_dir.is_dir():
+        return []
+    rows = []
+    for top in sorted(p for p in refs_dir.iterdir() if p.is_dir()):
+        if top.name == "mockups":
+            continue
+        # A folder can hold files directly (one-pagers, documents,
+        # illustration), one level of named subfolders (decks/light,
+        # decks/dark), or both (decks also has a couple of loose contact-slide
+        # files) — describe every leaf that actually holds files.
+        leaves = [(top, [f for f in top.iterdir() if f.is_file()])]
+        leaves += [
+            (sub, [f for f in sub.iterdir() if f.is_file()])
+            for sub in sorted(p for p in top.iterdir() if p.is_dir())
+        ]
+        for leaf, files in leaves:
+            if not files:
+                continue
+            total = sum(f.stat().st_size for f in files)
+            names = sorted(f.name for f in files)
+            sample = ", ".join(names[:3]) + ("…" if len(names) > 3 else "")
+            rows.append({
+                "path": leaf.relative_to(ROOT).as_posix(),
+                "count": len(files),
+                "mb": total / (1024 * 1024),
+                "sample": sample,
+            })
+    return rows
+
+
 def first_line_purpose(p: Path) -> str:
     try:
         text = p.read_text(encoding="utf-8-sig")
@@ -294,6 +335,26 @@ def main() -> None:
     add("|---|---|---|")
     for r in flat_files("docs"):
         add(f"| `{Path(r['path']).name}` | {r['purpose']} | {approx_tokens(r['bytes'])} |")
+    add("")
+
+    # ---- Reference examples ------------------------------------------------
+    add("## Reference examples (`references/`)")
+    add("")
+    add("Finished screenshots and PDFs, not rules — never part of the regular sync "
+        "(~120MB total). Pull one path on demand with `scripts/sync.sh --references "
+        "<path>` (see SKILL.md, \"pull a reference example\") only when it's actually "
+        "useful — checking what a finished example looks like, not as a routine step.")
+    add("")
+    ref_rows = describe_references()
+    if ref_rows:
+        add("| Pull this path | Files | Size | Example names |")
+        add("|---|---|---|---|")
+        for r in ref_rows:
+            add(f"| `{r['path']}` | {r['count']} | {r['mb']:.1f}MB | {r['sample']} |")
+        add("")
+    add("`references/mockups/` is deliberately left out of this table — "
+        "`smartcat-mockup` already lists and fetches it directly, one folder level "
+        "per question. Use that skill for mockups rather than pulling this path.")
     add("")
 
     (ROOT / "INDEX.md").write_text("\n".join(out) + "\n", encoding="utf-8")

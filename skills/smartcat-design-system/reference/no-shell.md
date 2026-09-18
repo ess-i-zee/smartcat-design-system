@@ -56,6 +56,22 @@ The full corpus is ~116k tokens. A normal build should cost well under 30k:
 | Each component `.css` | 300–2,300 |
 | Each token file | 1,500–4,000 |
 
+## Reference examples
+
+`references/` (finished screenshots and PDFs — see SKILL.md Step 5) works the
+same way, one file at a time:
+
+```
+https://raw.githubusercontent.com/ess-i-zee/smartcat-design-system/main/references/decks/light/agenda.jpg
+```
+
+`INDEX.md`'s "Reference examples" table lists every pullable path with its file
+count, size, and a few example filenames — read that first so you fetch one
+named file rather than guessing. There's no directory listing over plain HTTP,
+so a path you haven't confirmed in that table is a guess, not a lookup.
+`references/mockups/` isn't in that table — leave it to `smartcat-mockup`,
+which already builds its own raw URLs for that tree.
+
 ## Report back
 
 Say that you used the raw-URL path and which ref you pinned to:
