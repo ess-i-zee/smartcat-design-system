@@ -155,6 +155,18 @@ Then check the arc:
 - **Does every slide earn its canvas?** A title + one short sentence with
   nothing else is not a slide — fold it into a neighbor under one shared
   idea. See deck-design-brain.md's decision procedure, step 1.
+- **Which slides show the product?** Go down the slide list and ask this
+  for each one, including each step of a flow chain — don't leave it for
+  a review pass afterward. Does its copy name a specific product surface:
+  a UI view, a conversation, a before/after, a dashboard? If so, it
+  reserves an image slot now, as part of planning this slide, regardless
+  of whether the screenshot exists yet (Design DNA, "A slide about a
+  product surface reserves room for it"). A flow-chain step naming a real
+  UI moment ("review in context," "side by side") may be significant
+  enough to earn its own slide — an `add_image_banner` right after the
+  chain — rather than staying folded into a node caption; decide that
+  here. Step 5's `check_missing_image_slots` is the backstop for this
+  question, not a substitute for asking it now.
 - **A divider every 3–5 content slides** on anything longer than ~10 slides.
 
 Show the user the slide list before building if the deck is longer than
@@ -276,7 +288,26 @@ slide edges — it does **not** catch text overflowing its own text box
 (pptx can autosize or clip that silently); that is exactly why stat/label
 length matters more here than in the HTML skills.
 
-**2. Sanity-check the actual content**, not just the geometry — re-open the
+**2. Check for a missed image slot — required, not optional:**
+
+```python
+missed = dp.check_missing_image_slots(prs)
+```
+
+Call this on the **same `prs`, before saving** — it relies on a runtime
+attribute the saved `.pptx` doesn't carry, so it must run here, not on a
+reloaded file (see its docstring). This exists because a deck shipped with
+zero reserved slots despite a flow-chain step captioned "Side by side, per
+language" sitting right next to a slide about reviewing content — the rule
+("a slide about a product surface reserves room for it") was known and
+still never got checked while planning. Don't rely on remembering to look;
+run this and look at what it flags. A hit is not automatically wrong (the
+phrase can turn up without describing an actual screen), but every one
+must be resolved one way or the other — add the slot, or decide out loud
+why this one doesn't need it. Silently clearing the list without deciding
+either way is the same failure this check exists to catch.
+
+**3. Sanity-check the actual content**, not just the geometry — re-open the
 saved file and print what's really in it, since a wrong keyword argument
 fails silently rather than raising:
 

@@ -1552,3 +1552,53 @@ def check_overflow(prs: Presentation) -> list[dict]:
                     "top_px": round(shape.top / EMU_PER_PX, 1),
                 })
     return problems
+
+
+# Screenshot-inviting language — see deck-design-brain.md Design DNA, "A slide
+# about a product surface reserves room for it." This is a MECHANICAL BACKSTOP
+# for that rule, added after a deck shipped with zero image slots despite a
+# flow-chain step captioned "Side by side, per language" sitting right next to
+# a slide claiming "review in context." The rule was correctly known and still
+# never got applied at plan time — a purely written rule wasn't enough, so this
+# gives the same rule a code-level trigger that runs regardless of how the deck
+# was planned. A hit here is not automatically wrong (the phrase can appear
+# without describing an actual screen), but it must be looked at and either
+# resolved (add a slot) or consciously dismissed — never silently passed over.
+_SCREENSHOT_TRIGGER_PHRASES = (
+    "side by side", "before and after", "before/after", "in context",
+    "see before", "see it", "see the", "review view", "the dashboard",
+    "the interface", "the screen", "your workspace", "the conversation",
+    "drop in a file", "drop a file",
+)
+
+
+def check_missing_image_slots(prs) -> list[dict]:
+    """Flag every slide whose own text contains screenshot-inviting language
+    (see `_SCREENSHOT_TRIGGER_PHRASES`) but carries no reserved image slot.
+    Run this alongside `check_overflow` on every build, before reporting the
+    shot list from `image_slots()` — it catches exactly the case that
+    passive reporting cannot: a slide that should have reserved a slot and
+    didn't, which `image_slots()` has no way to notice since it only lists
+    slots that already exist.
+
+    MUST be called on the same in-memory `prs` you just built, before
+    saving — not on a `Presentation(...)` re-opened from the saved file.
+    `_smartcat_image_slots` is a plain Python attribute set on the slide
+    object during the build; it is never written into the .pptx XML, so a
+    reloaded presentation has no way to know which slides already have a
+    slot and this would flag every slide with matching language, slotted
+    or not. (Step 5's own text-dump check re-opens the saved file for a
+    different reason — do not reuse that reloaded object here.)"""
+    flagged = []
+    for i, slide in enumerate(prs.slides, start=1):
+        if getattr(slide, "_smartcat_image_slots", None):
+            continue   # already has a slot; not a miss
+        text = " ".join(
+            shp.text_frame.text.lower()
+            for shp in slide.shapes
+            if shp.has_text_frame and shp.text_frame.text
+        )
+        hits = [p for p in _SCREENSHOT_TRIGGER_PHRASES if p in text]
+        if hits:
+            flagged.append({"slide": i, "matched_phrases": hits})
+    return flagged
