@@ -144,9 +144,14 @@ Then check the arc:
   flat.
 - **One idea per slide.** If a slide needs two headlines, it is two slides.
 - **And the reverse: one idea across two slides is one slide.** A stats row
-  and a customer quote are both "what teams got" — merge them into one
-  `add_split` (quote one side, the figures it backs on the other) rather
-  than spending two slides on a single claim.
+  and a customer quote that both prove the same claim ("customers get the
+  results they came to Smartcat for") ARE one idea, not two — merge them
+  into one `add_split` (quote one side, the figures it backs on the other)
+  rather than spending two slides on a single claim. "They're different
+  content types" and "it blurs one-idea-per-slide pacing" are not reasons
+  to keep them apart; the test is whether they share a claim, not whether
+  they're the same content type — see deck-design-brain.md's decision
+  procedure, step 1.
 - **Does every slide earn its canvas?** A title + one short sentence with
   nothing else is not a slide — fold it into a neighbor under one shared
   idea. See deck-design-brain.md's decision procedure, step 1.
