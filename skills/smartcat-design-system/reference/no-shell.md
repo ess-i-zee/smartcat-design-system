@@ -69,8 +69,8 @@ https://raw.githubusercontent.com/ess-i-zee/smartcat-design-system/main/referenc
 count, size, and a few example filenames — read that first so you fetch one
 named file rather than guessing. There's no directory listing over plain HTTP,
 so a path you haven't confirmed in that table is a guess, not a lookup.
-`references/mockups/` isn't in that table — leave it to `smartcat-mockup`,
-which already builds its own raw URLs for that tree.
+`skills/smartcat-mockup/mockups/` isn't in that table — leave it to
+`smartcat-mockup`, which already builds its own raw URLs for that tree.
 
 ## Report back
 

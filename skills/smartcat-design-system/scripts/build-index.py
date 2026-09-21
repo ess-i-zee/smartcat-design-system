@@ -157,18 +157,17 @@ def describe_references() -> list[dict]:
     or listing any binary content — just counts, size, and filenames, so
     INDEX.md can point at a path without anything having to be fetched first.
 
-    mockups/ is deliberately excluded: it already has its own dedicated
-    listing and fetch flow inside the smartcat-mockup skill (folder-per-
-    question, direct raw-URL construction), so indexing it again here would
-    just be a second, competing way to find the same tree.
+    mockups/ lives at skills/smartcat-mockup/mockups/, not under references/,
+    so it is out of scope here automatically. It has its own dedicated listing
+    and fetch flow inside the smartcat-mockup skill (folder-per-question,
+    direct raw-URL construction) — see the note this function's caller
+    appends below.
     """
     refs_dir = ROOT / "references"
     if not refs_dir.is_dir():
         return []
     rows = []
     for top in sorted(p for p in refs_dir.iterdir() if p.is_dir()):
-        if top.name == "mockups":
-            continue
         # A folder can hold files directly (one-pagers, documents,
         # illustration), one level of named subfolders (decks/light,
         # decks/dark), or both (decks also has a couple of loose contact-slide
@@ -245,8 +244,8 @@ def main() -> None:
     add("")
     add("1. This file.")
     add("2. **The shared rules — every time, not just the first time.** Icon usage, the "
-        "logo, page-assembly principles, text casing, punctuation, section-background "
-        "rules, CSS conventions:")
+        "logo, the promo-UI-mockups asset folder, page-assembly principles, text casing, "
+        "punctuation, section-background rules, CSS conventions:")
     add("   ```bash")
     add("   sed -n '/^## Icons/,/^## Component file structure/p' \"$DS_ROOT/CLAUDE.md\" | sed '$d'")
     add("   ```")
@@ -254,7 +253,9 @@ def main() -> None:
         "format's own section. A build has shipped an eyebrow label and a decorative "
         "gradient blob because this step was skipped in favor of jumping straight to "
         "step 3. Skipping this step is the single most common way this system's rules "
-        "get violated.")
+        "get violated. It is also where 'Promo UI mockups' lives — the real product "
+        "screenshots in `images/promo-ui-mockups/` a build should reach for instead of "
+        "inventing or omitting a visual for one of the AI coworker products.")
     add("3. The rules for the ONE output format in play (see the table below) — not all five.")
     add("4. `tokens/` only when you need a specific token value; the format rules name the ones that matter.")
     add("5. The 3–5 component files the task actually calls for.")
@@ -352,9 +353,10 @@ def main() -> None:
         for r in ref_rows:
             add(f"| `{r['path']}` | {r['count']} | {r['mb']:.1f}MB | {r['sample']} |")
         add("")
-    add("`references/mockups/` is deliberately left out of this table — "
-        "`smartcat-mockup` already lists and fetches it directly, one folder level "
-        "per question. Use that skill for mockups rather than pulling this path.")
+    add("`skills/smartcat-mockup/mockups/` is deliberately left out of this "
+        "table too — `smartcat-mockup` already lists and fetches it directly, "
+        "one folder level per question. Use that skill for mockups rather "
+        "than pulling this path.")
     add("")
 
     (ROOT / "INDEX.md").write_text("\n".join(out) + "\n", encoding="utf-8")

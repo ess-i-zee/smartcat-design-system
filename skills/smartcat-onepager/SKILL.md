@@ -21,11 +21,13 @@ read as a document, not presented.
 Use the **smartcat-design-system** skill first. Then read, in this order:
 
 - `INDEX.md` — the component manifest
-- **the shared rules** — icons, logo, page assembly, text casing, punctuation,
-  section-background rules, CSS conventions. **Read this every time; it is not
-  optional.** The eyebrow-text ban and the gradient-blob ban both live here, not
-  in the "One-pagers" section below — skipping straight to the format section
-  misses them.
+- **the shared rules** — icons, logo, the promo-UI-mockups asset folder, page
+  assembly, text casing, punctuation, section-background rules, CSS
+  conventions. **Read this every time; it is not optional.** The eyebrow-text
+  ban and the gradient-blob ban both live here, not in the "One-pagers"
+  section below — skipping straight to the format section misses them. So
+  does "Promo UI mockups" — where to find a real product screenshot instead
+  of leaving `.op-media` on its generic placeholder (see the bullet below).
 - `CLAUDE.md` → the "One-pagers" section
 - `docs/onepagers-design-brain.md` — the section catalog and archetypes
 
@@ -34,8 +36,8 @@ sed -n '/^## Icons/,/^## Component file structure/p' "$DS_ROOT/CLAUDE.md" | sed 
 sed -n '/^## One-pagers/,/^## Documents/p' "$DS_ROOT/CLAUDE.md"
 ```
 
-Two of those shared rules are easy to reintroduce by accident when filling a
-band with a category tag or a showcase panel:
+Three of those shared rules are easy to reintroduce by accident, or to skip,
+when filling a band with a category tag or a showcase panel:
 
 - **No eyebrow text** — no small, bold, all-caps, wide-tracked label above or
   beside a heading (e.g. a "best for X" tag over `.op-hero__headline`). Use a
@@ -43,6 +45,13 @@ band with a category tag or a showcase panel:
 - **No gradient blobs, orbs, or glows** — no soft blurred circle, especially
   bleeding off a corner. `.op-band[data-layer="brand-tint"]` and the sanctioned
   gradients are flat washes with a sharp edge, never a glow.
+- **Reserve first, match second — never skip the placeholder.** Every
+  `.op-media` slot (`.op-hero__media`, an `.op-steps` row, any other one)
+  gets built with `placeholder-screenshot*.png` while you draft the page,
+  the same as always, even when you already expect a real match — do not
+  look up `images/promo-ui-mockups/` yet and do not skip adding the slot
+  because you plan to fill it immediately. The lookup and swap happen
+  afterward, as their own pass, once the whole page is drafted — see Step 6.
 
 ## Step 2 — pick the archetype, then plan the bands
 
@@ -118,6 +127,19 @@ Comment each band so the file stays navigable.
 Section headings inside a band are composed from type-style classes plus the
 colour utility — `<h2 class="text-h1 op-heading">Title</h2>` — not a heading
 component.
+
+**Second pass — fill matched placeholders, before moving to verify.** Once the
+whole page is drafted, go through every `placeholder-screenshot*.png`
+reference left in it. For each one, if the one-pager is about one of the four
+`images/promo-ui-mockups/` products (AI chief of staff, content translator
+coworker, reviewer coworker, SCORM studio — see CLAUDE.md "Promo UI mockups"
+for the folder layout and the `<description> -- <tag> - <tag>` filename
+convention), search those filenames for the best match to what that hero or
+step is actually about, and replace the `src` with the real file — relative to
+the output file the same way the logo path is
+(`../../../images/promo-ui-mockups/<folder>/<file>`). Leave the placeholder
+exactly as it is on any slot nothing genuinely matches; don't force a weak
+match just to clear them all.
 
 ## Step 7 — verify
 

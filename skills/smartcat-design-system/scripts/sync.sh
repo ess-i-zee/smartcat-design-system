@@ -17,14 +17,22 @@
 # --references <path-under-references/> additionally makes sure that one
 # folder or file under references/ is on disk, fetching it on demand rather
 # than as part of every sync — see "Reference examples" in SKILL.md for why.
+# (mockups/ lives at skills/smartcat-mockup/mockups/ and is not handled by
+# this script at all — smartcat-mockup fetches it directly; see that skill's
+# SKILL.md.)
 
 set -uo pipefail
 
 REPO_URL="https://github.com/ess-i-zee/smartcat-design-system.git"
 REPO_SLUG="ess-i-zee/smartcat-design-system"
-# images/ is a couple SVGs (the logo) — cheap enough to always have on hand.
-# references/ is NOT here: it's ~120MB of example screenshots and PDFs, fetched
-# on demand instead via --references (see below).
+# images/ is the logo SVGs plus images/promo-ui-mockups/ (~6.3MB of real,
+# ready-to-embed product screenshots — see CLAUDE.md "Promo UI mockups") —
+# still cheap enough to always have on hand. references/ is NOT here: it's
+# ~55MB of example screenshots and PDFs, fetched on demand instead via
+# --references (see below). skills/smartcat-mockup/mockups/ (~68MB) is NOT
+# here either and has no on-demand flag in this script at all — smartcat-mockup
+# fetches it independently via raw.githubusercontent.com URLs built from its
+# own listing, so it never needs a local checkout.
 SPARSE_DIRS="tokens base docs components images"
 CACHE_DEFAULT="${XDG_CACHE_HOME:-$HOME/.cache}/smartcat-design-system"
 CACHE="${SMARTCAT_DS_CACHE:-$CACHE_DEFAULT}"
@@ -114,11 +122,11 @@ if [ -z "$ROOT" ]; then
 fi
 
 # ── optional: pull one reference example on demand ─────────────────────────
-# references/ is ~120MB total (deck screenshots, mockup scenes, one-pager and
-# document PDFs) — far too much to add to SPARSE_DIRS above, so it is fetched
-# one folder (or file) at a time, only when a build actually wants to look at
-# a finished example. A blobless sparse clone makes this cheap: `sparse-checkout
-# add` fetches just the blobs under the new path, not the rest of the tree.
+# references/ is ~55MB total (deck screenshots, one-pager and document PDFs) —
+# far too much to add to SPARSE_DIRS above, so it is fetched one folder (or
+# file) at a time, only when a build actually wants to look at a finished
+# example. A blobless sparse clone makes this cheap: `sparse-checkout add`
+# fetches just the blobs under the new path, not the rest of the tree.
 REF_STATUS=""
 if [ -n "$REF_PATH" ]; then
   rel="references/$REF_PATH"

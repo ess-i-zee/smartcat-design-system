@@ -56,8 +56,10 @@ cached copy. Keep working, but say so when you report back.
 
 This sync covers rules only — `tokens/`, `base/`, `docs/`, `components/`, plus
 `images/` for the logo. It deliberately does **not** include `references/`
-(finished example screenshots and PDFs, ~120MB) — that is a separate, on-demand
-pull, see Step 5.
+(finished example screenshots and PDFs, ~55MB) — that is a separate, on-demand
+pull, see Step 5. It also never touches `skills/smartcat-mockup/mockups/`
+(~68MB) at all — that tree lives inside the `smartcat-mockup` skill's own
+folder and is handled entirely by that skill, independently of this script.
 
 ## Step 2 — read the index, not the system
 
@@ -75,13 +77,16 @@ all of `tokens/`, not all of `CLAUDE.md`.
 ## Step 3 — read the shared rules, THEN the ONE format in play
 
 **Two reads, every time — not one.** `CLAUDE.md` has a shared prelude ("Icons"
-through "CSS conventions": icon usage, the logo, page-assembly principles, text
-casing, punctuation, section-background rules, CSS conventions) that every format
-section explicitly depends on — each format section opens by saying "anything not
-overridden here follows the general rules above." Reading only your format's
-section skips the sentence that bans eyebrow text, the dash and quote rules, and
-the ban on decorative gradient blobs — all real rules that a build has shipped
-without, because this step was skipped. Read both, always:
+through "CSS conventions": icon usage, the logo, the promo-UI-mockups asset
+folder, page-assembly principles, text casing, punctuation, section-background
+rules, CSS conventions) that every format section explicitly depends on — each
+format section opens by saying "anything not overridden here follows the
+general rules above." Reading only your format's section skips the sentence
+that bans eyebrow text, the dash and quote rules, the ban on decorative
+gradient blobs, and the "Promo UI mockups" section that tells you where to find
+a real product screenshot instead of inventing or omitting one — all real rules
+that a build has shipped without, because this step was skipped. Read both,
+always:
 
 ```bash
 # 1. Shared rules — read this one EVERY time, regardless of format
@@ -135,7 +140,7 @@ grep -n "background-static-brand" "$DS_ROOT/tokens/colors.css"
 
 `references/` holds finished output, not rules: screenshots of shipped decks,
 PDFs of shipped one-pagers and documents, and a keyed illustration reference.
-Step 1 never fetches it — at ~120MB it would turn every sync into a slow one,
+Step 1 never fetches it — at ~55MB it would turn every sync into a slow one,
 for builds that mostly never look at it. Pull one folder or file on demand
 instead, only when seeing a finished example is actually useful (the user asks
 what "done" looks like, or you want to sanity-check a layout against a real
@@ -160,7 +165,7 @@ anything first:
 | One-pager | `one-pagers` | 8 PDFs of shipped one-pagers and sales cheat sheets |
 | Document | `documents` | 3 PDFs of shipped multi-page documents |
 | Illustration | `illustration` | one PNG showing the house illustration style |
-| Mockup | — | don't pull this here — `smartcat-mockup` already lists and fetches `references/mockups/` itself, one folder level per question |
+| Mockup | — | don't pull this here — `smartcat-mockup` already lists and fetches `skills/smartcat-mockup/mockups/` itself, one folder level per question |
 
 If someone asks to see an example before anything's been built, this is the
 answer: pull the matching folder and show it, rather than describing the rules

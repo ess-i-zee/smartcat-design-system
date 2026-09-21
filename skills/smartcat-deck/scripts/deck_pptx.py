@@ -949,9 +949,16 @@ def add_placeholder(slide, left: float, top: float, width: float, height: float,
 
 def draw_image_slot(slide, left: float, top: float, width: float, height: float,
                      caption: str, theme: str = "light"):
-    """A RESERVED slot for a product-UI screenshot that a person inserts by
-    hand later. Draws the exact rectangle the image must fill, and labels it
-    with what belongs there plus the size and aspect ratio to export at.
+    """A RESERVED slot for a product-UI screenshot. Draws the exact rectangle
+    the image must fill, and labels it with what belongs there plus the size
+    and aspect ratio to export at.
+
+    **Always call this first, for every slide about a product surface — even
+    when you already expect a match in `images/promo-ui-mockups/`.** Reserve
+    now, look up and fill later with `fill_image_slot` (see below). Never
+    skip this call because a real file seems likely; the two steps are
+    required in that order (CLAUDE.md "Promo UI mockups") so a slide never
+    silently loses its slot just because the lookup pass gets missed.
 
     This is not `add_placeholder`. That one covers an asset we meant to have
     and didn't (a customer logo, a partner tile) and is a build-time gap.
@@ -964,6 +971,7 @@ def draw_image_slot(slide, left: float, top: float, width: float, height: float,
     says "screenshot here" gets filled with whatever crop is to hand, and
     the layout breaks when it lands.
     """
+    start_idx = len(slide.shapes)
     slot = _rounded_rect(slide, left, top, width, height, panel_fill(theme), radius_ratio=0.04)
     slot.line.fill.solid()
     slot.line.color.rgb = brand_content(theme)
@@ -988,8 +996,77 @@ def draw_image_slot(slide, left: float, top: float, width: float, height: float,
     p2.alignment = PP_ALIGN.CENTER
     _set_run(p2.add_run(), f"{round(width)} \u00d7 {round(height)} px \u00b7 {ratio}",
              SIZE_CAPTION, False, C.LIGHT_SECONDARY if theme == "light" else C.DARK_SECONDARY)
-    slide._smartcat_image_slots = getattr(slide, "_smartcat_image_slots", []) + [caption]
+    shapes = list(slide.shapes)[start_idx:]
+    slide._smartcat_image_slots = getattr(slide, "_smartcat_image_slots", []) + [
+        {"caption": caption, "filled": False, "left": left, "top": top,
+         "width": width, "height": height, "theme": theme, "shapes": shapes}
+    ]
     return slot
+
+
+def draw_product_image(slide, image_path: str, left: float, top: float, width: float,
+                        height: float, caption: str | None = None):
+    """Embed a REAL product screenshot into the given box. This is the
+    low-level primitive `fill_image_slot` uses \u2014 call it directly only when
+    there is no reserved slot to replace (the normal path is: reserve with
+    `draw_image_slot` first, then call `fill_image_slot`, not this).
+
+    The usual source is `images/promo-ui-mockups/`, matched by filename to
+    what the slide is about \u2014 see CLAUDE.md "Promo UI mockups" for the folder
+    layout and the `<description> -- <tag> - <tag>` naming convention to
+    match against.
+
+    Contain-fit, never stretched or cropped: placed at native size first to
+    read the file's real aspect ratio (no Pillow dependency needed \u2014 pptx's
+    own picture object exposes it), then scaled down to the largest size that
+    fits inside (width, height) and centered in that box.
+
+    Still recorded on `_smartcat_image_slots` (with `filled=True`) so
+    `check_missing_image_slots` treats the slide as handled and
+    `image_slots()` can tell a filled slide from one still holding an empty
+    reserved slot in the handoff report."""
+    pic = slide.shapes.add_picture(image_path, px(left), px(top))
+    native_w, native_h = pic.width, pic.height
+    scale = min(px(width) / native_w, px(height) / native_h)
+    new_w, new_h = round(native_w * scale), round(native_h * scale)
+    pic.width, pic.height = new_w, new_h
+    pic.left = px(left) + round((px(width) - new_w) / 2)
+    pic.top = px(top) + round((px(height) - new_h) / 2)
+    label = caption or os.path.basename(image_path)
+    slide._smartcat_image_slots = getattr(slide, "_smartcat_image_slots", []) + [
+        {"caption": label, "filled": True, "source": image_path}
+    ]
+    return pic
+
+
+def fill_image_slot(slide, slot_index: int, image_path: str):
+    """The SECOND PASS of the required reserve-then-fill sequence (CLAUDE.md
+    "Promo UI mockups"): once a real file has been matched in
+    `images/promo-ui-mockups/` for a slot `draw_image_slot` already reserved,
+    call this to swap the dashed placeholder for the real picture in the
+    exact same box. `slot_index` is that slot's position within
+    `slide._smartcat_image_slots` — get it from `image_slots(prs)`'s
+    `slot_index` field, matched by that entry's `slide` number.
+
+    Removes the placeholder's rectangle, icon and caption text boxes, then
+    draws the real image via `draw_product_image` at the slot's stored
+    geometry, and replaces the slot's tracking entry in place — slide order
+    and any other slot's index on the same slide are unaffected. Raises if
+    the slot is already filled; check `entry["filled"]` first when iterating
+    `image_slots(prs)`."""
+    slot = slide._smartcat_image_slots[slot_index]
+    if slot.get("filled"):
+        raise ValueError(f"slot {slot_index} on this slide is already filled")
+    for shp in slot["shapes"]:
+        shp._element.getparent().remove(shp._element)
+    pic = draw_product_image(slide, image_path, slot["left"], slot["top"],
+                              slot["width"], slot["height"], caption=slot["caption"])
+    # draw_product_image reassigns slide._smartcat_image_slots to a NEW list
+    # (it appends via `+`, not in place) — re-fetch it before popping/indexing,
+    # rather than reusing a `slots` reference captured before that call.
+    new_entry = slide._smartcat_image_slots.pop()
+    slide._smartcat_image_slots[slot_index] = new_entry
+    return pic
 
 
 def _aspect_label(width: float, height: float) -> str:
@@ -1008,14 +1085,23 @@ def _aspect_label(width: float, height: float) -> str:
 
 
 def image_slots(prs) -> list[dict]:
-    """Every reserved slot in the deck, in slide order. A deck must never be
-    handed over without reporting these — a dashed purple box reaching a
+    """Every reserved or filled image slot in the deck, in slide order —
+    `{"slide", "slot_index", "caption", "filled", "source"}` (`source` only
+    present when filled; unfilled entries also carry `left/top/width/height`,
+    the box `fill_image_slot` will need). A deck must never be handed over
+    without reporting the UNFILLED ones — a dashed purple box reaching a
     customer is worse than a slide with no image at all. Use it to produce
-    the shot list on handoff."""
+    the shot list on handoff, and — before that — to drive the second pass:
+    for each unfilled entry, check `images/promo-ui-mockups/` for a match and
+    call `fill_image_slot(prs.slides[entry["slide"] - 1], entry["slot_index"],
+    matched_path)` when one exists (see CLAUDE.md "Promo UI mockups").
+    `slot_index` is the slide-relative position to pass to `fill_image_slot`;
+    the internal `shapes` list is omitted here since it isn't serializable."""
     found = []
     for i, slide in enumerate(prs.slides, start=1):
-        for caption in getattr(slide, "_smartcat_image_slots", []):
-            found.append({"slide": i, "caption": caption})
+        for idx, slot in enumerate(getattr(slide, "_smartcat_image_slots", [])):
+            public = {k: v for k, v in slot.items() if k != "shapes"}
+            found.append({"slide": i, "slot_index": idx, **public})
     return found
 
 

@@ -117,6 +117,39 @@ Pick the size by role:
 
 ---
 
+## Promo UI mockups
+
+`images/promo-ui-mockups/` holds real, already-finished promotional screenshots of the newer AI coworker products — ready to drop directly into a build, not raw material that needs compositing. This is different from `skills/smartcat-mockup/mockups/`: that folder holds scene backgrounds and bare UI screenshots for the `smartcat-mockup` skill's Krea compositing pipeline; this one holds finished, on-brand marketing visuals a deck, one-pager, or document can embed as-is.
+
+**Folder structure — one numbered subfolder per product:**
+
+```
+images/promo-ui-mockups/
+├── 01-ai-chief-of-staff/
+├── 02-content-translato-coworker/
+├── 03-reviewer-coworker/
+└── 04-scorm-studio/
+```
+
+Treat this as a live catalog, not a fixed list — a folder added later for another product follows the same `NN-product-name/` convention and the same file-naming rule below.
+
+**Every file is named `<description> -- <tag> - <tag> - <tag>.<ext>`** — a plain-English description of what the image actually shows, then a literal ` -- ` (space, two hyphens, space), then a run of ` - `-separated tags (product area, feature, UI surface). For example:
+
+```
+configuring your chief of staff through chat -- chief of staff - settings - chat - personalization.jpg
+```
+
+parses to description `configuring your chief of staff through chat` and tags `chief of staff`, `settings`, `chat`, `personalization`.
+
+**Placeholders are encouraged — reserve first, match second, always in that order.** Every format in this system has its own way of reserving room for a screenshot that isn't in hand yet (a dashed image slot in a deck, a `placeholder-screenshot*.png` in a one-pager or document). Keep doing that every time, for every slide, band, or step about a product surface — the absence of a real matching file in `images/promo-ui-mockups/` is never a reason to skip the reservation, and the presence of an expected match is never a reason to skip it either. The two steps are always separate and always in this order:
+
+1. **Reserve.** Build the slide, band, or step with its placeholder, exactly as if `images/promo-ui-mockups/` didn't exist.
+2. **Match and replace.** Only once the whole build is drafted, go back through every placeholder as its own pass. For each one, look through the filenames in `images/promo-ui-mockups/` (the description AND the tags, not just the folder name) for the best keyword match to what that placeholder is actually standing in for, and use that file directly if one exists. Split each filename on the first ` -- ` to get the description, then split the remainder on ` - ` to get individual tags; match case-insensitively; a stray typo in a tag (missing space, plural mismatch) is not a reason to discard an otherwise-clear match. If nothing in the folder genuinely matches, leave the placeholder exactly as it is rather than forcing a weak match or inventing a visual — the same rule as any other asset lookup in this system.
+
+Each format skill documents its own mechanics for both steps (see that skill's own instructions).
+
+---
+
 ## Page assembly rules
 
 1. **Reuse first.** When building or modifying a page, always compose it from existing page-level components. Do not create new HTML or CSS for a page row if a matching page-level component already exists.

@@ -23,10 +23,11 @@ fit a page, never left to grow it.
 Use the **smartcat-design-system** skill first. Then read, in this order:
 
 - `INDEX.md` — the component manifest
-- **the shared rules** — icons, logo, page assembly, text casing, punctuation,
-  section-background rules, CSS conventions. **Read this every time; it is not
-  optional.** The eyebrow-text ban and the gradient-blob ban both live here, not
-  in the "Documents" section below.
+- **the shared rules** — icons, logo, the promo-UI-mockups asset folder, page
+  assembly, text casing, punctuation, section-background rules, CSS
+  conventions. **Read this every time; it is not optional.** The eyebrow-text
+  ban and the gradient-blob ban both live here, not in the "Documents" section
+  below.
 - `CLAUDE.md` → the "Documents" section
 - `docs/document-design-brain.md` — the content-role catalog
 
@@ -35,8 +36,8 @@ sed -n '/^## Icons/,/^## Component file structure/p' "$DS_ROOT/CLAUDE.md" | sed 
 sed -n '/^## Documents/,/^## Social assets/p' "$DS_ROOT/CLAUDE.md"
 ```
 
-Two of those shared rules are worth restating, since a document cover is the one
-page in this format built from scratch rather than from source content:
+Three of those shared rules are worth restating, since a document cover is the
+one page in this format built from scratch rather than from source content:
 
 - **No eyebrow text** — no small, bold, all-caps, wide-tracked label above a
   heading. `.doc-hero__tag` and `.doc-header__tag` are pills with a border, not
@@ -44,6 +45,22 @@ page in this format built from scratch rather than from source content:
 - **No gradient blobs, orbs, or glows** — no soft blurred circle anywhere on the
   cover or a chapter opener. Every gradient in this system is a flat wash with a
   sharp edge.
+- **Reserve first, match second — never skip the placeholder.** When a
+  document is authored fresh (not rebuilding an existing source PDF/doc) and a
+  step or section needs a screenshot with no source image to embed, always put
+  a placeholder in `.doc-screenshot` first (a generic `placeholder-screenshot.png`
+  with a caption naming what belongs there — same convention as the one-pager
+  tier), the same way every time, even when you already expect a real match.
+  The lookup happens afterward, as its own pass once the whole document is
+  drafted (see step 4) — search `images/promo-ui-mockups/` (AI chief of staff,
+  content translator coworker, reviewer coworker, SCORM studio — see CLAUDE.md
+  "Promo UI mockups" for the folder layout and the
+  `<description> -- <tag> - <tag>` filename convention) for the best match and
+  replace the placeholder, or leave it exactly as is when nothing genuinely
+  matches. This does not override step 2's content-fidelity rule for a
+  document that IS rebuilding a specific source — that source's own
+  screenshots still win; this folder only fills a gap where there is no
+  source screenshot at all.
 
 ## Step 2 — content fidelity comes before design
 
@@ -95,6 +112,17 @@ it in `.doc-screenshot__container`. Never redraw, re-annotate or crop a product
 screenshot; keep any callout arrows the source already has. Preserve the image's
 own proportions — `width: auto`, never stretched up to the 960px cap. An image
 under 40px on both sides displays at 2x.
+
+**No source screenshot to embed** (a freshly authored document, not a
+rebuild) — put a placeholder in `.doc-screenshot` first (`placeholder-
+screenshot.png`, with `.doc-screenshot__caption` naming what belongs there),
+the same as every other missing screenshot, even for a step you already
+suspect `images/promo-ui-mockups/` covers. Once the whole document is
+drafted, go back through every such placeholder as its own pass: if the step
+covers one of the four products there, search its filenames for the best
+match and replace the placeholder with the real file — same `.doc-screenshot`
+framing, same proportion rules. Leave a placeholder exactly as it is when
+nothing genuinely matches.
 
 ## Step 5 — pagination is authored by hand
 

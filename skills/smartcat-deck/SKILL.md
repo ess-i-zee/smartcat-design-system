@@ -79,11 +79,14 @@ Use the **smartcat-design-system** skill first. It syncs the repo and gives
 you `DS_ROOT`. Then read, in this order:
 
 - `INDEX.md` — the component manifest
-- **the shared rules** — icons, logo, page assembly, text casing, punctuation,
-  section-background rules, CSS conventions. **Read this every time; it is
-  not optional.** It's where the eyebrow-text ban and the gradient-blob ban
-  live — a deck has shipped with both, in a build that skipped straight to
-  the format section below and never saw them.
+- **the shared rules** — icons, logo, the promo-UI-mockups asset folder, page
+  assembly, text casing, punctuation, section-background rules, CSS
+  conventions. **Read this every time; it is not optional.** It's where the
+  eyebrow-text ban and the gradient-blob ban live — a deck has shipped with
+  both, in a build that skipped straight to the format section below and
+  never saw them. It's also where "Promo UI mockups" lives — check it before
+  reserving an empty image slot for one of the four covered products (see the
+  bullet below).
 - `CLAUDE.md` → the "Presentation decks" section
 - `docs/deck-design-brain.md` — how to decide what each slide should be
   (still the right reasoning layer — it governs *what* a slide is, which is
@@ -114,6 +117,16 @@ makes them easy to reinvent by accident:
   from atomics; that is the social tier's rule. `add_placeholder` is a
   different thing: an asset we meant to have and is missing, not a
   prospective slot.
+- **Reserve first, match second — never skip the reservation.** `draw_image_slot`
+  is always the first call for a slide about a product surface, even when you
+  already expect a match in `images/promo-ui-mockups/` (AI chief of staff,
+  content translator coworker, reviewer coworker, SCORM studio — see CLAUDE.md
+  "Promo UI mockups" for the folder layout and the
+  `<description> -- <tag> - <tag>` filename convention). The lookup and swap
+  happen afterward, as their own pass in Step 5, via `fill_image_slot` — that
+  ordering is required so a slide never loses its slot just because the
+  lookup pass gets missed or the folder turns out not to have a match after
+  all.
 - **No drop shadows.** Not on cards, panels, icon tiles, arrows or tables.
   PowerPoint adds them by default to anything that does not opt out, so
   call `dp.strip_shadows(prs)` before saving as a final sweep.
@@ -229,6 +242,13 @@ prs.save("<deck-name>.pptx")
 `scripts/build_example.py` is a full worked example exercising every core
 role — copy its structure, not its content.
 
+**Reserving an image slot:** call `dp.draw_image_slot(slide, left, top, width,
+height, caption)` for every slide about a product surface, every time — this
+is step one of the two-step sequence from Step 1's bullet. Do not look up
+`images/promo-ui-mockups/` yet and do not call `draw_product_image` here; the
+lookup and fill happen in their own pass, in Step 5, after every slide is
+built and every slot exists.
+
 **Every value, color, and size in `deck_pptx.py` already comes from the
 design tokens** (resolved snapshots from `tokens/*.css`, documented at the
 top of the module) — this is what keeps a generated deck on-brand without
@@ -277,7 +297,27 @@ split ratio that reads wrong, none of which `check_overflow` can see. Only
 when neither tool is available does verification fall back to programmatic-
 only, with a real spot-check once the deck lands in Slides (step 6).
 
-**1. Check for shape-bounds overflow:**
+**1. Fill matched image slots — the second half of the reserve-then-fill
+sequence, and do it before the checks below:**
+
+```python
+for entry in dp.image_slots(prs):
+    if entry["filled"]:
+        continue
+    match = ...  # your own lookup: best filename match in images/promo-ui-mockups/
+                 # for entry["caption"] (see CLAUDE.md "Promo UI mockups")
+    if match:
+        slide = prs.slides[entry["slide"] - 1]
+        dp.fill_image_slot(slide, entry["slot_index"], match)
+```
+
+Every slot was reserved with `draw_image_slot` back in Step 4, regardless of
+whether a match was expected — this is where the lookup actually happens, on
+the full, final slot list. Leave a slot exactly as `draw_image_slot` drew it
+when nothing in the folder genuinely matches; don't force a weak match just
+to clear the list.
+
+**2. Check for shape-bounds overflow:**
 
 ```python
 problems = dp.check_overflow(prs)
@@ -288,7 +328,7 @@ slide edges — it does **not** catch text overflowing its own text box
 (pptx can autosize or clip that silently); that is exactly why stat/label
 length matters more here than in the HTML skills.
 
-**2. Check for a missed image slot — required, not optional:**
+**3. Check for a missed image slot — required, not optional:**
 
 ```python
 missed = dp.check_missing_image_slots(prs)
@@ -307,7 +347,7 @@ must be resolved one way or the other — add the slot, or decide out loud
 why this one doesn't need it. Silently clearing the list without deciding
 either way is the same failure this check exists to catch.
 
-**3. Sanity-check the actual content**, not just the geometry — re-open the
+**4. Sanity-check the actual content**, not just the geometry — re-open the
 saved file and print what's really in it, since a wrong keyword argument
 fails silently rather than raising:
 
@@ -333,13 +373,19 @@ as `�` under the default console encoding, while the saved `.pptx` had the
 right characters the whole time. Don't "fix" a mis-rendered console readout
 by touching the file.
 
-**Report the reserved image slots — don't avoid creating them.**
-`dp.image_slots(prs)` returns every slot with its slide number, caption and
-required size. Hand that over as a shot list and say plainly that the deck
-is not finished until they are filled. The obligation is disclosure, not
-avoidance: reserving a slot for a slide about a product feature, with no
-screenshot yet in hand, is exactly what this mechanism is for. Shipping a
-slot without mentioning it is the failure — not adding the slot.
+**Report the image slots — filled and unfilled alike — don't avoid creating
+them.** `dp.image_slots(prs)` returns every slot with its slide number,
+caption, and a `filled` flag (`True` + `source` when `draw_product_image`
+placed a real file from `images/promo-ui-mockups/`, `False` when it's still a
+`draw_image_slot` reservation with the required size). Hand over the
+`filled=False` ones as a shot list and say plainly that the deck is not
+finished until they are filled; mention the `filled=True` ones too, naming
+which real file went where, so the reader knows a picture already there is
+deliberate and not a placeholder that slipped through. The obligation is
+disclosure, not avoidance: reserving a slot for a slide about a product
+feature, with no screenshot yet in hand, is exactly what this mechanism is
+for. Shipping a slot without mentioning it is the failure — not adding the
+slot.
 
 ## Step 6 — upload and convert to Google Slides
 
