@@ -443,6 +443,8 @@ These numbers come from measuring the actual Smartcat Google Slides template (ex
 | Big stat figures (a numbers-style slide) | **Display** scale | `--size-display` (desktop, 64px) |
 | Heading → content gap | **80px**, applied uniformly regardless of slide type | Components-spacing size-6 (desktop value) |
 
+**How a slide divides** (a composition rule, not a measured template value). A slide resolves into **at most 3 column bands × 4 row bands** — more than that is two slides. Column divisions come from this set, as `data-grid-span` values: full `12` · `6+6` · `7+5` · `8+4` · `4+4+4` · `9+3`. Every division is a rectangular band on the 12-column grid, inside the 48px padding — there is no diagonal split, and nothing bleeds off an edge.
+
 Every slide is built inside a `.deck-slide` wrapper (fixed 1280×720px box, applies the page padding above). What goes inside it is composed from tokens and atomic components — see "Composing a slide" below.
 
 ### Composing a slide — compose freely from tokens and atomic components

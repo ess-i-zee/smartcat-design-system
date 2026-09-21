@@ -6,8 +6,9 @@ description: >-
   presentation, a pitch, a QBR or a customer-facing walkthrough: "make a
   deck", "turn this into slides", "build a presentation for X", "put this in
   Smartcat style as a deck". Covers cover, section divider, heading+
-  paragraph, bullets, N-cards, stats, quote, closing, an asymmetric two-panel
-  split, a data table, and a straight-line flow chain — all built as native,
+  paragraph, bullets, N-cards, stats, quote, closing, a back cover, an
+  asymmetric two-panel split, a data table, and a straight-line flow chain
+  — all built as native,
   editable shapes. Anything outside that set (charts, gantt, timelines with
   alternating milestones, organic/branching flow diagrams, comparison
   matrices with chevrons) is not yet portable to Slides and should be
@@ -37,8 +38,9 @@ a **table** (`add_table` — native, editable cells, with an optional
 highlighted key column and/or bold total row), and a **flow chain**
 (`add_flow_chain` — icon-bearing cards connected by arrows by default
 (`style="cards"`), or a compact pill-node chain (`style="pills"`) paired
-with a supporting `detail_cards` row underneath). All compose from the same
-tokens as everything else — no new colors, sizes, or canvas geometry were
+with a supporting `detail_cards` row underneath), and a **back cover**
+(`add_back_cover` — the cover's bookend, which every deck ends with).
+All compose from the same tokens as everything else — no new colors, sizes, or canvas geometry were
 introduced to build them.
 
 **Icons render as native pptx vector shapes, not raster pictures.**
@@ -92,11 +94,25 @@ sed -n '/^## Icons/,/^## Component file structure/p' "$DS_ROOT/CLAUDE.md" | sed 
 sed -n '/^## Presentation decks/,/^## One-pagers/p' "$DS_ROOT/CLAUDE.md"
 ```
 
-Two rules worth restating here because a deck's freedom to invent layouts
+Three rules worth restating here because a deck's freedom to invent layouts
 makes them easy to reinvent by accident:
 
-- **No eyebrow text.** No small, bold, all-caps, wide-tracked label above or
-  beside a slide title or a heading inside a panel.
+- **No eyebrow text.** No label line above or beside a slide title or a
+  heading inside a panel — not all-caps, not tracked out, and not a plain
+  sentence-case one in brand purple either. A couple of reference slides
+  carry one; they predate the ban. Do not reproduce it.
+- **No chrome.** No page numbers, running heads, per-slide logos, section
+  rails, tab strips or progress indicators. Every reference slide is bare;
+  the section dividers and the light/dark banding carry the navigation.
+  The only footer in `deck_pptx.py` is the cover's optional metadata line.
+- **Reserve a slot where the slide is about a product surface.** Use
+  `draw_image_slot` (a split `{"kind": "image"}` panel, `add_image_banner`,
+  or `image` on a card) — and only where a specific feature is named, not
+  on every slide. Never redraw product UI from atomics; that is the social
+  tier's rule. `add_placeholder` is a different thing: a missing asset.
+- **No drop shadows.** Not on cards, panels, icon tiles, arrows or tables.
+  PowerPoint adds them by default to anything that does not opt out, so
+  call `dp.strip_shadows(prs)` before saving as a final sweep.
 - **No gradient blobs, orbs, or glows.** No soft-edged blurred circle,
   especially bleeding off a slide corner as a decorative cover object. Every
   brand gradient in `deck_pptx.py` is a flat fill with a sharp edge — see the
@@ -111,10 +127,22 @@ procedure; section C is the role catalog.
 
 Then check the arc:
 
+- **Read or presented?** A sent deck (business case, proposal, leave-behind)
+  carries real paragraphs; a live-presented one runs to ~25 words a slide.
+  Ask if it isn't obvious — it sets the copy density for every slide.
+- **The headline test.** Read the slide titles in order, and nothing else.
+  They have to make the argument on their own. Fix the headlines before
+  building anything — see the deck brain's section D, "Pass 0".
+- **Open on a hook, not the agenda** — a change in the world, a shared
+  frustration, an unexpected number, a question.
 - **Light sandwich.** Content slides light; cover, section dividers and the
   closing slide dark or brand-purple. A deck that is all one treatment reads
   flat.
 - **One idea per slide.** If a slide needs two headlines, it is two slides.
+- **And the reverse: one idea across two slides is one slide.** A stats row
+  and a customer quote are both "what teams got" — merge them into one
+  `add_split` (quote one side, the figures it backs on the other) rather
+  than spending two slides on a single claim.
 - **Does every slide earn its canvas?** A title + one short sentence with
   nothing else is not a slide — fold it into a neighbor under one shared
   idea. See deck-design-brain.md's decision procedure, step 1.
@@ -129,7 +157,10 @@ later.
 Before writing any code, match each line in the slide list to one of
 `deck_pptx.py`'s slide-role functions (`add_cover`, `add_section_divider`,
 `add_heading_paragraph`, `add_bullet_list`, `add_cards`, `add_stats`,
-`add_split`, `add_table`, `add_flow_chain`, `add_quote`, `add_closing`).
+`add_split`, `add_table`, `add_flow_chain`, `add_quote`, `add_closing`,
+`add_back_cover`). **Every deck ends with `add_back_cover`** — the cover's
+bookend (cover gradient, a Display sign-off, the metadata line, the
+wordmark bottom-right). It follows the closing slide, which makes the ask.
 Reach for `add_split`/`add_table`/`add_flow_chain` deliberately, the same way
 you'd reach for `add_cards` — not by default, but not as a last resort
 either. A run of slides that are all "heading + a row of cards" reads as
@@ -194,7 +225,22 @@ Abbreviate before calling it: `$1,200,000` → `$1.2M`, `500,000` → `500K`.
 ## Step 5 — verify
 
 **Check whether this environment can render a `.pptx` to an image before
-assuming it can't** — `which libreoffice soffice` and `which pdftoppm`.
+assuming it can't.** Two paths, in order of fidelity:
+
+**On Windows with PowerPoint installed** (check
+`HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\POWERPNT.EXE`
+or `$env:ProgramFiles\Microsoft Office\root\Office16\POWERPNT.EXE`) — this
+is the highest-fidelity option, since it is the same renderer the deck will
+be viewed in. It exports every slide at native 1280×720 in one call:
+
+```powershell
+$ppt = New-Object -ComObject PowerPoint.Application
+$pres = $ppt.Presentations.Open("<deck>.pptx", -1, 0, 0)   # ReadOnly, not Untitled, no window
+$pres.Export("<outdir>", "PNG", 1280, 720)
+$pres.Close(); $ppt.Quit()
+```
+
+**Otherwise, LibreOffice** — `which libreoffice soffice` and `which pdftoppm`.
 When both are present:
 
 ```bash
@@ -246,6 +292,12 @@ Confirmed empirically this session: a middle dot and an em dash both printed
 as `�` under the default console encoding, while the saved `.pptx` had the
 right characters the whole time. Don't "fix" a mis-rendered console readout
 by touching the file.
+
+**Report the reserved image slots.** `dp.image_slots(prs)` returns every
+slot with its slide number, caption and required size. Hand that over as a
+shot list and say plainly that the deck is not finished until they are
+filled — a dashed purple box reaching a customer is worse than a slide with
+no image at all.
 
 ## Step 6 — upload and convert to Google Slides
 

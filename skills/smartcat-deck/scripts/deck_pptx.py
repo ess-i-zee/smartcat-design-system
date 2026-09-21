@@ -53,6 +53,13 @@ EMU_PER_PX = 914400 / 96  # 9525
 SLIDE_W_PX, SLIDE_H_PX = 1280, 720
 PAGE_PADDING_PX = 48       # --spacing-9, the deck's fixed page padding
 HEADING_GAP_PX = 80        # heading -> content gap, every slide type
+SIZE_H1_PX = 48            # --size-h1 (desktop)
+H1_LINE_PX = 58            # --line-height-h1 (desktop)
+TITLE_CLEARANCE_PX = 24    # minimum air between a title's last line and the content
+                           # below it. The reference slides sit at ~25-35px here;
+                           # HEADING_GAP_PX is measured from the title's ORIGIN, so a
+                           # one-line title lands in that range on its own and only a
+                           # title that wraps needs the content pushed down.
 
 
 def px(n: float) -> Emu:
@@ -67,8 +74,11 @@ def px(n: float) -> Emu:
 class C:
     WHITE = RGBColor(0xFF, 0xFF, 0xFF)
     BRAND = RGBColor(0x73, 0x1E, 0xF2)          # --color-non-semantic-purple-70
+    BRAND_50 = RGBColor(0x8A, 0x59, 0xFC)       # --color-non-semantic-purple-50
     BRAND_TINT = RGBColor(0xF3, 0xF1, 0xFB)     # --color-non-semantic-purple-10 == --background-static-brand-layer-1 (light)
     PINK = RGBColor(0xC3, 0x26, 0xED)           # --color-non-semantic-pink-70 — the cover gradient's bottom-edge stop
+    PINK_40 = RGBColor(0xED, 0xB7, 0xFB)        # --color-non-semantic-pink-40 — cover/back-cover metadata line
+    PURPLE_40 = RGBColor(0xC5, 0xB3, 0xFC)      # --color-non-semantic-purple-40 — cover subtitle
 
     LIGHT_BG = {0: RGBColor(0xFF, 0xFF, 0xFF), 1: RGBColor(0xF4, 0xF5, 0xF8),
                 2: RGBColor(0xF0, 0xF1, 0xF4), 3: RGBColor(0xE5, 0xE5, 0xEA)}
@@ -99,11 +109,22 @@ def bg(theme: str, layer: int) -> RGBColor:
     return (C.DARK_BG if theme == "dark" else C.LIGHT_BG)[layer]
 
 
+def brand_content(theme: str) -> RGBColor:
+    """--content-static-brand: purple-70 in light mode, purple-50 in dark.
+    Any brand-coloured TEXT or figure goes through this — purple-70 on a
+    near-black slide is too dark to read, which is exactly why the token
+    has a dark-mode value. Brand-coloured FILLS (the numbered badge, a pill)
+    keep C.BRAND in both themes, since they carry white on top."""
+    return C.BRAND_50 if theme == "dark" else C.BRAND
+
+
 def panel_fill(theme: str) -> RGBColor:
-    # Light -> solid gray layer-1 panel. Dark -> a step lighter than the
-    # slide bg, standing in for the CSS frosted-alpha panel (pptx has no
-    # true backdrop blur) — see deck-design-brain.md Design DNA -> Surfaces.
-    return C.LIGHT_BG[1] if theme == "light" else RGBColor(0x2B, 0x29, 0x37)
+    # Light -> solid gray layer-1 panel. Dark -> gray-80 (#1F1D2A), one step
+    # off the slide's own gray-90 ground: the flat stand-in for the CSS
+    # frosted-alpha panel, since pptx has no backdrop blur. A lighter step
+    # than this reads as a grey box floating on the slide rather than a
+    # panel sunk into it — see deck-design-brain.md Design DNA -> Surfaces.
+    return C.LIGHT_BG[1] if theme == "light" else C.DARK_BG[1]
 
 
 # ── Type — desktop tier, tokens/typography.css, px->pt at 96dpi (x0.75) ──
@@ -115,6 +136,7 @@ SIZE_DISPLAY = Pt(48)   # 64px
 SIZE_H1 = Pt(36)        # 48px — the deck's slide-title scale
 SIZE_H2 = Pt(24)        # 32px
 SIZE_H3 = Pt(18)        # 24px
+SIZE_H4 = Pt(13.5)      # 18px — card heading on a narrow card
 SIZE_PARAGRAPH = Pt(13.5)  # 18px
 SIZE_CAPTION = Pt(10.5)    # 14px
 
@@ -122,11 +144,19 @@ SIZE_CAPTION = Pt(10.5)    # 14px
 # below (_text_lines / _measure_card_row_height) — kept in sync with the
 # comments on the Pt() constants themselves.
 SIZE_H3_PX = 24
+SIZE_H4_PX = 18
 SIZE_PARAGRAPH_PX = 18
 SIZE_CAPTION_PX = 14
 SIZE_DISPLAY_PX = 64
 
-ANCHOR_SIZE = 40  # every card's icon/number-badge anchor — see deck-design-brain.md Design DNA "Surfaces"
+ANCHOR_SIZE = 40        # numbered-badge anchor
+ICON_ANCHOR_SIZE = 56   # icon anchor — deliberately larger than the numbered badge:
+                        # an icon has to read as a glyph, a numeral only as a digit
+ANCHOR_TEXT_GAP = 24    # anchor -> heading. Applies to BOTH anchor kinds
+SMALL_CARD_W = 260      # at or below this width a card takes the H4 heading (see _card_heading_size)
+BODY_LINE_SPACING = 1.15  # every run of body copy — never pptx's "single"
+STAT_NO_DESC_PAD = 16   # extra bottom padding on a stat card with no description line
+SPLIT_BARE_GAP = 64     # --spacing-11, the gap between a bare text panel and a surfaced one
 
 
 def new_deck() -> Presentation:
@@ -170,6 +200,38 @@ def _textbox(slide, left, top, width, height):
     tf.word_wrap = True
     tf.margin_left = tf.margin_right = tf.margin_top = tf.margin_bottom = 0
     return tb, tf
+
+
+def _body(p):
+    """Every paragraph of body copy goes through this. pptx defaults to
+    "single" line spacing, which sets 18px body copy far too tight for a
+    slide read at a distance; 1.15 is the deck's leading for any flowing
+    text (paragraphs, card copy, captions, bullets, table cells). Headings
+    and display figures keep their own tight default."""
+    p.line_spacing = BODY_LINE_SPACING
+    return p
+
+
+def _no_shadow(shp):
+    """No element in this system carries a drop shadow. PowerPoint applies
+    the theme's default shape effects to anything that does not explicitly
+    opt out — which is how the flow-chain arrows shipped with a shadow
+    nobody asked for. Call this on every shape the module creates."""
+    try:
+        shp.shadow.inherit = False
+    except (AttributeError, NotImplementedError):
+        pass
+    return shp
+
+
+def strip_shadows(prs):
+    """Belt-and-braces sweep: clear inherited effects from every shape on
+    every slide. The per-shape calls above are the real fix; this catches
+    anything a future builder forgets. Safe to call more than once."""
+    for slide in prs.slides:
+        for shp in slide.shapes:
+            _no_shadow(shp)
+    return prs
 
 
 def _set_run(run, text, size, bold, color, font=FONT_BODY):
@@ -387,6 +449,7 @@ def draw_icon(slide, icon_name: str, left: float, top: float, size: float, color
         f"{geom_xml}"
         f"<a:noFill/>"
         f'<a:ln w="{int(px(stroke_w_px))}" cap="rnd"><a:solidFill><a:srgbClr val="{hex_color}"/></a:solidFill><a:round/></a:ln>'
+        f"<a:effectLst/>"   # explicit empty effect list == no drop shadow
         f"</p:spPr>"
         f"<p:txBody><a:bodyPr/><a:lstStyle/><a:p/></p:txBody>"
         f"</p:sp>"
@@ -424,19 +487,26 @@ def draw_logo(slide, variant: str, left: float, top: float, height: float):
     return pic, width
 
 
-def _draw_card_anchor(slide, kind: str, value, left: float, top: float, theme: str):
+def _draw_card_anchor(slide, kind: str, value, left: float, top: float, theme: str,
+                       surface: RGBColor | None = None):
     """Every content card's required visual anchor (see deck-design-brain.md
     Design DNA "Surfaces") — a filled circle holding either a numbered badge
     (`kind="number"`, `value` an int) or a design-system icon
     (`kind="icon"`, `value` an icon name). The numbered badge is solid brand
     purple + white numeral in both themes, matching the stat figures'
-    theme-independent brand-purple treatment. The icon tile is a light
-    brand-tint circle + purple icon on light surfaces, and a solid brand
-    circle + white icon on dark surfaces, for reliable contrast either way."""
-    size = ANCHOR_SIZE
-    circ = slide.shapes.add_shape(MSO_SHAPE.OVAL, px(left), px(top), px(size), px(size))
+    theme-independent brand-purple treatment.
+
+    The icon tile reads against the SURFACE it sits on, not the theme:
+    `surface` is the card's own fill, and whenever that is anything other
+    than pure white the tile is white with a brand-purple glyph. A white
+    disc is what separates the icon from the card in both themes — on a
+    light gray card and on a dark gray-80 one alike. Only on a genuinely
+    white surface does the tile fall back to the brand tint, since a white
+    disc on white would be invisible. Pass `surface=None` when the anchor
+    is not sitting on a card."""
+    size = ICON_ANCHOR_SIZE if kind == "icon" else ANCHOR_SIZE
+    circ = _no_shadow(slide.shapes.add_shape(MSO_SHAPE.OVAL, px(left), px(top), px(size), px(size)))
     circ.line.fill.background()
-    circ.shadow.inherit = False
     if kind == "number":
         circ.fill.solid()
         circ.fill.fore_color.rgb = C.BRAND
@@ -447,9 +517,10 @@ def _draw_card_anchor(slide, kind: str, value, left: float, top: float, theme: s
         p.alignment = PP_ALIGN.CENTER
         _set_run(p.add_run(), str(value), SIZE_H3, True, C.WHITE, FONT_HEADING)
     else:
+        on_white = surface is not None and tuple(surface) == tuple(C.WHITE)
         circ.fill.solid()
-        circ.fill.fore_color.rgb = C.BRAND_TINT if theme == "light" else C.BRAND
-        icon_color = C.BRAND if theme == "light" else C.WHITE
+        circ.fill.fore_color.rgb = C.BRAND_TINT if on_white else C.WHITE
+        icon_color = C.BRAND
         icon_size = size * 0.5
         draw_icon(slide, value, left + (size - icon_size) / 2, top + (size - icon_size) / 2, icon_size, icon_color)
     return size
@@ -470,6 +541,13 @@ def _text_lines(text: str, avail_width_px: float, font_px: float, avg_char_ratio
     return max(1, ceil(len(text) / chars_per_line))
 
 
+def _card_heading_size(card_w: float):
+    """A card narrower than SMALL_CARD_W — a split's card panel, a 4-up row —
+    takes the H4 heading. H3 on a ~220px card wraps a three-word heading onto
+    three lines and swamps the copy under it."""
+    return (SIZE_H4, SIZE_H4_PX) if card_w <= SMALL_CARD_W else (SIZE_H3, SIZE_H3_PX)
+
+
 def _measure_card_row_height(cards: list[dict], width: float, pad: float = 24) -> float:
     """The natural height of a row of cards at `width`px total — the tallest
     card's content (anchor + heading + optional paragraph) plus padding."""
@@ -477,15 +555,28 @@ def _measure_card_row_height(cards: list[dict], width: float, pad: float = 24) -
     n = len(cards)
     card_w = (width - gutter * (n - 1)) / n
     inner_w = card_w - 2 * pad
+    head_size, head_px = _card_heading_size(card_w)
     tallest = 0.0
     for card in cards:
-        h = ANCHOR_SIZE + 14
-        h += _text_lines(card["heading"], inner_w, SIZE_H3_PX, avg_char_ratio=0.58) * SIZE_H3_PX * 1.3
+        if card.get("image"):
+            continue        # an image cell takes the row's height, it doesn't set it
+        h = (ICON_ANCHOR_SIZE if card.get("icon") else ANCHOR_SIZE) + ANCHOR_TEXT_GAP
+        h += _text_lines(card["heading"], inner_w, head_px, avg_char_ratio=0.58) * head_px * 1.3
         if card.get("paragraph"):
             h += 8 + _text_lines(card["paragraph"], inner_w, SIZE_CAPTION_PX, avg_char_ratio=0.5) * SIZE_CAPTION_PX * 1.45
         h += 2 * pad
         tallest = max(tallest, h)
     return tallest
+
+
+def _stat_figure_size(card_w: float):
+    """A Display figure needs room: "400%" sets about 170px wide at 64px, so
+    on a stat card narrower than SMALL_CARD_W (a stats panel inside a split,
+    a 4-up row) it wraps its last glyph onto a second line and shoves the
+    caption out of the card. Step the figure down one token — H1 — rather
+    than letting it overflow. It is still by far the largest thing on the
+    card, so it still reads as the anchor."""
+    return (SIZE_H1, 48) if card_w <= SMALL_CARD_W else (SIZE_DISPLAY, SIZE_DISPLAY_PX)
 
 
 def _measure_stat_row_height(stats: list[dict], width: float, pad: float = 24) -> float:
@@ -497,12 +588,20 @@ def _measure_stat_row_height(stats: list[dict], width: float, pad: float = 24) -
     n = len(stats)
     card_w = (width - gutter * (n - 1)) / n
     inner_w = card_w - 2 * pad
+    fig_size, fig_px = _stat_figure_size(card_w)
     tallest = 0.0
     for stat in stats:
-        h = _text_lines(stat["value"], inner_w, SIZE_DISPLAY_PX, avg_char_ratio=0.55) * SIZE_DISPLAY_PX * 1.15
+        # 0.68, not the body text's 0.55: bold display digits and especially
+        # "%" are much wider per character than running text.
+        h = _text_lines(stat["value"], inner_w, fig_px, avg_char_ratio=0.68) * fig_px * 1.15
         h += 8 + _text_lines(stat["label"], inner_w, SIZE_CAPTION_PX, avg_char_ratio=0.58) * SIZE_CAPTION_PX * 1.3
         if stat.get("desc"):
             h += 4 + _text_lines(stat["desc"], inner_w, SIZE_CAPTION_PX, avg_char_ratio=0.5) * SIZE_CAPTION_PX * 1.45
+        else:
+            # Figure + caption only: the caption is a short line sitting right
+            # under a 64px figure, and equal padding leaves it looking dropped
+            # against the card's bottom edge. Deepen the floor instead.
+            h += STAT_NO_DESC_PAD
         h += 2 * pad
         tallest = max(tallest, h)
     return tallest
@@ -523,7 +622,8 @@ def _add_cover_top_right_metadata(slide, metadata: dict, muted_color: RGBColor):
     y = PAGE_PADDING_PX
 
     def divider(y):
-        conn = slide.shapes.add_connector(MSO_CONNECTOR.STRAIGHT, px(left), px(y), px(left + block_w), px(y))
+        conn = _no_shadow(slide.shapes.add_connector(
+            MSO_CONNECTOR.STRAIGHT, px(left), px(y), px(left + block_w), px(y)))
         conn.line.color.rgb = muted_color
         conn.line.width = Pt(0.75)
 
@@ -555,7 +655,8 @@ def _add_cover_bottom_columns(slide, metadata: dict, content_color: RGBColor, mu
     ]
     for i, (label, names, bold_first) in enumerate(columns):
         left = PAGE_PADDING_PX + i * (col_w + gap)
-        conn = slide.shapes.add_connector(MSO_CONNECTOR.STRAIGHT, px(left), px(top), px(left + col_w), px(top))
+        conn = _no_shadow(slide.shapes.add_connector(
+            MSO_CONNECTOR.STRAIGHT, px(left), px(top), px(left + col_w), px(top)))
         conn.line.color.rgb = muted_color
         conn.line.width = Pt(0.75)
         _, tf = _textbox(slide, left, top + 10, col_w, 20)
@@ -566,6 +667,21 @@ def _add_cover_bottom_columns(slide, metadata: dict, content_color: RGBColor, mu
             if j > 0:
                 p.space_before = Pt(4)
             _set_run(p.add_run(), name, SIZE_PARAGRAPH, bold_first and j == 0, content_color)
+
+
+def _draw_cover_gradient(slide):
+    """The cover gradient — deck-design-brain.md Design DNA -> Color: flat
+    dark to ~48% down, through brand purple, to pink at the bottom edge.
+    Stops pixel-sampled from references/decks/cover/ (2026-09-18), identical
+    across all three reference covers. Shared by the cover and the back
+    cover, which are the only two places it is allowed."""
+    rect = _no_shadow(slide.shapes.add_shape(
+        MSO_SHAPE.RECTANGLE, px(0), px(0), px(SLIDE_W_PX), px(SLIDE_H_PX)))
+    rect.line.fill.background()
+    _set_vertical_gradient(rect, [
+        (0.0, C.DARK_BG[0]), (0.48, C.DARK_BG[0]), (0.78, C.BRAND), (1.0, C.PINK),
+    ])
+    return rect
 
 
 def add_cover(prs, title: str, subtitle: str | None = None,
@@ -593,18 +709,8 @@ def add_cover(prs, title: str, subtitle: str | None = None,
     """
     slide = add_blank_slide(prs, theme="dark", layer=0)
     content_color = C.DARK_PRIMARY
-    muted_color = C.DARK_SECONDARY
-
-    # Cover gradient — deck-design-brain.md Design DNA -> Color, "Cover
-    # gradient": flat dark to ~48% down, through brand purple, to pink at
-    # the bottom edge. Stops pixel-sampled from references/decks/cover/
-    # (2026-09-18), identical across all three reference covers.
-    bg_rect = slide.shapes.add_shape(MSO_SHAPE.RECTANGLE, px(0), px(0), px(SLIDE_W_PX), px(SLIDE_H_PX))
-    bg_rect.line.fill.background()
-    bg_rect.shadow.inherit = False
-    _set_vertical_gradient(bg_rect, [
-        (0.0, C.DARK_BG[0]), (0.48, C.DARK_BG[0]), (0.78, C.BRAND), (1.0, C.PINK),
-    ])
+    muted_color = C.PINK_40      # the cover's small metadata type — pink-40
+    _draw_cover_gradient(slide)
 
     # Logo lockup, top-left — always present.
     logo_h = 24
@@ -625,9 +731,11 @@ def add_cover(prs, title: str, subtitle: str | None = None,
     p = tf.paragraphs[0]
     _set_run(p.add_run(), title, SIZE_DISPLAY, True, content_color, FONT_HEADING)
     if subtitle:
-        p2 = tf.add_paragraph()
+        p2 = _body(tf.add_paragraph())
         p2.space_before = Pt(12)
-        _set_run(p2.add_run(), subtitle, SIZE_PARAGRAPH, False, muted_color)
+        # purple-40, a step cooler and lighter than the pink-40 metadata line,
+        # so the two small lines on the cover stay distinguishable.
+        _set_run(p2.add_run(), subtitle, SIZE_PARAGRAPH, False, C.PURPLE_40)
 
     if metadata:
         style = metadata["style"]
@@ -644,6 +752,36 @@ def add_cover(prs, title: str, subtitle: str | None = None,
     return slide
 
 
+def add_back_cover(prs, title: str = "Thank you!", metadata_text: str | None = None):
+    """The deck's last slide — the cover's bookend. Same cover gradient, the
+    sign-off top-left at Display scale, the cover's metadata line repeated
+    bottom-left, and the Smartcat wordmark bottom-right (the only slide
+    besides the cover that carries the wordmark — see deck-design-brain.md
+    Design DNA, "No chrome"). Takes no `theme`: like the cover, the
+    background is fixed."""
+    slide = add_blank_slide(prs, theme="dark", layer=0)
+    _draw_cover_gradient(slide)
+
+    _, tf = _textbox(slide, PAGE_PADDING_PX, PAGE_PADDING_PX,
+                      SLIDE_W_PX - 2 * PAGE_PADDING_PX, 100)
+    _set_run(tf.paragraphs[0].add_run(), title, SIZE_DISPLAY, True, C.DARK_PRIMARY, FONT_HEADING)
+
+    logo_h = 24
+    _, logo_w = draw_logo(slide, "white", 0, SLIDE_H_PX - PAGE_PADDING_PX - logo_h, logo_h)
+    # draw_logo places from the left, so reposition to the right margin now
+    # that its rendered width is known.
+    for shp in slide.shapes:
+        if shp.shape_type == 13 and shp.top == px(SLIDE_H_PX - PAGE_PADDING_PX - logo_h):
+            shp.left = px(SLIDE_W_PX - PAGE_PADDING_PX - logo_w)
+
+    if metadata_text:
+        _, tf2 = _textbox(slide, PAGE_PADDING_PX, SLIDE_H_PX - PAGE_PADDING_PX - 20,
+                           SLIDE_W_PX - 2 * PAGE_PADDING_PX - logo_w - 40, 20)
+        _body(tf2.paragraphs[0])
+        _set_run(tf2.paragraphs[0].add_run(), metadata_text, SIZE_CAPTION, False, C.PINK_40)
+    return slide
+
+
 def add_section_divider(prs, title: str, theme: str = "dark"):
     slide = add_blank_slide(prs, theme=theme, layer=0)
     _, tf = _textbox(slide, PAGE_PADDING_PX, PAGE_PADDING_PX,
@@ -653,33 +791,45 @@ def add_section_divider(prs, title: str, theme: str = "dark"):
     return slide
 
 
-def _add_slide_title(slide, title: str):
+def _add_slide_title(slide, title: str) -> float:
+    """Place the slide title and return the y where content may start.
+
+    A title is not always one line — several reference slides run to two
+    (exec-summary-3col.jpg). The content top is therefore measured from the
+    title's LAST line, not from a fixed offset: with a one-line title this
+    returns the usual PAGE_PADDING + HEADING_GAP, and a wrapped title pushes
+    content down instead of letting it slide under the second line. Every
+    builder below uses the returned value rather than recomputing the
+    constant, so this holds for every slide type.
+    """
     theme = slide._smartcat_theme
-    _, tf = _textbox(slide, PAGE_PADDING_PX, PAGE_PADDING_PX,
-                      SLIDE_W_PX - 2 * PAGE_PADDING_PX, 60)
+    width = SLIDE_W_PX - 2 * PAGE_PADDING_PX
+    lines = _text_lines(title, width, SIZE_H1_PX, avg_char_ratio=0.52)
+    box_h = max(60.0, lines * H1_LINE_PX)
+    _, tf = _textbox(slide, PAGE_PADDING_PX, PAGE_PADDING_PX, width, box_h)
     p = tf.paragraphs[0]
     _set_run(p.add_run(), title, SIZE_H1, True, _content_color(slide), FONT_HEADING)
+    return max(PAGE_PADDING_PX + HEADING_GAP_PX,
+               PAGE_PADDING_PX + lines * H1_LINE_PX + TITLE_CLEARANCE_PX)
 
 
 def add_heading_paragraph(prs, title: str, paragraph: str, theme: str = "light"):
     slide = add_blank_slide(prs, theme=theme)
-    _add_slide_title(slide, title)
-    top = PAGE_PADDING_PX + HEADING_GAP_PX
+    top = _add_slide_title(slide, title)
     _, tf = _textbox(slide, PAGE_PADDING_PX, top,
                       (SLIDE_W_PX - 2 * PAGE_PADDING_PX) // 2, SLIDE_H_PX - top - PAGE_PADDING_PX)
-    p = tf.paragraphs[0]
+    p = _body(tf.paragraphs[0])
     _set_run(p.add_run(), paragraph, SIZE_PARAGRAPH, False, secondary(theme))
     return slide
 
 
 def add_bullet_list(prs, title: str, bullets: list[str], theme: str = "light"):
     slide = add_blank_slide(prs, theme=theme)
-    _add_slide_title(slide, title)
-    top = PAGE_PADDING_PX + HEADING_GAP_PX
+    top = _add_slide_title(slide, title)
     _, tf = _textbox(slide, PAGE_PADDING_PX, top,
                       (SLIDE_W_PX - 2 * PAGE_PADDING_PX) // 2, SLIDE_H_PX - top - PAGE_PADDING_PX)
     for i, item in enumerate(bullets):
-        p = tf.paragraphs[0] if i == 0 else tf.add_paragraph()
+        p = _body(tf.paragraphs[0] if i == 0 else tf.add_paragraph())
         p.space_after = Pt(10)
         _set_run(p.add_run(), f"•  {item}", SIZE_PARAGRAPH, False, primary(theme))
     return slide
@@ -702,17 +852,27 @@ def _draw_card_row(slide, cards: list[dict], left0: float, top: float, width: fl
     gutter = 8
     n = len(cards)
     card_w = (width - gutter * (n - 1)) / n
+    surface = panel_fill(theme)
+    head_size, _ = _card_heading_size(card_w)
     for i, card in enumerate(cards):
         left = left0 + i * (card_w + gutter)
-        _rounded_rect(slide, left, top, card_w, height, panel_fill(theme))
+        if card.get("image"):
+            # One (or more) cells of the row given over to a product shot,
+            # at exactly the card's own size, radius and gutter — the
+            # image-cell pattern from the reference decks. The row still
+            # reads as one object because nothing but the fill changes.
+            draw_image_slot(slide, left, top, card_w, height, card["image"], theme)
+            continue
+        _rounded_rect(slide, left, top, card_w, height, surface)
         icon = card.get("icon")
-        _draw_card_anchor(slide, "icon" if icon else "number", icon or (i + 1), left + pad, top + pad, theme)
-        text_top = top + pad + ANCHOR_SIZE + 14
+        anchor_h = _draw_card_anchor(slide, "icon" if icon else "number", icon or (i + 1),
+                                      left + pad, top + pad, theme, surface=surface)
+        text_top = top + pad + anchor_h + ANCHOR_TEXT_GAP
         _, tf = _textbox(slide, left + pad, text_top, card_w - 2 * pad, height - (text_top - top) - pad)
         p = tf.paragraphs[0]
-        _set_run(p.add_run(), card["heading"], SIZE_H3, True, primary(theme), FONT_HEADING)
+        _set_run(p.add_run(), card["heading"], head_size, True, primary(theme), FONT_HEADING)
         if card.get("paragraph"):
-            p2 = tf.add_paragraph()
+            p2 = _body(tf.add_paragraph())
             p2.space_before = Pt(8)
             _set_run(p2.add_run(), card["paragraph"], SIZE_CAPTION, False, secondary(theme))
 
@@ -726,17 +886,18 @@ def _draw_stat_row(slide, stats: list[dict], left0: float, top: float, width: fl
     gutter = 8
     n = len(stats)
     card_w = (width - gutter * (n - 1)) / n
+    fig_size, _ = _stat_figure_size(card_w)
     for i, stat in enumerate(stats):
         left = left0 + i * (card_w + gutter)
         _rounded_rect(slide, left, top, card_w, height, panel_fill(theme))
         _, tf = _textbox(slide, left + pad, top + pad, card_w - 2 * pad, height - 2 * pad)
         p = tf.paragraphs[0]
-        _set_run(p.add_run(), stat["value"], SIZE_DISPLAY, True, C.BRAND, FONT_HEADING)
-        p2 = tf.add_paragraph()
+        _set_run(p.add_run(), stat["value"], fig_size, True, brand_content(theme), FONT_HEADING)
+        p2 = _body(tf.add_paragraph())
         p2.space_before = Pt(8)
         _set_run(p2.add_run(), stat["label"], SIZE_CAPTION, True, primary(theme))
         if stat.get("desc"):
-            p3 = tf.add_paragraph()
+            p3 = _body(tf.add_paragraph())
             p3.space_before = Pt(4)
             _set_run(p3.add_run(), stat["desc"], SIZE_CAPTION, False, secondary(theme))
 
@@ -751,8 +912,7 @@ def add_cards(prs, title: str, cards: list[dict], theme: str = "light"):
     fill the slide — see Design DNA "Surfaces"."""
     assert 2 <= len(cards) <= 4, "N-cards recipe is 2-4 items"
     slide = add_blank_slide(prs, theme=theme)
-    _add_slide_title(slide, title)
-    top = PAGE_PADDING_PX + HEADING_GAP_PX
+    top = _add_slide_title(slide, title)
     content_w = SLIDE_W_PX - 2 * PAGE_PADDING_PX
     avail_h = SLIDE_H_PX - top - PAGE_PADDING_PX
     card_h = min(_measure_card_row_height(cards, content_w), avail_h)
@@ -787,6 +947,78 @@ def add_placeholder(slide, left: float, top: float, width: float, height: float,
     return rect
 
 
+def draw_image_slot(slide, left: float, top: float, width: float, height: float,
+                     caption: str, theme: str = "light"):
+    """A RESERVED slot for a product-UI screenshot that a person inserts by
+    hand later. Draws the exact rectangle the image must fill, and labels it
+    with what belongs there plus the size and aspect ratio to export at.
+
+    This is not `add_placeholder`. That one covers an asset we meant to have
+    and didn't (a customer logo, a partner tile) and is a build-time gap.
+    This is a deliberate composition decision: the slide argues about a
+    product surface, so the layout holds room for it. The two look different
+    on purpose — this one is brand-purple and states its dimensions, because
+    somebody has to go and produce an image of exactly that shape.
+
+    Stating the pixel size and ratio is the whole point. A slot that only
+    says "screenshot here" gets filled with whatever crop is to hand, and
+    the layout breaks when it lands.
+    """
+    slot = _rounded_rect(slide, left, top, width, height, panel_fill(theme), radius_ratio=0.04)
+    slot.line.fill.solid()
+    slot.line.color.rgb = brand_content(theme)
+    slot.line.width = Pt(1.25)
+    _set_line_dash(slot.line)
+
+    ratio = _aspect_label(width, height)
+    icon_size = min(32, height * 0.22)
+    cap_h, dim_h, gapv = 20, 18, 8
+    block_h = icon_size + gapv + cap_h + dim_h
+    icon_top = top + (height - block_h) / 2
+    draw_icon(slide, "image", left + (width - icon_size) / 2, icon_top, icon_size,
+              brand_content(theme))
+
+    _, tf = _textbox(slide, left + 16, icon_top + icon_size + gapv, width - 32, cap_h)
+    p = tf.paragraphs[0]
+    p.alignment = PP_ALIGN.CENTER
+    _set_run(p.add_run(), caption, SIZE_CAPTION, True, primary(theme))
+
+    _, tf2 = _textbox(slide, left + 16, icon_top + icon_size + gapv + cap_h, width - 32, dim_h)
+    p2 = tf2.paragraphs[0]
+    p2.alignment = PP_ALIGN.CENTER
+    _set_run(p2.add_run(), f"{round(width)} \u00d7 {round(height)} px \u00b7 {ratio}",
+             SIZE_CAPTION, False, C.LIGHT_SECONDARY if theme == "light" else C.DARK_SECONDARY)
+    slide._smartcat_image_slots = getattr(slide, "_smartcat_image_slots", []) + [caption]
+    return slot
+
+
+def _aspect_label(width: float, height: float) -> str:
+    """The slot's ratio, as a target someone can export to. Snaps to a
+    familiar ratio only when it genuinely is one — within 4%. Otherwise it
+    prints the real number, because a banner labelled "16:9" when it is
+    actually 3.9:1 sends the exporter after the wrong crop, which is the one
+    failure this label exists to prevent."""
+    r = width / height
+    known = [(16/9, "16:9"), (3/2, "3:2"), (4/3, "4:3"), (1.0, "1:1"),
+             (3/4, "3:4"), (2/3, "2:3"), (9/16, "9:16")]
+    best, label = min(known, key=lambda k: abs(k[0] - r))
+    if abs(best - r) / r <= 0.04:
+        return label
+    return f"{r:.2f}:1" if r >= 1 else f"1:{1 / r:.2f}"
+
+
+def image_slots(prs) -> list[dict]:
+    """Every reserved slot in the deck, in slide order. A deck must never be
+    handed over without reporting these — a dashed purple box reaching a
+    customer is worse than a slide with no image at all. Use it to produce
+    the shot list on handoff."""
+    found = []
+    for i, slide in enumerate(prs.slides, start=1):
+        for caption in getattr(slide, "_smartcat_image_slots", []):
+            found.append({"slide": i, "caption": caption})
+    return found
+
+
 def add_stats(prs, title: str, stats: list[dict], theme: str = "light"):
     """stats: [{value, label}], 2-4 items. Big brand-purple figure (Display
     scale) + bold caption — see deck-design-brain.md 'Quantitative & proof'.
@@ -799,8 +1031,7 @@ def add_stats(prs, title: str, stats: list[dict], theme: str = "light"):
     add_cards."""
     assert 2 <= len(stats) <= 4, "stats recipe is 2-4 items"
     slide = add_blank_slide(prs, theme=theme)
-    _add_slide_title(slide, title)
-    top = PAGE_PADDING_PX + HEADING_GAP_PX
+    top = _add_slide_title(slide, title)
     content_w = SLIDE_W_PX - 2 * PAGE_PADDING_PX
     avail_h = SLIDE_H_PX - top - PAGE_PADDING_PX
     card_h = min(_measure_stat_row_height(stats, content_w), avail_h)
@@ -817,23 +1048,66 @@ def add_stats(prs, title: str, stats: list[dict], theme: str = "light"):
 # new geometry, no new colors) — they just place them less evenly, and add
 # two shape kinds (native table, connector line) the module didn't use yet.
 
-_SPLIT_SURFACE_KINDS = {"cards", "stat", "stats", "table"}
+# An image slot carries its own surface, so it takes the tight 8px gutter
+# against another panel and the wide 64px gap against bare copy.
+_SPLIT_SURFACE_KINDS = {"cards", "stat", "stats", "table", "image"}
+
+
+def _split_panel_height(spec: dict, width: float) -> float:
+    """A panel's natural content height. Card and stat rows measure exactly;
+    flowing text, a quote and a table are estimated from the same char-count
+    heuristic the cards use. Every kind returns a number so add_split can
+    always centre the pair as one block — see its docstring."""
+    kind = spec["kind"]
+    if kind == "cards":
+        return _measure_card_row_height(spec["items"], width, pad=20)
+    if kind == "stat":
+        return _measure_stat_row_height([spec], width, pad=20)
+    if kind == "stats":
+        return _measure_stat_row_height(spec["items"], width, pad=20)
+    if kind == "text":
+        h = 0.0
+        if spec.get("paragraph"):
+            h += _text_lines(spec["paragraph"], width, SIZE_PARAGRAPH_PX, avg_char_ratio=0.5) \
+                 * SIZE_PARAGRAPH_PX * BODY_LINE_SPACING * 1.25
+        for b in spec.get("bullets", []):
+            h += _text_lines(b, width, SIZE_PARAGRAPH_PX, avg_char_ratio=0.5) \
+                 * SIZE_PARAGRAPH_PX * BODY_LINE_SPACING * 1.25 + 13
+        return h
+    if kind == "quote":
+        h = _text_lines(spec["text"], width, 32, avg_char_ratio=0.5) * 32 * 1.3
+        if spec.get("attribution"):
+            h += 21 + SIZE_PARAGRAPH_PX * 1.4
+        return h
+    if kind == "image":
+        # A slot with no explicit height takes a 3:2 landscape shape, the
+        # commonest product-screenshot proportion in the reference decks.
+        return spec.get("height", width / 1.5)
+    if kind == "table":
+        return 40.0 + sum(
+            max(48.0, max(_text_lines(str(cell), width / len(spec["headers"]) - 32,
+                                       SIZE_PARAGRAPH_PX, avg_char_ratio=0.5)
+                          for cell in row) * SIZE_PARAGRAPH_PX * 1.5 + 16)
+            for row in spec["rows"])
+    raise ValueError(f"add_split: unknown panel kind {spec['kind']!r}")
 
 
 def _render_split_panel(slide, spec: dict, left: float, top: float, width: float,
                          height: float, theme: str):
-    """Render one side of add_split. `spec['kind']` selects the panel type —
-    see add_split's docstring for the shape each kind expects."""
+    """Render one side of add_split, anchored at `top`. `spec['kind']` selects
+    the panel type — see add_split's docstring for the shape each kind expects.
+    No panel re-centers itself vertically: in a split the two panels are peers
+    and must share a top edge, so add_split positions the pair as a unit."""
     kind = spec["kind"]
     if kind == "text":
         _, tf = _textbox(slide, left, top, width, height)
         wrote_first = False
         if spec.get("paragraph"):
-            p = tf.paragraphs[0]
+            p = _body(tf.paragraphs[0])
             _set_run(p.add_run(), spec["paragraph"], SIZE_PARAGRAPH, False, secondary(theme))
             wrote_first = True
         for bullet in spec.get("bullets", []):
-            p = tf.paragraphs[0] if not wrote_first else tf.add_paragraph()
+            p = _body(tf.paragraphs[0] if not wrote_first else tf.add_paragraph())
             wrote_first = True
             p.space_after = Pt(10)
             _set_run(p.add_run(), f"•  {bullet}", SIZE_PARAGRAPH, False, primary(theme))
@@ -849,20 +1123,25 @@ def _render_split_panel(slide, spec: dict, left: float, top: float, width: float
         if spec.get("attribution"):
             p2 = tf.add_paragraph()
             p2.space_before = Pt(16)
-            _set_run(p2.add_run(), spec["attribution"], SIZE_PARAGRAPH, True, C.BRAND)
+            _set_run(p2.add_run(), spec["attribution"], SIZE_PARAGRAPH, True, brand_content(theme))
     elif kind == "cards":
         items = spec["items"]
         assert 2 <= len(items) <= 4, "split 'cards' panel is 2-4 items"
         row_h = min(_measure_card_row_height(items, width, pad=20), height)
-        row_top = top + max(0, (height - row_h) / 2)
-        _draw_card_row(slide, items, left, row_top, width, row_h, theme, pad=20)
+        _draw_card_row(slide, items, left, top, width, row_h, theme, pad=20)
     elif kind in ("stat", "stats"):
         items = [spec] if kind == "stat" else spec["items"]
         if kind == "stats":
             assert 2 <= len(items) <= 4, "split 'stats' panel is 2-4 items"
         row_h = min(_measure_stat_row_height(items, width, pad=20), height)
-        row_top = top + max(0, (height - row_h) / 2)
-        _draw_stat_row(slide, items, left, row_top, width, row_h, theme, pad=20)
+        _draw_stat_row(slide, items, left, top, width, row_h, theme, pad=20)
+    elif kind == "image":
+        # Hold the declared proportion rather than stretching to the panel:
+        # the slot's whole job is to tell someone the exact shape to export,
+        # so it must not drift with whatever the neighbouring panel needs.
+        draw_image_slot(slide, left, top, width,
+                        min(spec.get("height", width / 1.5), height),
+                        spec["caption"], theme)
     elif kind == "table":
         _draw_table(slide, left, top, width, height, spec["headers"], spec["rows"], theme=theme,
                     highlight_last_row=spec.get("highlight_last_row", False),
@@ -890,6 +1169,8 @@ def add_split(prs, title: str, left: dict, right: dict, ratio: tuple[int, int] =
       {"kind": "stats", "items": [{"value", "label", "desc"}, ...]} (2-4 figures)
       {"kind": "table", "headers": [...], "rows": [[...], ...],
                          "highlight_last_row": bool, "highlight_first_col": bool}
+      {"kind": "image", "caption": str, "height": float (optional)}
+                         — a reserved product-UI slot; see draw_image_slot
 
     `ratio` is the (left, right) column share, e.g. (5, 7) or (4, 8) — need
     not sum to 12, only the proportion matters. Per Design DNA 'Gutter vs.
@@ -901,18 +1182,28 @@ def add_split(prs, title: str, left: dict, right: dict, ratio: tuple[int, int] =
     """
     assert len(ratio) == 2 and ratio[0] > 0 and ratio[1] > 0
     slide = add_blank_slide(prs, theme=theme)
-    _add_slide_title(slide, title)
-    top = PAGE_PADDING_PX + HEADING_GAP_PX
+    top = _add_slide_title(slide, title)
     content_w = SLIDE_W_PX - 2 * PAGE_PADDING_PX
     content_h = SLIDE_H_PX - top - PAGE_PADDING_PX
     both_surfaced = left["kind"] in _SPLIT_SURFACE_KINDS and right["kind"] in _SPLIT_SURFACE_KINDS
-    gap = 8 if both_surfaced else PAGE_PADDING_PX
+    gap = 8 if both_surfaced else SPLIT_BARE_GAP
     left_share = ratio[0] / (ratio[0] + ratio[1])
     left_w = content_w * left_share - gap / 2
     right_left = PAGE_PADDING_PX + left_w + gap
     right_w = SLIDE_W_PX - PAGE_PADDING_PX - right_left
-    _render_split_panel(slide, left, PAGE_PADDING_PX, top, left_w, content_h, theme)
-    _render_split_panel(slide, right, right_left, top, right_w, content_h, theme)
+    # Both panels share one top edge. When BOTH are measurable rows (cards /
+    # stats), the pair is centered in the space below the title as a single
+    # block — the same "center the row, don't stretch it" rule a standalone
+    # card row follows. When either side is flowing text (text/quote/table)
+    # there is nothing reliable to measure, so the pair anchors at the title
+    # gap. Either way the two sides line up, which they did not when each
+    # panel decided its own vertical position.
+    block_h = min(max(_split_panel_height(left, left_w),
+                       _split_panel_height(right, right_w)), content_h)
+    panel_top = top + max(0, (content_h - block_h) / 2)
+    panel_h = content_h - (panel_top - top)
+    _render_split_panel(slide, left, PAGE_PADDING_PX, panel_top, left_w, panel_h, theme)
+    _render_split_panel(slide, right, right_left, panel_top, right_w, panel_h, theme)
     return slide
 
 
@@ -958,17 +1249,31 @@ def _draw_table(slide, left: float, top: float, width: float, height: float,
     thin row dividers, muted values, an optional gray-filled key column
     (pricing-table.jpg) and/or a bold brand-purple total row (math-savings.jpg)."""
     n_rows, n_cols = len(rows) + 1, len(headers)
-    gframe = slide.shapes.add_table(n_rows, n_cols, px(left), px(top), px(width), px(height))
+    col_w = width / n_cols
+    # Rows size to their own content, capped by the space available — a table
+    # stretched to fill the slide balloons every row and reads as a form, not
+    # the compact reference table (pricing-table.jpg). Same "size to content,
+    # don't stretch" rule the card and stat rows follow.
+    header_h = 40.0
+    natural = []
+    for row in rows:
+        lines = max(_text_lines(str(cell), col_w - 32, SIZE_PARAGRAPH_PX, avg_char_ratio=0.5)
+                    for cell in row)
+        natural.append(max(48.0, lines * SIZE_PARAGRAPH_PX * 1.5 + 16))
+    total = header_h + sum(natural)
+    if total > height:                      # too tall — fall back to even fill
+        scale = (height - header_h) / max(sum(natural), 1)
+        natural = [h * scale for h in natural]
+        total = height
+    gframe = slide.shapes.add_table(n_rows, n_cols, px(left), px(top), px(width), px(total))
     tbl = gframe.table
     tbl.first_row = False
     tbl.horz_banding = False
-    col_w = width / n_cols
     for c in range(n_cols):
         tbl.columns[c].width = px(col_w)
-    header_h = min(height / n_rows, 40)
-    body_h = (height - header_h) / max(len(rows), 1)
-    for r in range(n_rows):
-        tbl.rows[r].height = px(header_h if r == 0 else body_h)
+    tbl.rows[0].height = px(header_h)
+    for r, h in enumerate(natural, start=1):
+        tbl.rows[r].height = px(h)
 
     divider_color = C.LIGHT_BG[3] if theme == "light" else C.DARK_BG[3]
     for r in range(n_rows):
@@ -991,8 +1296,12 @@ def _draw_table(slide, left: float, top: float, width: float, height: float,
             text = headers[c] if is_header else str(rows[r - 1][c])
             tf = cell.text_frame
             tf.word_wrap = True
-            p = tf.paragraphs[0]
-            p.alignment = PP_ALIGN.LEFT if c == 0 else PP_ALIGN.RIGHT
+            p = _body(tf.paragraphs[0])
+            # Every column is left-aligned, matching pricing-table.jpg — its
+            # value columns (words, cost per word, cost) all start at their
+            # own left edge. Right-aligning them ragged-lefts any wrapped
+            # text cell and breaks the column's reading edge.
+            p.alignment = PP_ALIGN.LEFT
             bold = is_total or is_header or is_key_col
             if is_total:
                 color = C.WHITE
@@ -1017,12 +1326,16 @@ def add_table(prs, title: str, headers: list[str], rows: list[list[str]], theme:
     `highlight_first_col` shades the label column gray to key it out."""
     assert rows and all(len(r) == len(headers) for r in rows), "every row must match headers' length"
     slide = add_blank_slide(prs, theme=theme)
-    _add_slide_title(slide, title)
-    top = PAGE_PADDING_PX + HEADING_GAP_PX
+    top = _add_slide_title(slide, title)
     content_w = SLIDE_W_PX - 2 * PAGE_PADDING_PX
     content_h = SLIDE_H_PX - top - PAGE_PADDING_PX
-    _draw_table(slide, PAGE_PADDING_PX, top, content_w, content_h, headers, rows, theme=theme,
-                highlight_last_row=highlight_last_row, highlight_first_col=highlight_first_col)
+    gframe = _draw_table(slide, PAGE_PADDING_PX, top, content_w, content_h, headers, rows,
+                          theme=theme, highlight_last_row=highlight_last_row,
+                          highlight_first_col=highlight_first_col)
+    # Center the finished table in the space below the title when it is
+    # shorter than that space, same as a card row.
+    used = sum(r.height for r in gframe.table.rows) / EMU_PER_PX
+    gframe.top = px(top + max(0, (content_h - used) / 2))
     return slide
 
 
@@ -1075,8 +1388,7 @@ def add_flow_chain(prs, title: str, nodes: list, theme: str = "light", style: st
     assert 3 <= len(nodes) <= 6, "flow-chain recipe is 3-6 nodes"
     assert style in ("cards", "pills"), "style must be 'cards' or 'pills'"
     slide = add_blank_slide(prs, theme=theme)
-    _add_slide_title(slide, title)
-    top = PAGE_PADDING_PX + HEADING_GAP_PX
+    top = _add_slide_title(slide, title)
     content_w = SLIDE_W_PX - 2 * PAGE_PADDING_PX
     # Node-to-node spacing is deliberately wider than the 8px panel gutter:
     # that value is for two surfaces meeting at a seam, but here the gap
@@ -1112,6 +1424,7 @@ def add_flow_chain(prs, title: str, nodes: list, theme: str = "light", style: st
             if nd.get("caption"):
                 p2 = tf.add_paragraph()
                 p2.space_before = Pt(6)
+                _body(p2)
                 _set_run(p2.add_run(), nd["caption"], SIZE_CAPTION, False, secondary(theme))
             spans.append((left, left + node_w))
         arrow_y = px(row_top + node_h / 2)
@@ -1134,9 +1447,9 @@ def add_flow_chain(prs, title: str, nodes: list, theme: str = "light", style: st
         arrow_y = px(top + node_h / 2)
 
     for i in range(n - 1):
-        connector = slide.shapes.add_connector(
+        connector = _no_shadow(slide.shapes.add_connector(
             MSO_CONNECTOR.STRAIGHT, px(spans[i][1]), arrow_y, px(spans[i + 1][0]), arrow_y
-        )
+        ))
         connector.line.color.rgb = secondary(theme)
         connector.line.width = Pt(1.5)
         _add_arrowhead(connector, end="tail")
@@ -1147,6 +1460,29 @@ def add_flow_chain(prs, title: str, nodes: list, theme: str = "light", style: st
         cards_avail_h = SLIDE_H_PX - cards_top - PAGE_PADDING_PX
         cards_h = min(_measure_card_row_height(detail_cards, content_w), cards_avail_h)
         _draw_card_row(slide, detail_cards, PAGE_PADDING_PX, cards_top, content_w, cards_h, theme)
+    return slide
+
+
+def add_image_banner(prs, title: str, caption: str, paragraph: str | None = None,
+                      theme: str = "light", height: float = 300):
+    """Title, an optional line of copy, then a reserved product-UI slot
+    running the full content width — the banner shape from the reference
+    decks, for a slide whose whole point is one product surface (a workspace,
+    a dashboard, a before/after view). Use it when the screenshot IS the
+    argument; use an add_split image panel when the copy carries equal
+    weight."""
+    slide = add_blank_slide(prs, theme=theme)
+    top = _add_slide_title(slide, title)
+    content_w = SLIDE_W_PX - 2 * PAGE_PADDING_PX
+    if paragraph:
+        _, tf = _textbox(slide, PAGE_PADDING_PX, top, content_w * 0.6, 60)
+        _body(tf.paragraphs[0])
+        _set_run(tf.paragraphs[0].add_run(), paragraph, SIZE_PARAGRAPH, False, secondary(theme))
+        top += 76
+    avail = SLIDE_H_PX - top - PAGE_PADDING_PX
+    h = min(height, avail)
+    draw_image_slot(slide, PAGE_PADDING_PX, top + max(0, (avail - h) / 2),
+                    content_w, h, caption, theme)
     return slide
 
 
@@ -1181,9 +1517,13 @@ def add_closing(prs, title: str, contact_lines: list[str] | None = None, theme: 
     p = tf.paragraphs[0]
     _set_run(p.add_run(), title, SIZE_DISPLAY, True, color, FONT_HEADING)
     if contact_lines:
-        for line in contact_lines:
+        for i, line in enumerate(contact_lines):
             p2 = tf.add_paragraph()
-            p2.space_before = Pt(6)
+            # A Display-scale headline needs real air beneath it before the
+            # contact lines — 40px (--spacing-8) off the title, then the lines
+            # sit together as one block.
+            p2.space_before = Pt(30) if i == 0 else Pt(6)
+            _body(p2)
             _set_run(p2.add_run(), line, SIZE_PARAGRAPH, False, secondary(theme))
     return slide
 
