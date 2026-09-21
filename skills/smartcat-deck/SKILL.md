@@ -105,11 +105,15 @@ makes them easy to reinvent by accident:
   rails, tab strips or progress indicators. Every reference slide is bare;
   the section dividers and the light/dark banding carry the navigation.
   The only footer in `deck_pptx.py` is the cover's optional metadata line.
-- **Reserve a slot where the slide is about a product surface.** Use
-  `draw_image_slot` (a split `{"kind": "image"}` panel, `add_image_banner`,
-  or `image` on a card) — and only where a specific feature is named, not
-  on every slide. Never redraw product UI from atomics; that is the social
-  tier's rule. `add_placeholder` is a different thing: a missing asset.
+- **Reserve a slot where the slide is about a product surface — even with
+  no screenshot in hand.** Use `draw_image_slot` (a split `{"kind": "image"}`
+  panel, `add_image_banner`, or `image` on a card) wherever a specific
+  feature is named, not on every slide. **Not having the real screenshot at
+  build time is the normal case, never a reason to skip the slot** — that is
+  the whole point of reserving one prospectively. Never redraw product UI
+  from atomics; that is the social tier's rule. `add_placeholder` is a
+  different thing: an asset we meant to have and is missing, not a
+  prospective slot.
 - **No drop shadows.** Not on cards, panels, icon tiles, arrows or tables.
   PowerPoint adds them by default to anything that does not opt out, so
   call `dp.strip_shadows(prs)` before saving as a final sweep.
@@ -293,11 +297,13 @@ as `�` under the default console encoding, while the saved `.pptx` had the
 right characters the whole time. Don't "fix" a mis-rendered console readout
 by touching the file.
 
-**Report the reserved image slots.** `dp.image_slots(prs)` returns every
-slot with its slide number, caption and required size. Hand that over as a
-shot list and say plainly that the deck is not finished until they are
-filled — a dashed purple box reaching a customer is worse than a slide with
-no image at all.
+**Report the reserved image slots — don't avoid creating them.**
+`dp.image_slots(prs)` returns every slot with its slide number, caption and
+required size. Hand that over as a shot list and say plainly that the deck
+is not finished until they are filled. The obligation is disclosure, not
+avoidance: reserving a slot for a slide about a product feature, with no
+screenshot yet in hand, is exactly what this mechanism is for. Shipping a
+slot without mentioning it is the failure — not adding the slot.
 
 ## Step 6 — upload and convert to Google Slides
 
