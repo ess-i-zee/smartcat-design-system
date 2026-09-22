@@ -40,6 +40,35 @@ Re-copy after changing the skill itself. You do **not** need to re-copy when the
 design system changes — that is the whole point of the loader: it fetches the
 current system at run time.
 
+## Packaging one as a single file
+
+`packages/<skill>.skill` is a zip whose root is the skill folder — one file to
+copy to another workspace (unzip into `~/.claude/skills/`) or upload to
+claude.ai. Rebuild it after any change to the skill:
+
+```bash
+cd skills && rm -rf */scripts/__pycache__ && python -c "
+import shutil, os
+for s in ('smartcat-design-system', 'smartcat-deck', 'smartcat-onepager', 'smartcat-document'):
+    shutil.make_archive(f'packages/{s}', 'zip', '.', s)
+    os.replace(f'packages/{s}.zip', f'packages/{s}.skill')
+"
+```
+
+`packages/` is a build directory and is **not** tracked in git — the skill
+folders here are the source of truth. Rebuild the zips whenever you need to
+hand one over.
+
+Each of the three format skills carries its own copy of the loader's sync
+script (`scripts/ds_sync.sh`) plus `reference/no-shell.md`, so a package
+installs and runs in a workspace that does not have `smartcat-design-system`.
+Re-copy both when `smartcat-design-system/scripts/sync.sh` changes.
+
+`smartcat-illustration/` and `smartcat-mockup/` are not folders to package —
+each already holds a built `.skill` file, and `smartcat-mockup/mockups/` is a
+68 MB asset library the skill fetches over raw URLs at run time rather than
+shipping in a zip.
+
 ## Uploading one to claude.ai
 
 Zip the skill's folder (the folder itself, so `SKILL.md` sits at the archive

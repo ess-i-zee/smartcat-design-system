@@ -18,9 +18,30 @@ A document is the one format that is **truly paginated**. Every page is a
 footer, like a printed manual. Both dimensions are fixed: content is authored to
 fit a page, never left to grow it.
 
+## Installing this skill elsewhere
+
+The skill is packaged as one file, `skills/packages/smartcat-document.skill`
+(a zip whose root is the `smartcat-document/` folder). In another Claude Code
+workspace, unzip it into `~/.claude/skills/`; on claude.ai, upload it in
+Settings → Capabilities → Skills. It carries a copy of the design-system
+sync script (`scripts/ds_sync.sh`), so it works where the loader skill is not
+installed. The rules themselves are still fetched live from GitHub at run
+time, so they are only as current as the last push.
+
 ## Step 1 — load the design system
 
-Use the **smartcat-design-system** skill first. Then read, in this order:
+Use the **smartcat-design-system** skill first. **If it is not installed in
+this workspace**, run this skill's own copy of its sync script instead — same
+output, same resolution order (an explicit `$SMARTCAT_DS_ROOT`, the repo you
+are standing in, else a sparse clone cached under
+`~/.cache/smartcat-design-system`); with no shell at all,
+`reference/no-shell.md` gives the raw-URL fallback:
+
+```bash
+eval "$(bash "<this skill's folder>/scripts/ds_sync.sh")"
+```
+
+Then read, in this order:
 
 - `INDEX.md` — the component manifest
 - **the shared rules** — icons, logo, the promo-UI-mockups asset folder, page
