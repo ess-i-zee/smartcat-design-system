@@ -29,11 +29,26 @@ def build(out_path: str):
         },
     )
     dp.add_section_divider(prs, "Why it matters.", theme="dark")
-    dp.add_heading_paragraph(
-        prs, "The problem today",
+    # Opening hook as a statement — the argument set large, with a quiet
+    # supporting fact beside it (deck-design-brain.md "Statement + aside").
+    dp.add_statement(
+        prs, "The problem today.",
         "Manual translation review does not scale past a handful of languages. "
         "Teams either slow down launches or ship content nobody checked.",
-        theme="light",
+        aside="Localization teams spend the bulk of their week on review, not translation.",
+        theme="dark",
+    )
+    # A slide about a product surface: the image-led split reserves a
+    # full-height square slot (the promo shots are 1080×1080) with the copy
+    # vertically centred beside it. Caption in the folder's vocabulary.
+    dp.add_image_split(
+        prs, "Set it up by talking to it.",
+        copy={"kind": "text",
+              "paragraph": "Your AI Chief of Staff learns your role and preferences as you work "
+                           "together, so each session builds on the last.",
+              "bullets": ["Tell it how you like things done", "It remembers, and applies it next time"]},
+        caption="Configuring your chief of staff through chat",
+        image_side="right", theme="light",
     )
     dp.add_flow_chain(
         prs, "How it works",
@@ -50,7 +65,7 @@ def build(out_path: str):
         {"icon": "lock-closed", "heading": "Role-based access", "paragraph": "Every workspace enforces least-privilege permissions."},
         {"icon": "key", "heading": "SSO & identity", "paragraph": "Integrates with your existing identity provider."},
         {"icon": "check-in-circle", "heading": "Audit trails", "paragraph": "Every AI interaction is logged and reviewable."},
-    ], theme="light")
+    ], theme="light", columns=2)   # four cards with real copy -> a 2x2 grid, not a 4-up strip
     dp.add_stats(prs, "The numbers", [
         {"value": "70%", "label": "Faster review"},
         {"value": "280+", "label": "Languages supported"},
@@ -118,25 +133,40 @@ def build(out_path: str):
         ]},
         ratio=(6, 6), theme="light",
     )
-    dp.add_quote(
-        prs,
-        "We don’t remove humans from the process. We reposition them "
-        "where their judgment matters most.",
-        "Alex Rivera", "VP Localization", "Acme Corp",
+    # Stats over the quote that proves them — one claim, two halves, one
+    # slide (deck-design-brain.md "Stacked composition").
+    dp.add_stack(
+        prs, "What customers get.",
+        top={"kind": "stats", "items": [
+            {"value": "50%", "label": "More productivity", "desc": "Across localization teams."},
+            {"value": "400%", "label": "Faster turnaround", "desc": "From brief to approved content."},
+            {"value": "70%", "label": "Lower content costs", "desc": "Versus agency workflows."},
+        ]},
+        bottom={"kind": "quote-bar",
+                "text": "We don’t remove humans from the process. We reposition them where their judgment matters most.",
+                "name": "Alex Rivera", "role": "VP Localization, Acme Corp"},
         theme="dark",
     )
+    # An at-a-glance list as numbered rows — a distinct silhouette from a
+    # card grid (deck-design-brain.md "Numbered rows / agenda / row-per-item").
+    dp.add_numbered_rows(prs, "Next steps.", [
+        {"heading": "Pilot on one content stream", "detail": "Four weeks, one language pair, measured against today's baseline."},
+        {"heading": "Connect the CMS", "detail": "Adobe Experience Manager first; the rest follow the same pattern."},
+        {"heading": "Onboard reviewers", "detail": "In-country teams review in context, not in spreadsheets."},
+        {"heading": "Expand to all markets", "detail": "Translation memory compounds from day one."},
+    ], theme="light")
     dp.add_closing(prs, "Questions? Thank you.", [
         "alex@smartcat.ai", "smartcat.ai/demo",
     ], theme="dark")
+    dp.add_back_cover(prs)
 
-    problems = dp.check_overflow(prs)
-    if problems:
-        print("OVERFLOW DETECTED:")
-        for p in problems:
-            print(f"  slide {p['slide']}: {p['name']} at ({p['left_px']}, {p['top_px']})px")
-    else:
-        print(f"No shape-bounds overflow across {len(prs.slides)} slides.")
-
+    # Every mechanical check in one call — fills matched promo shots first
+    # when the folder is reachable from this checkout, then overflow, missed
+    # slots, layout variety, theme banding and canvas fill.
+    import os
+    promo = os.path.normpath(os.path.join(os.path.dirname(__file__), "..", "..", "..", "images", "promo-ui-mockups"))
+    dp.run_all_checks(prs, promo if os.path.isdir(promo) else None)
+    dp.strip_shadows(prs)
     prs.save(out_path)
     print(f"wrote {out_path}")
 
