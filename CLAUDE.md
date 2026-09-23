@@ -129,7 +129,7 @@ Pick the size by role:
 
 ## Promo UI mockups
 
-`images/promo-ui-mockups/` holds real, already-finished promotional screenshots of the newer AI coworker products — ready to drop directly into a build, not raw material that needs compositing. This is different from `skills/smartcat-mockup/mockups/`: that folder holds scene backgrounds and bare UI screenshots for the `smartcat-mockup` skill's Krea compositing pipeline; this one holds finished, on-brand marketing visuals a deck, one-pager, or document can embed as-is.
+`images/promo-ui-mockups/` holds real, already-finished promotional screenshots of the newer AI coworker products — ready to drop directly into a build, not raw material that needs compositing. This is different from `images/mockups/`: that folder holds scene backgrounds and bare UI screenshots for the `smartcat-mockup` skill's Krea compositing pipeline; this one holds finished, on-brand marketing visuals a deck, one-pager, or document can embed as-is.
 
 **Folder structure — one numbered subfolder per product:**
 

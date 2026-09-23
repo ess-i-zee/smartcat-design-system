@@ -175,5 +175,5 @@ Finished screenshots and PDFs, not rules — never part of the regular sync (~12
 | `references/illustration` | 1 | 1.2MB | smartcat-illustrations-reference.png |
 | `references/one-pagers` | 8 | 17.0MB | Articulate storyline translation.pdf, Content Review Agents.pdf, Image Translation Launch - L&D.pdf… |
 
-`skills/smartcat-mockup/mockups/` is deliberately left out of this table too — `smartcat-mockup` already lists and fetches it directly, one folder level per question. Use that skill for mockups rather than pulling this path.
+`images/mockups/` is deliberately left out of this table too — `smartcat-mockup` already lists and fetches it directly, one folder level per question. Use that skill for mockups rather than pulling this path.
 
