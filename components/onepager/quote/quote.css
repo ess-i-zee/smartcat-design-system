@@ -7,6 +7,11 @@
      data-layout on .op-quote : standalone (default, centered)
                                  | with-stats | with-response
    Elements:
+     .op-quote__text     — the quote itself, wrapped in real curly quotes
+                            (&ldquo; &rdquo;) in the text. There is no
+                            decorative quote-mark graphic: it came out
+                            garbled in the Canva export, and the
+                            punctuation does the same job.
      .op-quote__stats    — content toggle: only present in the
                             with-stats layout, a stack of big proof
                             numbers beside the quote (reuses the same
@@ -28,12 +33,6 @@
   max-width: 720px;
   margin-inline: auto;
   text-align: center;
-}
-
-.op-quote__mark {
-  width: 32px;
-  height: 32px;
-  color: var(--content-static-brand);
 }
 
 .op-quote__text {

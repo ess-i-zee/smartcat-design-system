@@ -19,7 +19,7 @@
 
 .op-logo-strip__intro {
   margin: 0;
-  max-width: var(--dimension-desktop-max-text-width);
+  max-width: var(--op-measure);
   font-family: var(--family-body);
   font-weight: var(--weight-regular);
   color: var(--content-static-primary);
@@ -35,7 +35,10 @@
 }
 
 .op-logo-strip__logo {
-  height: 24px;
+  /* Client logos (images/client-logos/) are cropped tight to the mark;
+     below ~32px the thinner wordmarks (Smith+Nephew, Clarins) stop
+     reading. */
+  height: 32px;
   width: auto;
   filter: grayscale(100%);
   opacity: 0.6;

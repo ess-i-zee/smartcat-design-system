@@ -68,6 +68,13 @@
   line-height: var(--line-height-caption);
 }
 
+/* The URL is a real link (https://www.smartcat.com) — in the HTML, the
+   PDF and the Canva copy — but it keeps the plain footer look. */
+.op-footer__url a {
+  color: inherit;
+  text-decoration: none;
+}
+
 /* ── Statement layout ───────────────────────────────────────────
    The closing claim carries the weight, so it sits at H3 scale on the
    left; the URL block right-aligns beside it as sign-off, not as the
@@ -80,7 +87,7 @@
 
 .op-footer__statement {
   margin: 0;
-  max-width: 860px;
+  max-width: var(--op-measure);
   font-family: var(--family-heading);
   font-weight: var(--weight-bold);
   color: var(--content-static-inverted);

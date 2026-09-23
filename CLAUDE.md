@@ -117,6 +117,16 @@ Pick the size by role:
 
 ---
 
+## Client logos
+
+`images/client-logos/` holds real customer logos as monochrome SVGs — use them for every logo strip, logo wall, or customer-proof row in any format. **Never fill a customer-logo slot with the Smartcat wordmark or a placeholder.**
+
+- When a component needs N logos, take the first N from the **preferred order** in `images/client-logos/README.md` (LG, Clarins, Smith+Nephew, Stanley Black & Decker, L’Oréal, S&P Global, Topcon, Trip.com, Mars, Peloton, …). Use a different customer from the folder only when the content calls for one (an industry page, a named case study).
+- Size logos by height and let the width follow; the files are cropped tight to the mark.
+- They are black; invert them to white on a dark or brand-purple surface. The `alt` text is the company name.
+
+---
+
 ## Promo UI mockups
 
 `images/promo-ui-mockups/` holds real, already-finished promotional screenshots of the newer AI coworker products — ready to drop directly into a build, not raw material that needs compositing. This is different from `skills/smartcat-mockup/mockups/`: that folder holds scene backgrounds and bare UI screenshots for the `smartcat-mockup` skill's Krea compositing pipeline; this one holds finished, on-brand marketing visuals a deck, one-pager, or document can embed as-is.
@@ -517,7 +527,8 @@ Rules specific to building one-pagers (fixed-width documents — sales/product f
 - Every one-pager is a **fixed 1280px-wide, auto-height canvas** (`.op-page`, `base/onepagers-layout.css`). Width never changes; height grows with content. A one-pager that stops at its shortest still keeps a **1656px minimum height** — the exact US-Letter (8.5:11) proportion at this width — so a short one-pager still prints/exports at a familiar document ratio. Taller documents are normal and expected.
 - Colors, typography, radius, and spacing tokens are the same variables used on web and decks (`tokens/*.css`) — one-pagers introduce no new tokens.
 - **Never reuse or reshape web page-level components for a one-pager — not even as a starting point.** This is the opposite of the deck rule. One-pagers compose exclusively from their own dedicated tier, `components/onepager/*` (hero, lead, logo-strip, comparison, callout, flow, numbered-cards, checklist, signals, roster, benefit-cards, steps, quote, impact-tiles, stat-band, rating-tiles, platform-pillars, cta-band, footer), plus raw tokens and the type-style utility classes (`.text-h1`, etc. from `base/type-styles.css`). If a new layout idea is genuinely needed and none of the existing onepager components fit, design a new one in this same tier — don't drop in `hero-block`, `cards`, `numbers`, `testimonial`, or any other web component.
-- **Real interactive UI is allowed here — unlike decks.** A one-pager is opened and read as a document, not presented live, so `.btn` (and real links) are correct for CTAs. Every reference one-pager uses a real button for "Schedule a demo."
+- **Real interactive UI is allowed here — unlike decks.** A one-pager is opened and read as a document, not presented live, so `.btn` (and real links) are correct for CTAs. Every reference one-pager uses a real button for "Schedule a demo," and it must be a link to `https://www.smartcat.com/book-a-demo/` (`<a class="btn" href>`, never `<button>`); the footer URL links to `https://www.smartcat.com`. Both stay clickable in the exported PDF and the Canva copy.
+- **Reading measure: ~80 characters.** Every paragraph on a one-pager is capped at `--op-measure` (`base/onepagers-layout.css`). A component that caps its own text points at `var(--op-measure)`, never at a wider pixel value.
 
 ### One-pager layout grid
 

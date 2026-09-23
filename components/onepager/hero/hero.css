@@ -41,7 +41,11 @@
      .op-hero__content       — headline + paragraph
      .op-hero__media         — .op-media-wrapped screenshot, optional
                                .op-hero__tag floating annotations (0-2
-                               typical); split layout only
+                               typical); split layout only. Drop the tags
+                               once a real promo screenshot fills the
+                               slot — those images are finished
+                               compositions, and a chip on top repeats
+                               or covers what the UI already shows.
 
    Notes:
      - Headline line breaks are authored with <br>, one short phrase
@@ -210,7 +214,7 @@
   letter-spacing: var(--letter-spacing-h1);
 }
 
-.op-hero[data-layout="stacked"] .op-hero__paragraph { max-width: 1000px; }
+.op-hero[data-layout="stacked"] .op-hero__paragraph { max-width: var(--op-measure); }
 
 /* ── Bar layout ─────────────────────────────────────────────────
    The topbar is the whole hero: title left, meta pill right. */

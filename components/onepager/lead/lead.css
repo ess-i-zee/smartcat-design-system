@@ -33,12 +33,12 @@
   letter-spacing: var(--letter-spacing-h3);
 }
 
-/* Both lines cap their measure: the band is 1184px wide, and 18px copy
-   run edge to edge is ~110 characters a line — well past a comfortable
-   reading measure, however dense the format wants to be. */
+/* Both lines cap their measure at the shared --op-measure (~80
+   characters): the band is 1184px wide, and 18px copy run edge to edge is
+   ~110 characters a line. */
 .op-lead__text {
   margin: 0;
-  max-width: 900px;
+  max-width: var(--op-measure);
   font-family: var(--family-body);
   font-weight: var(--weight-regular);
   color: var(--content-static-primary);
@@ -48,7 +48,7 @@
 
 .op-lead__emphasis {
   margin: 0;
-  max-width: 900px;
+  max-width: var(--op-measure);
   font-family: var(--family-body);
   font-weight: var(--weight-semi-bold);
   color: var(--content-static-brand);

@@ -153,6 +153,22 @@
    Usage: <h2 class="text-h1 op-heading">Title</h2>
           <p class="text-paragraph-reg op-heading-intro">Supporting line.</p> */
 
+/* ── Reading measure ─────────────────────────────────
+   No line of one-pager prose runs past ~80 characters. --op-measure is
+   that measure in `ch`, which scales with each paragraph's own font size.
+   54ch rather than 80ch because 1ch is the width of "0", much wider than
+   an average letter; measured across every one-pager in output/, 54ch
+   keeps the longest line at or under 80 characters in both Inter and
+   Plus Jakarta Sans (58ch still let an H3 Jakarta line reach 85).
+
+   The rule is wrapped in :where() so it has zero specificity: it caps
+   every paragraph that sets no measure of its own, and a component that
+   deliberately sets a narrower one (the hero's 480px) still wins. A
+   component that needs a cap should point at var(--op-measure), never a
+   wider pixel value. */
+.op-page { --op-measure: 54ch; }
+:where(.op-page) p { max-width: var(--op-measure); }
+
 .op-heading {
   margin: 0;
   color: var(--content-static-primary);
@@ -160,7 +176,7 @@
 
 .op-heading-intro {
   margin: 0;
-  max-width: var(--dimension-desktop-max-text-width);
+  max-width: var(--op-measure);
   color: var(--content-static-secondary);
 }
 
@@ -270,3 +286,10 @@
   height: auto;
   display: block;
 }
+
+/* A slot holding a real image takes the image's own shape. The promo UI
+   mockups (images/promo-ui-mockups/) are square, full-bleed compositions
+   with UI running to the edges — forcing them into a 4:3 box crops real
+   content, so they are shown whole. The fixed ratio only shapes an empty
+   placeholder slot. */
+.op-media:has(img) { aspect-ratio: auto; }

@@ -9,6 +9,11 @@
                            line), e.g. "Review cycles shorten. Expertise
                            scales."
    Notes:
+     - Each .op-steps__step is one filled card spanning the whole row
+       (gray layer-2 on the dark band, --radius-5). The screenshot sits
+       flush against the card's top, bottom and outer edge; the text gets
+       the card's padding. One rectangle behind the whole row, so it also
+       exports to Canva as a single shape.
      - .op-steps__number's purple-on-purple-circle pairing relies on
        .op-steps always living in a dark band, where ambient
        --content-static-primary is white — do not use this component
@@ -23,8 +28,10 @@
 
 .op-steps__step {
   display: flex;
-  align-items: center;
-  gap: var(--spacing-8);
+  align-items: stretch;
+  border-radius: var(--radius-5);
+  overflow: hidden;
+  background: var(--background-static-gray-layer-2);
 }
 
 .op-steps__step[data-image-position="left"] {
@@ -34,9 +41,12 @@
 .op-steps__content {
   flex: 0 0 46%;
   min-width: 0;
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   gap: var(--spacing-4);
+  padding: var(--spacing-8);
 }
 
 .op-steps__number {
@@ -76,6 +86,14 @@
   flex: 1;
   min-width: 0;
 }
+
+/* With square promo shots (images/promo-ui-mockups/) the image column
+   narrows to ~44% of the row, so a square image doesn't make the row
+   towering. Applied to the whole component as soon as any step has a real
+   image, and any step still on its placeholder goes square too, so every
+   row keeps the same split and height. */
+.op-steps:has(.op-media img) .op-steps__content { flex-basis: 56%; }
+.op-steps:has(.op-media img) .op-media { aspect-ratio: 1; }
 
 .op-steps__summary {
   align-self: center;
